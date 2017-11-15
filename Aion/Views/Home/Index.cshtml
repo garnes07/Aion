@@ -2,30 +2,67 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="container-fluid mb-3">
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>WFM Deployment</strong>
+        </div>
+        <div class="card-body">
+            <i class="material-icons">assessment</i>
+            <p>WFM deployment is a measure of how well you are utilising the hours that have been made available to your store. Good deployment ensures appropriate shop floor coverage in order to take full advantage of the customer opportunity.</p>
+            <p>
+                When looking at the current and future weeks in the below report the SOH spend is calculated based on your schedules as they currently exist in STAR. Schedule information is refreshed overnight each day so if you have made improvements to these schedules check back the following day to see your new score.<br />
+                <strong>Note</strong>:The SOH spend for the previous week is not published until <u>Tuesday AM</u> to allow for sign off and data validation, before this time the schedule information will continue to be shown.
+            </p>
+        </div>
+    </div>
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div class="container-fluid mb-3">
+    <div class="row justify-content-center">
+        <select class="form-control col-sm-3" data-val="true" data-val-required="The Select Date field is required." id="SelectedDate" name="SelectedDate" onchange="this.form.submit();">
+            <option value="201835">201835 (wc 24/12/2017)</option>
+            <option value="201834">201834 (wc 17/12/2017)</option>
+            <option value="201833">201833 (wc 10/12/2017)</option>
+            <option value="201832">201832 (wc 03/12/2017)</option>
+            <option value="201831">201831 (wc 26/11/2017)</option>
+            <option value="201830">201830 (wc 19/11/2017)</option>
+            <option value="201829">201829 (wc 12/11/2017)</option>
+            <option value="201828">201828 (wc 05/11/2017)</option>
+            <option value="201827" selected="selected">201827 (wc 29/10/2017)</option>
+            <option value="201826">201826 (wc 22/10/2017)</option>
+            <option value="201825">201825 (wc 15/10/2017)</option>
+            <option value="201824">201824 (wc 08/10/2017)</option>
+            <option value="201823">201823 (wc 01/10/2017)</option>
+            <option value="201822">201822 (wc 24/09/2017)</option>
+            <option value="201821">201821 (wc 17/09/2017)</option>
+            <option value="201820">201820 (wc 10/09/2017)</option>
+        </select>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+</div>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Deployment - Sales Fit</strong>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 25%;">SOH Spend</th>
+                        <th class="text-center" style="width: 25%;">SOH Budget</th>
+                        <th class="text-center" style="width: 25%;">Variance</th>
+                        <th class="text-center" style="width: 25%;">Deployment Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">252.0</td>
+                        <td class="text-center">175.0</td>
+                        <td class="text-center">77.0</td>
+                        <td class="text-center table-danger">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
