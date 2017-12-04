@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "Scripts/site/heirarchyMenu.min.js",
+    "inputFiles": [
+      "Scripts/site/heirarchyMenu.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/site/selectMenu.min.js",
+    "inputFiles": [
+      "Scripts/site/selectMenu.js"
+    ]
+  }
+]

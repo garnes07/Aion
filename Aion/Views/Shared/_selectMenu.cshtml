@@ -1,0 +1,24 @@
+﻿<button type="button" class="btn btn-success" id="h-side-open">Open Nav</button>
+
+<div class="overlay"></div>
+<div class="h-side" id="h-side">
+    <input id="mSearch" type="text" hidden value="@HttpContext.Current.Session["_menuSearch"].ToString()" />
+    <div class="row mb-3"><button class="btn btn-light" id="h-side-close"><i class="icon ion-arrow-right-a"></i></button></div>
+    <div class="row mb-3">
+        <div class="col">
+            <button id="hResetbtn" class="btn btn-info w-100"><i class="icon ion-android-refresh mr-1"></i>Reset</button>
+        </div>
+        <div class="col">
+            <button id="hSearchbtn" class="btn btn-info w-100"><i class="icon ion-android-search mr-1"></i>Search</button>
+        </div>
+    </div>
+    <div id="hSearch" class="form-inline mb-3" style="display:none;">
+        <div class="form-group mx-3">
+            <input type="text" class="form-control" id="input-search" placeholder="Type to search..." value="">
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-search">Search</button>
+    </div>
+    <div class="tree-container">
+        <div id="tree"></div>
+    </div>
+</div>

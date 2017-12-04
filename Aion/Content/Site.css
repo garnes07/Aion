@@ -22,3 +22,55 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/* The side navigation menu */
+.h-side {
+    height: 100vh;
+    min-width: 360px; 
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Stay on top */
+    top: 0;
+    right: -360px;
+    background-color: #e7e7e7; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding: 25px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.h-side .list-group-item{
+    padding: 0.25rem;
+    font-size: 0.75rem;
+}
+
+.h-side .form-group{
+    margin-bottom:0;
+}
+
+.h-side .closebtn {
+    font-size: 36px;
+}
+
+.h-side.show{
+    display: block;
+    right: 0px;
+}
+
+.tree-container{
+    max-height: 73vh;
+    overflow-y: auto;
+}
+
+.overlay {
+    /* full screen */
+    width: 100vw;
+    height: 100vh;
+    /* transparent black */
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    /* middle layer, i.e. appears below the sidebar */
+    z-index: 9998;
+}
