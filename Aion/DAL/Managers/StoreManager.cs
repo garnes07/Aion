@@ -9,32 +9,36 @@ namespace Aion.DAL.Managers
 {
     public class StoreManager : IStoreManager
     {
-        public async Task<Store> GetStoreDetails(string ip)
+        public async Task<List<StoreMaster>> GetStoreDetails(string ip)
         {
-            var ipBase = ip == "::1" ? "10.224.240" : ip.Substring(0, ip.LastIndexOf("."));
-
-            using (var dbContext = new WfmContext())
+            using (var dbContext = new WebMasterModel())
             {
-                var result = await dbContext.Stores.Where(x => x.IpRange == ipBase).ToListAsync();
-
-                if (result.Count() > 1)
-                {
-                    return new Store { IpRange = "DUPLICATE" };
-                }
-                else
-                {
-                    return result.FirstOrDefault();
-                }
+                return await dbContext.StoreMasters.Where(x => x.IpRange == ip).Include(x => x.IpRefs).ToListAsync();
             }
         }
 
-        public async Task<List<sp_GetBranchMenu_Result>> GetBranchMenu (int _lvl, string _area)
+        public async Task<List<StoreMaster>> GetStoreMenu(short _storeNumber)
         {
-            using (var dbContext = new WfmContext())
+            using (var dbContext = new WebMasterModel())
             {
-                return await Task.Run(() => dbContext.sp_GetBranchMenu((byte)_lvl, _area).ToList());
+                return await dbContext.StoreMasters.Where(x => x.StoreNumber == _storeNumber).ToListAsync();
             }
         }
 
+        public async Task<List<StoreMaster>> GetRegionMenu(short _region)
+        {
+            using (var dbContext = new WebMasterModel())
+            {
+                return await dbContext.StoreMasters.Where(x => x.Region == _region).ToListAsync();
+            }
+        }
+        
+        public async Task<List<StoreMaster>> GetDivisionMenu(string _chain)
+        {
+            using (var dbContext = new WebMasterModel())
+            {
+                return await dbContext.StoreMasters.Where(x => x.Chain == _chain).ToListAsync();
+            }
+        }
     }
 }

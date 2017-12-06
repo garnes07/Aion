@@ -20,29 +20,38 @@ namespace Aion.Controllers
             _storeManager = new StoreManager();
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var data = await _storeManager.GetBranchMenu(4, "SAS");
+            //var data = await _storeManager.GetBranchMenu(1, "1877");
 
-            var vm = new HMenu(data);
-            System.Web.HttpContext.Current.Session.Add("_StoreMenu", vm);
+            //var vm = new HMenu(data, "S_1877");
+            //System.Web.HttpContext.Current.Session.Add("_StoreMenu", vm);
 
             return View();
         }
 
-        public ActionResult Test(string a)
-        {
-            var _menu = (HMenu)System.Web.HttpContext.Current.Session["_StoreMenu"];
-            
-            ViewBag.content = _menu.newSelection(a);
+        //public ActionResult Test(string a)
+        //{
+        //    var _menu = (HMenu)System.Web.HttpContext.Current.Session["_StoreMenu"];
 
-            return View("Index");
-        }
+        //    ViewBag.content = _menu.menuSelect(a);
+
+        //    return View("Index");
+        //}
 
         public ActionResult GetMenu()
         {
-            var _menu = (HMenu)System.Web.HttpContext.Current.Session["_StoreMenu"];
-            return Json(_menu.Channels, JsonRequestBehavior.AllowGet);
+            var _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
+            return Json(_menu.JsonString(0), JsonRequestBehavior.AllowGet);
+            //return Json(_menu.Channels.First().nodes.First().nodes, JsonRequestBehavior.AllowGet);
         }
+
+        //public ActionResult UpOne()
+        //{
+        //    var _menu = (HMenu)System.Web.HttpContext.Current.Session["_StoreMenu"];
+        //    var result = _menu.menuUpOne();
+
+        //    return View("Index");
+        //}
     }
 }

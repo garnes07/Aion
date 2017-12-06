@@ -1,5 +1,4 @@
-﻿using Aion.DAL.Managers;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
@@ -23,27 +22,14 @@ namespace Aion
 
         void Session_Start(object sender, EventArgs e)
         {
-            var _storeManager = new StoreManager();
-            var ip = Helpers.MvcHelper.GetIPHelper();
-            var t = Task.Run(() => _storeManager.GetStoreDetails(ip));
-            var store = t.Result ?? new DAL.Entities.Store();
-
-            HttpContext.Current.Session.Add("_StoreDetails", store);
-            HttpContext.Current.Session.Add("_ROIFlag", store.Channel == "ROI");
-            HttpContext.Current.Session.Add("_AccessLevel", 0);
-            HttpContext.Current.Session.Add("_AccessArea", "");
-            HttpContext.Current.Session.Add("_menuSearch", "e");
-
-            //HttpContext.Current.Session["_ChannelName"] = "SAS";
-            //HttpContext.Current.Session["_DivisionName"] = "DCPW01";
-            //HttpContext.Current.Session["_RegionNumber"] = "101";
-
+            var init = Helpers.MvcHelper.InitStoreDetails();
+            
             //if (store.IpRange == null)
             //    Response.Redirect("/Profile/UnknownStore");
             //if (store.IpRange == "DUPLICATE")
             //    Response.Redirect("Profile/DuplicateRecords");            
-            if (Session.IsNewSession)
-                Response.Redirect("/");
+            //if (Session.IsNewSession)
+            //    Response.Redirect("/");
         }
 
         void Session_End(object sender, EventArgs E)

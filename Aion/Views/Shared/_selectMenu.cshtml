@@ -1,8 +1,8 @@
 ﻿<button type="button" class="btn btn-success" id="h-side-open">Open Nav</button>
-
+<a class="btn btn-success" href="@Url.Action("UpOne","Home")">Up One</a>
 <div class="overlay"></div>
 <div class="h-side" id="h-side">
-    <input id="mSearch" type="text" hidden value="@HttpContext.Current.Session["_menuSearch"].ToString()" />
+    <input id="mSearch" type="text" hidden value="@(HttpContext.Current.Session["_menuSearch"] ?? "e")" />
     <div class="row mb-3"><button class="btn btn-light" id="h-side-close"><i class="icon ion-arrow-right-a"></i></button></div>
     <div class="row mb-3">
         <div class="col">

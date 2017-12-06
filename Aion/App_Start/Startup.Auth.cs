@@ -5,9 +5,9 @@ using System;
 
 namespace Aion.App_Start
 {
-    public static class CpwWfmAuthentication
+    public static class AionAuthentication
     {
-        public const string ApplicationCookie = "CpwWfmAuthentication";
+        public const string ApplicationCookie = "AionAuthentication";
     }
 
     public partial class Startup
@@ -16,10 +16,10 @@ namespace Aion.App_Start
         {
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationType = CpwWfmAuthentication.ApplicationCookie,
-                LoginPath = new PathString("/Login"),
+                AuthenticationType = AionAuthentication.ApplicationCookie,
+                LoginPath = new PathString("/Profile/Login"),
                 Provider = new CookieAuthenticationProvider(),
-                CookieName = "CpwWfmAuthCookie",
+                CookieName = "AionAuthCookie",
                 CookieHttpOnly = true,
                 ExpireTimeSpan = TimeSpan.FromMinutes(20), // adjust to your needs
             });

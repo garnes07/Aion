@@ -157,27 +157,29 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DAL\Entities\sp_GetBranchMenu_Result.cs">
-      <DependentUpon>WfmModel.tt</DependentUpon>
+    <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="DAL\Entities\IpRef.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Entities\Store.cs">
-      <DependentUpon>WfmModel.tt</DependentUpon>
+    <Compile Include="DAL\Entities\StoreMaster.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Entities\WfmModel.Context.cs">
+    <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WfmModel.Context.tt</DependentUpon>
+      <DependentUpon>WebMasterModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Entities\WfmModel.cs">
+    <Compile Include="DAL\Entities\WebMasterModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WfmModel.tt</DependentUpon>
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Entities\WfmModel.Designer.cs">
+    <Compile Include="DAL\Entities\WebMasterModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WfmModel.edmx</DependentUpon>
+      <DependentUpon>WebMasterModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DAL\IManagers\IStoreManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
@@ -188,7 +190,8 @@
     <Compile Include="Helpers\ObjectHelpers.cs" />
     <Compile Include="Helpers\VmHelpers.cs" />
     <Compile Include="Mapping\AutoMapperWebConfiguration.cs" />
-    <Compile Include="Models\Utils\HMenu.cs" />
+    <Compile Include="Models\Utils\LoginVm.cs" />
+    <Compile Include="Models\Utils\StoreMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -201,16 +204,19 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ionicons.css" />
-    <Content Include="DAL\Entities\WfmModel.Context.tt">
+    <Content Include="DAL\Entities\WebMasterModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WfmModel.edmx</DependentUpon>
-      <LastGenOutput>WfmModel.Context.cs</LastGenOutput>
+      <DependentUpon>WebMasterModel.edmx</DependentUpon>
+      <LastGenOutput>WebMasterModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DAL\Entities\WfmModel.tt">
+    <Content Include="DAL\Entities\WebMasterModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WfmModel.edmx</DependentUpon>
-      <LastGenOutput>WfmModel.cs</LastGenOutput>
+      <DependentUpon>WebMasterModel.edmx</DependentUpon>
+      <LastGenOutput>WebMasterModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Error\404.html" />
+    <Content Include="Error\503.html" />
+    <Content Include="Error\Default.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\ionicons.svg" />
     <Content Include="Global.asax" />
@@ -235,17 +241,17 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <EntityDeploy Include="DAL\Entities\WfmModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WfmModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="DAL\Entities\WfmModel.edmx.diagram">
-      <DependentUpon>WfmModel.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\ionicons.eot" />
     <Content Include="fonts\ionicons.ttf" />
     <Content Include="fonts\ionicons.woff" />
     <None Include="bundleconfig.json" />
+    <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebMasterModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\Entities\WebMasterModel.edmx.diagram">
+      <DependentUpon>WebMasterModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -295,11 +301,12 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_selectMenu.cshtml" />
+    <Content Include="Views\Profile\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Error\" />
     <Folder Include="Images\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

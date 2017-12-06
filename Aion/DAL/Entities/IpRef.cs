@@ -10,14 +10,14 @@
 namespace Aion.DAL.Entities
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_GetBranchMenu_Result
+    public partial class IpRef
     {
-        public string Channel { get; set; }
-        public string Division { get; set; }
-        public string RegionNo { get; set; }
-        public int CST_CNTR_ID { get; set; }
-        public string StoreName { get; set; }
-        public Nullable<int> BaseStore { get; set; }
+        public string IpRange { get; set; }
+        public short StoreNumber { get; set; }
+        public System.DateTime Added { get; set; }
+    
+        public virtual StoreMaster StoreMaster { get; set; }
     }
 }
