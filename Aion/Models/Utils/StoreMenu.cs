@@ -15,7 +15,7 @@ namespace Aion.Models.Utils
         {
             get
             {
-                return HttpContext.Current.Session["_menuSelection"].ToString();
+                return HttpContext.Current.Session["_menuSelection"] != null ? HttpContext.Current.Session["_menuSelection"].ToString() : "";
             }
             set
             {
@@ -27,7 +27,7 @@ namespace Aion.Models.Utils
         {
             get
             {
-                return HttpContext.Current.Session["_menuSearch"].ToString();
+                return HttpContext.Current.Session["_menuSearch"] != null ? HttpContext.Current.Session["_menuSearch"].ToString() : "";
             }
             set
             {
@@ -97,6 +97,11 @@ namespace Aion.Models.Utils
 
         public bool menuSelect(string a)
         {
+            if(a == _menuSelection)
+            {
+                return true;
+            }
+
             string[] b = a.Split('_');
             bool result = false;
 
@@ -105,7 +110,7 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.storeNum == b[1]);
                 if (i.Count() > 0)
                 {
-                    _menuSelection = "S" + i.First().storeNum;
+                    _menuSelection = "S_" + i.First().storeNum;
                     _menuSearch = i.First().text;
                 }
             }
@@ -114,7 +119,7 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
                 if (i.Count() > 0)
                 {
-                    _menuSelection = "R" + i.First().text;
+                    _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
             }
@@ -123,7 +128,7 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
                 if (i.Count() > 0)
                 {
-                    _menuSelection = "D" + i.First().text;
+                    _menuSelection = "D_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
             }
@@ -132,7 +137,7 @@ namespace Aion.Models.Utils
                 var i = Channels.Where(x => x.text == b[1]).ToList();
                 if (i.Count() > 0)
                 {
-                    _menuSelection = "C" + i.First().text;
+                    _menuSelection = "C_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
             }
@@ -141,6 +146,10 @@ namespace Aion.Models.Utils
 
         public bool menuReset()
         {
+            if (_menuSelection == defaultSelect)
+            {
+                return true;
+            }
             return menuSelect(defaultSelect);
         }
 
@@ -154,7 +163,7 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.nodes.Select(y => y.text == b[1]).Count() > 0);
                 if (i.Count() > 0)
                 {
-                    _menuSelection = "R" + i.First().text;
+                    _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
             }
@@ -163,7 +172,7 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Select(y => y.text == b[1]).Count() > 0);
                 if (i.Count() > 0)
                 {
-                    _menuSelection = "D" + i.First().text;
+                    _menuSelection = "D_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
             }
@@ -172,7 +181,7 @@ namespace Aion.Models.Utils
                 var i = Channels;
                 if (i.Count() > 0)
                 {
-                    _menuSelection = "C" + i.First().text;
+                    _menuSelection = "C_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
             }
@@ -186,7 +195,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "home/test?a=C_" + text;
+                    return "Profile/MenuSelect?a=C_" + text;
                 }
             }
             public List<Division> nodes { get; set; }
@@ -204,7 +213,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "home/test?a=D_" + text;
+                    return "Profile/MenuSelect?a=D_" + text;
                 }
             }
             public List<Region> nodes { get; set; }
@@ -222,7 +231,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "home/test?a=R_" + text;
+                    return "Profile/MenuSelect?a=R_" + text;
                 }
             }
             public List<Store> nodes { get; set; }
@@ -241,7 +250,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "home/test?a=S_" + storeNum;
+                    return "Profile/MenuSelect?a=S_" + storeNum;
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using Aion.Models.Utils;
+﻿using Aion.Helpers;
+using Aion.Models.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,6 @@ namespace Aion.Controllers
 {
     public class ProfileController : BaseController
     {
-        public ActionResult GetMenu()
-        {
-            var _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
-            return Json(_menu.JsonString(0), JsonRequestBehavior.AllowGet);
-        }
-
         [AllowAnonymous]
         public ActionResult Login(bool o = false)
         {
@@ -42,6 +37,58 @@ namespace Aion.Controllers
                 return View();
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Logoff()
+        {
+            MvcHelper.LogOut();
+
+            return RedirectToAction("Index", "Home");
+        }
+        
+        public ActionResult GetMenu()
+        {
+            StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
+            return Json(_menu.JsonString(0), JsonRequestBehavior.AllowGet);
+        }
+
+        //[Authorize]
+        public ActionResult MenuSelect(string a)
+        {
+            StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
+
+            bool result = _menu.menuSelect(a);
+            if (!result)
+            {
+                ViewBag.menuError = true;
+            }
+            return Redirect(Request.UrlReferrer.AbsolutePath);
+        }
+
+        //[Authorize]
+        public ActionResult MenuReset()
+        {
+            StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
+
+            bool result = _menu.menuReset();
+            if (!result)
+            {
+                ViewBag.menuError = true;
+            }
+            return Redirect(Request.UrlReferrer.AbsolutePath);
+        }
+
+        //[Authorize]
+        public ActionResult MenuUpOne()
+        {
+            StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
+
+            bool result = _menu.menuUpOne();
+            if (!result)
+            {
+                ViewBag.menuError = true;
+            }
+            return Redirect(Request.UrlReferrer.AbsolutePath);
         }
     }
 }

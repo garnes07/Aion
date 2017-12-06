@@ -22,36 +22,13 @@ namespace Aion.Controllers
 
         public ActionResult Index()
         {
-            //var data = await _storeManager.GetBranchMenu(1, "1877");
-
-            //var vm = new HMenu(data, "S_1877");
-            //System.Web.HttpContext.Current.Session.Add("_StoreMenu", vm);
-
             return View();
         }
 
-        //public ActionResult Test(string a)
-        //{
-        //    var _menu = (HMenu)System.Web.HttpContext.Current.Session["_StoreMenu"];
-
-        //    ViewBag.content = _menu.menuSelect(a);
-
-        //    return View("Index");
-        //}
-
-        public ActionResult GetMenu()
+        public ActionResult Test()
         {
-            var _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
-            return Json(_menu.JsonString(0), JsonRequestBehavior.AllowGet);
-            //return Json(_menu.Channels.First().nodes.First().nodes, JsonRequestBehavior.AllowGet);
+            return View();
         }
 
-        //public ActionResult UpOne()
-        //{
-        //    var _menu = (HMenu)System.Web.HttpContext.Current.Session["_StoreMenu"];
-        //    var result = _menu.menuUpOne();
-
-        //    return View("Index");
-        //}
     }
 }

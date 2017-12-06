@@ -5,7 +5,7 @@
 
     $('#h-side-open').click(function () {
         if (!loaded) {
-            $.get('/Home/GetMenu', function (result) {
+            $.get('/Profile/GetMenu', function (result) {
                 $tree.treeview({
                     data: result,
                     levels: 1,
