@@ -71,6 +71,10 @@
       <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
@@ -85,6 +89,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -166,6 +172,12 @@
     <Compile Include="DAL\Entities\StoreMaster.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\UserAccess.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\UserLog.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -181,7 +193,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebMasterModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\IManagers\IAuthManager.cs" />
     <Compile Include="DAL\IManagers\IStoreManager.cs" />
+    <Compile Include="DAL\Managers\AuthManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -190,6 +204,8 @@
     <Compile Include="Helpers\ObjectHelpers.cs" />
     <Compile Include="Helpers\VmHelpers.cs" />
     <Compile Include="Mapping\AutoMapperWebConfiguration.cs" />
+    <Compile Include="Models\Utils\AuthenticationResult.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
     <Compile Include="Models\Utils\StoreMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

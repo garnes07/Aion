@@ -9,7 +9,8 @@ namespace Aion.Models.Utils
     public class StoreMenu
     {
         public List<Channel> Channels { get; set; }
-        public string defaultSelect { get; set; }
+        private string defaultSelect { get; set; }
+        private short accessLvl { get; set; }
 
         public string _menuSelection
         {
@@ -35,17 +36,17 @@ namespace Aion.Models.Utils
             }
         }
 
-        public string JsonString(short lvl)
+        public string JsonString()
         {
-            if (lvl <= 1)
+            if (this.accessLvl <= 1)
             {
                 return JsonConvert.SerializeObject(Channels.First().nodes.First().nodes);
             }
-            else if (lvl == 2)
+            else if (this.accessLvl == 2)
             {
                 return JsonConvert.SerializeObject(Channels.First().nodes.First().nodes);
             }
-            else if (lvl > 2)
+            else if (this.accessLvl > 2)
             {
                 return JsonConvert.SerializeObject(Channels);
             }
@@ -55,7 +56,7 @@ namespace Aion.Models.Utils
             }
         }
 
-        public StoreMenu(List<StoreMaster> data, string d)
+        public StoreMenu(List<StoreMaster> data, string defaultSelect, short accessLvl)
         {
             Channels = new List<Channel>();
             foreach (var _channel in data.GroupBy(x => x.Chain).Select(x => x.Key))
@@ -91,8 +92,9 @@ namespace Aion.Models.Utils
                 }
             }
 
-            defaultSelect = d;
-            menuSelect(d);
+            this.defaultSelect = defaultSelect;
+            this.accessLvl = accessLvl;
+            menuSelect(defaultSelect);
         }
 
         public bool menuSelect(string a)
@@ -160,7 +162,7 @@ namespace Aion.Models.Utils
 
             if (b[0] == "S")
             {
-                var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.nodes.Select(y => y.text == b[1]).Count() > 0);
+                var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.nodes.Where(y => y.storeNum == b[1]).Count() > 0);
                 if (i.Count() > 0)
                 {
                     _menuSelection = "R_" + i.First().text;
@@ -169,7 +171,7 @@ namespace Aion.Models.Utils
             }
             else if (b[0] == "R")
             {
-                var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Select(y => y.text == b[1]).Count() > 0);
+                var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Where(y => y.text == b[1]).Count() > 0);
                 if (i.Count() > 0)
                 {
                     _menuSelection = "D_" + i.First().text;
@@ -178,7 +180,7 @@ namespace Aion.Models.Utils
             }
             else if (b[0] == "D")
             {
-                var i = Channels;
+                var i = Channels.Where(x => x.nodes.Where(y => y.text == b[1]).Count() > 0);
                 if (i.Count() > 0)
                 {
                     _menuSelection = "C_" + i.First().text;

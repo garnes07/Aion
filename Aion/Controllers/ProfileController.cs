@@ -1,8 +1,8 @@
 ﻿using Aion.Helpers;
+using Aion.Models.Services;
 using Aion.Models.Utils;
+using Microsoft.Owin.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -36,7 +36,32 @@ namespace Aion.Controllers
                 }
                 return View();
             }
-            return RedirectToAction("Index", "Home");
+
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            var authService = new AuthenticationService(authenticationManager);
+
+            var authenticationResult = await authService.SignIn(a.Username, a.Password);
+            if (authenticationResult.IsSuccess)
+            {
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return RedirectToLocal(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            if (string.Equals(Request.UrlReferrer.AbsolutePath.ToString(), "/oos", StringComparison.CurrentCultureIgnoreCase))
+            {
+                TempData["modelPass"] = a;
+                TempData["errorMessage"] = authenticationResult.ErrorMessage;
+                return RedirectToAction("Index", "OOS");
+            }
+            ViewBag.errorMessage = authenticationResult.ErrorMessage;
+            ModelState.AddModelError("", authenticationResult.ErrorMessage);
+            return View(a);
         }
 
         public ActionResult Logoff()
@@ -49,7 +74,7 @@ namespace Aion.Controllers
         public ActionResult GetMenu()
         {
             StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
-            return Json(_menu.JsonString(0), JsonRequestBehavior.AllowGet);
+            return Json(_menu.JsonString(), JsonRequestBehavior.AllowGet);
         }
 
         //[Authorize]
@@ -89,6 +114,15 @@ namespace Aion.Controllers
                 ViewBag.menuError = true;
             }
             return Redirect(Request.UrlReferrer.AbsolutePath);
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

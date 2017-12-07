@@ -66,7 +66,7 @@ namespace Aion.Helpers
                 var u = Task.Run(() => _storeManager.GetStoreMenu(storeList.First().StoreNumber));
                 var menuList = u.Result;
 
-                StoreMenu _menu = new StoreMenu(menuList, "S_" + storeList.First().StoreNumber.ToString());
+                StoreMenu _menu = new StoreMenu(menuList, "S_" + storeList.First().StoreNumber.ToString(),0);
 
                 HttpContext.Current.Session.Add("_storeMenu", _menu);
                 HttpContext.Current.Session.Add("_store", storeList.First());

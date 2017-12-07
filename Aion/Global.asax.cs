@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aion.Mapping;
+using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
@@ -16,6 +17,7 @@ namespace Aion
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AutoMapperWebConfiguration.Configure();
 
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
         }

@@ -25,19 +25,35 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<StoreMaster>> GetRegionMenu(short _region)
+        public async Task<List<StoreMaster>> GetRegionMenu(short[] _region)
         {
             using (var dbContext = new WebMasterModel())
             {
-                return await dbContext.StoreMasters.Where(x => x.Region == _region).ToListAsync();
+                return await dbContext.StoreMasters.Where(x => _region.Contains(x.Region)).OrderBy(x => x.StoreNumber).ToListAsync();
             }
         }
         
-        public async Task<List<StoreMaster>> GetDivisionMenu(string _chain)
+        public async Task<List<StoreMaster>> GetDivisionMenu(string _division)
         {
             using (var dbContext = new WebMasterModel())
             {
-                return await dbContext.StoreMasters.Where(x => x.Chain == _chain).ToListAsync();
+                return await dbContext.StoreMasters.Where(x => x.Division == _division).OrderBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<StoreMaster>> GetChainMenu(string _chain)
+        {
+            using (var dbContext = new WebMasterModel())
+            {
+                return await dbContext.StoreMasters.Where(x => x.Chain == _chain).OrderBy(x => x.Chain).ThenBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<StoreMaster>> GetAllMenu()
+        {
+            using (var dbContext = new WebMasterModel())
+            {
+                return await dbContext.StoreMasters.OrderBy(x => x.Chain).ThenBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
             }
         }
     }

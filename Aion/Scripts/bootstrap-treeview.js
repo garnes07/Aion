@@ -168,7 +168,7 @@
 		if (this.options.defaultSelection != 'e') {
 		    this.search(this.options.defaultSelection, {
 		        ignoreCase: true,
-		        exactMatch: false,
+		        exactMatch: true,
 		        revealResults: true
 		    });
 		};		
@@ -1123,7 +1123,11 @@
 				pattern = '^' + pattern + '$';
 			}
 
-			var modifier = 'g';
+			if (pattern.indexOf('(') > -1) {
+			    pattern = pattern.replace(/["'(]/g, "[(]").replace(/["')]/g, "[)]");
+			}
+
+			var modifier = 'gu';
 			if (options.ignoreCase) {
 				modifier += 'i';
 			}
@@ -1186,7 +1190,7 @@
 		return $.grep(this.nodes, function (node) {
 			var val = _this.getNodeValue(node, attribute);
 			if (typeof val === 'string') {
-				return val.match(new RegExp(pattern, modifier));
+			    return val.match(new RegExp(pattern, modifier));
 			}
 		});
 	};

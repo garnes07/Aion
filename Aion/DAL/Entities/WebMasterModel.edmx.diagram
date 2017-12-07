@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="WebMasterContext.IpRef" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="WebMasterContext.StoreMaster" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="WebMasterContext.FK_IpRef_StoreMaster" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WebMasterContext.UserLog" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="WebMasterContext.UserAccess" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
