@@ -1,7 +1,5 @@
 ﻿using Aion.DAL.Entities;
 using Aion.Helpers;
-using Aion.Mapping;
-using AutoMapper;
 using System.Web.Mvc;
 
 namespace Aion.Controllers
@@ -16,5 +14,13 @@ namespace Aion.Controllers
         //{
         //    mapper = config.CreateMapper();
         //}
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+
+            if (_store == null)
+                filterContext.Result = new RedirectResult(Url.Action("UnknownStore", "Profile"));
+        }
     }
 }

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Aion.Controllers
 {
-    public class ProfileController : BaseController
+    public class ProfileController : Controller
     {
         [AllowAnonymous]
         public ActionResult Login(bool o = false)

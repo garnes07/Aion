@@ -11,7 +11,7 @@ using System.Web.Script.Serialization;
 
 namespace Aion.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IStoreManager _storeManager;
 
