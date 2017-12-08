@@ -45,7 +45,7 @@ namespace Aion.Controllers
             {
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 {
-                    return RedirectToLocal(returnUrl);
+                    return Redirect(returnUrl);
                 }
                 else
                 {
@@ -116,13 +116,33 @@ namespace Aion.Controllers
             return Redirect(Request.UrlReferrer.AbsolutePath);
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
+        public ActionResult UnknownStore()
         {
-            if (Url.IsLocalUrl(returnUrl))
+            return View();
+        }
+
+        public ActionResult RegisterStore()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterStore(int storeNumber)
+        {
+            var authService = new AuthenticationService();
+
+            var result = await authService.RegisterUnknownStore(storeNumber);
+
+            if (!result)
             {
-                return Redirect(returnUrl);
+                ViewBag.Error = "Something went wrong there, please try again";
+                return View();
             }
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                return View("Confirmed");
+            }            
         }
     }
 }

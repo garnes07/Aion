@@ -1,5 +1,4 @@
-﻿using Aion.DAL.Entities;
-using Aion.DAL.Managers;
+﻿using Aion.DAL.Managers;
 using Aion.Models.Utils;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +39,7 @@ namespace Aion.Helpers
 
             string ip = GetIPHelper();
 #if DEBUG
-            string ipBase = "10.224.240";
+            string ipBase = "1234";//"10.224.240";
 #else
             string ipBase = ip.Substring(0, ip.LastIndexOf("."));
 #endif

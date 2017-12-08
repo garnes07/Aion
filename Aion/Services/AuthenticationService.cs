@@ -21,7 +21,7 @@ namespace Aion.Models.Services
         private readonly IAuthenticationManager _authenticationManager;
         private readonly IAuthManager _authManager;
 
-        public AuthenticationService(IAuthenticationManager authenticationManager)
+        public AuthenticationService(IAuthenticationManager authenticationManager = null)
         {
             _authenticationManager = authenticationManager;
             _authManager = new AuthManager();
@@ -108,7 +108,11 @@ namespace Aion.Models.Services
             }
 
             await CheckAccessLevel(authResult);
-            await _authManager.RecordLogIn(authResult.UserName);
+            await _authManager.RecordLogIn(new UserLog
+            {
+                UserName = authResult.UserName,
+                Timestamp = DateTime.Now
+            });
 
             return authResult;
         }
@@ -225,6 +229,17 @@ namespace Aion.Models.Services
             HttpContext.Current.Session["_ROIFlag"] = menuList.First().Chain == "ROI";
 
             return true;
+        }
+
+        public async Task<bool> RegisterUnknownStore(int _storeNumber)
+        {
+            return await _authManager.RegisterStore(
+                new UnknownIpLog
+                {
+                    storeNumber = _storeNumber,
+                    IpRange = MvcHelper.GetIPHelper(),
+                    DateTimeAdded = DateTime.Now
+                });
         }
     }
 }

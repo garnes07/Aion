@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" type="image/png" href="~/Images/favicon.png" />
+    <title>Workforce Management</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container"> 
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title text-center">
+                            We were unable to identify your store.
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Oops. Remember this site can only be accessed by store colleagues on their internal network.
+                        </p>
+                        <p>
+                            For Field based/Head Office roles click <a href="@Url.Action("Login","Profile")"><strong><u>here</u></strong></a> to login
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <h4 class="text-center"><strong><u>Can't access from store?</u></strong></h4>
+                        <p class="text-center">
+                            So that we can register you on the site we will need to capture some details, please click <a href="@Url.Action("RegisterStore","Profile")"><strong><u>here</u></strong></a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

@@ -1,6 +1,5 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -18,17 +17,22 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<bool> RecordLogIn(string _userName)
+        public async Task<bool> RecordLogIn(UserLog _entry)
         {
             using (var dbContext = new WebMasterModel())
             {
-                UserLog entry = new UserLog
-                {
-                    UserName = _userName,
-                    Timestamp = DateTime.Now
-                };
+                dbContext.UserLogs.Add(_entry);
+                int result = await dbContext.SaveChangesAsync();
 
-                dbContext.UserLogs.Attach(entry);
+                return result > 0 ? true : false;
+            }
+        }
+
+        public async Task<bool> RegisterStore(UnknownIpLog _entry)
+        {
+            using (var dbContext = new WebMasterModel())
+            {
+                dbContext.UnknownIpLogs.Add(_entry);
                 int result = await dbContext.SaveChangesAsync();
 
                 return result > 0 ? true : false;

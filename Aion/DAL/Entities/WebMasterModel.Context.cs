@@ -29,5 +29,6 @@ namespace Aion.DAL.Entities
         public virtual DbSet<StoreMaster> StoreMasters { get; set; }
         public virtual DbSet<UserLog> UserLogs { get; set; }
         public virtual DbSet<UserAccess> UserAccesses { get; set; }
+        public virtual DbSet<UnknownIpLog> UnknownIpLogs { get; set; }
     }
 }

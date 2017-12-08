@@ -172,6 +172,9 @@
     <Compile Include="DAL\Entities\StoreMaster.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\UnknownIpLog.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\UserAccess.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
@@ -237,6 +240,7 @@
     <Content Include="fonts\ionicons.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\favicon.png" />
     <Content Include="Scripts\bootstrap-treeview.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -319,9 +323,11 @@
     <Content Include="Views\Shared\_selectMenu.cshtml" />
     <Content Include="Views\Profile\Login.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Profile\UnknownStore.cshtml" />
+    <Content Include="Views\Profile\RegisterStore.cshtml" />
+    <Content Include="Views\Profile\Confirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Images\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

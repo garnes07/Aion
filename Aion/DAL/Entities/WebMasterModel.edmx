@@ -26,6 +26,16 @@
           <Property Name="BaseStore" Type="smallint" />
           <Property Name="IpRange" Type="nvarchar" MaxLength="15" Nullable="false" />
         </EntityType>
+        <EntityType Name="UnknownIpLog">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="storeNumber" Type="int" Nullable="false" />
+          <Property Name="IpRange" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="DateTimeAdded" Type="datetime" Nullable="false" />
+          <Property Name="Reviewed" Type="bit" />
+        </EntityType>
         <EntityType Name="UserAccess">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -61,6 +71,7 @@
         <EntityContainer Name="WebMasterContextStoreContainer">
           <EntitySet Name="IpRef" EntityType="Self.IpRef" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreMaster" EntityType="Self.StoreMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnknownIpLog" EntityType="Self.UnknownIpLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccess" EntityType="Self.UserAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLog" EntityType="Self.UserLog" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_IpRef_StoreMaster" Association="Self.FK_IpRef_StoreMaster">
@@ -118,6 +129,7 @@
           </AssociationSet>
           <EntitySet Name="UserLogs" EntityType="WebMasterContext.UserLog" />
           <EntitySet Name="UserAccesses" EntityType="WebMasterContext.UserAccess" />
+          <EntitySet Name="UnknownIpLogs" EntityType="WebMasterContext.UnknownIpLog" />
         </EntityContainer>
         <EntityType Name="UserLog">
           <Key>
@@ -136,6 +148,16 @@
           <Property Name="Krn" Type="Boolean" Nullable="false" />
           <Property Name="AccessLevel" Type="Byte" Nullable="false" />
           <Property Name="Area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UnknownIpLog">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="storeNumber" Type="Int32" Nullable="false" />
+          <Property Name="IpRange" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reviewed" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -182,6 +204,17 @@
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
                 <ScalarProperty Name="Krn" ColumnName="Krn" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnknownIpLogs">
+            <EntityTypeMapping TypeName="WebMasterContext.UnknownIpLog">
+              <MappingFragment StoreEntitySet="UnknownIpLog">
+                <ScalarProperty Name="Reviewed" ColumnName="Reviewed" />
+                <ScalarProperty Name="DateTimeAdded" ColumnName="DateTimeAdded" />
+                <ScalarProperty Name="IpRange" ColumnName="IpRange" />
+                <ScalarProperty Name="storeNumber" ColumnName="storeNumber" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>

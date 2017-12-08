@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" type="image/png" href="~/Images/favicon.png" />
+    <title>Workforce Management</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title text-center">
+                            Register this device on the WFM Site
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        @if (ViewBag.Error != null)
+                        {
+                            <ul>
+                                <li><span class="text-danger">@ViewBag.Error</span></li>
+                            </ul>
+                        }
+                        <p>
+                            To make sure you are shown the right information when visiting the WFM site we need to capture the store you are visiting from.
+                        </p>
+                        <p>
+                            Please enter your <u>branch number</u> below.
+                        </p>
+                        <span class="text-danger"><strong>Your selection will be remembered on this device so ensure you choose the correct branch</strong></span>
+                        <form class="form" role="form" method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <input type="number" id="storeNumber" class="form-control" name="storeNumber" required/>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" value="submit" class="btn btn-lg btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

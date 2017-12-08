@@ -1,6 +1,5 @@
 ﻿using Aion.Mapping;
 using System;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -25,11 +24,12 @@ namespace Aion
         void Session_Start(object sender, EventArgs e)
         {
             var init = Helpers.MvcHelper.InitStoreDetails();
-            
-            //if (store.IpRange == null)
-            //    Response.Redirect("/Profile/UnknownStore");
-            //if (store.IpRange == "DUPLICATE")
-            //    Response.Redirect("Profile/DuplicateRecords");            
+
+            if (init == 0)
+                Response.Redirect("/Profile/UnknownStore");
+            else if (init == -1)
+                Response.Redirect("Profile/DuplicateRecords");
+
             //if (Session.IsNewSession)
             //    Response.Redirect("/");
         }
