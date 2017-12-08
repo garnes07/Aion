@@ -1,0 +1,57 @@
+﻿@using Aion.DAL.Entities
+@model List<StoreMaster>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" type="image/png" href="~/Images/favicon.png" />
+    <title>Workforce Management</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title text-center">
+                            We have found several possible matches for your store.
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Please select your store from the list shown below.</p>
+                        <span class="text-danger"><strong>Your selection will be remembered on this device so ensure you choose the correct branch</strong></span>
+                        <form role="form" method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <select class="form-control" id="storeNumber" name="storeNumber">
+                                        <option value="" disabled selected hidden>Select store...</option>
+                                        @foreach (var item in Model)
+                                        {
+                                            <option value="@item.StoreNumber">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" value="submit" class="btn btn-lg btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

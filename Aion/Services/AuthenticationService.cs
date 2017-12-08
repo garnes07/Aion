@@ -20,11 +20,13 @@ namespace Aion.Models.Services
     {
         private readonly IAuthenticationManager _authenticationManager;
         private readonly IAuthManager _authManager;
+        private readonly IStoreManager _storeManager;
 
         public AuthenticationService(IAuthenticationManager authenticationManager = null)
         {
             _authenticationManager = authenticationManager;
             _authManager = new AuthManager();
+            _storeManager = new StoreManager();
         }
 
         public async Task<AuthenticationResult> SignIn(string userName, string password)
@@ -188,9 +190,8 @@ namespace Aion.Models.Services
             }
         }
 
-        public static async Task<bool> LoadStoreMenu(byte accessLevel, string[] accessArea)
-        {
-            StoreManager _storeManager = new StoreManager();
+        public async Task<bool> LoadStoreMenu(byte accessLevel, string[] accessArea)
+        {            
             List<StoreMaster> menuList = new List<StoreMaster>();
             string _default = "";
 
@@ -239,6 +240,24 @@ namespace Aion.Models.Services
                     storeNumber = _storeNumber,
                     IpRange = MvcHelper.GetIPHelper(),
                     DateTimeAdded = DateTime.Now
+                });
+        }
+        
+        public async Task<List<StoreMaster>> AllStoresMatchingIp()
+        {
+            var ip = MvcHelper.GetIPHelper();
+            ip = ip.Substring(0, ip.LastIndexOf("."));
+            return await _storeManager.GetStoreDetails(ip);
+        }
+
+        public async Task<bool> RegisterStoreFullIP(short _storeNumber)
+        {
+            return await _authManager.RegisterStoreFullIP(
+                new IpRef
+                {
+                    IpRange = MvcHelper.GetIPHelper(),
+                    StoreNumber = _storeNumber,
+                    Added = DateTime.Now
                 });
         }
     }

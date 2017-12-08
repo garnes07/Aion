@@ -326,6 +326,7 @@
     <Content Include="Views\Profile\UnknownStore.cshtml" />
     <Content Include="Views\Profile\RegisterStore.cshtml" />
     <Content Include="Views\Profile\Confirmed.cshtml" />
+    <Content Include="Views\Profile\DuplicateRecords.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />

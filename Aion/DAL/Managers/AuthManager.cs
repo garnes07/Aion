@@ -38,5 +38,16 @@ namespace Aion.DAL.Managers
                 return result > 0 ? true : false;
             }
         }
+
+        public async Task<bool> RegisterStoreFullIP(IpRef _entry)
+        {
+            using (var dbContext = new WebMasterModel())
+            {
+                dbContext.IpRefs.Add(_entry);
+                int result = await dbContext.SaveChangesAsync();
+
+                return result > 0 ? true : false;
+            }
+        }
     }
 }

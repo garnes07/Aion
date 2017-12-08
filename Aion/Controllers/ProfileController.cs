@@ -144,5 +144,31 @@ namespace Aion.Controllers
                 return View("Confirmed");
             }            
         }
+
+        public async Task<ActionResult> DuplicateRecords()
+        {
+            var authService = new AuthenticationService();
+
+            return View(await authService.AllStoresMatchingIp());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DuplicateRecords(short storeNumber)
+        {
+            var authService = new AuthenticationService();
+            var result = await authService.RegisterStoreFullIP(storeNumber);
+
+            if (!result)
+            {
+                ViewBag.Error = "Something went wrong there, please try again";
+                return View();
+            }
+            else
+            {
+                MvcHelper.LogOut();
+                return RedirectToAction("Index", "Home");
+            }            
+        }
     }
 }
