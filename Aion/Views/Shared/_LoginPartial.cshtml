@@ -1,0 +1,15 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <span class="mx-2 align-middle h-100">
+        <u>@User.Identity.Name</u>
+    </span>
+    <span>
+        <a class="btn btn-outline-danger mx-2 my-2 my-sm-0" role="button" href="@Url.Action("Logoff","Profile")"><i class="icon ion-log-out"></i> Log Out</a>
+    </span>
+}
+else
+{
+    <div class="nav-item">
+        <a class="btn btn-success my-2 my-sm-0" role="button" href="@Url.Action("Login","Profile", new { o = false })"><i class="icon ion-log-in"></i> Log In</a>
+    </div>
+}

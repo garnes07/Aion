@@ -1,5 +1,7 @@
-﻿using Aion.DAL.Managers;
+﻿using Aion.App_Start;
+using Aion.DAL.Managers;
 using Aion.Models.Utils;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -29,8 +31,8 @@ namespace Aion.Helpers
         public static void LogOut()
         {
             HttpContext.Current?.Session?.Abandon();
-            //IAuthenticationManager authenticationManager = HttpContext.Current?.Request?.GetOwinContext()?.Authentication;
-            //authenticationManager?.SignOut(CpwWfmAuthentication.ApplicationCookie);
+            IAuthenticationManager authenticationManager = HttpContext.Current?.Request?.GetOwinContext()?.Authentication;
+            authenticationManager?.SignOut(AionAuthentication.ApplicationCookie);
         }
 
         public static short InitStoreDetails()

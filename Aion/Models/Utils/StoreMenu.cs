@@ -169,7 +169,7 @@ namespace Aion.Models.Utils
                     _menuSearch = i.First().text;
                 }
             }
-            else if (b[0] == "R")
+            else if (b[0] == "R" && this.accessLvl > 2)
             {
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Where(y => y.text == b[1]).Count() > 0);
                 if (i.Count() > 0)

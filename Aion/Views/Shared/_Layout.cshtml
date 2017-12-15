@@ -3,17 +3,90 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" type="image/png" href="~/Images/favicon.png" />
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-   
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-    </div>
+    @if (Request.Browser.Browser == "IE" || Request.Browser.Browser == "InternetExplorer")
+    {
+        <div class="row">
+            <div class="alert alert-danger text-center" style="position:absolute; top:50%; width:80%; left:10%"><strong>The site is not optimised for older versions of Internet Explorer, please reopen in Chrome.</strong></div>
+        </div>
+        <div style="display:none;">
+            @RenderBody()
+        </div>
+        @RenderSection("myScripts", false)
+    }
+    else
+    {
+        <div class="container body-content">
+            <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light p-0">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/"><img src="~/Images/WFMHeader_V6.gif" style="height:40px;" /></a>
+                    <div class="float-right d-sm-none d-md-block">
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                </div>
+            </nav>
+            <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light border p-0" style="top:50px;">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                        <i class="icon ion-navicon-round"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown m-x-1">
+                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-checkbox-outline m-1"></i> Right First Time Pay</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another Action</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown m-x-1">
+                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-stats-bars m-1"></i> Deployment</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another Action</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown m-x-1">
+                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-list m-1"></i> Requests &amp; Tickets</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another Action</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown m-x-1">
+                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-help-circled m-1"></i> Help &amp; Support</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another Action</a>
+                                </div>
+                            </li>
+                            <li class="d-none d-sm-block d-md-none" role="separator"></li>
+                            <li class="nav-item dropdown m-x-1 d-none d-sm-block d-md-none">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <a class="nav-link text-danger" href="@Url.Action("Logoff","Profile")"><strong><i class="icon ion-log-out m-1"></i> Log Off</strong></a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link text-success" href="@Url.Action("Login","Profile")"><strong><i class="icon ion-log-in m-1"></i> Log In</strong></a>
+                                }                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            @RenderBody()
+
+            <hr />
+        </div>
+    }
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 100px;
     padding-bottom: 20px;
 }
 
@@ -14,6 +14,10 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+}
+
+.text-menu{
+    color: #337ab7 !important;
 }
 
 /* The side navigation menu */
@@ -65,4 +69,21 @@
     display: none;
     /* middle layer, i.e. appears below the sidebar */
     z-index: 9998;
+}
+
+#login-dp{
+    min-width:250px;
+    padding:14px 14px 0px;
+    overflow: hidden;
+}
+
+#login-dp .form-group{
+    margin-bottom: 10px;
+}
+
+@media(max-width:768px){
+    #login-dp{
+        background-color:inherit;
+        color:#fff;
+    }
 }

@@ -33,12 +33,12 @@ namespace Aion.Models.Services
         {
             AuthenticationResult authResult = new AuthenticationResult();
 
-#if DEBUG
-            authResult.UserName = "AllenJ14";
-            HttpContext.Current.Session.Add("_EmpNum", "e");
-            await CheckAccessLevel(authResult);
-            return authResult;
-#endif
+//#if DEBUG
+//            authResult.UserName = "AllenJ14";
+//            HttpContext.Current.Session.Add("_EmpNum", "e");
+//            await CheckAccessLevel(authResult);
+//            return authResult;
+//#endif
 
             if (userName.StartsWith("DSG\\"))
             {
