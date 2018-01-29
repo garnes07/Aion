@@ -208,7 +208,7 @@
                             {
                                 <td class="text-center">
                                     <strong class="content">@string.Format("{0:0}%", row.SSPerc)</strong>
-                                    <strong class="content d-none">@string.Format("{0:0}%", row.ShortShiftCompliance, row.StoreCount)</strong>
+                                    <strong class="content d-none">@string.Format("{0}/{1}", row.ShortShiftCompliance, row.StoreCount)</strong>
                                 </td>
                             }
                         </tr>
@@ -220,7 +220,7 @@
                                 {
                                     <td class="text-center">
                                         <span class="content">@string.Format("{0:0}%", row.SSPerc)</span>
-                                        <span class="content d-none">@string.Format("{0:0}%", row.ShortShiftCompliance, row.StoreCount)</span>
+                                        <span class="content d-none">@string.Format("{0}/{1}", row.ShortShiftCompliance, row.StoreCount)</span>
                                     </td>
                                 }
                             </tr>
