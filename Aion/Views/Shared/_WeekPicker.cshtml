@@ -1,0 +1,18 @@
+﻿@using Aion.ViewModels
+
+@model WeekPickerVm
+
+@using (Html.BeginForm(Model.Action, Model.Controller, FormMethod.Get, new { @class = "form-horizontal", id = "weekPickerForm" }))
+{
+    <div class="row justify-content-center d-print-none my-3">
+        <div class="col-2 text-right" style="padding-top:7px;"><strong>Select Date</strong></div>
+        <div class="col-5">
+            <select class="form-control" data-val="true" data-val-required="The Select Date field is required." id="SelectedDate" name="SelectedDate" onchange="this.form.submit();">
+                @foreach (var item in Model.WeeksOfYear)
+                {
+                    <option value=@item.Value selected=@item.Selected>@item.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+}

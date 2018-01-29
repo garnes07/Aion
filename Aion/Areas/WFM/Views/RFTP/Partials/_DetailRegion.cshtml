@@ -1,0 +1,44 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.CompDetailVm
+
+<div class="row align-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>Overview</strong>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-sm">
+                    <thead class="thead-blue">
+                        <tr>
+                            <th class="text-center" style="width:40%;">Branch Name</th>
+                            <th class="text-center" style="width:15%;">Zero Hour/Missing Timecard</th>
+                            <th class="text-center" style="width:15%;">Edited Clocks</th>
+                            <th class="text-center" style="width:15%;">Clocking Compliance</th>
+                            <th class="text-center" style="width:15%;">Compliant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model._dashboardView)
+                        {
+                            <tr>
+                                <td>@(item.StoreNumber + " - " + item.StoreName)</td>
+                                <td class="text-center">@string.Format("{0}/{1}", item.ZeroHour > 0 ? item.ZeroHour.ToString() : "-", item.TotalHeadCount - item.TimeCardsCompleted > 0 ? (item.TotalHeadCount - item.TimeCardsCompleted).ToString() : "-")</td>
+                                <td class="text-center">@item.ShortShifts</td>
+                                <td class="text-center">@string.Format("{0:0.0}%", item.PunchCompliance * 100)</td>
+                                <td class="text-center @(item.ComplianceScore > 0 ? "table-danger" : "")">@(item.ComplianceScore > 0 ? 'N' : 'Y')</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td><strong>Region Total</strong></td>
+                            <td class="text-center"><strong>@(Model._dashboardView.Sum(x => x.ZeroHour))/@(Model._dashboardView.Sum(x => x.TotalHeadCount) - Model._dashboardView.Sum(x => x.TimeCardsCompleted))</strong></td>
+                            <td class="text-center"><strong>@Model._dashboardView.Sum(x => x.ShortShifts)</strong></td>
+                            <td class="text-center"><strong>@(string.Format("{0:0.0}%", Model._dashboardView.Average(x => x.PunchCompliance) * 100))</strong></td>
+                            <td class="text-center"><strong>@Model._dashboardView.Where(x => x.ComplianceScore == 0).Count()</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

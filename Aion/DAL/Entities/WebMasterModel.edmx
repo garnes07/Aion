@@ -54,6 +54,18 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="25" />
           <Property Name="Timestamp" Type="datetime" />
         </EntityType>
+        <EntityType Name="WeekRef">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Week" Type="tinyint" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="FY" Type="varchar" MaxLength="5" />
+          <Property Name="Quarter" Type="tinyint" />
+          <Property Name="DateString" Type="nvarchar" MaxLength="15" />
+          <Property Name="YearWeek" Type="int" StoreGeneratedPattern="Computed" />
+        </EntityType>
         <Association Name="FK_IpRef_StoreMaster">
           <End Role="StoreMaster" Type="Self.StoreMaster" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -74,6 +86,7 @@
           <EntitySet Name="UnknownIpLog" EntityType="Self.UnknownIpLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccess" EntityType="Self.UserAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLog" EntityType="Self.UserLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WeekRef" EntityType="Self.WeekRef" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_IpRef_StoreMaster" Association="Self.FK_IpRef_StoreMaster">
             <End Role="StoreMaster" EntitySet="StoreMaster" />
             <End Role="IpRef" EntitySet="IpRef" />
@@ -130,6 +143,7 @@
           <EntitySet Name="UserLogs" EntityType="WebMasterContext.UserLog" />
           <EntitySet Name="UserAccesses" EntityType="WebMasterContext.UserAccess" />
           <EntitySet Name="UnknownIpLogs" EntityType="WebMasterContext.UnknownIpLog" />
+          <EntitySet Name="WeekRefs" EntityType="WebMasterContext.WeekRef" />
         </EntityContainer>
         <EntityType Name="UserLog">
           <Key>
@@ -158,6 +172,18 @@
           <Property Name="IpRange" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="DateTimeAdded" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Reviewed" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="WeekRef">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Week" Type="Byte" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="FY" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Quarter" Type="Byte" />
+          <Property Name="DateString" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="YearWeek" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -216,6 +242,19 @@
                 <ScalarProperty Name="IpRange" ColumnName="IpRange" />
                 <ScalarProperty Name="storeNumber" ColumnName="storeNumber" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WeekRefs">
+            <EntityTypeMapping TypeName="WebMasterContext.WeekRef">
+              <MappingFragment StoreEntitySet="WeekRef">
+                <ScalarProperty Name="YearWeek" ColumnName="YearWeek" />
+                <ScalarProperty Name="DateString" ColumnName="DateString" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="FY" ColumnName="FY" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Week" ColumnName="Week" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

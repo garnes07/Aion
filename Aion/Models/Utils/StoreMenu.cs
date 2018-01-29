@@ -197,7 +197,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "Profile/MenuSelect?a=C_" + text;
+                    return "/Profile/MenuSelect?a=C_" + text;
                 }
             }
             public List<Division> nodes { get; set; }
@@ -215,7 +215,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "Profile/MenuSelect?a=D_" + text;
+                    return "/Profile/MenuSelect?a=D_" + text;
                 }
             }
             public List<Region> nodes { get; set; }
@@ -233,7 +233,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "Profile/MenuSelect?a=R_" + text;
+                    return "/Profile/MenuSelect?a=R_" + text;
                 }
             }
             public List<Store> nodes { get; set; }
@@ -252,7 +252,7 @@ namespace Aion.Models.Utils
             {
                 get
                 {
-                    return "Profile/MenuSelect?a=S_" + storeNum;
+                    return "/Profile/MenuSelect?a=S_" + storeNum;
                 }
             }
         }

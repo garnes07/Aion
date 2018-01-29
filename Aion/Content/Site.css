@@ -87,3 +87,148 @@
         color:#fff;
     }
 }
+
+.table-bordered-blue {
+  border: 1px solid #ddd;
+}
+.table-bordered-blue > thead > tr > th,
+.table-bordered-blue > tbody > tr > th,
+.table-bordered-blue > tfoot > tr > th{
+  border: 1px solid #ddd;
+  background-color:#002249;
+  color:aliceblue;
+}
+.table-bordered-blue > thead > tr > td,
+.table-bordered-blue > tbody > tr > td,
+.table-bordered-blue > tfoot > tr > td {
+  border: 1px solid #ddd;
+}
+.table-bordered-blue > thead > tr > th,
+.table-bordered-blue > thead > tr > td {
+    border-bottom-width: 2px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+  margin-right: 10px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.adv-label {
+    font-size: x-small;
+    margin-right: 3px;
+    padding-top: 2px;
+}
+
+.table .thead-blue th {
+  color: #fff;
+  background-color: #002249;
+  border-color: #fff;
+}
+
+.card-accordion .card{
+    margin-bottom: 0;
+    border-radius: 4px;
+}
+
+.card-accordion .card+.card {
+    margin-top: 5px;
+}
+
+.card-accordion .card-header {
+    border-bottom: 0;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.card-accordion .btn-link{
+    font-weight:inherit;
+}
+
+.card-danger{
+    border-color: #f5c6cb
+}
+
+.card-danger>.card-header{
+    color: #a94442;
+    background-color: #f5c6cb;
+    border-color: #ebccd1;
+}
+
+.card-warning{
+    border-color: #faebcc;
+}
+
+.card-warning>.card-header{
+    color: #8a6d3b;
+    background-color:#fcf8e3;
+    border-color: #faebcc;
+}
+
+.card-success{
+    border-color: #d6e9c6;
+}
+
+.card-success>.card-header{
+    color:#3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.table-fixed{
+    table-layout:fixed;
+}

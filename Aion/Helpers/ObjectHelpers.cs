@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Aion.DAL.Managers;
+using System;
 
 namespace Aion.Helpers
 {
@@ -10,7 +10,19 @@ namespace Aion.Helpers
             return d.AddDays(-(int)d.DayOfWeek);
         }
 
-        public static DateTime WeekNumberParse(this string w)
+        public static int GetWeekNumber(this string w)
+        {
+            int weekOfYr;
+            if(!int.TryParse(w, out weekOfYr))
+            {
+                var dt = w.WeekNumberParse();
+                var _weeksManager = new WeeksManager();
+                weekOfYr = (int)_weeksManager.GetSingleWeek(dt);
+            }
+            return weekOfYr;
+        }
+
+        private static DateTime WeekNumberParse(this string w)
         {
             DateTime dt = DateTime.Now;
             if (string.IsNullOrEmpty(w)) return dt;
@@ -32,7 +44,7 @@ namespace Aion.Helpers
                     dt = DateTime.TryParse(w, out dt) ? dt : dt;
                     break;
             }
-            return dt;
+            return dt.Date;
         }
 
         //public static string BuildGraphArray(List<DailyDeploymentArrayForm> rawData, string type)

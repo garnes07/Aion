@@ -1,0 +1,65 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.RFTP.CompDetailVm
+
+@{
+    ViewBag.Title = "RFTP Detail";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header text-center">
+                    <strong>Right First Time Pay</strong>
+                </div>
+                <div class="card-body">
+                    <img align="right" style="min-width:100px;" src="~/Images/RFTP.png" />
+                    <h4>Welcome to your Right First Time Pay overview</h4>
+                    <p>This will provide the detail of performance across the 3 metrics to delivering Right First Time Pay. These are to be delivered <u>every week</u> by <u>every store</u>.</p>
+                    <p>
+                        Please see below a reminder of the weekly control &amp; tolerance levels:
+                        <ul>
+                            <li>Clocking compliance - 90%+</li>
+                            <li>Timecard Sign Off - 100% (Extended <strong>3PM Monday</strong> deadline)</li>
+                            <li>Editing of clocks - No more than 1 reduced clock per store per week</li>
+                        </ul>
+                    </p>
+                    <strong>Note:</strong>The non negotiable approach will commence from week 36 of the 17/18 financial year.
+                    <div class="container text-center">
+                        <div class="row">&emsp;</div>
+                        <a class="btn btn-success btn-lg" href="@Url.Action("Guide", "RightFirstTime")">Briefing Packs</a>
+                    </div>
+                </div>
+                <div class="card-footer text-center"><strong><u>Note</u>: Reporting for the previous week will be published Tuesday AM (Wednesday AM for bank holidays)</strong></div>
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "Detail", Controller = "RFTP", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
+
+    @if (Model.MessageType == MessageType.Warning)
+    {
+        <div class="alert alert-danger text-center"><strong>Reporting for the selected period has not yet been finalised, check back later.</strong></div>
+    }
+    else if (Model.DisplayLevel == 1)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_DetailStore.cshtml")
+    }
+    else if (Model.DisplayLevel == 2)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_DetailRegion.cshtml")
+    }
+    else if (Model.DisplayLevel == 3)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_DetailDivision.cshtml")
+    }
+    else if (Model.DisplayLevel == 4)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_DetailChain.cshtml")
+    }
+</div>

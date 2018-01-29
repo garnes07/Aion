@@ -1,0 +1,77 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.CompSummaryVm
+
+@{
+    ViewBag.Title = "RFTP Summary";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Right First Time Pay Overview</strong>
+            @if (Model.DisplayLevel == 3)
+            {
+                <label class="switch float-right">
+                    <input type="checkbox" id="advView" />
+                    <span class="slider round"></span>
+                </label>
+                <span class="float-right adv-label">Advanced view</span>
+            }
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info text-center">
+                <strong>Note: </strong>Figures for the previous week are published Tuesday AM <i><small>(Wednesday following BH)</small></i>
+            </div>
+            <div class="row mb-1 justify-content-center">
+                <div class="col-12 col-sm-4">
+                    @using (Html.BeginForm("Summary", "RFTP", new { c = Model.selectedDate }, FormMethod.Get))
+                    {
+                        @Html.DropDownList("c", Model.WeeksOfYear, new { onchange = "this.form.submit();", @class = "form-control" })
+                    }
+                </div>
+            </div>
+            @if (Model.collection.Count() == 0)
+            {
+                <div class="alert alert-danger text-center"><strong>Reporting for the selected period has not yet been finalised, check back later.</strong></div>
+            }
+            else
+            {
+                <div class="row justify-content-center my-2">
+                    <ul class="nav nav-pills nav-fill" role="tablist" id="dTabs">
+                        <li role="presentation" class="nav-item"><a class="nav-link active" href="#overview" aria-controls="home" role="tab" data-toggle="tab">Overview</a></li>
+                        <li role="presentation" class="nav-item"><a class="nav-link" href="#clock" aria-controls="home" role="tab" data-toggle="tab">Clocking Compliance</a></li>
+                        <li role="presentation" class="nav-item"><a class="nav-link" href="#timecard" aria-controls="home" role="tab" data-toggle="tab">Timecard Sign Off</a></li>
+                        <li role="presentation" class="nav-item"><a class="nav-link" href="#edits" aria-controls="home" role="tab" data-toggle="tab">Edited Clocks</a></li>
+                    </ul>
+                </div>
+                if (Model.DisplayLevel == 3)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_SummaryChain.cshtml")
+                }
+                else
+                {
+                    @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_SummaryRegion.cshtml")
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script>
+        $(function () {
+            $('#dTabs a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            })
+
+            $('#advView').click(function () {
+                $('.content').toggleClass('hide');
+            });
+        });        
+    </script>
+}

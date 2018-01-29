@@ -14,7 +14,7 @@ namespace Aion.Controllers
         [AllowAnonymous]
         public ActionResult Login(bool o = false)
         {
-            ViewBag.ReturnUrl = Request.QueryString["returnUrl"];
+            ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
             if (!o)
             {
                 ViewBag.SecureCheck = true;
@@ -25,7 +25,7 @@ namespace Aion.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginVm a, string returnUrl)
+        public async Task<ActionResult> Login(LoginVm a)
         {
             if (!ModelState.IsValid)
             {
@@ -43,9 +43,9 @@ namespace Aion.Controllers
             var authenticationResult = await authService.SignIn(a.Username, a.Password);
             if (authenticationResult.IsSuccess)
             {
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                if (!string.IsNullOrEmpty(a.ReturnURL) && Url.IsLocalUrl(a.ReturnURL))
                 {
-                    return Redirect(returnUrl);
+                    return Redirect(a.ReturnURL);
                 }
                 else
                 {
@@ -87,7 +87,7 @@ namespace Aion.Controllers
             {
                 ViewBag.menuError = true;
             }
-            return Redirect(Request.UrlReferrer.AbsolutePath);
+            return Redirect(Request.UrlReferrer.PathAndQuery);
         }
 
         //[Authorize]
@@ -100,7 +100,7 @@ namespace Aion.Controllers
             {
                 ViewBag.menuError = true;
             }
-            return Redirect(Request.UrlReferrer.AbsolutePath);
+            return Redirect(Request.UrlReferrer.PathAndQuery);
         }
 
         //[Authorize]
@@ -113,7 +113,7 @@ namespace Aion.Controllers
             {
                 ViewBag.menuError = true;
             }
-            return Redirect(Request.UrlReferrer.AbsolutePath);
+            return Redirect(Request.UrlReferrer.PathAndQuery);
         }
 
         public ActionResult UnknownStore()

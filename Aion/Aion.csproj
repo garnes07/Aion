@@ -163,13 +163,46 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="Areas\WFM\Controllers\HomeController.cs" />
+    <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
+    <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\CompDetailVm.cs" />
     <Compile Include="Areas\WFM\WFMAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="DAL\Entities\CPW_Clocking_Data.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\DashBoardData_v2.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\EmpComplianceDetail.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\IpRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\ShortShift.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_AllChainDashboardData_v2_Result.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_AllDivisionDashboardData_v2_Result.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_ComplianceSummaryDivision_Result.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_ComplianceSummaryRegion_Result.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_ComplianceSummaryStore_Result.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_ComplianceSummary_Result.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\StoreMaster.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -182,6 +215,9 @@
     </Compile>
     <Compile Include="DAL\Entities\UserLog.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_CPW_Clocking_Data.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -198,10 +234,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebMasterModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\WeekRef.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\WFMModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WFMModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\WFMModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\WFMModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WFMModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="DAL\IManagers\IAuthManager.cs" />
+    <Compile Include="DAL\IManagers\IDashboardDataManager.cs" />
     <Compile Include="DAL\IManagers\IStoreManager.cs" />
     <Compile Include="DAL\Managers\AuthManager.cs" />
+    <Compile Include="DAL\Managers\ClockingDataManager.cs" />
+    <Compile Include="DAL\Managers\DashboardDataManager.cs" />
+    <Compile Include="DAL\IManagers\IWeeksManager.cs" />
+    <Compile Include="DAL\IManagers\IClockingDataManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
+    <Compile Include="DAL\Managers\WeeksManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -214,6 +274,8 @@
     <Compile Include="Models\Utils\LoginVm.cs" />
     <Compile Include="Models\Utils\StoreMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BaseVm.cs" />
+    <Compile Include="ViewModels\WeekPickerVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\APIError\empty.txt" />
@@ -236,6 +298,16 @@
       <DependentUpon>WebMasterModel.edmx</DependentUpon>
       <LastGenOutput>WebMasterModel.cs</LastGenOutput>
     </Content>
+    <Content Include="DAL\Entities\WFMModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WFMModel.edmx</DependentUpon>
+      <LastGenOutput>WFMModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DAL\Entities\WFMModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WFMModel.edmx</DependentUpon>
+      <LastGenOutput>WFMModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Error\404.html" />
     <Content Include="Error\503.html" />
     <Content Include="Error\Default.html" />
@@ -243,9 +315,119 @@
     <Content Include="fonts\ionicons.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Animated-Flag-Ireland.gif" />
+    <Content Include="Images\CMS_Uploads\401.png" />
+    <Content Include="Images\CMS_Uploads\AbsenceException1.png" />
+    <Content Include="Images\CMS_Uploads\AddAnAbsence1.png" />
+    <Content Include="Images\CMS_Uploads\AddAnAbsence1ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAnAbsence2.png" />
+    <Content Include="Images\CMS_Uploads\AddAnAbsence2ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAnAbsence3.png" />
+    <Content Include="Images\CMS_Uploads\AddAnAbsence3ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift1.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift1ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift2.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift2ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift3.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift3ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift4.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift4ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift5.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift6.png" />
+    <Content Include="Images\CMS_Uploads\AddAShift6ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddAvailability1.png" />
+    <Content Include="Images\CMS_Uploads\AddAvailability2.png" />
+    <Content Include="Images\CMS_Uploads\AddAvailability3.png" />
+    <Content Include="Images\CMS_Uploads\AddAvailability4.png" />
+    <Content Include="Images\CMS_Uploads\AddAvailability5.png" />
+    <Content Include="Images\CMS_Uploads\AddAvailability6.png" />
+    <Content Include="Images\CMS_Uploads\AddAvailability7.png" />
+    <Content Include="Images\CMS_Uploads\AddCover1.png" />
+    <Content Include="Images\CMS_Uploads\AddCover1ROI.png" />
+    <Content Include="Images\CMS_Uploads\AddCover2.png" />
+    <Content Include="Images\CMS_Uploads\AddCover3.png" />
+    <Content Include="Images\CMS_Uploads\AddCover4.png" />
+    <Content Include="Images\CMS_Uploads\AddingAComment1.png" />
+    <Content Include="Images\CMS_Uploads\AddingAComment2.png" />
+    <Content Include="Images\CMS_Uploads\AmendAvailability1.png" />
+    <Content Include="Images\CMS_Uploads\AmendAvailability2.png" />
+    <Content Include="Images\CMS_Uploads\AmendAvailability3.png" />
+    <Content Include="Images\CMS_Uploads\AmendAvailability4.png" />
+    <Content Include="Images\CMS_Uploads\ApproveUnscheduled1.png" />
+    <Content Include="Images\CMS_Uploads\ApproveUnscheduled2.png" />
+    <Content Include="Images\CMS_Uploads\CheckingHoliday1.png" />
+    <Content Include="Images\CMS_Uploads\CheckingHoliday1ROI.png" />
+    <Content Include="Images\CMS_Uploads\CheckingHoliday2.png" />
+    <Content Include="Images\CMS_Uploads\CheckingHoliday2ROI.png" />
+    <Content Include="Images\CMS_Uploads\DeleteAShift1.png" />
+    <Content Include="Images\CMS_Uploads\DeleteAShift1ROI.png" />
+    <Content Include="Images\CMS_Uploads\DeletePattern1.png" />
+    <Content Include="Images\CMS_Uploads\DeletePattern2.png" />
+    <Content Include="Images\CMS_Uploads\DeletingAvailability1.png" />
+    <Content Include="Images\CMS_Uploads\DeletingAvailability2.png" />
+    <Content Include="Images\CMS_Uploads\ExceptionsReport1.png" />
+    <Content Include="Images\CMS_Uploads\LieuEarned1.png" />
+    <Content Include="Images\CMS_Uploads\LieuEarned2.png" />
+    <Content Include="Images\CMS_Uploads\LieuEarned3.png" />
+    <Content Include="Images\CMS_Uploads\LieuEarned4.png" />
+    <Content Include="Images\CMS_Uploads\MissedPunch1.png" />
+    <Content Include="Images\CMS_Uploads\PunchOutsideSchedule1.png" />
+    <Content Include="Images\CMS_Uploads\PunchOutsideSchedule2.png" />
+    <Content Include="Images\CMS_Uploads\ReviewingComments1.png" />
+    <Content Include="Images\CMS_Uploads\ScheduleMenu1.png" />
+    <Content Include="Images\CMS_Uploads\ScheduleMenu1ROI.png" />
+    <Content Include="Images\CMS_Uploads\ScheduleMenu2.png" />
+    <Content Include="Images\CMS_Uploads\ScheduleMenu3.png" />
+    <Content Include="Images\CMS_Uploads\ScheduleMenu4.png" />
+    <Content Include="Images\CMS_Uploads\ScheduleMenu4ROI.png" />
+    <Content Include="Images\CMS_Uploads\ScheduleSample.png" />
+    <Content Include="Images\CMS_Uploads\TimecardMenu1.png" />
+    <Content Include="Images\CMS_Uploads\TimecardMenu1ROI.png" />
+    <Content Include="Images\CMS_Uploads\TimecardMenu2.png" />
+    <Content Include="Images\CMS_Uploads\TimecardMenu3.png" />
+    <Content Include="Images\CMS_Uploads\TimecardSignOff1.png" />
+    <Content Include="Images\CMS_Uploads\TimecardSignOff2.png" />
+    <Content Include="Images\CMS_Uploads\TimecardSignOff3.png" />
+    <Content Include="Images\CMS_Uploads\ViewingATimecard1.png" />
+    <Content Include="Images\CMS_Uploads\ViewingATimecard1ROI.png" />
+    <Content Include="Images\CMS_Uploads\ViewingATimecard2.png" />
+    <Content Include="Images\CMS_Uploads\ViewingATimecard3.png" />
+    <Content Include="Images\CMS_Uploads\ViewingInterval1.png" />
+    <Content Include="Images\CMS_Uploads\ViewingInterval2.png" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\RFTP.png" />
     <Content Include="Images\WFMHeader_V6.gif" />
     <Content Include="Scripts\bootstrap-treeview.js" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Content Include="fonts\ionicons.eot" />
+    <Content Include="fonts\ionicons.ttf" />
+    <Content Include="fonts\ionicons.woff" />
+    <Content Include="Areas\WFM\Views\web.config" />
+    <Content Include="Areas\WFM\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\WFM\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Summary.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_SummaryChain.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_SummaryRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Detail.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_DetailStore.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_DetailRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_DetailDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_DetailChain.cshtml" />
+    <None Include="bundleconfig.json" />
+    <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebMasterModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\Entities\WebMasterModel.edmx.diagram">
+      <DependentUpon>WebMasterModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="DAL\Entities\WFMModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WFMModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\Entities\WFMModel.edmx.diagram">
+      <DependentUpon>WFMModel.edmx</DependentUpon>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -258,25 +440,16 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-reboot.min.css.map" />
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
-    <Content Include="fonts\ionicons.eot" />
-    <Content Include="fonts\ionicons.ttf" />
-    <Content Include="fonts\ionicons.woff" />
-    <Content Include="Areas\WFM\Views\web.config" />
-    <None Include="bundleconfig.json" />
-    <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WebMasterModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="DAL\Entities\WebMasterModel.edmx.diagram">
-      <DependentUpon>WebMasterModel.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -317,28 +490,25 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\umd\popper.min.js.map" />
-    <Content Include="Scripts\umd\popper.js.map" />
-    <Content Include="Scripts\umd\popper-utils.min.js.map" />
-    <Content Include="Scripts\umd\popper-utils.js.map" />
-    <Content Include="Scripts\popper.min.js.map" />
-    <Content Include="Scripts\popper.js.map" />
-    <Content Include="Scripts\popper-utils.min.js.map" />
-    <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_selectMenu.cshtml" />
     <Content Include="Views\Profile\Login.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Profile\UnknownStore.cshtml" />
     <Content Include="Views\Profile\RegisterStore.cshtml" />
     <Content Include="Views\Profile\Confirmed.cshtml" />
     <Content Include="Views\Profile\DuplicateRecords.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\_WeekPicker.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\WFM\Models\" />
-    <Folder Include="Areas\WFM\Views\Home\" />
-    <Folder Include="Areas\WFM\Views\Shared\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
@@ -346,11 +516,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

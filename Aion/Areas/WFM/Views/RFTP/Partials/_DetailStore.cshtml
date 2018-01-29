@@ -1,0 +1,130 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.CompDetailVm
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>Overview</strong>
+            </div>
+            <!-- .panel-heading -->
+            <div class="card-body">
+                <div class="card-accordion" id="accordion">
+                    <div class="card @(Model._timecardDetails != null ? "card-danger" : "card-success")">
+                        <div class="card-header">
+                            <strong>
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTimecard">Timecard Non Compliance - @(Model._timecardDetails == null ? "No timecard issues!" : "(" + Model._timecardDetails.Count() + ")")</button>
+                            </strong>
+                        </div>
+                        <div id="collapseTimecard" class="collapse" data-parent="#accordion">
+                            @if (Model._timecardDetails != null)
+                            {
+                                <div class="card-body">
+                                    <p>
+                                        <ul>
+                                            <li>If we don't have as signed off timecard we cannot process pay for the colleague.</li>
+                                            <li>This needs to be 100% every week - <u>No missed / incomplete / zero hour timecards</u>.</li>
+                                        </ul>
+                                    </p>
+                                    <table class="table table-fixed table-bordered table-sm">
+                                        <thead class="thead-blue">
+                                            <tr>
+                                                <th class="col-md-1 text-center">Employee Name</th>
+                                                <th class="col-md-1 text-center">Not Submitted / Zero Hours</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model._timecardDetails)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@item.empName</td>
+                                                    <td class="text-center">@item.type</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="card @(Model._dashboardView.First().ShortShifts == 0 ? "card-success" : Model._dashboardView.First().ShortShifts == 1 ? "card-warning" : "card-danger")">
+                        <div class="card-header">
+                            <strong>
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseShift">Edited Clocks - @(Model._dashboardView.First().ShortShifts == 0 ? "No shift edit issues!" : "(" + Model._dashboardView.First().ShortShifts + ")")</button>
+                            </strong>
+                        </div>
+                        <div id="collapseShift" class="collapse" data-parent="#accordion">
+                            @if (Model._dashboardView.First().ShortShifts > 0)
+                            {
+                                <div class="card-body">
+                                    <p>
+                                        <ul>
+                                            <li>If you're editing the clocked hours there's a control issue in the store – colleagues need to be clocking when they start and finish work. (All clocked hour now auto-approved).</li>
+                                            <li>We're only concerned if you're editing a clock to reduce the length of the worked time – it's fine to extend the worked time if there's a reason.</li>
+                                        </ul>
+                                    </p>
+                                    <table class="table table-fixed table-bordered table-sm">
+                                        <thead class="thead-blue">
+                                            <tr>
+                                                <th class="text-center">Employee Name</th>
+                                                <th class="text-center">Clocks Edited</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model._ssDetails)
+                                            {
+                                                <tr>
+                                                    <td>@item.PersonName</td>
+                                                    <td class="text-center">@item.ShortShifts</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                    <div class="text-center"><a href="@Url.Action("EditedClocks", "Reports",new { selectedDate = Model.WeeksOfYear.Where(x => x.Selected == true).First().Value })" class="btn btn-primary" role="button">Edited Shifts</a></div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="card @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "card-success" : "card-danger")">
+                        <div class="card-header">
+                            <strong>
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsePunch">Clocking Compliance - @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "No Clocking issues!" : "(" + string.Format("{0:0}%", Model._dashboardView.First().PunchCompliance * 100) + ")")</button>
+                            </strong>
+                        </div>
+                        <div id="collapsePunch" class="collapse" data-parent="#accordion">
+                            @if (Model._dashboardView.First().PunchCompliance < 0.9)
+                            {
+                                <div class="card-body">
+                                    <p>
+                                        <ul>
+                                            <li>We simply need colleagues to clock in and out when they start and finish work</li>
+                                            <li>If we don't know when our team have worked we can't ensure we're getting their pay right</li>
+                                        </ul>
+                                    </p>
+                                    <table class="table table-fixed table-bordered table-condensed">
+                                        <thead class="thead-blue">
+                                            <tr>
+                                                <th class="text-center col-md-1" style="vertical-align:middle">Name</th>
+                                                <th class="text-center col-md-1" style="vertical-align:middle">Clocking Compliance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model._punchDetails.Where(x => x.PunchComp < 90))
+                                            {
+                                                <tr>
+                                                    <td>@item.PersonName</td>
+                                                    <td class="text-center">@(string.Format("{0:0.0}%", item.PunchComp))</td>
+                                                </tr>
+                                            }
+                                    </table>
+                                    <div class="text-center"><a href="@Url.Action("ClockingCompliance", "Reports",new { selectedDate = Model.WeeksOfYear.Where(x => x.Selected == true).First().Value})" class="btn btn-primary" role="button">Clocking Compliance</a></div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

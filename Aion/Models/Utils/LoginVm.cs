@@ -10,5 +10,7 @@ namespace Aion.Models.Utils
 
         [Required, AllowHtml, DataType(DataType.Password)]
         public string Password { get; set; }
+        
+        public string ReturnURL { get; set; }
     }
 }

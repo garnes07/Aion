@@ -20,13 +20,14 @@ namespace Aion.Helpers
             return current != null ? (T)current.Session[sessionObjectName] : default(T);
         }
 
-        public static int GetAuthLevel(this HttpContext current, string sessionObjectName)
-        {
-            var level = current != null ? (int)current.Session[sessionObjectName] : 0;
-            if (level.ToString().Length == 3)
-                level -= 100;
-            return level;
-        }
+        //public static int GetAuthLevel(this HttpContext current, string sessionObjectName)
+        //{
+        //    var level = current != null ? (int)current.Session[sessionObjectName] : 0;
+        //    if (level.ToString().Length == 3)
+        //        level -= 100;
+        //    return level;
+        //}
+        
 
         public static void LogOut()
         {

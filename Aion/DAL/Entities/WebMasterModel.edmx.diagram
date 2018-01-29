@@ -11,6 +11,7 @@
         <EntityTypeShape EntityType="WebMasterContext.UserLog" Width="1.5" PointX="3.375" PointY="4.75" />
         <EntityTypeShape EntityType="WebMasterContext.UserAccess" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="WebMasterContext.UnknownIpLog" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WebMasterContext.WeekRef" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
