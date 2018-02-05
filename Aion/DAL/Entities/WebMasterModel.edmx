@@ -66,6 +66,119 @@
           <Property Name="DateString" Type="nvarchar" MaxLength="15" />
           <Property Name="YearWeek" Type="int" StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="RegionTPCs">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Region" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="TPCUsername" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tempRegionLookup">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Area" Type="smallint" />
+          <Property Name="Store" Type="smallint" />
+        </EntityType>
+        <EntityType Name="TicketAnswers">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TicketAudit">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="User" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketComment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="User" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WebMaster.tck.TicketEscalations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TicketEscalations">
+          <Key>
+            <PropertyRef Name="EscalationId" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="EscalationId" Type="smallint" Nullable="false" />
+          <Property Name="Level" Type="tinyint" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketStub">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="TicketTypeId" Type="int" Nullable="false" />
+          <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+          <Property Name="RaisedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="EscalationLevel" Type="tinyint" Nullable="false" />
+          <Property Name="BranchNumber" Type="smallint" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="Exception" Type="int" />
+        </EntityType>
+        <EntityType Name="TicketTemplate">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketTypeId" Type="int" Nullable="false" />
+          <Property Name="Question" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ReturnType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GrpLimit" Type="tinyint" />
+          <Property Name="apiIdent" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TicketType">
+          <Key>
+            <PropertyRef Name="TicketTypeId" />
+          </Key>
+          <Property Name="TicketTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="SLAPeriod" Type="tinyint" Nullable="false" />
+          <Property Name="EscalationId" Type="smallint" Nullable="false" />
+          <Property Name="Live" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserGroups">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FriendlyName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoverEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoverEndDate" Type="date" />
+        </EntityType>
         <Association Name="FK_IpRef_StoreMaster">
           <End Role="StoreMaster" Type="Self.StoreMaster" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -80,6 +193,114 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TicketAnswers_TicketStub">
+          <End Role="TicketStub" Type="Self.TicketStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TicketAnswers" Type="Self.TicketAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStub">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketAnswers">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAnswers_TicketTemplate">
+          <End Role="TicketTemplate" Type="Self.TicketTemplate" Multiplicity="1" />
+          <End Role="TicketAnswers" Type="Self.TicketAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketTemplate">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="TicketAnswers">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAudit_TicketStub">
+          <End Role="TicketStub" Type="Self.TicketStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TicketAudit" Type="Self.TicketAudit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStub">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketAudit">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketComment_TicketStub">
+          <End Role="TicketStub" Type="Self.TicketStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TicketComment" Type="Self.TicketComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStub">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketComment">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketEscalations_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="TicketEscalations" Type="Self.TicketEscalations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="TicketEscalations">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TicketEscalations_TicketType" />-->
+        <Association Name="FK_TicketStub_TicketType">
+          <End Role="TicketType" Type="Self.TicketType" Multiplicity="1" />
+          <End Role="TicketStub" Type="Self.TicketStub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketType">
+              <PropertyRef Name="TicketTypeId" />
+            </Principal>
+            <Dependent Role="TicketStub">
+              <PropertyRef Name="TicketTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketTemplate_TicketType">
+          <End Role="TicketType" Type="Self.TicketType" Multiplicity="1" />
+          <End Role="TicketTemplate" Type="Self.TicketTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketType">
+              <PropertyRef Name="TicketTypeId" />
+            </Principal>
+            <Dependent Role="TicketTemplate">
+              <PropertyRef Name="TicketTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGroups_Groups">
+          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
+          <End Role="UserGroups" Type="Self.UserGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="UserGroups">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_CheckHelpTickets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tck">
+          <Parameter Name="BranchNum" Type="smallint" Mode="In" />
+        </Function>
         <EntityContainer Name="WebMasterContextStoreContainer">
           <EntitySet Name="IpRef" EntityType="Self.IpRef" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreMaster" EntityType="Self.StoreMaster" Schema="dbo" store:Type="Tables" />
@@ -87,9 +308,58 @@
           <EntitySet Name="UserAccess" EntityType="Self.UserAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLog" EntityType="Self.UserLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeekRef" EntityType="Self.WeekRef" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="RegionTPCs" EntityType="Self.RegionTPCs" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="tempRegionLookup" EntityType="Self.tempRegionLookup" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="TicketAnswers" EntityType="Self.TicketAnswers" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="TicketAudit" EntityType="Self.TicketAudit" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="TicketComment" EntityType="Self.TicketComment" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="TicketStub" EntityType="Self.TicketStub" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="TicketTemplate" EntityType="Self.TicketTemplate" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="TicketType" EntityType="Self.TicketType" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="UserGroups" EntityType="Self.UserGroups" Schema="tck" store:Type="Tables" />
+          <EntitySet Name="TicketEscalations" EntityType="Self.TicketEscalations" store:Type="Tables" store:Schema="tck">
+            <DefiningQuery>SELECT 
+    [TicketEscalations].[EscalationId] AS [EscalationId], 
+    [TicketEscalations].[Level] AS [Level], 
+    [TicketEscalations].[GroupId] AS [GroupId]
+    FROM [tck].[TicketEscalations] AS [TicketEscalations]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_IpRef_StoreMaster" Association="Self.FK_IpRef_StoreMaster">
             <End Role="StoreMaster" EntitySet="StoreMaster" />
             <End Role="IpRef" EntitySet="IpRef" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_TicketStub" Association="Self.FK_TicketAnswers_TicketStub">
+            <End Role="TicketStub" EntitySet="TicketStub" />
+            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_TicketTemplate" Association="Self.FK_TicketAnswers_TicketTemplate">
+            <End Role="TicketTemplate" EntitySet="TicketTemplate" />
+            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAudit_TicketStub" Association="Self.FK_TicketAudit_TicketStub">
+            <End Role="TicketStub" EntitySet="TicketStub" />
+            <End Role="TicketAudit" EntitySet="TicketAudit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketComment_TicketStub" Association="Self.FK_TicketComment_TicketStub">
+            <End Role="TicketStub" EntitySet="TicketStub" />
+            <End Role="TicketComment" EntitySet="TicketComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketEscalations_Groups" Association="Self.FK_TicketEscalations_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="TicketEscalations" EntitySet="TicketEscalations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketStub_TicketType" Association="Self.FK_TicketStub_TicketType">
+            <End Role="TicketType" EntitySet="TicketType" />
+            <End Role="TicketStub" EntitySet="TicketStub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketTemplate_TicketType" Association="Self.FK_TicketTemplate_TicketType">
+            <End Role="TicketType" EntitySet="TicketType" />
+            <End Role="TicketTemplate" EntitySet="TicketTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGroups_Groups" Association="Self.FK_UserGroups_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="UserGroups" EntitySet="UserGroups" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -144,6 +414,52 @@
           <EntitySet Name="UserAccesses" EntityType="WebMasterContext.UserAccess" />
           <EntitySet Name="UnknownIpLogs" EntityType="WebMasterContext.UnknownIpLog" />
           <EntitySet Name="WeekRefs" EntityType="WebMasterContext.WeekRef" />
+          <EntitySet Name="Groups" EntityType="WebMasterContext.Group" />
+          <EntitySet Name="RegionTPCs" EntityType="WebMasterContext.RegionTPC" />
+          <EntitySet Name="tempRegionLookups" EntityType="WebMasterContext.tempRegionLookup" />
+          <EntitySet Name="TicketAnswers" EntityType="WebMasterContext.TicketAnswer" />
+          <EntitySet Name="TicketAudits" EntityType="WebMasterContext.TicketAudit" />
+          <EntitySet Name="TicketComments" EntityType="WebMasterContext.TicketComment" />
+          <EntitySet Name="TicketStubs" EntityType="WebMasterContext.TicketStub" />
+          <EntitySet Name="TicketTemplates" EntityType="WebMasterContext.TicketTemplate" />
+          <EntitySet Name="TicketTypes" EntityType="WebMasterContext.TicketType" />
+          <EntitySet Name="UserGroups" EntityType="WebMasterContext.UserGroup" />
+          <EntitySet Name="TicketEscalations" EntityType="WebMasterContext.TicketEscalation" />
+          <AssociationSet Name="FK_TicketEscalations_Groups" Association="WebMasterContext.FK_TicketEscalations_Groups">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="TicketEscalation" EntitySet="TicketEscalations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserGroups_Groups" Association="WebMasterContext.FK_UserGroups_Groups">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="UserGroup" EntitySet="UserGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_TicketStub" Association="WebMasterContext.FK_TicketAnswers_TicketStub">
+            <End Role="TicketStub" EntitySet="TicketStubs" />
+            <End Role="TicketAnswer" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_TicketTemplate" Association="WebMasterContext.FK_TicketAnswers_TicketTemplate">
+            <End Role="TicketTemplate" EntitySet="TicketTemplates" />
+            <End Role="TicketAnswer" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAudit_TicketStub" Association="WebMasterContext.FK_TicketAudit_TicketStub">
+            <End Role="TicketStub" EntitySet="TicketStubs" />
+            <End Role="TicketAudit" EntitySet="TicketAudits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketComment_TicketStub" Association="WebMasterContext.FK_TicketComment_TicketStub">
+            <End Role="TicketStub" EntitySet="TicketStubs" />
+            <End Role="TicketComment" EntitySet="TicketComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketStub_TicketType" Association="WebMasterContext.FK_TicketStub_TicketType">
+            <End Role="TicketType" EntitySet="TicketTypes" />
+            <End Role="TicketStub" EntitySet="TicketStubs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketTemplate_TicketType" Association="WebMasterContext.FK_TicketTemplate_TicketType">
+            <End Role="TicketType" EntitySet="TicketTypes" />
+            <End Role="TicketTemplate" EntitySet="TicketTemplates" />
+          </AssociationSet>
+          <FunctionImport Name="sp_CheckHelpTickets" ReturnType="Collection(WebMasterContext.sp_CheckHelpTickets_Result)">
+            <Parameter Name="BranchNum" Mode="In" Type="Int16" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="UserLog">
           <Key>
@@ -185,6 +501,240 @@
           <Property Name="DateString" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="YearWeek" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TicketEscalations" Relationship="WebMasterContext.FK_TicketEscalations_Groups" FromRole="Group" ToRole="TicketEscalation" />
+          <NavigationProperty Name="UserGroups" Relationship="WebMasterContext.FK_UserGroups_Groups" FromRole="Group" ToRole="UserGroup" />
+        </EntityType>
+        <EntityType Name="RegionTPC">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Region" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TPCUsername" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tempRegionLookup">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Area" Type="Int16" />
+          <Property Name="Store" Type="Int16" />
+        </EntityType>
+        <EntityType Name="TicketAnswer">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TicketStub" Relationship="WebMasterContext.FK_TicketAnswers_TicketStub" FromRole="TicketAnswer" ToRole="TicketStub" />
+          <NavigationProperty Name="TicketTemplate" Relationship="WebMasterContext.FK_TicketAnswers_TicketTemplate" FromRole="TicketAnswer" ToRole="TicketTemplate" />
+        </EntityType>
+        <EntityType Name="TicketAudit">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TicketStub" Relationship="WebMasterContext.FK_TicketAudit_TicketStub" FromRole="TicketAudit" ToRole="TicketStub" />
+        </EntityType>
+        <EntityType Name="TicketComment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TicketStub" Relationship="WebMasterContext.FK_TicketComment_TicketStub" FromRole="TicketComment" ToRole="TicketStub" />
+        </EntityType>
+        <EntityType Name="TicketStub">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TicketTypeId" Type="Int32" Nullable="false" />
+          <Property Name="LastUpdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RaisedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EscalationLevel" Type="Byte" Nullable="false" />
+          <Property Name="BranchNumber" Type="Int16" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Exception" Type="Int32" />
+          <NavigationProperty Name="TicketAnswers" Relationship="WebMasterContext.FK_TicketAnswers_TicketStub" FromRole="TicketStub" ToRole="TicketAnswer" />
+          <NavigationProperty Name="TicketAudits" Relationship="WebMasterContext.FK_TicketAudit_TicketStub" FromRole="TicketStub" ToRole="TicketAudit" />
+          <NavigationProperty Name="TicketComments" Relationship="WebMasterContext.FK_TicketComment_TicketStub" FromRole="TicketStub" ToRole="TicketComment" />
+          <NavigationProperty Name="TicketType" Relationship="WebMasterContext.FK_TicketStub_TicketType" FromRole="TicketStub" ToRole="TicketType" />
+        </EntityType>
+        <EntityType Name="TicketTemplate">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Question" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ReturnType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GrpLimit" Type="Byte" />
+          <Property Name="apiIdent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TicketAnswers" Relationship="WebMasterContext.FK_TicketAnswers_TicketTemplate" FromRole="TicketTemplate" ToRole="TicketAnswer" />
+          <NavigationProperty Name="TicketType" Relationship="WebMasterContext.FK_TicketTemplate_TicketType" FromRole="TicketTemplate" ToRole="TicketType" />
+        </EntityType>
+        <EntityType Name="TicketType">
+          <Key>
+            <PropertyRef Name="TicketTypeId" />
+          </Key>
+          <Property Name="TicketTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SLAPeriod" Type="Byte" Nullable="false" />
+          <Property Name="EscalationId" Type="Int16" Nullable="false" />
+          <Property Name="Live" Type="Boolean" />
+          <NavigationProperty Name="TicketStubs" Relationship="WebMasterContext.FK_TicketStub_TicketType" FromRole="TicketType" ToRole="TicketStub" />
+          <NavigationProperty Name="TicketTemplates" Relationship="WebMasterContext.FK_TicketTemplate_TicketType" FromRole="TicketType" ToRole="TicketTemplate" />
+        </EntityType>
+        <EntityType Name="UserGroup">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FriendlyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoverEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoverEndDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Group" Relationship="WebMasterContext.FK_UserGroups_Groups" FromRole="UserGroup" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="TicketEscalation">
+          <Key>
+            <PropertyRef Name="EscalationId" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="GroupId" />
+          </Key>
+          <Property Name="EscalationId" Type="Int16" Nullable="false" />
+          <Property Name="Level" Type="Byte" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="WebMasterContext.FK_TicketEscalations_Groups" FromRole="TicketEscalation" ToRole="Group" />
+        </EntityType>
+        <Association Name="FK_TicketEscalations_Groups">
+          <End Type="WebMasterContext.Group" Role="Group" Multiplicity="1" />
+          <End Type="WebMasterContext.TicketEscalation" Role="TicketEscalation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="TicketEscalation">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserGroups_Groups">
+          <End Type="WebMasterContext.Group" Role="Group" Multiplicity="1" />
+          <End Type="WebMasterContext.UserGroup" Role="UserGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="GroupId" />
+            </Principal>
+            <Dependent Role="UserGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAnswers_TicketStub">
+          <End Type="WebMasterContext.TicketStub" Role="TicketStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WebMasterContext.TicketAnswer" Role="TicketAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStub">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketAnswer">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAnswers_TicketTemplate">
+          <End Type="WebMasterContext.TicketTemplate" Role="TicketTemplate" Multiplicity="1" />
+          <End Type="WebMasterContext.TicketAnswer" Role="TicketAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketTemplate">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="TicketAnswer">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAudit_TicketStub">
+          <End Type="WebMasterContext.TicketStub" Role="TicketStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WebMasterContext.TicketAudit" Role="TicketAudit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStub">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketAudit">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketComment_TicketStub">
+          <End Type="WebMasterContext.TicketStub" Role="TicketStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WebMasterContext.TicketComment" Role="TicketComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStub">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketComment">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketStub_TicketType">
+          <End Type="WebMasterContext.TicketType" Role="TicketType" Multiplicity="1" />
+          <End Type="WebMasterContext.TicketStub" Role="TicketStub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketType">
+              <PropertyRef Name="TicketTypeId" />
+            </Principal>
+            <Dependent Role="TicketStub">
+              <PropertyRef Name="TicketTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketTemplate_TicketType">
+          <End Type="WebMasterContext.TicketType" Role="TicketType" Multiplicity="1" />
+          <End Type="WebMasterContext.TicketTemplate" Role="TicketTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketType">
+              <PropertyRef Name="TicketTypeId" />
+            </Principal>
+            <Dependent Role="TicketTemplate">
+              <PropertyRef Name="TicketTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_CheckHelpTickets_Result">
+          <Property Type="Int32" Name="TicketId" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="EmpNum" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -258,6 +808,135 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="WebMasterContext.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegionTPCs">
+            <EntityTypeMapping TypeName="WebMasterContext.RegionTPC">
+              <MappingFragment StoreEntitySet="RegionTPCs">
+                <ScalarProperty Name="TPCUsername" ColumnName="TPCUsername" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tempRegionLookups">
+            <EntityTypeMapping TypeName="WebMasterContext.tempRegionLookup">
+              <MappingFragment StoreEntitySet="tempRegionLookup">
+                <ScalarProperty Name="Store" ColumnName="Store" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketAnswers">
+            <EntityTypeMapping TypeName="WebMasterContext.TicketAnswer">
+              <MappingFragment StoreEntitySet="TicketAnswers">
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketAudits">
+            <EntityTypeMapping TypeName="WebMasterContext.TicketAudit">
+              <MappingFragment StoreEntitySet="TicketAudit">
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketComments">
+            <EntityTypeMapping TypeName="WebMasterContext.TicketComment">
+              <MappingFragment StoreEntitySet="TicketComment">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketStubs">
+            <EntityTypeMapping TypeName="WebMasterContext.TicketStub">
+              <MappingFragment StoreEntitySet="TicketStub">
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="BranchNumber" ColumnName="BranchNumber" />
+                <ScalarProperty Name="EscalationLevel" ColumnName="EscalationLevel" />
+                <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="TicketTypeId" ColumnName="TicketTypeId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketTemplates">
+            <EntityTypeMapping TypeName="WebMasterContext.TicketTemplate">
+              <MappingFragment StoreEntitySet="TicketTemplate">
+                <ScalarProperty Name="apiIdent" ColumnName="apiIdent" />
+                <ScalarProperty Name="GrpLimit" ColumnName="GrpLimit" />
+                <ScalarProperty Name="ReturnType" ColumnName="ReturnType" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="TicketTypeId" ColumnName="TicketTypeId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketTypes">
+            <EntityTypeMapping TypeName="WebMasterContext.TicketType">
+              <MappingFragment StoreEntitySet="TicketType">
+                <ScalarProperty Name="Live" ColumnName="Live" />
+                <ScalarProperty Name="EscalationId" ColumnName="EscalationId" />
+                <ScalarProperty Name="SLAPeriod" ColumnName="SLAPeriod" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TicketTypeId" ColumnName="TicketTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserGroups">
+            <EntityTypeMapping TypeName="WebMasterContext.UserGroup">
+              <MappingFragment StoreEntitySet="UserGroups">
+                <ScalarProperty Name="CoverEndDate" ColumnName="CoverEndDate" />
+                <ScalarProperty Name="CoverEmail" ColumnName="CoverEmail" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketEscalations">
+            <EntityTypeMapping TypeName="WebMasterContext.TicketEscalation">
+              <MappingFragment StoreEntitySet="TicketEscalations">
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="EscalationId" ColumnName="EscalationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_CheckHelpTickets" FunctionName="WebMasterContext.Store.sp_CheckHelpTickets">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WebMasterContext.sp_CheckHelpTickets_Result">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EmpNum" ColumnName="EmpNum" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

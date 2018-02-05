@@ -17,6 +17,16 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<string> GetKronosName(string storeNum)
+        {
+            using (var dbContext = new WebMasterModel())
+            {
+                short crit = short.Parse(storeNum);
+                var result = await dbContext.StoreMasters.Where(x => x.StoreNumber == crit).FirstOrDefaultAsync();
+                return result.KronosName;
+            }
+        }
+
         public async Task<List<StoreMaster>> GetStoreMenu(short _storeNumber)
         {
             using (var dbContext = new WebMasterModel())

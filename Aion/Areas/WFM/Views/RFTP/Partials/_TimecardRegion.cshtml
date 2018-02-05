@@ -1,0 +1,26 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.TimecardSignOffVm
+
+<div class="card">
+    <div class="card-header text-center">
+        <strong>Timecard Sign Off</strong>
+    </div>
+    <div class="card-body">
+        <strong style="font-size:large;">Week Commencing @Model.weekStart.ToShortDateString()</strong>
+        <p>
+            <span class="glyphicon glyphicon-time"></span> All information is shown as live from STAR <u><strong>today</strong></u>.
+        </p>
+        <p>
+            Here the timecard view makes it very easy and provides a real time view of how many timecards per store vs total are signed off, enabling each store % region to deliver 100% by the 3PM deadline.
+        </p>
+        <p>
+            Provided also is full visibility of each stores planning, with guidance showing if a timecard approver is scheduled in store as well as clocked in store to complete timecards. The schedule and clocked ing data is
+            real time for today.
+        </p>
+        <p>
+            If you have outstanding timecards and no STAR user scheduled or clocked in, by exception, your TPC can support on request.
+        </p>
+        <div class="alert alert-info">
+            <strong>Following Bank Holiday periods the timecard sign off deadline is extended to 3PM of the next normal business day.</strong>
+        </div>
+    </div>
+</div>

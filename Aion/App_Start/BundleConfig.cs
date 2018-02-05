@@ -19,13 +19,14 @@ namespace Aion
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.bundle.js",
+                      "~/Content/bootstrap/js/bootstrap.bundle.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-treeview.js",
                       "~/Scripts/site/selectMenu.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      //"~/Content/bootstrap.css",
+                      "~/Content/scss/custom.css",
                       "~/Content/site.css",
                       "~/Content/ionicons.css"));
         }

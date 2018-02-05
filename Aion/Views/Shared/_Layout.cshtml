@@ -18,7 +18,6 @@
         <div style="display:none;">
             @RenderBody()
         </div>
-        @RenderSection("myScripts", false)
     }
     else
     {
@@ -26,8 +25,8 @@
             <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light p-0">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/"><img src="~/Images/WFMHeader_V6.gif" style="height:40px;" /></a>
-                    <div class="float-right d-sm-none d-md-block">
-                        @Html.Partial("_LoginPartial")
+                    <div class="float-right d-none d-md-block">
+                        @Html.Partial("~/Views/Shared/_LoginPartial.cshtml")
                     </div>
                 </div>
             </nav>
@@ -38,50 +37,45 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            <li class="nav-item dropdown m-x-1">
-                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-checkbox-outline m-1"></i> Right First Time Pay</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="@Url.Action("Summary", "RFTP", new { area = "WFM" })">Summary</a>
-                                    <a class="dropdown-item" href="@Url.Action("Detail", "RFTP", new { area = "WFM" })">Detail</a>
-                                    <a class="dropdown-item" href="#">Another Action</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown m-x-1">
-                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-stats-bars m-1"></i> Deployment</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another Action</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown m-x-1">
-                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-list m-1"></i> Requests &amp; Tickets</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another Action</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown m-x-1">
-                                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-help-circled m-1"></i> Help &amp; Support</a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another Action</a>
-                                </div>
-                            </li>
+                            @if(ViewContext.RouteData.DataTokens["area"] == null)
+                            {
+                                Html.RenderPartial("~/Views/Shared/_RootMenu.cshtml");
+                            }
+                            else if (ViewContext.RouteData.DataTokens["area"].ToString() == "WFM")
+                            {
+                                Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
+                            }
                             <li class="d-none d-sm-block d-md-none" role="separator"></li>
-                            <li class="nav-item dropdown m-x-1 d-none d-sm-block d-md-none">
+                            <li class="nav-item dropdown m-x-1 d-md-none">
                                 @if (Request.IsAuthenticated)
                                 {
-                                    <a class="nav-link text-danger" href="@Url.Action("Logoff","Profile")"><strong><i class="icon ion-log-out m-1"></i> Log Off</strong></a>
+                                    <a class="nav-link text-danger" href="@Url.Action("Logoff","Profile", new { area = "" })"><strong><i class="icon ion-log-out m-1"></i> Log Off</strong></a>
                                 }
                                 else
                                 {
-                                    <a class="nav-link text-success" href="@Url.Action("Login","Profile")"><strong><i class="icon ion-log-in m-1"></i> Log In</strong></a>
-                                }                                
+                                    <a class="nav-link text-success" href="@Url.Action("Login","Profile", new { area = "" })"><strong><i class="icon ion-log-in m-1"></i> Log In</strong></a>
+                                }
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
+
+            @*<div class="row">
+                    <nav aria-label="breadcrumb" role="navigation" class="col-9">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active">@ViewContext.RouteData.DataTokens["area"].ToString()</li>
+                            @if (ViewContext.RouteData.Values["controller"].ToString() != "Home")
+                            {
+                                <li class="breadcrumb-item active">@ViewContext.RouteData.Values["controller"].ToString()</li>
+                            }
+                            @if (ViewContext.RouteData.Values["action"].ToString() != "Index")
+                            {
+                                <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
+                            }
+                        </ol>
+                    </nav>
+                </div>*@
 
             @RenderBody()
 
@@ -91,6 +85,6 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("myScripts", false)
 </body>
 </html>

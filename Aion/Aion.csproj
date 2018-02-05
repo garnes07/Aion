@@ -167,6 +167,7 @@
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompDetailVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\TimecardSignOffVm.cs" />
     <Compile Include="Areas\WFM\WFMAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -180,7 +181,13 @@
     <Compile Include="DAL\Entities\EmpComplianceDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\Group.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\IpRef.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\RegionTPC.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\ShortShift.cs">
@@ -191,6 +198,9 @@
     </Compile>
     <Compile Include="DAL\Entities\sp_AllDivisionDashboardData_v2_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_CheckHelpTickets_Result.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_ComplianceSummaryDivision_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -207,10 +217,37 @@
     <Compile Include="DAL\Entities\StoreMaster.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\tempRegionLookup.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\TicketAnswer.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\TicketAudit.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\TicketComment.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\TicketEscalation.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\TicketStub.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\TicketTemplate.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\TicketType.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\UnknownIpLog.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\UserAccess.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\UserGroup.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\UserLog.cs">
@@ -255,20 +292,35 @@
     <Compile Include="DAL\IManagers\IAuthManager.cs" />
     <Compile Include="DAL\IManagers\IDashboardDataManager.cs" />
     <Compile Include="DAL\IManagers\IStoreManager.cs" />
+    <Compile Include="DAL\Kronos\KronosApi.cs" />
     <Compile Include="DAL\Managers\AuthManager.cs" />
     <Compile Include="DAL\Managers\ClockingDataManager.cs" />
     <Compile Include="DAL\Managers\DashboardDataManager.cs" />
     <Compile Include="DAL\IManagers\IWeeksManager.cs" />
     <Compile Include="DAL\IManagers\IClockingDataManager.cs" />
+    <Compile Include="DAL\IManagers\IKronosManager.cs" />
+    <Compile Include="DAL\IManagers\ITicketManager.cs" />
+    <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
+    <Compile Include="DAL\Managers\TicketManager.cs" />
     <Compile Include="DAL\Managers\WeeksManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\KronosHelper.cs" />
     <Compile Include="Helpers\MvcHelper.cs" />
     <Compile Include="Helpers\ObjectHelpers.cs" />
     <Compile Include="Helpers\VmHelpers.cs" />
     <Compile Include="Mapping\AutoMapperWebConfiguration.cs" />
+    <Compile Include="Models\Kronos\Employee.cs" />
+    <Compile Include="Models\Kronos\HyperFindResult.cs" />
+    <Compile Include="Models\Kronos\Person.cs" />
+    <Compile Include="Models\Kronos\PersonData.cs" />
+    <Compile Include="Models\Kronos\PersonIdentity.cs" />
+    <Compile Include="Models\Kronos\PunchStatus.cs" />
+    <Compile Include="Models\Kronos\ScheduleItems.cs" />
+    <Compile Include="Models\Kronos\ShiftSegment.cs" />
+    <Compile Include="Models\Kronos\Timesheet.cs" />
     <Compile Include="Models\Utils\AuthenticationResult.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
@@ -281,13 +333,17 @@
     <Content Include="App_Data\APIError\empty.txt" />
     <Content Include="App_Data\ELMAH\empty.txt" />
     <Content Include="App_Readme\Elmah.txt" />
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\ionicons.css" />
+    <Content Include="Content\scss\custom.css">
+      <DependentUpon>custom.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\scss\custom.min.css">
+      <DependentUpon>custom.css</DependentUpon>
+    </Content>
     <Content Include="DAL\Entities\WebMasterModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WebMasterModel.edmx</DependentUpon>
@@ -403,7 +459,6 @@
     <Content Include="fonts\ionicons.ttf" />
     <Content Include="fonts\ionicons.woff" />
     <Content Include="Areas\WFM\Views\web.config" />
-    <Content Include="Areas\WFM\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\WFM\Views\_ViewStart.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Summary.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_SummaryChain.cshtml" />
@@ -413,6 +468,10 @@
     <Content Include="Areas\WFM\Views\RFTP\Partials\_DetailRegion.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_DetailDivision.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_DetailChain.cshtml" />
+    <Content Include="Areas\WFM\Views\Shared\_WFMMenu.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\TimecardSignOff.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_TimecardRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_TimecardStore.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -428,10 +487,6 @@
     <Content Include="DAL\Entities\WFMModel.edmx.diagram">
       <DependentUpon>WFMModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Scripts\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -440,16 +495,98 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap\scss\bootstrap-grid.scss" />
+    <Content Include="Content\bootstrap\scss\bootstrap-reboot.scss" />
+    <Content Include="Content\bootstrap\scss\bootstrap.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_alert.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_background-variant.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_badge.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_border-radius.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_box-shadow.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_breakpoints.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_buttons.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_caret.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_clearfix.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_float.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_forms.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_gradients.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_grid-framework.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_grid.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_hover.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_image.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_list-group.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_lists.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_nav-divider.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_navbar-align.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_pagination.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_reset-text.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_resize.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_screen-reader.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_size.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_table-row.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_text-emphasis.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_text-hide.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_text-truncate.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_transition.scss" />
+    <Content Include="Content\bootstrap\scss\mixins\_visibility.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_align.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_background.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_borders.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_clearfix.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_display.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_embed.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_flex.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_float.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_position.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_screenreaders.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_sizing.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_spacing.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_text.scss" />
+    <Content Include="Content\bootstrap\scss\utilities\_visibility.scss" />
+    <Content Include="Content\bootstrap\scss\_alert.scss" />
+    <Content Include="Content\bootstrap\scss\_badge.scss" />
+    <Content Include="Content\bootstrap\scss\_breadcrumb.scss" />
+    <Content Include="Content\bootstrap\scss\_button-group.scss" />
+    <Content Include="Content\bootstrap\scss\_buttons.scss" />
+    <Content Include="Content\bootstrap\scss\_card.scss" />
+    <Content Include="Content\bootstrap\scss\_carousel.scss" />
+    <Content Include="Content\bootstrap\scss\_close.scss" />
+    <Content Include="Content\bootstrap\scss\_code.scss" />
+    <Content Include="Content\bootstrap\scss\_custom-forms.scss" />
+    <Content Include="Content\bootstrap\scss\_dropdown.scss" />
+    <Content Include="Content\bootstrap\scss\_forms.scss" />
+    <Content Include="Content\bootstrap\scss\_functions.scss" />
+    <Content Include="Content\bootstrap\scss\_grid.scss" />
+    <Content Include="Content\bootstrap\scss\_images.scss" />
+    <Content Include="Content\bootstrap\scss\_input-group.scss" />
+    <Content Include="Content\bootstrap\scss\_jumbotron.scss" />
+    <Content Include="Content\bootstrap\scss\_list-group.scss" />
+    <Content Include="Content\bootstrap\scss\_media.scss" />
+    <Content Include="Content\bootstrap\scss\_mixins.scss" />
+    <Content Include="Content\bootstrap\scss\_modal.scss" />
+    <Content Include="Content\bootstrap\scss\_nav.scss" />
+    <Content Include="Content\bootstrap\scss\_navbar.scss" />
+    <Content Include="Content\bootstrap\scss\_pagination.scss" />
+    <Content Include="Content\bootstrap\scss\_popover.scss" />
+    <Content Include="Content\bootstrap\scss\_print.scss" />
+    <Content Include="Content\bootstrap\scss\_progress.scss" />
+    <Content Include="Content\bootstrap\scss\_reboot.scss" />
+    <Content Include="Content\bootstrap\scss\_root.scss" />
+    <Content Include="Content\bootstrap\scss\_tables.scss" />
+    <Content Include="Content\bootstrap\scss\_tooltip.scss" />
+    <Content Include="Content\bootstrap\scss\_transitions.scss" />
+    <Content Include="Content\bootstrap\scss\_type.scss" />
+    <Content Include="Content\bootstrap\scss\_utilities.scss" />
+    <Content Include="Content\bootstrap\scss\_variables.scss" />
+    <Content Include="Content\scss\custom.scss" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Content\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\bootstrap\js\bootstrap.js.map" />
+    <Content Include="Content\bootstrap\js\bootstrap.min.js.map" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -507,6 +644,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_WeekPicker.cshtml" />
+    <Content Include="Views\Shared\_RootMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />

@@ -12,6 +12,8 @@ namespace Aion.DAL.Entities
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class WebMasterModel : DbContext
     {
@@ -31,5 +33,25 @@ namespace Aion.DAL.Entities
         public virtual DbSet<UserAccess> UserAccesses { get; set; }
         public virtual DbSet<UnknownIpLog> UnknownIpLogs { get; set; }
         public virtual DbSet<WeekRef> WeekRefs { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<RegionTPC> RegionTPCs { get; set; }
+        public virtual DbSet<tempRegionLookup> tempRegionLookups { get; set; }
+        public virtual DbSet<TicketAnswer> TicketAnswers { get; set; }
+        public virtual DbSet<TicketAudit> TicketAudits { get; set; }
+        public virtual DbSet<TicketComment> TicketComments { get; set; }
+        public virtual DbSet<TicketStub> TicketStubs { get; set; }
+        public virtual DbSet<TicketTemplate> TicketTemplates { get; set; }
+        public virtual DbSet<TicketType> TicketTypes { get; set; }
+        public virtual DbSet<UserGroup> UserGroups { get; set; }
+        public virtual DbSet<TicketEscalation> TicketEscalations { get; set; }
+    
+        public virtual ObjectResult<sp_CheckHelpTickets_Result> sp_CheckHelpTickets(Nullable<short> branchNum)
+        {
+            var branchNumParameter = branchNum.HasValue ?
+                new ObjectParameter("BranchNum", branchNum) :
+                new ObjectParameter("BranchNum", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CheckHelpTickets_Result>("sp_CheckHelpTickets", branchNumParameter);
+        }
     }
 }

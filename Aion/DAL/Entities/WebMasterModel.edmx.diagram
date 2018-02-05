@@ -12,6 +12,25 @@
         <EntityTypeShape EntityType="WebMasterContext.UserAccess" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="WebMasterContext.UnknownIpLog" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="WebMasterContext.WeekRef" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="WebMasterContext.Group" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebMasterContext.RegionTPC" Width="1.5" PointX="5.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebMasterContext.tempRegionLookup" Width="1.5" PointX="7.75" PointY="11.75" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketAnswer" Width="1.5" PointX="12.25" PointY="5.625" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketAudit" Width="1.5" PointX="12.25" PointY="12" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketComment" Width="1.5" PointX="12.25" PointY="9.125" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketStub" Width="1.5" PointX="10" PointY="6.875" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketTemplate" Width="1.5" PointX="10.25" PointY="2.875" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketType" Width="1.5" PointX="7.75" PointY="5.75" />
+        <EntityTypeShape EntityType="WebMasterContext.UserGroup" Width="1.5" PointX="3" PointY="8.125" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketEscalation" Width="1.5" PointX="3" PointY="11.375" />
+        <AssociationConnector Association="WebMasterContext.FK_TicketEscalations_Groups" />
+        <AssociationConnector Association="WebMasterContext.FK_UserGroups_Groups" />
+        <AssociationConnector Association="WebMasterContext.FK_TicketAnswers_TicketStub" />
+        <AssociationConnector Association="WebMasterContext.FK_TicketAnswers_TicketTemplate" />
+        <AssociationConnector Association="WebMasterContext.FK_TicketAudit_TicketStub" />
+        <AssociationConnector Association="WebMasterContext.FK_TicketComment_TicketStub" />
+        <AssociationConnector Association="WebMasterContext.FK_TicketStub_TicketType" />
+        <AssociationConnector Association="WebMasterContext.FK_TicketTemplate_TicketType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

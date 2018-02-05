@@ -4,6 +4,8 @@ using Aion.Controllers;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.Helpers;
+using Aion.Models.Kronos;
+using Aion.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +20,18 @@ namespace Aion.Areas.WFM.Controllers
         private IDashboardDataManager _dashDataManager;
         private IWeeksManager _weeksManager;
         private IClockingDataManager _clockManager;
+        private IKronosManager _kronosManager;
+        private ITicketManager _ticketManager;
+        private IStoreManager _storeManager;
 
         public RFTPController()
         {
             _dashDataManager = new DashboardDataManager();
             _clockManager = new ClockingDataManager();
             _weeksManager = new WeeksManager();
+            _kronosManager = new KronosManager();
+            _ticketManager = new TicketManager();
+            _storeManager = new StoreManager();
         }
         
         //Summary
@@ -84,7 +92,7 @@ namespace Aion.Areas.WFM.Controllers
                 vm.DisplayLevel = 1;
 
                 if (vm._dashboardView.Sum(x => x.PunchCompliance) == 0)
-                    vm.MessageType = Aion.ViewModels.MessageType.Warning;
+                    vm.MessageType = MessageType.Warning;
             }
             else if (selectArea == "R")
             {
@@ -92,7 +100,7 @@ namespace Aion.Areas.WFM.Controllers
                 vm.DisplayLevel = 2;
 
                 if (vm._dashboardView.Sum(x => x.PunchCompliance) == 0)
-                    vm.MessageType = Aion.ViewModels.MessageType.Warning;
+                    vm.MessageType = MessageType.Warning;
             }
             else if (selectArea == "D")
             {
@@ -100,7 +108,7 @@ namespace Aion.Areas.WFM.Controllers
                 vm.DisplayLevel = 3;
 
                 if (vm._chainView.Sum(x => x.PunchCompliance) == 0)
-                    vm.MessageType = Aion.ViewModels.MessageType.Warning;
+                    vm.MessageType = MessageType.Warning;
             }
             else if (selectArea == "C")
             {
@@ -108,11 +116,50 @@ namespace Aion.Areas.WFM.Controllers
                 vm.DisplayLevel = 4;
 
                 if (vm._chainView.Sum(x => x.PunchCompliance) == 0)
-                    vm.MessageType = Aion.ViewModels.MessageType.Warning;
+                    vm.MessageType = MessageType.Warning;
             }
 
             vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));
             vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            return View(vm);
+        }
+
+        //Timecard Sign Off
+        public async Task<ActionResult> TimecardSignOff()
+        {
+            TimecardSignOffVm vm = new TimecardSignOffVm();
+            var weekOfYr = (int)_weeksManager.GetSingleWeek(vm.weekStart);
+
+            if (selectArea == "S")
+            {
+                string storeName = await _storeManager.GetKronosName(selectCrit);
+                vm.hf = await _kronosManager.GetKronosHyperFind(storeName, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
+                vm.ss = await _dashDataManager.GetShortShiftDetail(selectCrit, weekOfYr);
+                vm.HelpTcks = await _ticketManager.GetHelpTickets(selectCrit);
+
+                short a = 1;
+                while ((vm.hf == null || vm.hf.Count() == 0) && a < 3)
+                {
+                    vm.hf = mapper.Map<List<HyperFindResult>>(await _kronosManager.GetKronosHyperFind(storeName, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID));
+                    a++;
+                }
+                vm.DisplayLevel = 1;
+            }
+            else if (selectArea == "R")
+            {
+                
+            }
+            else if (selectArea == "D")
+            {
+                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                vm.MessageType = MessageType.Error;
+            }
+            else if (selectArea == "C")
+            {
+                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                vm.MessageType = MessageType.Error;
+            }
 
             return View(vm);
         }

@@ -1,0 +1,28 @@
+﻿@using Aion.Areas.WFM.ViewModels.RFTP
+@model TimecardSignOffVm
+
+@{
+    ViewBag.Title = "Timecard Sign Off";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        @if (Model.MessageType == Aion.ViewModels.MessageType.Error)
+        {
+            <div class="alert alert-warning text-center mt-4"><strong>@Model.Message</strong></div>
+        }
+        else if (Model.DisplayLevel == 1)
+        {
+            @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_TimecardStore.cshtml")
+        }
+        else if (Model.DisplayLevel == 2)
+        {
+            @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_TimecardRegion.cshtml")
+        }
+    </div>
+</div>

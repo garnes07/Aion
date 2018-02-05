@@ -1,0 +1,79 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.TimecardSignOffVm
+
+<div class="card">
+    <div class="card-header text-center">
+        <strong>Timecard Sign Off</strong>
+    </div>
+    <div class="card-body">
+        <strong style="font-size:large;">Week Commencing @Model.weekStart.ToShortDateString()</strong>
+        <p>
+            <i class="icon ion-clock m-1"></i> Timecard Sign off information is shown as live from STAR. Edited clocks count is updated at 8AM each day.
+        </p>
+        <p>
+            If you're unsure of how to sign off a particular timecard us the "I Need Help" button. This will take you through a series of questions to provide guidance on the correct action to take.
+            (Please only use this when required)
+        </p>
+        <p>
+            If the issue is out of your control you will be prompted to log a ticket with the relevant details in order for the timecard to be completed on your behalf.
+            <u>Please be sure to complete all sections of the ticket accurately.</u>
+        </p>
+        <p>
+            <strong>Please note: </strong>Sign off deadline is each Monday by 3PM<br />
+            <strong>Accountability reminder: </strong>The GM has overall accountability for all timecards being signed off and seond users to be scheduled to sign off in a GM's absence
+        </p>
+        <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Zero Hour Timecards</strong> - No timecard should ever be signed off completely blank. If you are unsure what paycode to use please use the "I Need Help" button.
+        </div>
+        @if (Model.hf == null || Model.hf.Count() == 0)
+            {
+            <hr />
+            <div class="row justify-content-center">
+                <div class="alert alert-danger text-center col-sm-4 col-12">
+                    <strong>Oops...</strong>
+                    <p>Looks like something went wrong, please try again.</p>
+                    <a class="btn btn-sm btn-default" href="./TimecardSignOff">Retry</a>
+                </div>
+            </div>            
+        }
+        else
+        {
+            <table class="table table-bordered table-sm mt-2">
+                <thead class="thead-blue">
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center col-xs-2">Timecard Signed Off</th>
+                        <th class="text-center col-xs-2">Edited Clocks</th>
+                        <th class="text-center">I Need Help</th>
+                    </tr>                    
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.hf.Where(x => x.PersonData.Person.SignOffDate.Year != 1901).OrderBy(x => x.FullName))
+                    {
+                        var ss = Model.ss.Where(x => x.PersonNum == item.PersonNumber).Count();
+                        var help = Model.HelpTcks.Where(x => x.EmpNum == item.parsedPerson).FirstOrDefault();
+                        <tr>
+                            <td>@item.FullName</td>
+                            <td class="text-center"><strong>@(item.PersonData.Person.SignOffDate >= Model.weekStart.AddDays(6) ? "✔" : "X")</strong></td>
+                            <td class="text-center @(ss > 0 ? "danger" : "")">@(ss > 0 ? ss.ToString() : "")</td>
+                            @if (help != null)
+                            {
+                                <td class="text-center"><button type="button" class="btn btn-sm @(help.Status == "Completed" ? "btn-success" : "btn-warning")">@(help.Status == "Completed" ? "Resolved" : "Raised")</button></td>
+                            }
+                            else if (item.PersonData.Person.SignOffDate < Model.weekStart.AddDays(6))
+                            {
+                                <td class="text-center"><button type="button" class="btn btn-sm btn-info helpModal" data-empnum="@item.PersonNumber">Help</button></td>
+                            }
+                            else
+                            {
+                                <td><button class="btn btn-sm" style="visibility:hidden;">a</button></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
