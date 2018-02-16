@@ -39,7 +39,7 @@
                         <ul class="navbar-nav">
                             @if(ViewContext.RouteData.DataTokens["area"] == null)
                             {
-                                Html.RenderPartial("~/Views/Shared/_RootMenu.cshtml");
+                                Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
                             }
                             else if (ViewContext.RouteData.DataTokens["area"].ToString() == "WFM")
                             {

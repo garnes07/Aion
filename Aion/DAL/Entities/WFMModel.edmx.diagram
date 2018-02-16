@@ -10,6 +10,7 @@
         <EntityTypeShape EntityType="WFMMContext.vw_CPW_Clocking_Data" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.ShortShift" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.DashBoardData_v2" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="WFMMContext.KronosEmployeeSummary" Width="1.5" PointX="9.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -7,7 +7,7 @@
     <div class="card-body">
         <strong style="font-size:large;">Week Commencing @Model.weekStart.ToShortDateString()</strong>
         <p>
-            <span class="glyphicon glyphicon-time"></span> All information is shown as live from STAR <u><strong>today</strong></u>.
+            <i class="icon ion-clock m-1"></i> All information is shown as live from STAR <u><strong>today</strong></u>.
         </p>
         <p>
             Here the timecard view makes it very easy and provides a real time view of how many timecards per store vs total are signed off, enabling each store % region to deliver 100% by the 3PM deadline.
@@ -22,5 +22,35 @@
         <div class="alert alert-info">
             <strong>Following Bank Holiday periods the timecard sign off deadline is extended to 3PM of the next normal business day.</strong>
         </div>
+        @if (Model.hf.Any())
+        {
+            <table class="table table-bordered table-sm mt-1">
+                <thead class="thead-blue">
+                <tr>
+                    <th class="text-center">Branch Name</th>
+                    <th class="text-center">Timecards Completed</th>
+                    <th class="text-center">Star User Scheduled</th>
+                    <th class="text-center">Star User Clocked</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.rso)
+                {
+                    <tr>
+                        <td>@string.Format("{0} - {1}", item.BranchNumber, item.BranchName)</td>
+                        <td class="text-center @(item.RAG > 0 ? "danger" : "")">@string.Format("{0}/{1}", item.SignedOff, item.Headcount)</td>
+                        <td class="text-center @(!item.KronosScheduled ? item.RAGClass : "")">@(item.KronosScheduled ? "Y" : "N")</td>
+                        <td class="text-center @(!item.KronosPunched ? item.RAGClass : "")">@(item.KronosPunched ? "Y" : "N")</td>
+                    </tr>
+                }
+                <tr>
+                    <td><strong>Region Total</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0}/{1}", Model.rso.Sum(x => x.SignedOff), Model.rso.Sum(x => x.Headcount))</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0}/{1}", Model.rso.Count(x => x.KronosScheduled), Model.rso.Count())</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0}/{1}", Model.rso.Count(x => x.KronosPunched), Model.rso.Count())</strong></td>
+                </tr>
+                </tbody>
+            </table>
+        }
     </div>
 </div>

@@ -187,6 +187,9 @@
     <Compile Include="DAL\Entities\IpRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\KronosEmployeeSummary.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\RegionTPC.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
@@ -300,6 +303,8 @@
     <Compile Include="DAL\IManagers\IClockingDataManager.cs" />
     <Compile Include="DAL\IManagers\IKronosManager.cs" />
     <Compile Include="DAL\IManagers\ITicketManager.cs" />
+    <Compile Include="DAL\Managers\EmpSummaryManager.cs" />
+    <Compile Include="DAL\IManagers\IEmpSummaryManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />

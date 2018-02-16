@@ -125,6 +125,25 @@ warning 6002: The table/view '99999_WFM.dbo.CPW_Clocking_Data' does not have a p
           <Property Name="WorkedHours" Type="numeric" Precision="6" Scale="2" Nullable="false" />
           <Property Name="ZeroHourFlag" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="KronosEmployeeSummary">
+          <Key>
+            <PropertyRef Name="PersonNumber" />
+          </Key>
+          <Property Name="HomeBranch" Type="smallint" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="Division" Type="varchar" MaxLength="25" />
+          <Property Name="Channel" Type="nvarchar" MaxLength="10" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EmployeeStandardHours" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="SignedOffThrough" Type="date" />
+          <Property Name="JobRole" Type="nvarchar" MaxLength="50" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" />
+          <Property Name="KronosUser" Type="bit" Nullable="false" />
+          <Property Name="BranchName" Type="varchar" MaxLength="100" />
+          <Property Name="Scheduled" Type="bit" Nullable="false" />
+          <Property Name="ReportingRoleFlag" Type="tinyint" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
         <EntityType Name="ShortShifts">
           <Key>
             <PropertyRef Name="WeekNumber" />
@@ -234,6 +253,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
         <EntityContainer Name="WFMMContextStoreContainer">
           <EntitySet Name="DashBoardData_v2" EntityType="Self.DashBoardData_v2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShortShifts" EntityType="Self.ShortShifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CPW_Clocking_Data" EntityType="Self.CPW_Clocking_Data" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -364,6 +384,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
             <Parameter Name="Division" Mode="In" Type="String" />
             <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="KronosEmployeeSummaries" EntityType="WFMMContext.KronosEmployeeSummary" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -661,6 +682,25 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Property Type="Double" Name="PunchCompliance" Nullable="true" />
           <Property Type="Int32" Name="ShortShifts" Nullable="true" />
         </ComplexType>
+        <EntityType Name="KronosEmployeeSummary">
+          <Key>
+            <PropertyRef Name="PersonNumber" />
+          </Key>
+          <Property Name="HomeBranch" Type="Int16" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Channel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeStandardHours" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="SignedOffThrough" Type="DateTime" Precision="0" />
+          <Property Name="JobRole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="KronosUser" Type="Boolean" Nullable="false" />
+          <Property Name="BranchName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Scheduled" Type="Boolean" Nullable="false" />
+          <Property Name="ReportingRoleFlag" Type="Byte" />
+          <Property Name="Active" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -962,6 +1002,26 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="KronosEmployeeSummaries">
+            <EntityTypeMapping TypeName="WFMMContext.KronosEmployeeSummary">
+              <MappingFragment StoreEntitySet="KronosEmployeeSummary">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ReportingRoleFlag" ColumnName="ReportingRoleFlag" />
+                <ScalarProperty Name="Scheduled" ColumnName="Scheduled" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="KronosUser" ColumnName="KronosUser" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="JobRole" ColumnName="JobRole" />
+                <ScalarProperty Name="SignedOffThrough" ColumnName="SignedOffThrough" />
+                <ScalarProperty Name="EmployeeStandardHours" ColumnName="EmployeeStandardHours" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="HomeBranch" ColumnName="HomeBranch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -6,6 +6,7 @@ namespace Aion.DAL.Managers
 {
     public interface IKronosManager
     {
-        Task<List<HyperFindResult>> GetKronosHyperFind(string kronosStoreName, string startDate, string endDate, string sessionID = null);
+        Task<List<HyperFindResult>> GetKronosHyperFind(string kronosStoreName, string startDate, string endDate, string sessionId = null);
+        Task<List<PunchStatus>> GetPunchStatus(List<string> empList, string sessionId = null);
     }
 }
