@@ -33,7 +33,7 @@
                             <td class="text-center"><strong>@(Model._dashboardView.Sum(x => x.ZeroHour))/@(Model._dashboardView.Sum(x => x.TotalHeadCount) - Model._dashboardView.Sum(x => x.TimeCardsCompleted))</strong></td>
                             <td class="text-center"><strong>@Model._dashboardView.Sum(x => x.ShortShifts)</strong></td>
                             <td class="text-center"><strong>@(string.Format("{0:0.0}%", Model._dashboardView.Average(x => x.PunchCompliance) * 100))</strong></td>
-                            <td class="text-center"><strong>@Model._dashboardView.Where(x => x.ComplianceScore == 0).Count()</strong></td>
+                            <td class="text-center"><strong>@Model._dashboardView.Count(x => x.ComplianceScore == 0)</strong></td>
                         </tr>
                     </tbody>
                 </table>

@@ -23,7 +23,7 @@
                 <tbody>
                     @foreach (var branch in Model.BranchList)
                     {
-                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk);
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
                         <tr>
                             <td>@data.First().fullName</td>
                             @foreach (var item in data)
@@ -55,7 +55,7 @@
                 <tbody>
                     @foreach (var branch in Model.BranchList)
                     {
-                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk);
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
                         <tr>
                             <td>@data.First().fullName</td>
                             @foreach (var item in data)
@@ -94,7 +94,7 @@
                 <tbody>
                     @foreach (var branch in Model.BranchList)
                     {
-                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk);
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
                         <tr>
                             <td>@data.First().fullName</td>
                             @foreach (var item in data)
@@ -133,7 +133,7 @@
                 <tbody>
                     @foreach (var branch in Model.BranchList)
                     {
-                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk);
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
                         <tr>
                             <td>@data.First().fullName</td>
                             @foreach (var item in data)

@@ -16,13 +16,7 @@ namespace Aion.Models.Utils
                 HttpContext.Current.Session.Add("_UserName", value);
             }
         }
-        public string EmpNum
-        {
-            get
-            {
-                return HttpContext.Current.Session["_EmpNum"].ToString();
-            }
-        }
+        public string EmpNum => HttpContext.Current.Session["_EmpNum"].ToString();
         public string ErrorMessage { get; set; }
         public bool IsSuccess => string.IsNullOrEmpty(ErrorMessage);
     }

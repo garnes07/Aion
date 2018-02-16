@@ -1,7 +1,7 @@
 ﻿@model Aion.Areas.WFM.ViewModels.RFTP.CompDetailVm
 
 @{ 
-    var subtotal = Model._chainView.Where(x => x.Region == null).Single();
+    var subtotal = Model._chainView.Single(x => x.Region == null);
 }
 
 <div class="row">

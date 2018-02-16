@@ -1,11 +1,11 @@
 ﻿using Aion.Helpers;
-using Aion.Models.Services;
 using Aion.Models.Utils;
 using Microsoft.Owin.Security;
 using System;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Aion.Services;
 
 namespace Aion.Controllers
 {
@@ -29,7 +29,7 @@ namespace Aion.Controllers
         {
             if (!ModelState.IsValid)
             {
-                if(string.Equals(Request.UrlReferrer.AbsolutePath.ToString(), "/oos", StringComparison.CurrentCultureIgnoreCase))
+                if(string.Equals(Request.UrlReferrer.AbsolutePath, "/oos", StringComparison.CurrentCultureIgnoreCase))
                 {
                     TempData["modelPass"] = a;
                     return RedirectToAction("OOS");
@@ -53,7 +53,7 @@ namespace Aion.Controllers
                 }
             }
 
-            if (string.Equals(Request.UrlReferrer.AbsolutePath.ToString(), "/oos", StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(Request.UrlReferrer.AbsolutePath, "/oos", StringComparison.CurrentCultureIgnoreCase))
             {
                 TempData["modelPass"] = a;
                 TempData["errorMessage"] = authenticationResult.ErrorMessage;
@@ -136,7 +136,7 @@ namespace Aion.Controllers
 
             if (!result)
             {
-                ViewBag.Error = "Something went wrong there, please try again";
+                ViewBag.Error = "Oops, something went wrong there, please try again";
                 return View();
             }
             else
@@ -161,7 +161,7 @@ namespace Aion.Controllers
 
             if (!result)
             {
-                ViewBag.Error = "Something went wrong there, please try again";
+                ViewBag.Error = "Oops, something went wrong there, please try again";
                 return View();
             }
             else

@@ -3,7 +3,9 @@ using Aion.Models.Kronos;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -12,8 +14,8 @@ namespace Aion.DAL.Kronos
     public class KronosApi
     {
         public static readonly string URL = ConfigurationManager.AppSettings["KnUrl"];
-        private static readonly string XMLheader = "KronosXML=<?xml version='1.0' ?><Kronos_WFC Version='1.0'>";
-        private static readonly string XMLfooter = "</Kronos_WFC>";
+        private const string XMLheader = "KronosXML=<?xml version='1.0' ?><Kronos_WFC Version='1.0'>";
+        private const string XMLfooter = "</Kronos_WFC>";
         private static readonly string userName = ConfigurationManager.AppSettings["KnUser"];
         private static readonly string password = ConfigurationManager.AppSettings["KnP"];
 
@@ -69,11 +71,13 @@ namespace Aion.DAL.Kronos
 
         public static List<Timesheet> RequestTimesheet(DateTime[] dates, string personNumber, string sessionID)
         {
-            var xmlString = XMLheader + "<Transaction>";
-            foreach (var item in dates)
-            {
-                xmlString += "<Request Action='LoadPeriodTotals'><Timesheet><Employee><PersonIdentity PersonNumber='" + personNumber + "'/></Employee><Period><TimeFramePeriod PeriodDateSpan='" + item.ToShortDateString() + "-" + item.AddDays(6).ToShortDateString() + "' TimeFrameName='9'/></Period></Timesheet></Request>";
-            }
+            var xmlString = dates.Aggregate(XMLheader + "<Transaction>",
+                (current, item) =>
+                    current +
+                    ("<Request Action='LoadPeriodTotals'><Timesheet><Employee><PersonIdentity PersonNumber='" +
+                     personNumber + "'/></Employee><Period><TimeFramePeriod PeriodDateSpan='" +
+                     item.ToShortDateString() + "-" + item.AddDays(6).ToShortDateString() +
+                     "' TimeFrameName='9'/></Period></Timesheet></Request>"));
             xmlString += "</Transaction>" + XMLfooter;
 
             var outcome = postRequest(xmlString);
@@ -165,7 +169,7 @@ namespace Aion.DAL.Kronos
         }
 
         //Check XML response for value of 'Status' attribute and return
-        static short CheckResponse(string xmlString)
+        private static short CheckResponse(string xmlString)
         {
             using (XmlReader reader = XmlReader.Create(new StringReader(xmlString)))
             {
@@ -217,7 +221,7 @@ namespace Aion.DAL.Kronos
 
             using (StreamWriter sw = File.AppendText(fPath))
             {
-                string toWrite = DateTime.Now.ToString() + "," + action + "," + success + "," + sessionID + "," + branch + "," + empNum;
+                string toWrite = DateTime.Now.ToString(CultureInfo.InvariantCulture) + "," + action + "," + success + "," + sessionID + "," + branch + "," + empNum;
 
                 sw.WriteLine(toWrite);
             }

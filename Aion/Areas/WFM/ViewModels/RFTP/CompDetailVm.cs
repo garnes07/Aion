@@ -15,12 +15,25 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
         
         public void loadTimecardDetails(List<EmpComplianceDetail> a)
         {
-            _timecardDetails = a.OrderBy(x => x.PersonName).Select(x => new TimecardDetail { empName = x.PersonName, empNumber = x.PersonNumber, type = !x.TimecardSignedOff ? "Not Submitted" : "Zero Hours" }).ToList();
+            _timecardDetails = a.OrderBy(x => x.PersonName).Select(x => new TimecardDetail
+            {
+                empName = x.PersonName,
+                empNumber = x.PersonNumber,
+                type = !x.TimecardSignedOff ? "Not Submitted" : "Zero Hours"
+            }).ToList();
         }
 
         public void loadPunchDetails(List<CPW_Clocking_Data> a)
         {
-            var temp = a.GroupBy(x => new { x.FORENAME, x.EMP_NUM }).Select(s => new { EmpNum = s.Key.EMP_NUM, FullName = s.Key.FORENAME, ShiftCount = s.Count(), MissedIn = s.Sum(x => x.Count_In_Missing), MissedOut = s.Sum(x => x.Count_Out_Missing), LateIn = s.Sum(x => x.Clock_In_Not_Acceptable) }).OrderBy(x => x.FullName).ToList();
+            var temp = a.GroupBy(x => new {x.FORENAME, x.EMP_NUM}).Select(s => new
+            {
+                EmpNum = s.Key.EMP_NUM,
+                FullName = s.Key.FORENAME,
+                ShiftCount = s.Count(),
+                MissedIn = s.Sum(x => x.Count_In_Missing),
+                MissedOut = s.Sum(x => x.Count_Out_Missing),
+                LateIn = s.Sum(x => x.Clock_In_Not_Acceptable)
+            }).OrderBy(x => x.FullName).ToList();
             _punchDetails = temp.Select(x => new PunchCompDetail { PersonName = x.FullName, PunchComp = 100 - (((decimal)x.MissedIn + x.MissedOut) / x.ShiftCount) * 50 }).ToList();
         }
 

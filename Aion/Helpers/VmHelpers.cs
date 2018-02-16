@@ -23,34 +23,24 @@ namespace Aion.Helpers
 
         public static decimal? CalcPerc(decimal? actual, decimal? budget)
         {
-            if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
+            if (actual.GetValueOrDefault() == 0 || budget.GetValueOrDefault() == 0) return 0;
+            if (budget < 0 && actual > 0)
             {
-                if (budget < 0 && actual > 0)
-                {
-                    return (actual / Math.Abs((decimal)budget) + 2) * 100;
-                }
-                else
-                {
-                    return actual / budget * 100;
-                }
+                return (actual / Math.Abs((decimal)budget) + 2) * 100;
             }
-            return 0;
+
+            return actual / budget * 100;
         }
 
         public static double? CalcPerc(double? actual, double? budget)
         {
-            if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
+            if (actual.GetValueOrDefault() == 0 || budget.GetValueOrDefault() == 0) return 0;
+            if (budget < 0)
             {
-                if (budget < 0)
-                {
-                    return (actual / Math.Abs((double)budget) + 2) * 100;
-                }
-                else
-                {
-                    return actual / budget * 100;
-                }
+                return (actual / Math.Abs((double)budget) + 2) * 100;
             }
-            return 0;
+
+            return actual / budget * 100;
         }
 
         // Populate select list for opening times
@@ -60,9 +50,8 @@ namespace Aion.Helpers
             TimeSpan TimeIncrement = new TimeSpan(0, 15, 0);
             TimeSpan MaxTime = new TimeSpan(23, 15, 0);
 
-            var times = new List<SelectListItem>();
+            var times = new List<SelectListItem> {new SelectListItem {Text = "Closed", Value = "00:00:00"}};
 
-            times.Add(new SelectListItem { Text = "Closed", Value = "00:00:00" });
             while (TimeCounter < MaxTime)
             {
                 times.Add(new SelectListItem { Text = TimeCounter.ToString("hh\\:mm"), Value = TimeCounter.ToString() });

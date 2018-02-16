@@ -75,7 +75,6 @@ namespace Aion.Helpers
                 {
                     var resp = result.Content;
                     toRtn = result.ReasonPhrase + " - " + await resp.ReadAsStringAsync();
-                    if (toRtn == null) { }
                 }
             }
 
@@ -87,7 +86,7 @@ namespace Aion.Helpers
             var result = new List<T>();
             if (string.IsNullOrEmpty(xmlString)) return result;
 
-            var serializer = new XmlSerializer(typeof(T));
+            //var serializer = new XmlSerializer(typeof(T));
 
             var byteArray = Encoding.UTF8.GetBytes(xmlString);
             var stream = new MemoryStream(byteArray);
@@ -113,7 +112,7 @@ namespace Aion.Helpers
             var result = new List<T>();
             if (string.IsNullOrEmpty(xmlString)) return result;
 
-            var serializer = new XmlSerializer(typeof(T));
+            //var serializer = new XmlSerializer(typeof(T));
 
             var byteArray = Encoding.UTF8.GetBytes(xmlString);
             var stream = new MemoryStream(byteArray);
@@ -139,8 +138,8 @@ namespace Aion.Helpers
 
             using (var reader = new XmlNodeReader(doc.DocumentElement))
             {
-                var settings = new XmlReaderSettings();
-                settings.ValidationType = ValidationType.None;
+                var settings = new XmlReaderSettings {ValidationType = ValidationType.None};
+
                 using (var xReader = XmlReader.Create(reader, settings))
                 {
                     var serializer = new XmlSerializer(typeof(T));

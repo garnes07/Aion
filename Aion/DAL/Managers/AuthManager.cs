@@ -11,42 +11,42 @@ namespace Aion.DAL.Managers
     {
         public async Task<List<UserAccess>> GetAccessList(string _userName, string _payroll)
         {
-            using (var dbContext = new WebMasterModel())
+            using (var context = new WebMasterModel())
             {
-                return await dbContext.UserAccesses.Where(x => x.UserName == _userName || x.UserName == _payroll).ToListAsync();
+                return await context.UserAccesses.Where(x => x.UserName == _userName || x.UserName == _payroll).ToListAsync();
             }
         }
 
         public async Task<bool> RecordLogIn(UserLog _entry)
         {
-            using (var dbContext = new WebMasterModel())
+            using (var context = new WebMasterModel())
             {
-                dbContext.UserLogs.Add(_entry);
-                int result = await dbContext.SaveChangesAsync();
+                context.UserLogs.Add(_entry);
+                int result = await context.SaveChangesAsync();
 
-                return result > 0 ? true : false;
+                return result > 0;
             }
         }
 
         public async Task<bool> RegisterStore(UnknownIpLog _entry)
         {
-            using (var dbContext = new WebMasterModel())
+            using (var context = new WebMasterModel())
             {
-                dbContext.UnknownIpLogs.Add(_entry);
-                int result = await dbContext.SaveChangesAsync();
+                context.UnknownIpLogs.Add(_entry);
+                int result = await context.SaveChangesAsync();
 
-                return result > 0 ? true : false;
+                return result > 0;
             }
         }
 
         public async Task<bool> RegisterStoreFullIP(IpRef _entry)
         {
-            using (var dbContext = new WebMasterModel())
+            using (var context = new WebMasterModel())
             {
-                dbContext.IpRefs.Add(_entry);
-                int result = await dbContext.SaveChangesAsync();
+                context.IpRefs.Add(_entry);
+                int result = await context.SaveChangesAsync();
 
-                return result > 0 ? true : false;
+                return result > 0;
             }
         }
     }

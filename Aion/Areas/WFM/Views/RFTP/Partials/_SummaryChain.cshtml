@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{ var data = Model.collection.Where(x => x.Chain != null).OrderBy(x => x.wk);}
+                    @{ var data = Model.collection.Where(x => x.Chain != null).OrderBy(x => x.wk).ToList();}
                     <tr style="background-color:#93c6ff">
                         <td><strong>@data.First().Chain</strong></td>
                         @foreach (var row in data)

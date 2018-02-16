@@ -14,12 +14,6 @@ namespace Aion.Models.Kronos
         [XmlElement]
         public PersonData PersonData { get; set; }
 
-        public string parsedPerson
-        {
-            get
-            {
-                return int.Parse(PersonNumber.Replace("UK", "")).ToString();
-            }
-        }
+        public string parsedPerson => int.Parse(PersonNumber.Replace("UK", "")).ToString();
     }
 }

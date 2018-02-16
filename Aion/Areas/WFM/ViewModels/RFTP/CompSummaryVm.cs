@@ -45,7 +45,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
         public CompSummaryVm()
         {
             WeeksOfYear = new List<SelectListItem>();
-            string[] yrs = ConfigurationManager.AppSettings["FinancialYear"].ToString().Split('/');
+            string[] yrs = ConfigurationManager.AppSettings["FinancialYear"].Split('/');
             short a = short.Parse(yrs[0]);
             short b = short.Parse(yrs[1]);
 

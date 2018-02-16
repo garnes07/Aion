@@ -17,7 +17,7 @@ namespace Aion.Helpers
 
         public static T GetSessionObject<T>(this HttpContext current, string sessionObjectName) where T : new()
         {
-            return current != null ? (T)current.Session[sessionObjectName] : default(T);
+            return (T) current?.Session[sessionObjectName];
         }
 
         //public static int GetAuthLevel(this HttpContext current, string sessionObjectName)
@@ -76,10 +76,8 @@ namespace Aion.Helpers
 
             }            
             //No match for IP address
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
     }
 }

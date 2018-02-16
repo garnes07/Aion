@@ -6,7 +6,6 @@
             <div class="card-header text-center">
                 <strong>Overview</strong>
             </div>
-            <!-- .panel-heading -->
             <div class="card-body">
                 <div class="card-accordion" id="accordion">
                     <div class="card @(Model._timecardDetails != null ? "card-danger" : "card-success")">
@@ -80,7 +79,7 @@
                                         </tbody>
                                     </table>
 
-                                    <div class="text-center"><a href="@Url.Action("EditedClocks", "Reports",new { selectedDate = Model.WeeksOfYear.Where(x => x.Selected == true).First().Value })" class="btn btn-primary" role="button">Edited Shifts</a></div>
+                                    <div class="text-center"><a href="@Url.Action("EditedClocks", "Reports",new { selectedDate = Model.WeeksOfYear.First(x => x.Selected).Value })" class="btn btn-primary" role="button">Edited Shifts</a></div>
                                 </div>
                             }
                         </div>
@@ -101,7 +100,7 @@
                                             <li>If we don't know when our team have worked we can't ensure we're getting their pay right</li>
                                         </ul>
                                     </p>
-                                    <table class="table table-fixed table-bordered table-condensed">
+                                    <table class="table table-fixed table-bordered table-sm">
                                         <thead class="thead-blue">
                                             <tr>
                                                 <th class="text-center col-md-1" style="vertical-align:middle">Name</th>
@@ -117,7 +116,7 @@
                                                 </tr>
                                             }
                                     </table>
-                                    <div class="text-center"><a href="@Url.Action("ClockingCompliance", "Reports",new { selectedDate = Model.WeeksOfYear.Where(x => x.Selected == true).First().Value})" class="btn btn-primary" role="button">Clocking Compliance</a></div>
+                                    <div class="text-center"><a href="@Url.Action("ClockingCompliance", "Reports",new { selectedDate = Model.WeeksOfYear.First(x => x.Selected).Value})" class="btn btn-primary" role="button">Clocking Compliance</a></div>
                                 </div>
                             }
                         </div>

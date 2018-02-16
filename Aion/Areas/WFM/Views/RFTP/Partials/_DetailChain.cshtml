@@ -1,11 +1,11 @@
 ﻿@model Aion.Areas.WFM.ViewModels.RFTP.CompDetailVm
 
 @{ 
-    var subtotal = Model._chainView.Where(x => x.Division == null).Single();
+    var subtotal = Model._chainView.Single(x => x.Division == null);
 }
 
 <div class="row">
-    <div class="card panel-default">
+    <div class="card">
         <div class="card-header text-center">
             <strong>Overview</strong>
         </div>

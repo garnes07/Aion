@@ -20,60 +20,18 @@ namespace Aion.Areas.WFM.Models.RFTP
         public int? ShortShiftCompliance { get; set; }
         public int? ShortShifts { get; set; }
 
-        public int lvl
-        {
-            get
-            {
-                return Region != null ? 1 : (Division != null ? 2 : 3);
-            }
-        }
+        public int lvl => Region != null ? 1 : (Division != null ? 2 : 3);
 
-        public string fullName
-        {
-            get
-            {
-                return string.Format("{0} - {1}", StoreCount, Chain);
-            }
-        }
+        public string fullName => string.Format("{0} - {1}", StoreCount, Chain);
 
-        public int CompPerc
-        {
-            get
-            {
-                return (int)(Math.Round((double)Compliant / (double)StoreCount * 100, 0));
-            }
-        }
+        public int CompPerc => (int)(Math.Round((double)Compliant / (double)StoreCount * 100, 0));
 
-        public int ClockPerc
-        {
-            get
-            {
-                return (int)(Math.Round((double)PunchCompliance / (double)StoreCount * 100, 0));
-            }
-        }
+        public int ClockPerc => (int)(Math.Round((double)PunchCompliance / (double)StoreCount * 100, 0));
 
-        public int TCPerc
-        {
-            get
-            {
-                return (int)(Math.Round((double)TCComp / (double)StoreCount * 100, 0));
-            }
-        }
+        public int TCPerc => (int)(Math.Round((double)TCComp / (double)StoreCount * 100, 0));
 
-        public int SSPerc
-        {
-            get
-            {
-                return (int)(Math.Round((double)ShortShiftCompliance / (double)StoreCount * 100, 0));
-            }
-        }
+        public int SSPerc => (int)(Math.Round((double)ShortShiftCompliance / (double)StoreCount * 100, 0));
 
-        public int wk
-        {
-            get
-            {
-                return WeekNumber ?? 999999;
-            }
-        }
+        public int wk => WeekNumber ?? 999999;
     }
 }

@@ -9,10 +9,10 @@ namespace Aion.DAL.Managers
     {
         public async Task<List<sp_CheckHelpTickets_Result>> GetHelpTickets(string storeNumber)
         {
-            using (var dbContext = new WebMasterModel())
+            using (var context = new WebMasterModel())
             {
                 short crit = short.Parse(storeNumber);
-                return await Task.Run(() => dbContext.sp_CheckHelpTickets(crit).ToList());
+                return await Task.Run(() => context.sp_CheckHelpTickets(crit).ToList());
             }
         }
     }

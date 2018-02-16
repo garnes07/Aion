@@ -1,11 +1,4 @@
-﻿using Aion.App_Start;
-using Aion.DAL.Entities;
-using Aion.DAL.IManagers;
-using Aion.DAL.Managers;
-using Aion.Helpers;
-using Aion.Models.Utils;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
@@ -13,8 +6,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Aion.App_Start;
+using Aion.DAL.Entities;
+using Aion.DAL.IManagers;
+using Aion.DAL.Managers;
+using Aion.Helpers;
+using Aion.Models.Utils;
+using Microsoft.Owin.Security;
 
-namespace Aion.Models.Services
+namespace Aion.Services
 {
     public class AuthenticationService
     {
@@ -47,7 +47,7 @@ namespace Aion.Models.Services
 
             //try CPWPLC first
             var principalContext = new PrincipalContext(ContextType.Domain, "CPWPLC");
-            bool IsAuthenticated = false;
+            bool IsAuthenticated;
             UserPrincipal userPrincipal = null;
             try
             {
@@ -87,7 +87,7 @@ namespace Aion.Models.Services
             }
 
             //Return message if authentication unsuccessful
-            if (!IsAuthenticated || userPrincipal == null)
+            if (!IsAuthenticated)
             {
                 authResult.ErrorMessage = "Username or Password is not correct";
                 return authResult;
@@ -120,7 +120,7 @@ namespace Aion.Models.Services
         }
 
         //Extract CPWPLC emp num form AD and translate to business context
-        private void RetriveCPWPLCEmpNum(DirectoryEntry entry)
+        private static void RetriveCPWPLCEmpNum(DirectoryEntry entry)
         {
             try
             {
@@ -139,11 +139,10 @@ namespace Aion.Models.Services
                 HttpContext.Current.Session.Add("_EmpNum", "e");
                 Elmah.ErrorSignal.FromCurrentContext().Raise(e);
             }
-            return;
         }
 
         //Extract DSG emp num form AD and translate to business context
-        private void RetriveDSGEmpNum(DirectoryEntry entry)
+        private static void RetriveDSGEmpNum(DirectoryEntry entry)
         {
             try
             {
@@ -159,7 +158,7 @@ namespace Aion.Models.Services
         }
 
         //Create and return claim
-        private ClaimsIdentity CreateIdentity(UserPrincipal userPrincipal)
+        private static ClaimsIdentity CreateIdentity(UserPrincipal userPrincipal)
         {
             var identity = new ClaimsIdentity(AionAuthentication.ApplicationCookie, ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             identity.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "Active Directory"));
@@ -192,7 +191,7 @@ namespace Aion.Models.Services
 
         public async Task<bool> LoadStoreMenu(byte accessLevel, string[] accessArea)
         {            
-            List<StoreMaster> menuList = new List<StoreMaster>();
+            List<StoreMaster> menuList;
             string _default = "";
 
             if (accessLevel <= 1)
@@ -202,7 +201,7 @@ namespace Aion.Models.Services
             }
             else if (accessLevel == 2)
             {
-                menuList = await _storeManager.GetRegionMenu(Array.ConvertAll(accessArea, s => short.Parse(s)));
+                menuList = await _storeManager.GetRegionMenu(Array.ConvertAll(accessArea, short.Parse));
                 _default = "R_" + accessArea[0];
             }
             else if (accessLevel == 3)

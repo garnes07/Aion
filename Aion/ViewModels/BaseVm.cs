@@ -22,7 +22,7 @@ namespace Aion.ViewModels
 
             foreach(var week in weekNumbers)
             {
-                ls.Add(new SelectListItem { Value = week.ToString(), Text = string.Format("{0} (wc {1})", week.ToString(), _date.ToShortDateString())});
+                ls.Add(new SelectListItem { Value = week.ToString(), Text = string.Format("{0} (wc {1})", week, _date.ToShortDateString())});
                 _date = _date.AddDays(-7);
             }
             WeeksOfYear = ls;

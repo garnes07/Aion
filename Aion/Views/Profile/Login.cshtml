@@ -21,7 +21,7 @@
                     Please Sign In
                 </div>
                 <div class="card-body">
-                    @using (Html.BeginForm("Login", "Profile", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    @using (Html.BeginForm("Login", "Profile", new {ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <fieldset>

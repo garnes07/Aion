@@ -11,17 +11,17 @@ namespace Aion.DAL.Managers
     {
         public int? GetSingleWeek(DateTime dt)
         {
-            using (var dbContext = new WebMasterModel())
+            using (var context = new WebMasterModel())
             {
-                return dbContext.WeekRefs.Where(x => x.Date == dt).Select(x => x.YearWeek).FirstOrDefault();
+                return context.WeekRefs.Where(x => x.Date == dt).Select(x => x.YearWeek).FirstOrDefault();
             }
         }
 
         public async Task<List<int?>> GetMultipleWeeks(DateTime startDate, DateTime endDate)
         {
-            using (var dbContext = new WebMasterModel())
+            using (var context = new WebMasterModel())
             {
-                return await dbContext.WeekRefs.Where(x => x.Date >= startDate && x.Date <= endDate).GroupBy(x => x.YearWeek).Select(x => x.Key).OrderByDescending(x => x).ToListAsync();
+                return await context.WeekRefs.Where(x => x.Date >= startDate && x.Date <= endDate).GroupBy(x => x.YearWeek).Select(x => x.Key).OrderByDescending(x => x).ToListAsync();
             }
         }
     }

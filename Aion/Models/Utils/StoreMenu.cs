@@ -65,21 +65,21 @@ namespace Aion.Models.Utils
                 {
                     text = _channel.ToString()
                 });
-                var a = Channels.Where(x => x.text == _channel.ToString()).Single();
+                var a = Channels.Single(x => x.text == _channel.ToString());
                 foreach (var _division in data.Where(x => x.Chain == _channel.ToString()).GroupBy(x => x.Division).Select(x => x.Key))
                 {
                     a.nodes.Add(new Division
                     {
                         text = _division.ToString()
                     });
-                    var b = a.nodes.Where(x => x.text == _division.ToString()).Single();
+                    var b = a.nodes.Single(x => x.text == _division.ToString());
                     foreach (var _region in data.Where(x => x.Division == _division.ToString()).GroupBy(x => x.Region).Select(x => x.Key))
                     {
                         b.nodes.Add(new Region
                         {
                             text = _region.ToString()
                         });
-                        var c = b.nodes.Where(x => x.text == _region.ToString()).Single();
+                        var c = b.nodes.Single(x => x.text == _region.ToString());
                         foreach (var _store in data.Where(x => x.Region == _region))
                         {
                             c.nodes.Add(new Store
@@ -110,7 +110,7 @@ namespace Aion.Models.Utils
             if (b[0] == "S")
             {
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.storeNum == b[1]);
-                if (i.Count() > 0)
+                if (i.Any())
                 {
                     _menuSelection = "S_" + i.First().storeNum;
                     _menuSearch = i.First().text;
@@ -119,7 +119,7 @@ namespace Aion.Models.Utils
             else if (b[0] == "R")
             {
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
-                if (i.Count() > 0)
+                if (i.Count > 0)
                 {
                     _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
@@ -128,7 +128,7 @@ namespace Aion.Models.Utils
             else if (b[0] == "D")
             {
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
-                if (i.Count() > 0)
+                if (i.Count > 0)
                 {
                     _menuSelection = "D_" + i.First().text;
                     _menuSearch = i.First().text;
@@ -137,7 +137,7 @@ namespace Aion.Models.Utils
             else if (b[0] == "C")
             {
                 var i = Channels.Where(x => x.text == b[1]).ToList();
-                if (i.Count() > 0)
+                if (i.Count > 0)
                 {
                     _menuSelection = "C_" + i.First().text;
                     _menuSearch = i.First().text;
@@ -148,11 +148,7 @@ namespace Aion.Models.Utils
 
         public bool menuReset()
         {
-            if (_menuSelection == defaultSelect)
-            {
-                return true;
-            }
-            return menuSelect(defaultSelect);
+            return _menuSelection == defaultSelect || menuSelect(defaultSelect);
         }
 
         public bool menuUpOne()
@@ -162,8 +158,8 @@ namespace Aion.Models.Utils
 
             if (b[0] == "S")
             {
-                var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.nodes.Where(y => y.storeNum == b[1]).Count() > 0);
-                if (i.Count() > 0)
+                var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.nodes.Any(y => y.storeNum == b[1]));
+                if (i.Any())
                 {
                     _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
@@ -171,8 +167,8 @@ namespace Aion.Models.Utils
             }
             else if (b[0] == "R" && this.accessLvl > 2)
             {
-                var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Where(y => y.text == b[1]).Count() > 0);
-                if (i.Count() > 0)
+                var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Any(y => y.text == b[1]));
+                if (i.Any())
                 {
                     _menuSelection = "D_" + i.First().text;
                     _menuSearch = i.First().text;
@@ -180,8 +176,8 @@ namespace Aion.Models.Utils
             }
             else if (b[0] == "D")
             {
-                var i = Channels.Where(x => x.nodes.Where(y => y.text == b[1]).Count() > 0);
-                if (i.Count() > 0)
+                var i = Channels.Where(x => x.nodes.Any(y => y.text == b[1]));
+                if (i.Any())
                 {
                     _menuSelection = "C_" + i.First().text;
                     _menuSearch = i.First().text;
@@ -193,13 +189,7 @@ namespace Aion.Models.Utils
         public class Channel
         {
             public string text { get; set; }
-            public string href
-            {
-                get
-                {
-                    return "/Profile/MenuSelect?a=C_" + text;
-                }
-            }
+            public string href => "/Profile/MenuSelect?a=C_" + text;
             public List<Division> nodes { get; set; }
 
             public Channel()
@@ -211,13 +201,7 @@ namespace Aion.Models.Utils
         public class Division
         {
             public string text { get; set; }
-            public string href
-            {
-                get
-                {
-                    return "/Profile/MenuSelect?a=D_" + text;
-                }
-            }
+            public string href => "/Profile/MenuSelect?a=D_" + text;
             public List<Region> nodes { get; set; }
 
             public Division()
@@ -229,13 +213,7 @@ namespace Aion.Models.Utils
         public class Region
         {
             public string text { get; set; }
-            public string href
-            {
-                get
-                {
-                    return "/Profile/MenuSelect?a=R_" + text;
-                }
-            }
+            public string href => "/Profile/MenuSelect?a=R_" + text;
             public List<Store> nodes { get; set; }
 
             public Region()
@@ -248,13 +226,7 @@ namespace Aion.Models.Utils
         {
             public string text { get; set; }
             public string storeNum { get; set; }
-            public string href
-            {
-                get
-                {
-                    return "/Profile/MenuSelect?a=S_" + storeNum;
-                }
-            }
+            public string href => "/Profile/MenuSelect?a=S_" + storeNum;
         }
     }
 }

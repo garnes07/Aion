@@ -34,7 +34,7 @@
                     }
                 </div>
             </div>
-            @if (Model.collection.Count() == 0)
+            @if (!Model.collection.Any())
             {
                 <div class="alert alert-danger text-center"><strong>Reporting for the selected period has not yet been finalised, check back later.</strong></div>
             }
@@ -64,10 +64,10 @@
 @section myScripts{
     <script>
         $(function () {
-            $('#dTabs a').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            })
+            $('#dTabs a').click(function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
 
             $('#advView').click(function () {
                 $('.content').toggleClass('d-none');
