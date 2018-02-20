@@ -16,20 +16,16 @@ namespace Aion.DAL.Entities
     {
         public Nullable<int> CST_CNTR_int { get; set; }
         public string StoreName { get; set; }
-        public string Chain { get; set; }
         public string Division { get; set; }
+        public string Chain { get; set; }
         public short Region { get; set; }
         public Nullable<int> EMP_NUM { get; set; }
         public string FORENAME { get; set; }
         public string SURNAME { get; set; }
-        public string CONTRACT_DAYS { get; set; }
         public string CONTRACT_HOURS { get; set; }
         public string ROLE { get; set; }
         public Nullable<byte> DAY_NUM { get; set; }
         public Nullable<int> FNCL_WK_NUM { get; set; }
-        public string FNCL_PD_NUM { get; set; }
-        public string FNCL_QTR_NUM { get; set; }
-        public string YEAR_NUM { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string PUNCHTIME_IN { get; set; }
@@ -48,14 +44,7 @@ namespace Aion.DAL.Entities
         public int Count_Schedule_End { get; set; }
         public int PunchInOveride { get; set; }
         public int PunchOutOveride { get; set; }
-        public Nullable<short> TMSHTITEMTYPEID { get; set; }
-        public string ClockType_IN { get; set; }
-        public Nullable<short> TMSHTITEMTYPEID_OUT { get; set; }
-        public string ClockType_OUT { get; set; }
         public string ScheduleDate { get; set; }
-        public string Overide_ClockType_IN { get; set; }
-        public string Overide_PUNCHTIME_IN { get; set; }
-        public string Overide_ClockType_OUT { get; set; }
-        public string Overide_PUNCHTIME_OUT { get; set; }
+        public string CHN_CD { get; set; }
     }
 }

@@ -1,0 +1,80 @@
+﻿@using Aion.Areas.WFM.ViewModels.RFTP
+@using Aion.ViewModels
+@model ClockCompVm
+
+@{
+    ViewBag.Title = "Clocking Compliance";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Clocking Compliance</strong>
+        </div>
+        <div class="card-body">
+            <p>This report measures the compliance of the colleague’s physical clocks.  If a colleague forgets to clock in for their shift it will trigger on this report as a missed clock, even if the clock has since been manually added to the timecard. The clock compliance shows the percentage of expected clock that were present.</p>
+            <p><strong>Clocks are compared against what was submitted on the colleague's timecard; however, we're not checking if the time is exactly the same as what was submitted, only that they have clocked in and out when they start and finish work.</strong></p>
+            <p><u>The minimum threshold for compliance is 90%</u></p>
+        </div>
+    </div>
+
+    @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "ClockingCompliance", Controller = "RFTP", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
+    
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-danger text-center"><strong>@Model.Message</strong></div>
+    }
+    else if (Model.DisplayLevel == 1)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockCompStore.cshtml")
+    }
+    else if (Model.DisplayLevel == 2)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockCompRegion.cshtml")
+    }
+    else if (Model.DisplayLevel == 4)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockCompChain.cshtml")
+    }
+</div>
+
+@section myScripts
+{
+    <script>
+        $(function () {
+            var br = true;
+            var $brBtn = $('#br');
+            var $bmBtn = $('#bm');
+            var $brView = $('#branchSummary');
+            var $bmView = $('#bmSummary');
+
+            console.log($brView);
+            console.log($bmView);
+
+            $brBtn.click(function () {
+                if (!br) {
+                    $(this).toggleClass('active');
+                    $bmBtn.toggleClass('active');
+                    $brView.slideToggle(400);
+                    $bmView.slideToggle(400);
+                    br = !br;
+                };
+            });
+
+            $bmBtn.click(function () {
+                if (br) {
+                    $(this).toggleClass('active');
+                    $brBtn.toggleClass('active');
+                    $bmView.slideToggle(400);
+                    $brView.slideToggle(400);
+                    br = !br;
+                };
+            });
+        });
+    </script>
+}

@@ -8,12 +8,12 @@ namespace Aion.DAL.Managers
 {
     public class ClockingDataManager : IClockingDataManager
     {
-        public async Task<List<CPW_Clocking_Data>> GetClockDetailStore(string store, int weekOfYr)
+        public async Task<List<vw_CPW_Clocking_Data>> GetClockDetailStore(string store, int weekOfYr)
         {
             using (var context = new WFMModel())
             {
                 short crit = short.Parse(store);
-                return await context.CPW_Clocking_Data.Where(x => x.CST_CNTR_int == crit && x.FNCL_WK_NUM == weekOfYr).ToListAsync();
+                return await context.vw_CPW_Clocking_Data.Where(x => x.CST_CNTR_int == crit && x.FNCL_WK_NUM == weekOfYr).AsNoTracking().ToListAsync();
             }
         }
 
@@ -22,15 +22,17 @@ namespace Aion.DAL.Managers
             using (var context = new WFMModel())
             {
                 short crit = short.Parse(region);
-                return await context.vw_CPW_Clocking_Data.Where(x => x.Region == crit && x.FNCL_WK_NUM == weekOfYr).ToListAsync();
+                return await context.vw_CPW_Clocking_Data.Where(x => x.Region == crit && x.FNCL_WK_NUM == weekOfYr).AsNoTracking().ToListAsync();
             }
         }
-
+        
         public async Task<List<vw_CPW_Clocking_Data>> GetClockDetailDivision(string division, int weekOfYr)
         {
             using (var context = new WFMModel())
             {
-                return await context.vw_CPW_Clocking_Data.Where(x => x.Division == division && x.FNCL_WK_NUM == weekOfYr).ToListAsync();
+                return await context.vw_CPW_Clocking_Data
+                    .Where(x => context.vw_CPW_Clocking_Data.FirstOrDefault(y => y.Division == division).Chain == x.Chain &&
+                                x.FNCL_WK_NUM == weekOfYr).AsNoTracking().ToListAsync();
             }
         }
 
@@ -38,7 +40,7 @@ namespace Aion.DAL.Managers
         {
             using (var context = new WFMModel())
             {
-                return await context.vw_CPW_Clocking_Data.Where(x => x.Chain == chain && x.FNCL_WK_NUM == weekOfYr).ToListAsync();
+                return await context.vw_CPW_Clocking_Data.Where(x => x.Chain == chain && x.FNCL_WK_NUM == weekOfYr).AsNoTracking().ToListAsync();
             }
         }
     }

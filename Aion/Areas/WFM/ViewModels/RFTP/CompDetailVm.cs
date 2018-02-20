@@ -23,7 +23,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             }).ToList();
         }
 
-        public void loadPunchDetails(List<CPW_Clocking_Data> a)
+        public void loadPunchDetails(List<vw_CPW_Clocking_Data> a)
         {
             var temp = a.GroupBy(x => new {x.FORENAME, x.EMP_NUM}).Select(s => new
             {

@@ -187,5 +187,43 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+
+        public async Task<ActionResult> ClockingCompliance(string selectedDate = "Last Week")
+        {
+            ClockCompVm vm = new ClockCompVm();
+            int weekNum = selectedDate.GetWeekNumber();
+
+            if (selectArea == "S")
+            {
+                vm.PunchDetail = await _clockManager.GetClockDetailStore(selectCrit, weekNum);
+                vm.DisplayLevel = 1;
+            }
+            else if (selectArea == "R")
+            {
+                vm.PunchDetail = await _clockManager.GetClockDetailRegion(selectCrit, weekNum);
+                vm.DisplayLevel = 2;
+            }
+            else if (selectArea == "D")
+            {
+                vm.PunchDetail = await _clockManager.GetClockDetailDivision(selectCrit, weekNum);
+                vm.DisplayLevel = 4;
+            }
+            else if (selectArea == "C")
+            {
+                vm.PunchDetail = await _clockManager.GetClockDetailChain(selectCrit, weekNum);
+                vm.DisplayLevel = 4;
+            }
+
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            if (!vm.PunchDetail.Any())
+            {
+                vm.MessageType = MessageType.Error;
+                vm.Message = "Reporting for the selected period has not yet been finalised, check back later.";
+            }
+
+            return View(vm);
+        }
     }
 }

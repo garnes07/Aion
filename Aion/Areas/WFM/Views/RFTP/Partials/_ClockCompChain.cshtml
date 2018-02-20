@@ -1,0 +1,50 @@
+﻿@using Aion.Areas.WFM.ViewModels.RFTP
+@model ClockCompVm
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+                <tr>
+                    <th class="text-center" style="vertical-align:middle; width: 30%;" rowspan="2">Name</th>
+                    <th class="text-center" style="vertical-align:middle; width: 20%;" rowspan="2">Count of Shifts</th>
+                    <th class="text-center" style="vertical-align:middle; width: 20%;" rowspan="2">Clocking Compliance</th>
+                    <th class="text-center" colspan="2" style="border-bottom-width: 0;">Missed Clocks</th>
+                </tr>
+                <tr>
+                    <th class="text-center" style="width:15%;">In</th>
+                    <th class="text-center" style="width:15%;">Out</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-chain">
+                    <td><strong>@Model.ChainSummary.Name</strong></td>
+                    <td class="text-center"><strong>@Model.ChainSummary.ShiftCount</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0:0}%", Model.ChainSummary.CompPercent)</strong></td>
+                    <td class="text-center"><strong>@Model.ChainSummary.MissedIn</strong></td>
+                    <td class="text-center"><strong>@Model.ChainSummary.MissedOut</strong></td>
+                </tr>
+                @foreach (var division in Model.DivisionSummary)
+                {
+                    <tr class="table-division">
+                        <td><strong>@division.Name</strong></td>
+                        <td class="text-center"><strong>@division.ShiftCount</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:0}%", division.CompPercent)</strong></td>
+                        <td class="text-center"><strong>@division.MissedIn</strong></td>
+                        <td class="text-center"><strong>@division.MissedOut</strong></td>
+                    </tr>
+                    foreach(var region in Model.RegionSummary.Where(x => x.Division == division.Name))
+                    {
+                        <tr>
+                            <td>@region.Name</td>
+                            <td class="text-center">@region.ShiftCount</td>
+                            <td class="text-center">@string.Format("{0:0}%", region.CompPercent)</td>
+                            <td class="text-center">@region.MissedIn</td>
+                            <td class="text-center">@region.MissedOut</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@using Aion.Areas.WFM.ViewModels.RFTP
+@model ClockCompVm
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center" style="vertical-align:middle; width: 40%;" rowspan="2">Name</th>
+                <th class="text-center" style="vertical-align:middle; width: 20%;" rowspan="2">Count of Shifts</th>
+                <th class="text-center" style="vertical-align:middle; width: 20%;" rowspan="2">Clocking Compliance</th>
+                <th class="text-center" colspan="2" style="border-bottom-width: 0;">Missed Clocks</th>
+            </tr>
+            <tr>
+                <th class="text-center" style="width:10%;">In</th>
+                <th class="text-center" style="width:10%;">Out</th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.EmpSummary)
+                {
+                    <tr>
+                        <td><button data-toggle="collapse" data-target="#@(item.empNum)" class="btn btn-light btn-sm"><i class="icon ion-plus-round m-1"></i></button> @item.Name</td>
+                        <td class="text-center">@item.ShiftCount</td>
+                        <td class="text-center @(item.CompPercent < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", item.CompPercent)</td>
+                        <td class="text-center">@item.MissedIn</td>
+                        <td class="text-center">@item.MissedOut</td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="hiddenRow">
+                            <div class="accordion-body collapse" id="@item.empNum">
+                                <table class="table table-bordered table-sm table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="12">&emsp;</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:20%;" class="text-center">Day</th>
+                                        <th style="width:20%;" class="text-center">Start</th>
+                                        <th style="width:20%;" class="text-center">Punch In</th>
+                                        <th style="width:20%;" class="text-center">End</th>
+                                        <th style="width:20%;" class="text-center">Punch Out</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var detail in Model.PunchDetail.Where(x => x.EMP_NUM == item.empNum).OrderBy(x => x.DAY_NUM))
+                                    {
+                                        <tr>
+                                            <td class="text-center">@Enum.GetName(typeof(DayOfWeek), detail.DAY_NUM -1)</td>
+                                            <td class="text-center">@detail.StartTime</td>
+                                            <td class="text-center @(detail.Count_In_Missing == 1 || detail.Clock_In_Not_Acceptable == 1? "table-danger" : "")">@detail.PUNCHTIME_IN</td>
+                                            <td class="text-center">@detail.EndTime</td>
+                                            <td class="text-center @(detail.Count_Out_Missing == 1 ? "table-danger" :  "")">@detail.PUNCHTIME_OUT</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            <tr>
+                <td><strong>Branch Total</strong></td>
+                <td class="text-center"><strong>@Model.StoreSummary.First().ShiftCount</strong></td>
+                <td class="text-center @(Model.StoreSummary.First().CompPercent < 90 ? "table-danger" : "")"><strong>@string.Format("{0:0.0}%", Model.StoreSummary.First().CompPercent)</strong></td>
+                <td class="text-center"><strong>@Model.StoreSummary.First().MissedIn</strong></td>
+                <td class="text-center"><strong>@Model.StoreSummary.First().MissedOut</strong></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

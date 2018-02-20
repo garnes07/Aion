@@ -5,64 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WFMMContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view '99999_WFM.dbo.CPW_Clocking_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="CPW_Clocking_Data">
-          <Key>
-            <PropertyRef Name="FNCL_PD_NUM" />
-            <PropertyRef Name="FNCL_QTR_NUM" />
-            <PropertyRef Name="YEAR_NUM" />
-            <PropertyRef Name="Clock_In_Acceptable" />
-            <PropertyRef Name="Clock_In_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Acceptable" />
-            <PropertyRef Name="Count_In_Missing" />
-            <PropertyRef Name="Count_Out_Missing" />
-            <PropertyRef Name="Count_Schedule_Start" />
-            <PropertyRef Name="Count_Schedule_End" />
-            <PropertyRef Name="PunchInOveride" />
-            <PropertyRef Name="PunchOutOveride" />
-          </Key>
-          <Property Name="CST_CNTR_int" Type="int" />
-          <Property Name="EMP_NUM" Type="int" />
-          <Property Name="FORENAME" Type="varchar" MaxLength="50" />
-          <Property Name="SURNAME" Type="varchar" MaxLength="50" />
-          <Property Name="CONTRACT_DAYS" Type="varchar" MaxLength="50" />
-          <Property Name="CONTRACT_HOURS" Type="varchar" MaxLength="50" />
-          <Property Name="ROLE" Type="varchar" MaxLength="50" />
-          <Property Name="DAY_NUM" Type="tinyint" />
-          <Property Name="FNCL_WK_NUM" Type="int" />
-          <Property Name="FNCL_PD_NUM" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="FNCL_QTR_NUM" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="YEAR_NUM" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="StartTime" Type="varchar" MaxLength="11" />
-          <Property Name="EndTime" Type="varchar" MaxLength="11" />
-          <Property Name="PUNCHTIME_IN" Type="varchar" MaxLength="10" />
-          <Property Name="PUNCHTIME_OUT" Type="varchar" MaxLength="10" />
-          <Property Name="Clock_In_Early" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_In_Late" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_Out_Early" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_Out_Late" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_In_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Clock_In_Not_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Clock_Out_Not_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Clock_Out_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Count_In_Missing" Type="int" Nullable="false" />
-          <Property Name="Count_Out_Missing" Type="int" Nullable="false" />
-          <Property Name="Count_Schedule_Start" Type="int" Nullable="false" />
-          <Property Name="Count_Schedule_End" Type="int" Nullable="false" />
-          <Property Name="PunchInOveride" Type="int" Nullable="false" />
-          <Property Name="PunchOutOveride" Type="int" Nullable="false" />
-          <Property Name="TMSHTITEMTYPEID" Type="smallint" />
-          <Property Name="ClockType_IN" Type="varchar" MaxLength="5" />
-          <Property Name="TMSHTITEMTYPEID_OUT" Type="smallint" />
-          <Property Name="ClockType_OUT" Type="varchar" MaxLength="5" />
-          <Property Name="ScheduleDate" Type="varchar" MaxLength="10" />
-          <Property Name="Overide_ClockType_IN" Type="varchar" MaxLength="5" />
-          <Property Name="Overide_PUNCHTIME_IN" Type="varchar" MaxLength="10" />
-          <Property Name="Overide_ClockType_OUT" Type="varchar" MaxLength="5" />
-          <Property Name="Overide_PUNCHTIME_OUT" Type="varchar" MaxLength="10" />
-        </EntityType>
         <EntityType Name="DashBoardData_v2">
           <Key>
             <PropertyRef Name="DashBoardDataId" />
@@ -161,12 +103,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
         <EntityType Name="vw_CPW_Clocking_Data">
           <Key>
             <PropertyRef Name="StoreName" />
-            <PropertyRef Name="Chain" />
             <PropertyRef Name="Division" />
+            <PropertyRef Name="Chain" />
             <PropertyRef Name="Region" />
-            <PropertyRef Name="FNCL_PD_NUM" />
-            <PropertyRef Name="FNCL_QTR_NUM" />
-            <PropertyRef Name="YEAR_NUM" />
             <PropertyRef Name="Clock_In_Acceptable" />
             <PropertyRef Name="Clock_In_Not_Acceptable" />
             <PropertyRef Name="Clock_Out_Not_Acceptable" />
@@ -180,20 +119,16 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           </Key>
           <Property Name="CST_CNTR_int" Type="int" />
           <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Region" Type="smallint" Nullable="false" />
           <Property Name="EMP_NUM" Type="int" />
           <Property Name="FORENAME" Type="varchar" MaxLength="50" />
           <Property Name="SURNAME" Type="varchar" MaxLength="50" />
-          <Property Name="CONTRACT_DAYS" Type="varchar" MaxLength="50" />
           <Property Name="CONTRACT_HOURS" Type="varchar" MaxLength="50" />
           <Property Name="ROLE" Type="varchar" MaxLength="50" />
           <Property Name="DAY_NUM" Type="tinyint" />
           <Property Name="FNCL_WK_NUM" Type="int" />
-          <Property Name="FNCL_PD_NUM" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="FNCL_QTR_NUM" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="YEAR_NUM" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="StartTime" Type="varchar" MaxLength="11" />
           <Property Name="EndTime" Type="varchar" MaxLength="11" />
           <Property Name="PUNCHTIME_IN" Type="varchar" MaxLength="10" />
@@ -212,15 +147,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Property Name="Count_Schedule_End" Type="int" Nullable="false" />
           <Property Name="PunchInOveride" Type="int" Nullable="false" />
           <Property Name="PunchOutOveride" Type="int" Nullable="false" />
-          <Property Name="TMSHTITEMTYPEID" Type="smallint" />
-          <Property Name="ClockType_IN" Type="varchar" MaxLength="5" />
-          <Property Name="TMSHTITEMTYPEID_OUT" Type="smallint" />
-          <Property Name="ClockType_OUT" Type="varchar" MaxLength="5" />
           <Property Name="ScheduleDate" Type="varchar" MaxLength="10" />
-          <Property Name="Overide_ClockType_IN" Type="varchar" MaxLength="5" />
-          <Property Name="Overide_PUNCHTIME_IN" Type="varchar" MaxLength="10" />
-          <Property Name="Overide_ClockType_OUT" Type="varchar" MaxLength="5" />
-          <Property Name="Overide_PUNCHTIME_OUT" Type="varchar" MaxLength="10" />
+          <Property Name="CHN_CD" Type="varchar" MaxLength="5" />
         </EntityType>
         <Function Name="sp_AllChainDashboardData_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Chain" Type="nvarchar" Mode="In" />
@@ -255,67 +183,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShortShifts" EntityType="Self.ShortShifts" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CPW_Clocking_Data" EntityType="Self.CPW_Clocking_Data" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CPW_Clocking_Data].[CST_CNTR_int] AS [CST_CNTR_int], 
-    [CPW_Clocking_Data].[EMP_NUM] AS [EMP_NUM], 
-    [CPW_Clocking_Data].[FORENAME] AS [FORENAME], 
-    [CPW_Clocking_Data].[SURNAME] AS [SURNAME], 
-    [CPW_Clocking_Data].[CONTRACT_DAYS] AS [CONTRACT_DAYS], 
-    [CPW_Clocking_Data].[CONTRACT_HOURS] AS [CONTRACT_HOURS], 
-    [CPW_Clocking_Data].[ROLE] AS [ROLE], 
-    [CPW_Clocking_Data].[DAY_NUM] AS [DAY_NUM], 
-    [CPW_Clocking_Data].[FNCL_WK_NUM] AS [FNCL_WK_NUM], 
-    [CPW_Clocking_Data].[FNCL_PD_NUM] AS [FNCL_PD_NUM], 
-    [CPW_Clocking_Data].[FNCL_QTR_NUM] AS [FNCL_QTR_NUM], 
-    [CPW_Clocking_Data].[YEAR_NUM] AS [YEAR_NUM], 
-    [CPW_Clocking_Data].[StartTime] AS [StartTime], 
-    [CPW_Clocking_Data].[EndTime] AS [EndTime], 
-    [CPW_Clocking_Data].[PUNCHTIME_IN] AS [PUNCHTIME_IN], 
-    [CPW_Clocking_Data].[PUNCHTIME_OUT] AS [PUNCHTIME_OUT], 
-    [CPW_Clocking_Data].[Clock_In_Early] AS [Clock_In_Early], 
-    [CPW_Clocking_Data].[Clock_In_Late] AS [Clock_In_Late], 
-    [CPW_Clocking_Data].[Clock_Out_Early] AS [Clock_Out_Early], 
-    [CPW_Clocking_Data].[Clock_Out_Late] AS [Clock_Out_Late], 
-    [CPW_Clocking_Data].[Clock_In_Acceptable] AS [Clock_In_Acceptable], 
-    [CPW_Clocking_Data].[Clock_In_Not_Acceptable] AS [Clock_In_Not_Acceptable], 
-    [CPW_Clocking_Data].[Clock_Out_Not_Acceptable] AS [Clock_Out_Not_Acceptable], 
-    [CPW_Clocking_Data].[Clock_Out_Acceptable] AS [Clock_Out_Acceptable], 
-    [CPW_Clocking_Data].[Count_In_Missing] AS [Count_In_Missing], 
-    [CPW_Clocking_Data].[Count_Out_Missing] AS [Count_Out_Missing], 
-    [CPW_Clocking_Data].[Count_Schedule_Start] AS [Count_Schedule_Start], 
-    [CPW_Clocking_Data].[Count_Schedule_End] AS [Count_Schedule_End], 
-    [CPW_Clocking_Data].[PunchInOveride] AS [PunchInOveride], 
-    [CPW_Clocking_Data].[PunchOutOveride] AS [PunchOutOveride], 
-    [CPW_Clocking_Data].[TMSHTITEMTYPEID] AS [TMSHTITEMTYPEID], 
-    [CPW_Clocking_Data].[ClockType_IN] AS [ClockType_IN], 
-    [CPW_Clocking_Data].[TMSHTITEMTYPEID_OUT] AS [TMSHTITEMTYPEID_OUT], 
-    [CPW_Clocking_Data].[ClockType_OUT] AS [ClockType_OUT], 
-    [CPW_Clocking_Data].[ScheduleDate] AS [ScheduleDate], 
-    [CPW_Clocking_Data].[Overide_ClockType_IN] AS [Overide_ClockType_IN], 
-    [CPW_Clocking_Data].[Overide_PUNCHTIME_IN] AS [Overide_PUNCHTIME_IN], 
-    [CPW_Clocking_Data].[Overide_ClockType_OUT] AS [Overide_ClockType_OUT], 
-    [CPW_Clocking_Data].[Overide_PUNCHTIME_OUT] AS [Overide_PUNCHTIME_OUT]
-    FROM [dbo].[CPW_Clocking_Data] AS [CPW_Clocking_Data]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="Self.vw_CPW_Clocking_Data" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_CPW_Clocking_Data].[CST_CNTR_int] AS [CST_CNTR_int], 
     [vw_CPW_Clocking_Data].[StoreName] AS [StoreName], 
-    [vw_CPW_Clocking_Data].[Chain] AS [Chain], 
     [vw_CPW_Clocking_Data].[Division] AS [Division], 
+    [vw_CPW_Clocking_Data].[Chain] AS [Chain], 
     [vw_CPW_Clocking_Data].[Region] AS [Region], 
     [vw_CPW_Clocking_Data].[EMP_NUM] AS [EMP_NUM], 
     [vw_CPW_Clocking_Data].[FORENAME] AS [FORENAME], 
     [vw_CPW_Clocking_Data].[SURNAME] AS [SURNAME], 
-    [vw_CPW_Clocking_Data].[CONTRACT_DAYS] AS [CONTRACT_DAYS], 
     [vw_CPW_Clocking_Data].[CONTRACT_HOURS] AS [CONTRACT_HOURS], 
     [vw_CPW_Clocking_Data].[ROLE] AS [ROLE], 
     [vw_CPW_Clocking_Data].[DAY_NUM] AS [DAY_NUM], 
     [vw_CPW_Clocking_Data].[FNCL_WK_NUM] AS [FNCL_WK_NUM], 
-    [vw_CPW_Clocking_Data].[FNCL_PD_NUM] AS [FNCL_PD_NUM], 
-    [vw_CPW_Clocking_Data].[FNCL_QTR_NUM] AS [FNCL_QTR_NUM], 
-    [vw_CPW_Clocking_Data].[YEAR_NUM] AS [YEAR_NUM], 
     [vw_CPW_Clocking_Data].[StartTime] AS [StartTime], 
     [vw_CPW_Clocking_Data].[EndTime] AS [EndTime], 
     [vw_CPW_Clocking_Data].[PUNCHTIME_IN] AS [PUNCHTIME_IN], 
@@ -334,15 +215,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
     [vw_CPW_Clocking_Data].[Count_Schedule_End] AS [Count_Schedule_End], 
     [vw_CPW_Clocking_Data].[PunchInOveride] AS [PunchInOveride], 
     [vw_CPW_Clocking_Data].[PunchOutOveride] AS [PunchOutOveride], 
-    [vw_CPW_Clocking_Data].[TMSHTITEMTYPEID] AS [TMSHTITEMTYPEID], 
-    [vw_CPW_Clocking_Data].[ClockType_IN] AS [ClockType_IN], 
-    [vw_CPW_Clocking_Data].[TMSHTITEMTYPEID_OUT] AS [TMSHTITEMTYPEID_OUT], 
-    [vw_CPW_Clocking_Data].[ClockType_OUT] AS [ClockType_OUT], 
     [vw_CPW_Clocking_Data].[ScheduleDate] AS [ScheduleDate], 
-    [vw_CPW_Clocking_Data].[Overide_ClockType_IN] AS [Overide_ClockType_IN], 
-    [vw_CPW_Clocking_Data].[Overide_PUNCHTIME_IN] AS [Overide_PUNCHTIME_IN], 
-    [vw_CPW_Clocking_Data].[Overide_ClockType_OUT] AS [Overide_ClockType_OUT], 
-    [vw_CPW_Clocking_Data].[Overide_PUNCHTIME_OUT] AS [Overide_PUNCHTIME_OUT]
+    [vw_CPW_Clocking_Data].[CHN_CD] AS [CHN_CD]
     FROM [dbo].[vw_CPW_Clocking_Data] AS [vw_CPW_Clocking_Data]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -367,8 +241,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
             <Parameter Name="Year" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="EmpComplianceDetails" EntityType="WFMMContext.EmpComplianceDetail" />
-          <EntitySet Name="CPW_Clocking_Data" EntityType="WFMMContext.CPW_Clocking_Data" />
-          <EntitySet Name="vw_CPW_Clocking_Data" EntityType="WFMMContext.vw_CPW_Clocking_Data" />
           <EntitySet Name="ShortShifts" EntityType="WFMMContext.ShortShift" />
           <EntitySet Name="DashBoardData_v2" EntityType="WFMMContext.DashBoardData_v2" />
           <FunctionImport Name="sp_ComplianceSummaryDivision" ReturnType="Collection(WFMMContext.sp_ComplianceSummary_Result)">
@@ -385,6 +257,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
             <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="KronosEmployeeSummaries" EntityType="WFMMContext.KronosEmployeeSummary" />
+          <EntitySet Name="vw_CPW_Clocking_Data" EntityType="WFMMContext.vw_CPW_Clocking_Data" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -451,126 +324,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Property Name="FTLeakageFlag" Type="Boolean" Nullable="false" />
           <Property Name="WorkedHours" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="ZeroHourFlag" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CPW_Clocking_Data">
-          <Key>
-            <PropertyRef Name="FNCL_PD_NUM" />
-            <PropertyRef Name="FNCL_QTR_NUM" />
-            <PropertyRef Name="YEAR_NUM" />
-            <PropertyRef Name="Clock_In_Acceptable" />
-            <PropertyRef Name="Clock_In_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Acceptable" />
-            <PropertyRef Name="Count_In_Missing" />
-            <PropertyRef Name="Count_Out_Missing" />
-            <PropertyRef Name="Count_Schedule_Start" />
-            <PropertyRef Name="Count_Schedule_End" />
-            <PropertyRef Name="PunchInOveride" />
-            <PropertyRef Name="PunchOutOveride" />
-          </Key>
-          <Property Name="CST_CNTR_int" Type="Int32" />
-          <Property Name="EMP_NUM" Type="Int32" />
-          <Property Name="FORENAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRACT_DAYS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRACT_HOURS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ROLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DAY_NUM" Type="Byte" />
-          <Property Name="FNCL_WK_NUM" Type="Int32" />
-          <Property Name="FNCL_PD_NUM" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="FNCL_QTR_NUM" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="YEAR_NUM" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="StartTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="EndTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="PUNCHTIME_IN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PUNCHTIME_OUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_Out_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_Out_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_In_Not_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_Out_Not_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_Out_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Count_In_Missing" Type="Int32" Nullable="false" />
-          <Property Name="Count_Out_Missing" Type="Int32" Nullable="false" />
-          <Property Name="Count_Schedule_Start" Type="Int32" Nullable="false" />
-          <Property Name="Count_Schedule_End" Type="Int32" Nullable="false" />
-          <Property Name="PunchInOveride" Type="Int32" Nullable="false" />
-          <Property Name="PunchOutOveride" Type="Int32" Nullable="false" />
-          <Property Name="TMSHTITEMTYPEID" Type="Int16" />
-          <Property Name="ClockType_IN" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="TMSHTITEMTYPEID_OUT" Type="Int16" />
-          <Property Name="ClockType_OUT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="ScheduleDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_ClockType_IN" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_PUNCHTIME_IN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_ClockType_OUT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_PUNCHTIME_OUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="vw_CPW_Clocking_Data">
-          <Key>
-            <PropertyRef Name="StoreName" />
-            <PropertyRef Name="Chain" />
-            <PropertyRef Name="Division" />
-            <PropertyRef Name="Region" />
-            <PropertyRef Name="FNCL_PD_NUM" />
-            <PropertyRef Name="FNCL_QTR_NUM" />
-            <PropertyRef Name="YEAR_NUM" />
-            <PropertyRef Name="Clock_In_Acceptable" />
-            <PropertyRef Name="Clock_In_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Acceptable" />
-            <PropertyRef Name="Count_In_Missing" />
-            <PropertyRef Name="Count_Out_Missing" />
-            <PropertyRef Name="Count_Schedule_Start" />
-            <PropertyRef Name="Count_Schedule_End" />
-            <PropertyRef Name="PunchInOveride" />
-            <PropertyRef Name="PunchOutOveride" />
-          </Key>
-          <Property Name="CST_CNTR_int" Type="Int32" />
-          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Region" Type="Int16" Nullable="false" />
-          <Property Name="EMP_NUM" Type="Int32" />
-          <Property Name="FORENAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRACT_DAYS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRACT_HOURS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ROLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DAY_NUM" Type="Byte" />
-          <Property Name="FNCL_WK_NUM" Type="Int32" />
-          <Property Name="FNCL_PD_NUM" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="FNCL_QTR_NUM" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="YEAR_NUM" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="StartTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="EndTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="PUNCHTIME_IN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PUNCHTIME_OUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_Out_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_Out_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_In_Not_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_Out_Not_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_Out_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Count_In_Missing" Type="Int32" Nullable="false" />
-          <Property Name="Count_Out_Missing" Type="Int32" Nullable="false" />
-          <Property Name="Count_Schedule_Start" Type="Int32" Nullable="false" />
-          <Property Name="Count_Schedule_End" Type="Int32" Nullable="false" />
-          <Property Name="PunchInOveride" Type="Int32" Nullable="false" />
-          <Property Name="PunchOutOveride" Type="Int32" Nullable="false" />
-          <Property Name="TMSHTITEMTYPEID" Type="Int16" />
-          <Property Name="ClockType_IN" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="TMSHTITEMTYPEID_OUT" Type="Int16" />
-          <Property Name="ClockType_OUT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="ScheduleDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_ClockType_IN" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_PUNCHTIME_IN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_ClockType_OUT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Overide_PUNCHTIME_OUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ShortShift">
           <Key>
@@ -701,6 +454,56 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Property Name="ReportingRoleFlag" Type="Byte" />
           <Property Name="Active" Type="Boolean" />
         </EntityType>
+        <EntityType Name="vw_CPW_Clocking_Data">
+          <Key>
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="Clock_In_Acceptable" />
+            <PropertyRef Name="Clock_In_Not_Acceptable" />
+            <PropertyRef Name="Clock_Out_Not_Acceptable" />
+            <PropertyRef Name="Clock_Out_Acceptable" />
+            <PropertyRef Name="Count_In_Missing" />
+            <PropertyRef Name="Count_Out_Missing" />
+            <PropertyRef Name="Count_Schedule_Start" />
+            <PropertyRef Name="Count_Schedule_End" />
+            <PropertyRef Name="PunchInOveride" />
+            <PropertyRef Name="PunchOutOveride" />
+          </Key>
+          <Property Name="CST_CNTR_int" Type="Int32" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="EMP_NUM" Type="Int32" />
+          <Property Name="FORENAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRACT_HOURS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ROLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DAY_NUM" Type="Byte" />
+          <Property Name="FNCL_WK_NUM" Type="Int32" />
+          <Property Name="StartTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="EndTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="PUNCHTIME_IN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PUNCHTIME_OUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_In_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_In_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_Out_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_Out_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_In_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Clock_In_Not_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Clock_Out_Not_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Clock_Out_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Count_In_Missing" Type="Int32" Nullable="false" />
+          <Property Name="Count_Out_Missing" Type="Int32" Nullable="false" />
+          <Property Name="Count_Schedule_Start" Type="Int32" Nullable="false" />
+          <Property Name="Count_Schedule_End" Type="Int32" Nullable="false" />
+          <Property Name="PunchInOveride" Type="Int32" Nullable="false" />
+          <Property Name="PunchOutOveride" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CHN_CD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -783,100 +586,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CPW_Clocking_Data">
-            <EntityTypeMapping TypeName="WFMMContext.CPW_Clocking_Data">
-              <MappingFragment StoreEntitySet="CPW_Clocking_Data">
-                <ScalarProperty Name="Overide_PUNCHTIME_OUT" ColumnName="Overide_PUNCHTIME_OUT" />
-                <ScalarProperty Name="Overide_ClockType_OUT" ColumnName="Overide_ClockType_OUT" />
-                <ScalarProperty Name="Overide_PUNCHTIME_IN" ColumnName="Overide_PUNCHTIME_IN" />
-                <ScalarProperty Name="Overide_ClockType_IN" ColumnName="Overide_ClockType_IN" />
-                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
-                <ScalarProperty Name="ClockType_OUT" ColumnName="ClockType_OUT" />
-                <ScalarProperty Name="TMSHTITEMTYPEID_OUT" ColumnName="TMSHTITEMTYPEID_OUT" />
-                <ScalarProperty Name="ClockType_IN" ColumnName="ClockType_IN" />
-                <ScalarProperty Name="TMSHTITEMTYPEID" ColumnName="TMSHTITEMTYPEID" />
-                <ScalarProperty Name="PunchOutOveride" ColumnName="PunchOutOveride" />
-                <ScalarProperty Name="PunchInOveride" ColumnName="PunchInOveride" />
-                <ScalarProperty Name="Count_Schedule_End" ColumnName="Count_Schedule_End" />
-                <ScalarProperty Name="Count_Schedule_Start" ColumnName="Count_Schedule_Start" />
-                <ScalarProperty Name="Count_Out_Missing" ColumnName="Count_Out_Missing" />
-                <ScalarProperty Name="Count_In_Missing" ColumnName="Count_In_Missing" />
-                <ScalarProperty Name="Clock_Out_Acceptable" ColumnName="Clock_Out_Acceptable" />
-                <ScalarProperty Name="Clock_Out_Not_Acceptable" ColumnName="Clock_Out_Not_Acceptable" />
-                <ScalarProperty Name="Clock_In_Not_Acceptable" ColumnName="Clock_In_Not_Acceptable" />
-                <ScalarProperty Name="Clock_In_Acceptable" ColumnName="Clock_In_Acceptable" />
-                <ScalarProperty Name="Clock_Out_Late" ColumnName="Clock_Out_Late" />
-                <ScalarProperty Name="Clock_Out_Early" ColumnName="Clock_Out_Early" />
-                <ScalarProperty Name="Clock_In_Late" ColumnName="Clock_In_Late" />
-                <ScalarProperty Name="Clock_In_Early" ColumnName="Clock_In_Early" />
-                <ScalarProperty Name="PUNCHTIME_OUT" ColumnName="PUNCHTIME_OUT" />
-                <ScalarProperty Name="PUNCHTIME_IN" ColumnName="PUNCHTIME_IN" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="YEAR_NUM" ColumnName="YEAR_NUM" />
-                <ScalarProperty Name="FNCL_QTR_NUM" ColumnName="FNCL_QTR_NUM" />
-                <ScalarProperty Name="FNCL_PD_NUM" ColumnName="FNCL_PD_NUM" />
-                <ScalarProperty Name="FNCL_WK_NUM" ColumnName="FNCL_WK_NUM" />
-                <ScalarProperty Name="DAY_NUM" ColumnName="DAY_NUM" />
-                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
-                <ScalarProperty Name="CONTRACT_HOURS" ColumnName="CONTRACT_HOURS" />
-                <ScalarProperty Name="CONTRACT_DAYS" ColumnName="CONTRACT_DAYS" />
-                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
-                <ScalarProperty Name="FORENAME" ColumnName="FORENAME" />
-                <ScalarProperty Name="EMP_NUM" ColumnName="EMP_NUM" />
-                <ScalarProperty Name="CST_CNTR_int" ColumnName="CST_CNTR_int" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_CPW_Clocking_Data">
-            <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Data">
-              <MappingFragment StoreEntitySet="vw_CPW_Clocking_Data">
-                <ScalarProperty Name="Overide_PUNCHTIME_OUT" ColumnName="Overide_PUNCHTIME_OUT" />
-                <ScalarProperty Name="Overide_ClockType_OUT" ColumnName="Overide_ClockType_OUT" />
-                <ScalarProperty Name="Overide_PUNCHTIME_IN" ColumnName="Overide_PUNCHTIME_IN" />
-                <ScalarProperty Name="Overide_ClockType_IN" ColumnName="Overide_ClockType_IN" />
-                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
-                <ScalarProperty Name="ClockType_OUT" ColumnName="ClockType_OUT" />
-                <ScalarProperty Name="TMSHTITEMTYPEID_OUT" ColumnName="TMSHTITEMTYPEID_OUT" />
-                <ScalarProperty Name="ClockType_IN" ColumnName="ClockType_IN" />
-                <ScalarProperty Name="TMSHTITEMTYPEID" ColumnName="TMSHTITEMTYPEID" />
-                <ScalarProperty Name="PunchOutOveride" ColumnName="PunchOutOveride" />
-                <ScalarProperty Name="PunchInOveride" ColumnName="PunchInOveride" />
-                <ScalarProperty Name="Count_Schedule_End" ColumnName="Count_Schedule_End" />
-                <ScalarProperty Name="Count_Schedule_Start" ColumnName="Count_Schedule_Start" />
-                <ScalarProperty Name="Count_Out_Missing" ColumnName="Count_Out_Missing" />
-                <ScalarProperty Name="Count_In_Missing" ColumnName="Count_In_Missing" />
-                <ScalarProperty Name="Clock_Out_Acceptable" ColumnName="Clock_Out_Acceptable" />
-                <ScalarProperty Name="Clock_Out_Not_Acceptable" ColumnName="Clock_Out_Not_Acceptable" />
-                <ScalarProperty Name="Clock_In_Not_Acceptable" ColumnName="Clock_In_Not_Acceptable" />
-                <ScalarProperty Name="Clock_In_Acceptable" ColumnName="Clock_In_Acceptable" />
-                <ScalarProperty Name="Clock_Out_Late" ColumnName="Clock_Out_Late" />
-                <ScalarProperty Name="Clock_Out_Early" ColumnName="Clock_Out_Early" />
-                <ScalarProperty Name="Clock_In_Late" ColumnName="Clock_In_Late" />
-                <ScalarProperty Name="Clock_In_Early" ColumnName="Clock_In_Early" />
-                <ScalarProperty Name="PUNCHTIME_OUT" ColumnName="PUNCHTIME_OUT" />
-                <ScalarProperty Name="PUNCHTIME_IN" ColumnName="PUNCHTIME_IN" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="YEAR_NUM" ColumnName="YEAR_NUM" />
-                <ScalarProperty Name="FNCL_QTR_NUM" ColumnName="FNCL_QTR_NUM" />
-                <ScalarProperty Name="FNCL_PD_NUM" ColumnName="FNCL_PD_NUM" />
-                <ScalarProperty Name="FNCL_WK_NUM" ColumnName="FNCL_WK_NUM" />
-                <ScalarProperty Name="DAY_NUM" ColumnName="DAY_NUM" />
-                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
-                <ScalarProperty Name="CONTRACT_HOURS" ColumnName="CONTRACT_HOURS" />
-                <ScalarProperty Name="CONTRACT_DAYS" ColumnName="CONTRACT_DAYS" />
-                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
-                <ScalarProperty Name="FORENAME" ColumnName="FORENAME" />
-                <ScalarProperty Name="EMP_NUM" ColumnName="EMP_NUM" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="Chain" ColumnName="Chain" />
-                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
-                <ScalarProperty Name="CST_CNTR_int" ColumnName="CST_CNTR_int" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1019,6 +728,44 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="HomeBranch" ColumnName="HomeBranch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CPW_Clocking_Data">
+            <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Data">
+              <MappingFragment StoreEntitySet="vw_CPW_Clocking_Data">
+                <ScalarProperty Name="CHN_CD" ColumnName="CHN_CD" />
+                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
+                <ScalarProperty Name="PunchOutOveride" ColumnName="PunchOutOveride" />
+                <ScalarProperty Name="PunchInOveride" ColumnName="PunchInOveride" />
+                <ScalarProperty Name="Count_Schedule_End" ColumnName="Count_Schedule_End" />
+                <ScalarProperty Name="Count_Schedule_Start" ColumnName="Count_Schedule_Start" />
+                <ScalarProperty Name="Count_Out_Missing" ColumnName="Count_Out_Missing" />
+                <ScalarProperty Name="Count_In_Missing" ColumnName="Count_In_Missing" />
+                <ScalarProperty Name="Clock_Out_Acceptable" ColumnName="Clock_Out_Acceptable" />
+                <ScalarProperty Name="Clock_Out_Not_Acceptable" ColumnName="Clock_Out_Not_Acceptable" />
+                <ScalarProperty Name="Clock_In_Not_Acceptable" ColumnName="Clock_In_Not_Acceptable" />
+                <ScalarProperty Name="Clock_In_Acceptable" ColumnName="Clock_In_Acceptable" />
+                <ScalarProperty Name="Clock_Out_Late" ColumnName="Clock_Out_Late" />
+                <ScalarProperty Name="Clock_Out_Early" ColumnName="Clock_Out_Early" />
+                <ScalarProperty Name="Clock_In_Late" ColumnName="Clock_In_Late" />
+                <ScalarProperty Name="Clock_In_Early" ColumnName="Clock_In_Early" />
+                <ScalarProperty Name="PUNCHTIME_OUT" ColumnName="PUNCHTIME_OUT" />
+                <ScalarProperty Name="PUNCHTIME_IN" ColumnName="PUNCHTIME_IN" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="FNCL_WK_NUM" ColumnName="FNCL_WK_NUM" />
+                <ScalarProperty Name="DAY_NUM" ColumnName="DAY_NUM" />
+                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
+                <ScalarProperty Name="CONTRACT_HOURS" ColumnName="CONTRACT_HOURS" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="FORENAME" ColumnName="FORENAME" />
+                <ScalarProperty Name="EMP_NUM" ColumnName="EMP_NUM" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="CST_CNTR_int" ColumnName="CST_CNTR_int" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

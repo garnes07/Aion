@@ -88,7 +88,7 @@
     }
 }
 
-.table-bordered-blue {
+/*.table-bordered-blue {
   border: 1px solid #ddd;
 }
 .table-bordered-blue > thead > tr > th,
@@ -106,7 +106,7 @@
 .table-bordered-blue > thead > tr > th,
 .table-bordered-blue > thead > tr > td {
     border-bottom-width: 2px;
-}
+}*/
 
 /* The switch - the box around the slider */
 .switch {
@@ -232,3 +232,17 @@ input:checked + .slider:before {
 .table-fixed{
     table-layout:fixed;
 }
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.table-chain,
+.table-chain > th,
+.table-chain > td {
+    background-color: #93c6ff; }
+
+.table-division,
+.table-division > th,
+.table-division > td {
+    background-color: #d5e9ff; }

@@ -28,11 +28,10 @@ namespace Aion.DAL.Entities
         }
     
         public virtual DbSet<EmpComplianceDetail> EmpComplianceDetails { get; set; }
-        public virtual DbSet<CPW_Clocking_Data> CPW_Clocking_Data { get; set; }
-        public virtual DbSet<vw_CPW_Clocking_Data> vw_CPW_Clocking_Data { get; set; }
         public virtual DbSet<ShortShift> ShortShifts { get; set; }
         public virtual DbSet<DashBoardData_v2> DashBoardData_v2 { get; set; }
         public virtual DbSet<KronosEmployeeSummary> KronosEmployeeSummaries { get; set; }
+        public virtual DbSet<vw_CPW_Clocking_Data> vw_CPW_Clocking_Data { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {
