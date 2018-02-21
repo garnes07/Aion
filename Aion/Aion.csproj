@@ -481,6 +481,7 @@
     <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockCompChain.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_SummaryStore.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_SummaryDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_OLDSummaryDivision.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
