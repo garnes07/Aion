@@ -45,7 +45,7 @@ namespace Aion.Areas.WFM.Controllers
             if(selectArea == "S")
             {
                 vm.collection = mapper.Map<List<CompSummaryView>>(await _dashDataManager.GetCompSummaryStore(input[0], period, selectCrit));
-                vm.DisplayLevel = 2;
+                vm.DisplayLevel = 1;
             }
             else if (selectArea == "R")
             {
@@ -55,12 +55,13 @@ namespace Aion.Areas.WFM.Controllers
             else if(selectArea == "D")
             {
                 vm.collection = mapper.Map<List<CompSummaryView>>(await _dashDataManager.GetCompSummaryDivision(input[0], period, selectCrit));
+                vm.priority = selectCrit;
                 vm.DisplayLevel = 3;
             }
             else if (selectArea == "C")
             {
                 vm.collection = mapper.Map<List<CompSummaryView>>(await _dashDataManager.GetCompSummary(input[0], period, selectCrit));
-                vm.DisplayLevel = 3;
+                vm.DisplayLevel = 4;
             }
 
             if (vm.collection.Any())
@@ -68,8 +69,6 @@ namespace Aion.Areas.WFM.Controllers
                 vm.selectedDate = string.Format("{0}_{1}", vm.collection.FirstOrDefault().Year,
                     vm.collection.FirstOrDefault().Period);
                 vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == vm.selectedDate);
-
-                return View(vm);
             }
 
             return View(vm);

@@ -10,7 +10,9 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
     public class CompSummaryVm : BaseVm
     {
         public List<CompSummaryView> collection { get; set; }
-        
+        public string priority { get; set; }
+        public string selectedDate { get; set; }
+
         public List<int> WeekNumbers
         {
             get
@@ -39,8 +41,6 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
         {
             return collection.Where(x => x.Division == _division && x.Region != null).GroupBy(x => x.Region).Select(x => x.Key).ToList();
         }
-
-        public string selectedDate { get; set; }
 
         public CompSummaryVm()
         {

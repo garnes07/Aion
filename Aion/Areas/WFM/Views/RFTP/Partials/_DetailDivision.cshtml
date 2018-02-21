@@ -21,23 +21,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model._chainView.Where(x => x.Region != null))
-                    {
-                        <tr>
-                            <td>Region @item.Region</td>
-                            <td class="text-center">@string.Format("{0}/{1}", item.ZeroHour > 0 ? item.ZeroHour.ToString() : "-", item.TotalHeadCount - item.TimeCardsCompleted > 0 ? (item.TotalHeadCount - item.TimeCardsCompleted).ToString() : "-")</td>
-                            <td class="text-center">@item.ShortShifts</td>
-                            <td class="text-center">@string.Format("{0:0.0}%", item.PunchCompliance * 100)</td>
-                            <td class="text-center">@string.Format("{0}/{1}", item.ComplianceScore, item.StoreCount)</td>
-                        </tr>
-                    }
+                @foreach (var item in Model._chainView.Where(x => x.Region != null))
+                {
                     <tr>
-                        <td><strong>Division Total</strong></td>
-                        <td class="text-center"><strong>@string.Format("{0}/{1}", subtotal.ZeroHour > 0 ? subtotal.ZeroHour.ToString() : "-", subtotal.TotalHeadCount - subtotal.TimeCardsCompleted > 0 ? (subtotal.TotalHeadCount - subtotal.TimeCardsCompleted).ToString() : "-")</strong></td>
-                        <td class="text-center"><strong>@subtotal.ShortShifts</strong></td>
-                        <td class="text-center"><strong>@string.Format("{0:0.0}%", subtotal.PunchCompliance * 100)</strong></td>
-                        <td class="text-center"><strong>@string.Format("{0}/{1}", subtotal.ComplianceScore, subtotal.StoreCount)</strong></td>
+                        <td>Region @item.Region</td>
+                        <td class="text-center">@string.Format("{0}/{1}", item.ZeroHour > 0 ? item.ZeroHour.ToString() : "-", item.TotalHeadCount - item.TimeCardsCompleted > 0 ? (item.TotalHeadCount - item.TimeCardsCompleted).ToString() : "-")</td>
+                        <td class="text-center">@item.ShortShifts</td>
+                        <td class="text-center">@string.Format("{0:0.0}%", item.PunchCompliance * 100)</td>
+                        <td class="text-center">@string.Format("{0}/{1}", item.ComplianceScore, item.StoreCount)</td>
                     </tr>
+                }
+                <tr>
+                    <td><strong>Division Total</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0}/{1}", subtotal.ZeroHour > 0 ? subtotal.ZeroHour.ToString() : "-", subtotal.TotalHeadCount - subtotal.TimeCardsCompleted > 0 ? (subtotal.TotalHeadCount - subtotal.TimeCardsCompleted).ToString() : "-")</strong></td>
+                    <td class="text-center"><strong>@subtotal.ShortShifts</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0:0.0}%", subtotal.PunchCompliance * 100)</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0}/{1}", subtotal.ComplianceScore, subtotal.StoreCount)</strong></td>
+                </tr>
                 </tbody>
             </table>
         </div>

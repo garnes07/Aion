@@ -48,13 +48,21 @@
                         <li role="presentation" class="nav-item"><a class="nav-link" href="#edits" aria-controls="home" role="tab" data-toggle="tab">Edited Clocks</a></li>
                     </ul>
                 </div>
-                if (Model.DisplayLevel == 3)
+                if (Model.DisplayLevel == 1)
                 {
-                    @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_SummaryChain.cshtml")
+                    @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_SummaryStore.cshtml")
                 }
-                else
+                else if (Model.DisplayLevel == 2)
                 {
                     @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_SummaryRegion.cshtml")
+                }
+                else if (Model.DisplayLevel == 3)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_SummaryDivision.cshtml")
+                }
+                else if (Model.DisplayLevel == 4)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_SummaryChain.cshtml")
                 }
             }
         </div>

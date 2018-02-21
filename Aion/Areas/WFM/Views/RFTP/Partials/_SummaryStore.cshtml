@@ -1,0 +1,161 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.CompSummaryVm
+
+@{ 
+    string colWidth = string.Format("Width:{0:0}%;", Math.Round((double)60 / Model.WeekNumbers.Count, 0));
+}
+
+<div class="tab-content">
+    <div role="tabpanel" id="overview" class="tab-pane fade show active">
+        <div class="container-fluid mt-1">
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                    <tr>
+                        <th class="text-center" rowspan="2" style="width:40%;"></th>
+                        <th class="text-center" colspan="@(Model.WeekNumbers.Count())">Compliant</th>
+                    </tr>
+                    <tr>
+                        @foreach (var item in Model.WeekNumbers)
+                        {
+                            <th class="text-center" style="@colWidth">@(item == 999999 ? "Period" : item.ToString().Substring(4, 2))</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var branch in Model.BranchList)
+                    {
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
+                        <tr>
+                            <td>@data.First().fullName</td>
+                            @foreach (var item in data)
+                            {
+                                <td class="text-center @(item.Compliant == 1 ? "" : "table-danger")"><strong>@(item.Compliant == 1 ? "✔" : "X")</strong></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div role="tabpanel" id="clock" class="tab-pane fade">
+        <div class="container-fluid mt-1">
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                    <tr>
+                        <th class="text-center" rowspan="2" style="width:40%;"></th>
+                        <th class="text-center" colspan="@(Model.WeekNumbers.Count() -1)">Clocking %</th>
+                        <th class="text-center">Compliant</th>
+                    </tr>
+                    <tr>
+                        @foreach (var item in Model.WeekNumbers)
+                        {
+                            <th class="text-center" style="@colWidth">@(item == 999999 ? "Period" : item.ToString().Substring(4, 2))</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var branch in Model.BranchList)
+                    {
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
+                        <tr>
+                            <td>@data.First().fullName</td>
+                            @foreach (var item in data)
+                            {
+                                if (item.wk != 999999)
+                                {
+                                    <td class="text-center @(item.PunchCompliance >= 90 ? "" : "table-danger")">@(item.PunchCompliance)%</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center @(item.PunchCompliance == 1 ? "" : "table-danger")"><strong>@(item.PunchCompliance == 1 ? "✔" : "X")</strong></td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div role="tabpanel" id="timecard" class="tab-pane fade">
+        <div class="container-fluid mt-1">
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                    <tr>
+                        <th class="text-center" rowspan="2" style="width:40%;"></th>
+                        <th class="text-center" colspan="@(Model.WeekNumbers.Count() -1)">Zero Hour / Timecards Missing</th>
+                        <th class="text-center">Compliant</th>
+                    </tr>
+                    <tr>
+                        @foreach (var item in Model.WeekNumbers)
+                        {
+                            <th class="text-center" style="@colWidth">@(item == 999999 ? "Period" : item.ToString().Substring(4, 2))</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var branch in Model.BranchList)
+                    {
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
+                        <tr>
+                            <td>@data.First().fullName</td>
+                            @foreach (var item in data)
+                            {
+                                if (item.wk != 999999)
+                                {
+                                    <td class="text-center @(item.TCComp == 1 ? "" : "table-danger")">@string.Format("{0}/{1}", item.ZeroHour == 0 ? "-" : item.ZeroHour.ToString(), item.TimecardsMissing == 0 ? "-" : item.TimecardsMissing.ToString())</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center @(item.TCComp == 1 ? "" : "table-danger")"><strong>@(item.TCComp == 1 ? "✔" : "X")</strong></td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div role="tabpanel" id="edits" class="tab-pane fade">
+        <div class="container-fluid mt-1">
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                    <tr>
+                        <th class="text-center" rowspan="2" style="width:40%;"></th>
+                        <th class="text-center" colspan="@(Model.WeekNumbers.Count() -1)">Edited Shifts</th>
+                        <th class="text-center" style="@colWidth">Compliant</th>
+                    </tr>
+                    <tr>
+                        @foreach (var item in Model.WeekNumbers)
+                        {
+                            <th class="text-center">@(item == 999999 ? "Period" : item.ToString().Substring(4, 2))</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var branch in Model.BranchList)
+                    {
+                        var data = Model.collection.Where(x => x.StoreCount == branch).OrderBy(x => x.wk).ToList();
+                        <tr>
+                            <td>@data.First().fullName</td>
+                            @foreach (var item in data)
+                            {
+                                if (item.wk != 999999)
+                                {
+                                    <td class="text-center @(item.ShortShiftCompliance == 1 ? "" : "table-danger")">@item.ShortShifts</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center @(item.ShortShiftCompliance == 1 ? "" : "table-danger")"><strong>@(item.ShortShiftCompliance == 1 ? "✔" : "X")</strong></td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@if (Model.collection.First(x => x.WeekNumber == null).Compliant == 0)
+{
+    <div class="alert alert-danger text-center"><strong>Non compliant for this period</strong></div>
+}
