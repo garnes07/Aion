@@ -201,6 +201,7 @@ namespace Aion.Areas.WFM.Controllers
                     break;
                 case "D":
                     vm.PunchDetail = await _clockManager.GetClockDetailDivision(selectCrit, weekNum);
+                    vm.Priority = selectCrit;
                     vm.DisplayLevel = 4;
                     break;
                 case "C":

@@ -8,6 +8,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
     public class ClockCompVm : BaseVm
     {
         public List<vw_CPW_Clocking_Data> PunchDetail { get; set; }
+        public string Priority { get; set; }
 
         public List<ClockAggregate> EmpSummary
         {
@@ -121,7 +122,6 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
                             MissedOut = x.Sum(y => y.Count_Out_Missing),
                             LateIn = x.Sum(y => y.Clock_In_Not_Acceptable)
                         })
-                    .OrderBy(x => x.Name)
                     .ToList();
             }
         }

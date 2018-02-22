@@ -1,7 +1,7 @@
 ﻿@model Aion.Areas.WFM.ViewModels.RFTP.CompDetailVm
 
 @{ 
-    var subtotal = Model._chainView.Single(x => x.Division == null);
+    var chainTotal = Model._chainView.Single(x => x.Division == null);
 }
 
 <div class="row">
@@ -21,23 +21,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model._chainView.Where(x => x.Division != null && x.Region == null))
-                    {
-                        <tr>
-                            <td>@item.Division</td>
-                            <td class="text-center">@string.Format("{0}/{1}", item.ZeroHour > 0 ? item.ZeroHour.ToString() : "-", item.TotalHeadCount - item.TimeCardsCompleted > 0 ? (item.TotalHeadCount - item.TimeCardsCompleted).ToString() : "-")</td>
-                            <td class="text-center">@item.ShortShifts</td>
-                            <td class="text-center">@string.Format("{0:0.0}%", item.PunchCompliance * 100)</td>
-                            <td class="text-center">@string.Format("{0}/{1}", item.ComplianceScore, item.StoreCount)</td>
-                        </tr>
-                    }
-                    <tr>
-                        <td><strong>Chain Total</strong></td>
-                        <td class="text-center"><strong>@string.Format("{0}/{1}", subtotal.ZeroHour > 0 ? subtotal.ZeroHour.ToString() : "-", subtotal.TotalHeadCount - subtotal.TimeCardsCompleted > 0 ? (subtotal.TotalHeadCount - subtotal.TimeCardsCompleted).ToString() : "-")</strong></td>
-                        <td class="text-center"><strong>@subtotal.ShortShifts</strong></td>
-                        <td class="text-center"><strong>@string.Format("{0:0.0}%", subtotal.PunchCompliance * 100)</strong></td>
-                        <td class="text-center"><strong>@string.Format("{0}/{1}", subtotal.ComplianceScore, subtotal.StoreCount)</strong></td>
+                <tr class="table-chain">
+                    <td><strong>@chainTotal.StoreFlag</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0}/{1}", chainTotal.ZeroHour > 0 ? chainTotal.ZeroHour.ToString() : "-", chainTotal.TotalHeadCount - chainTotal.TimeCardsCompleted > 0 ? (chainTotal.TotalHeadCount - chainTotal.TimeCardsCompleted).ToString() : "-")</strong></td>
+                    <td class="text-center"><strong>@chainTotal.ShortShifts</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0:0.0}%", chainTotal.PunchCompliance * 100)</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0}/{1}", chainTotal.ComplianceScore, chainTotal.StoreCount)</strong></td>
+                </tr>
+                @foreach (var division in Model._chainView.Where(x => x.Division != null && x.Region == null))
+                {
+                    <tr class="table-division">
+                        <td>@division.Division</td>
+                        <td class="text-center">@string.Format("{0}/{1}", division.ZeroHour > 0 ? division.ZeroHour.ToString() : "-", division.TotalHeadCount - division.TimeCardsCompleted > 0 ? (division.TotalHeadCount - division.TimeCardsCompleted).ToString() : "-")</td>
+                        <td class="text-center">@division.ShortShifts</td>
+                        <td class="text-center">@string.Format("{0:0.0}%", division.PunchCompliance * 100)</td>
+                        <td class="text-center">@string.Format("{0}/{1}", division.ComplianceScore, division.StoreCount)</td>
                     </tr>
+                    foreach (var region in Model._chainView.Where(x => x.Division == division.Division && x.Region != null))
+                     {
+                         <tr>
+                             <td>@region.Region</td>
+                             <td class="text-center">@string.Format("{0}/{1}", region.ZeroHour > 0 ? region.ZeroHour.ToString() : "-", region.TotalHeadCount - region.TimeCardsCompleted > 0 ? (region.TotalHeadCount - region.TimeCardsCompleted).ToString() : "-")</td>
+                             <td class="text-center">@region.ShortShifts</td>
+                             <td class="text-center">@string.Format("{0:0.0}%", region.PunchCompliance * 100)</td>
+                             <td class="text-center">@string.Format("{0}/{1}", region.ComplianceScore, region.StoreCount)</td>
+                         </tr>
+                     }
+                }
                 </tbody>
             </table>
         </div>
