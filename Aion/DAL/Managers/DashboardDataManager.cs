@@ -57,21 +57,21 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<DashBoardData_v2>> GetAllRegionDashData(string region, int weekOfYr)
+        public async Task<List<vw_DashboardData_v2>> GetAllRegionDashData(string region, int weekOfYr)
         {
             using (var context = new WFMModel())
             {
                 short crit = short.Parse(region);
-                return await context.DashBoardData_v2.Where(x => x.Region == crit && x.WeekNumber == weekOfYr).ToListAsync();
+                return await context.vw_DashboardData_v2.Where(x => x.Region == crit && x.WeekNumber == weekOfYr).ToListAsync();
             }
         }
 
-        public async Task<List<DashBoardData_v2>> GetStoreDashData(string store, int weekOfYr)
+        public async Task<List<vw_DashboardData_v2>> GetStoreDashData(string store, int weekOfYr)
         {
             using (var context = new WFMModel())
             {
                 short crit = short.Parse(store);
-                return await context.DashBoardData_v2.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).ToListAsync();
+                return await context.vw_DashboardData_v2.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).ToListAsync();
             }
         }
 

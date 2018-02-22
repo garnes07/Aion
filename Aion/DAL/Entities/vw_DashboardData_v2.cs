@@ -12,7 +12,7 @@ namespace Aion.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class DashBoardData_v2
+    public partial class vw_DashboardData_v2
     {
         public int DashBoardDataId { get; set; }
         public string Year { get; set; }
@@ -23,7 +23,7 @@ namespace Aion.DAL.Entities
         public string UkStoreNumber { get; set; }
         public string StoreName { get; set; }
         public string Division { get; set; }
-        public Nullable<short> Region { get; set; }
+        public short Region { get; set; }
         public string RegionName { get; set; }
         public Nullable<short> TotalHeadCount { get; set; }
         public Nullable<short> TimeCardsCompleted { get; set; }

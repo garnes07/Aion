@@ -12,8 +12,8 @@ namespace Aion.DAL.IManagers
         Task<List<sp_ComplianceSummaryStore_Result>> GetCompSummaryStore(string year, byte period, string store);
         Task<List<sp_AllChainDashboardData_v2_Result>> GetAllChainDashData(string chain, int weekOfYr);
         Task<List<sp_AllChainDashboardData_v2_Result>> GetAllDivisionDashData(string division, int weekOfYr);
-        Task<List<DashBoardData_v2>> GetAllRegionDashData(string region, int weekOfYr);
-        Task<List<DashBoardData_v2>> GetStoreDashData(string store, int weekOfYr);
+        Task<List<vw_DashboardData_v2>> GetAllRegionDashData(string region, int weekOfYr);
+        Task<List<vw_DashboardData_v2>> GetStoreDashData(string store, int weekOfYr);
         Task<List<EmpComplianceDetail>> GetComplianceDetail(string store, int weekOfYr);
         Task<List<ShortShift>> GetShortShiftDetail(string store, int weekOfYr);
     }

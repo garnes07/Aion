@@ -7,7 +7,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
 {
     public class CompDetailVm : BaseVm
     {
-        public List<DashBoardData_v2> _dashboardView { get; set; }
+        public List<vw_DashboardData_v2> _dashboardView { get; set; }
         public List<sp_AllChainDashboardData_v2_Result> _chainView { get; set; }
         public List<ShortShiftDetail> _ssDetails { get; set; }
         public List<PunchCompDetail> _punchDetails { get; set; }

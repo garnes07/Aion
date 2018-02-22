@@ -5,53 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WFMMContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="DashBoardData_v2">
-          <Key>
-            <PropertyRef Name="DashBoardDataId" />
-          </Key>
-          <Property Name="DashBoardDataId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Year" Type="nvarchar" MaxLength="10" />
-          <Property Name="Quarter" Type="tinyint" />
-          <Property Name="Period" Type="tinyint" />
-          <Property Name="WeekNumber" Type="int" />
-          <Property Name="StoreNumber" Type="smallint" />
-          <Property Name="UkStoreNumber" Type="nvarchar" MaxLength="10" />
-          <Property Name="StoreName" Type="nvarchar" MaxLength="255" />
-          <Property Name="Division" Type="nvarchar" MaxLength="255" />
-          <Property Name="Region" Type="smallint" />
-          <Property Name="RegionName" Type="nvarchar" MaxLength="255" />
-          <Property Name="TotalHeadCount" Type="smallint" />
-          <Property Name="TimeCardsCompleted" Type="smallint" />
-          <Property Name="ZeroHour" Type="smallint" />
-          <Property Name="ContractHours" Type="float" />
-          <Property Name="FTContractHours" Type="float" />
-          <Property Name="PTContractHours" Type="float" />
-          <Property Name="OriginalTarget" Type="float" />
-          <Property Name="FinalTarget" Type="float" />
-          <Property Name="HolidayTaken" Type="float" />
-          <Property Name="FTLeakage" Type="float" />
-          <Property Name="LeakageCount" Type="smallint" />
-          <Property Name="AllApprovedHours" Type="float" />
-          <Property Name="SOH" Type="float" />
-          <Property Name="OverTargetFlag" Type="bit" />
-          <Property Name="OverContractFlag" Type="bit" />
-          <Property Name="ComplianceScore" Type="smallint" />
-          <Property Name="SOHUtilization" Type="smallint" />
-          <Property Name="UtilizationZeroFlag" Type="bit" />
-          <Property Name="GSContract" Type="float" />
-          <Property Name="GSTarget" Type="float" />
-          <Property Name="GSHolidayTaken" Type="float" />
-          <Property Name="GSFTLeakage" Type="float" />
-          <Property Name="GSAllApprovedHours" Type="float" />
-          <Property Name="GSSOHSpend" Type="float" />
-          <Property Name="GSOverTargetFlag" Type="bit" />
-          <Property Name="GSOverContractFlag" Type="bit" />
-          <Property Name="StoreFlag" Type="nvarchar" MaxLength="50" />
-          <Property Name="ContractBaseTarget" Type="float" />
-          <Property Name="IgniteCredits" Type="float" />
-          <Property Name="PunchCompliance" Type="float" />
-          <Property Name="ShortShifts" Type="smallint" />
-        </EntityType>
         <EntityType Name="EmpComplianceDetail">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -150,6 +103,97 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Property Name="ScheduleDate" Type="varchar" MaxLength="10" />
           <Property Name="CHN_CD" Type="varchar" MaxLength="5" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data_Trend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CPW_Clocking_Data_Trend">
+          <Key>
+            <PropertyRef Name="EMP_NUM" />
+            <PropertyRef Name="ScheduleDate" />
+            <PropertyRef Name="CST_CNTR_int" />
+          </Key>
+          <Property Name="CST_CNTR_int" Type="int" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="EMP_NUM" Type="int" Nullable="false" />
+          <Property Name="FORENAME" Type="varchar" MaxLength="50" />
+          <Property Name="SURNAME" Type="varchar" MaxLength="50" />
+          <Property Name="CONTRACT_HOURS" Type="varchar" MaxLength="50" />
+          <Property Name="ROLE" Type="varchar" MaxLength="50" />
+          <Property Name="DAY_NUM" Type="tinyint" />
+          <Property Name="FNCL_WK_NUM" Type="int" />
+          <Property Name="StartTime" Type="varchar" MaxLength="11" />
+          <Property Name="EndTime" Type="varchar" MaxLength="11" />
+          <Property Name="PUNCHTIME_IN" Type="varchar" MaxLength="10" />
+          <Property Name="PUNCHTIME_OUT" Type="varchar" MaxLength="10" />
+          <Property Name="Clock_In_Early" Type="varchar" MaxLength="11" />
+          <Property Name="Clock_In_Late" Type="varchar" MaxLength="11" />
+          <Property Name="Clock_Out_Early" Type="varchar" MaxLength="11" />
+          <Property Name="Clock_Out_Late" Type="varchar" MaxLength="11" />
+          <Property Name="Clock_In_Acceptable" Type="int" Nullable="false" />
+          <Property Name="Clock_In_Not_Acceptable" Type="int" Nullable="false" />
+          <Property Name="Clock_Out_Not_Acceptable" Type="int" Nullable="false" />
+          <Property Name="Clock_Out_Acceptable" Type="int" Nullable="false" />
+          <Property Name="Count_In_Missing" Type="int" Nullable="false" />
+          <Property Name="Count_Out_Missing" Type="int" Nullable="false" />
+          <Property Name="Count_Schedule_Start" Type="int" Nullable="false" />
+          <Property Name="Count_Schedule_End" Type="int" Nullable="false" />
+          <Property Name="PunchInOveride" Type="int" Nullable="false" />
+          <Property Name="PunchOutOveride" Type="int" Nullable="false" />
+          <Property Name="ScheduleDate" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CHN_CD" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_DashboardData_v2">
+          <Key>
+            <PropertyRef Name="DashBoardDataId" />
+            <PropertyRef Name="StoreFlag" />
+          </Key>
+          <Property Name="DashBoardDataId" Type="int" Nullable="false" />
+          <Property Name="Year" Type="nvarchar" MaxLength="10" />
+          <Property Name="Quarter" Type="tinyint" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="UkStoreNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="255" />
+          <Property Name="TotalHeadCount" Type="smallint" />
+          <Property Name="TimeCardsCompleted" Type="smallint" />
+          <Property Name="ZeroHour" Type="smallint" />
+          <Property Name="ContractHours" Type="float" />
+          <Property Name="FTContractHours" Type="float" />
+          <Property Name="PTContractHours" Type="float" />
+          <Property Name="OriginalTarget" Type="float" />
+          <Property Name="FinalTarget" Type="float" />
+          <Property Name="HolidayTaken" Type="float" />
+          <Property Name="FTLeakage" Type="float" />
+          <Property Name="LeakageCount" Type="smallint" />
+          <Property Name="AllApprovedHours" Type="float" />
+          <Property Name="SOH" Type="float" />
+          <Property Name="OverTargetFlag" Type="bit" />
+          <Property Name="OverContractFlag" Type="bit" />
+          <Property Name="ComplianceScore" Type="smallint" />
+          <Property Name="SOHUtilization" Type="smallint" />
+          <Property Name="UtilizationZeroFlag" Type="bit" />
+          <Property Name="GSContract" Type="float" />
+          <Property Name="GSTarget" Type="float" />
+          <Property Name="GSHolidayTaken" Type="float" />
+          <Property Name="GSFTLeakage" Type="float" />
+          <Property Name="GSAllApprovedHours" Type="float" />
+          <Property Name="GSSOHSpend" Type="float" />
+          <Property Name="GSOverTargetFlag" Type="bit" />
+          <Property Name="GSOverContractFlag" Type="bit" />
+          <Property Name="StoreFlag" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="ContractBaseTarget" Type="float" />
+          <Property Name="IgniteCredits" Type="float" />
+          <Property Name="PunchCompliance" Type="float" />
+          <Property Name="ShortShifts" Type="smallint" />
+        </EntityType>
         <Function Name="sp_AllChainDashboardData_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Chain" Type="nvarchar" Mode="In" />
           <Parameter Name="BeginWeek" Type="int" Mode="In" />
@@ -179,7 +223,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Parameter Name="Year" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="WFMMContextStoreContainer">
-          <EntitySet Name="DashBoardData_v2" EntityType="Self.DashBoardData_v2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShortShifts" EntityType="Self.ShortShifts" Schema="dbo" store:Type="Tables" />
@@ -219,6 +262,88 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
     [vw_CPW_Clocking_Data].[CHN_CD] AS [CHN_CD]
     FROM [dbo].[vw_CPW_Clocking_Data] AS [vw_CPW_Clocking_Data]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_CPW_Clocking_Data_Trend" EntityType="Self.vw_CPW_Clocking_Data_Trend" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_CPW_Clocking_Data_Trend].[CST_CNTR_int] AS [CST_CNTR_int], 
+    [vw_CPW_Clocking_Data_Trend].[StoreName] AS [StoreName], 
+    [vw_CPW_Clocking_Data_Trend].[Division] AS [Division], 
+    [vw_CPW_Clocking_Data_Trend].[Chain] AS [Chain], 
+    [vw_CPW_Clocking_Data_Trend].[Region] AS [Region], 
+    [vw_CPW_Clocking_Data_Trend].[EMP_NUM] AS [EMP_NUM], 
+    [vw_CPW_Clocking_Data_Trend].[FORENAME] AS [FORENAME], 
+    [vw_CPW_Clocking_Data_Trend].[SURNAME] AS [SURNAME], 
+    [vw_CPW_Clocking_Data_Trend].[CONTRACT_HOURS] AS [CONTRACT_HOURS], 
+    [vw_CPW_Clocking_Data_Trend].[ROLE] AS [ROLE], 
+    [vw_CPW_Clocking_Data_Trend].[DAY_NUM] AS [DAY_NUM], 
+    [vw_CPW_Clocking_Data_Trend].[FNCL_WK_NUM] AS [FNCL_WK_NUM], 
+    [vw_CPW_Clocking_Data_Trend].[StartTime] AS [StartTime], 
+    [vw_CPW_Clocking_Data_Trend].[EndTime] AS [EndTime], 
+    [vw_CPW_Clocking_Data_Trend].[PUNCHTIME_IN] AS [PUNCHTIME_IN], 
+    [vw_CPW_Clocking_Data_Trend].[PUNCHTIME_OUT] AS [PUNCHTIME_OUT], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_In_Early] AS [Clock_In_Early], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_In_Late] AS [Clock_In_Late], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Early] AS [Clock_Out_Early], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Late] AS [Clock_Out_Late], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_In_Acceptable] AS [Clock_In_Acceptable], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_In_Not_Acceptable] AS [Clock_In_Not_Acceptable], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Not_Acceptable] AS [Clock_Out_Not_Acceptable], 
+    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Acceptable] AS [Clock_Out_Acceptable], 
+    [vw_CPW_Clocking_Data_Trend].[Count_In_Missing] AS [Count_In_Missing], 
+    [vw_CPW_Clocking_Data_Trend].[Count_Out_Missing] AS [Count_Out_Missing], 
+    [vw_CPW_Clocking_Data_Trend].[Count_Schedule_Start] AS [Count_Schedule_Start], 
+    [vw_CPW_Clocking_Data_Trend].[Count_Schedule_End] AS [Count_Schedule_End], 
+    [vw_CPW_Clocking_Data_Trend].[PunchInOveride] AS [PunchInOveride], 
+    [vw_CPW_Clocking_Data_Trend].[PunchOutOveride] AS [PunchOutOveride], 
+    [vw_CPW_Clocking_Data_Trend].[ScheduleDate] AS [ScheduleDate], 
+    [vw_CPW_Clocking_Data_Trend].[CHN_CD] AS [CHN_CD]
+    FROM [dbo].[vw_CPW_Clocking_Data_Trend] AS [vw_CPW_Clocking_Data_Trend]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_DashboardData_v2" EntityType="Self.vw_DashboardData_v2" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_DashboardData_v2].[DashBoardDataId] AS [DashBoardDataId], 
+    [vw_DashboardData_v2].[Year] AS [Year], 
+    [vw_DashboardData_v2].[Quarter] AS [Quarter], 
+    [vw_DashboardData_v2].[Period] AS [Period], 
+    [vw_DashboardData_v2].[WeekNumber] AS [WeekNumber], 
+    [vw_DashboardData_v2].[StoreNumber] AS [StoreNumber], 
+    [vw_DashboardData_v2].[UkStoreNumber] AS [UkStoreNumber], 
+    [vw_DashboardData_v2].[StoreName] AS [StoreName], 
+    [vw_DashboardData_v2].[Division] AS [Division], 
+    [vw_DashboardData_v2].[Region] AS [Region], 
+    [vw_DashboardData_v2].[RegionName] AS [RegionName], 
+    [vw_DashboardData_v2].[TotalHeadCount] AS [TotalHeadCount], 
+    [vw_DashboardData_v2].[TimeCardsCompleted] AS [TimeCardsCompleted], 
+    [vw_DashboardData_v2].[ZeroHour] AS [ZeroHour], 
+    [vw_DashboardData_v2].[ContractHours] AS [ContractHours], 
+    [vw_DashboardData_v2].[FTContractHours] AS [FTContractHours], 
+    [vw_DashboardData_v2].[PTContractHours] AS [PTContractHours], 
+    [vw_DashboardData_v2].[OriginalTarget] AS [OriginalTarget], 
+    [vw_DashboardData_v2].[FinalTarget] AS [FinalTarget], 
+    [vw_DashboardData_v2].[HolidayTaken] AS [HolidayTaken], 
+    [vw_DashboardData_v2].[FTLeakage] AS [FTLeakage], 
+    [vw_DashboardData_v2].[LeakageCount] AS [LeakageCount], 
+    [vw_DashboardData_v2].[AllApprovedHours] AS [AllApprovedHours], 
+    [vw_DashboardData_v2].[SOH] AS [SOH], 
+    [vw_DashboardData_v2].[OverTargetFlag] AS [OverTargetFlag], 
+    [vw_DashboardData_v2].[OverContractFlag] AS [OverContractFlag], 
+    [vw_DashboardData_v2].[ComplianceScore] AS [ComplianceScore], 
+    [vw_DashboardData_v2].[SOHUtilization] AS [SOHUtilization], 
+    [vw_DashboardData_v2].[UtilizationZeroFlag] AS [UtilizationZeroFlag], 
+    [vw_DashboardData_v2].[GSContract] AS [GSContract], 
+    [vw_DashboardData_v2].[GSTarget] AS [GSTarget], 
+    [vw_DashboardData_v2].[GSHolidayTaken] AS [GSHolidayTaken], 
+    [vw_DashboardData_v2].[GSFTLeakage] AS [GSFTLeakage], 
+    [vw_DashboardData_v2].[GSAllApprovedHours] AS [GSAllApprovedHours], 
+    [vw_DashboardData_v2].[GSSOHSpend] AS [GSSOHSpend], 
+    [vw_DashboardData_v2].[GSOverTargetFlag] AS [GSOverTargetFlag], 
+    [vw_DashboardData_v2].[GSOverContractFlag] AS [GSOverContractFlag], 
+    [vw_DashboardData_v2].[StoreFlag] AS [StoreFlag], 
+    [vw_DashboardData_v2].[ContractBaseTarget] AS [ContractBaseTarget], 
+    [vw_DashboardData_v2].[IgniteCredits] AS [IgniteCredits], 
+    [vw_DashboardData_v2].[PunchCompliance] AS [PunchCompliance], 
+    [vw_DashboardData_v2].[ShortShifts] AS [ShortShifts]
+    FROM [dbo].[vw_DashboardData_v2] AS [vw_DashboardData_v2]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -242,7 +367,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           </FunctionImport>
           <EntitySet Name="EmpComplianceDetails" EntityType="WFMMContext.EmpComplianceDetail" />
           <EntitySet Name="ShortShifts" EntityType="WFMMContext.ShortShift" />
-          <EntitySet Name="DashBoardData_v2" EntityType="WFMMContext.DashBoardData_v2" />
           <FunctionImport Name="sp_ComplianceSummaryDivision" ReturnType="Collection(WFMMContext.sp_ComplianceSummary_Result)">
             <Parameter Name="Division" Mode="In" Type="String" />
             <Parameter Name="Period" Mode="In" Type="Int32" />
@@ -258,6 +382,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           </FunctionImport>
           <EntitySet Name="KronosEmployeeSummaries" EntityType="WFMMContext.KronosEmployeeSummary" />
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="WFMMContext.vw_CPW_Clocking_Data" />
+          <EntitySet Name="vw_CPW_Clocking_Data_Trend" EntityType="WFMMContext.vw_CPW_Clocking_Data_Trend" />
+          <EntitySet Name="vw_DashboardData_v2" EntityType="WFMMContext.vw_DashboardData_v2" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -336,53 +462,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Property Name="PersonNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="PersonName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PunchDate" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="DashBoardData_v2">
-          <Key>
-            <PropertyRef Name="DashBoardDataId" />
-          </Key>
-          <Property Name="DashBoardDataId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Quarter" Type="Byte" />
-          <Property Name="Period" Type="Byte" />
-          <Property Name="WeekNumber" Type="Int32" />
-          <Property Name="StoreNumber" Type="Int16" />
-          <Property Name="UkStoreNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="StoreName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Division" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Region" Type="Int16" />
-          <Property Name="RegionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="TotalHeadCount" Type="Int16" />
-          <Property Name="TimeCardsCompleted" Type="Int16" />
-          <Property Name="ZeroHour" Type="Int16" />
-          <Property Name="ContractHours" Type="Double" />
-          <Property Name="FTContractHours" Type="Double" />
-          <Property Name="PTContractHours" Type="Double" />
-          <Property Name="OriginalTarget" Type="Double" />
-          <Property Name="FinalTarget" Type="Double" />
-          <Property Name="HolidayTaken" Type="Double" />
-          <Property Name="FTLeakage" Type="Double" />
-          <Property Name="LeakageCount" Type="Int16" />
-          <Property Name="AllApprovedHours" Type="Double" />
-          <Property Name="SOH" Type="Double" />
-          <Property Name="OverTargetFlag" Type="Boolean" />
-          <Property Name="OverContractFlag" Type="Boolean" />
-          <Property Name="ComplianceScore" Type="Int16" />
-          <Property Name="SOHUtilization" Type="Int16" />
-          <Property Name="UtilizationZeroFlag" Type="Boolean" />
-          <Property Name="GSContract" Type="Double" />
-          <Property Name="GSTarget" Type="Double" />
-          <Property Name="GSHolidayTaken" Type="Double" />
-          <Property Name="GSFTLeakage" Type="Double" />
-          <Property Name="GSAllApprovedHours" Type="Double" />
-          <Property Name="GSSOHSpend" Type="Double" />
-          <Property Name="GSOverTargetFlag" Type="Boolean" />
-          <Property Name="GSOverContractFlag" Type="Boolean" />
-          <Property Name="StoreFlag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ContractBaseTarget" Type="Double" />
-          <Property Name="IgniteCredits" Type="Double" />
-          <Property Name="PunchCompliance" Type="Double" />
-          <Property Name="ShortShifts" Type="Int16" />
         </EntityType>
         <ComplexType Name="sp_ComplianceSummaryDivision_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -504,6 +583,93 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
           <Property Name="ScheduleDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="CHN_CD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="vw_CPW_Clocking_Data_Trend">
+          <Key>
+            <PropertyRef Name="EMP_NUM" />
+            <PropertyRef Name="ScheduleDate" />
+            <PropertyRef Name="CST_CNTR_int" />
+          </Key>
+          <Property Name="CST_CNTR_int" Type="Int32" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="EMP_NUM" Type="Int32" Nullable="false" />
+          <Property Name="FORENAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRACT_HOURS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ROLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DAY_NUM" Type="Byte" />
+          <Property Name="FNCL_WK_NUM" Type="Int32" />
+          <Property Name="StartTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="EndTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="PUNCHTIME_IN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PUNCHTIME_OUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_In_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_In_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_Out_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_Out_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Clock_In_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Clock_In_Not_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Clock_Out_Not_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Clock_Out_Acceptable" Type="Int32" Nullable="false" />
+          <Property Name="Count_In_Missing" Type="Int32" Nullable="false" />
+          <Property Name="Count_Out_Missing" Type="Int32" Nullable="false" />
+          <Property Name="Count_Schedule_Start" Type="Int32" Nullable="false" />
+          <Property Name="Count_Schedule_End" Type="Int32" Nullable="false" />
+          <Property Name="PunchInOveride" Type="Int32" Nullable="false" />
+          <Property Name="PunchOutOveride" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CHN_CD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_DashboardData_v2">
+          <Key>
+            <PropertyRef Name="DashBoardDataId" />
+            <PropertyRef Name="StoreFlag" />
+          </Key>
+          <Property Name="DashBoardDataId" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Quarter" Type="Byte" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="UkStoreNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="RegionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TotalHeadCount" Type="Int16" />
+          <Property Name="TimeCardsCompleted" Type="Int16" />
+          <Property Name="ZeroHour" Type="Int16" />
+          <Property Name="ContractHours" Type="Double" />
+          <Property Name="FTContractHours" Type="Double" />
+          <Property Name="PTContractHours" Type="Double" />
+          <Property Name="OriginalTarget" Type="Double" />
+          <Property Name="FinalTarget" Type="Double" />
+          <Property Name="HolidayTaken" Type="Double" />
+          <Property Name="FTLeakage" Type="Double" />
+          <Property Name="LeakageCount" Type="Int16" />
+          <Property Name="AllApprovedHours" Type="Double" />
+          <Property Name="SOH" Type="Double" />
+          <Property Name="OverTargetFlag" Type="Boolean" />
+          <Property Name="OverContractFlag" Type="Boolean" />
+          <Property Name="ComplianceScore" Type="Int16" />
+          <Property Name="SOHUtilization" Type="Int16" />
+          <Property Name="UtilizationZeroFlag" Type="Boolean" />
+          <Property Name="GSContract" Type="Double" />
+          <Property Name="GSTarget" Type="Double" />
+          <Property Name="GSHolidayTaken" Type="Double" />
+          <Property Name="GSFTLeakage" Type="Double" />
+          <Property Name="GSAllApprovedHours" Type="Double" />
+          <Property Name="GSSOHSpend" Type="Double" />
+          <Property Name="GSOverTargetFlag" Type="Boolean" />
+          <Property Name="GSOverContractFlag" Type="Boolean" />
+          <Property Name="StoreFlag" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContractBaseTarget" Type="Double" />
+          <Property Name="IgniteCredits" Type="Double" />
+          <Property Name="PunchCompliance" Type="Double" />
+          <Property Name="ShortShifts" Type="Int16" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -597,54 +763,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
                 <ScalarProperty Name="PersonNum" ColumnName="PersonNum" />
                 <ScalarProperty Name="HomeStore" ColumnName="HomeStore" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DashBoardData_v2">
-            <EntityTypeMapping TypeName="WFMMContext.DashBoardData_v2">
-              <MappingFragment StoreEntitySet="DashBoardData_v2">
-                <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
-                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
-                <ScalarProperty Name="IgniteCredits" ColumnName="IgniteCredits" />
-                <ScalarProperty Name="ContractBaseTarget" ColumnName="ContractBaseTarget" />
-                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
-                <ScalarProperty Name="GSOverContractFlag" ColumnName="GSOverContractFlag" />
-                <ScalarProperty Name="GSOverTargetFlag" ColumnName="GSOverTargetFlag" />
-                <ScalarProperty Name="GSSOHSpend" ColumnName="GSSOHSpend" />
-                <ScalarProperty Name="GSAllApprovedHours" ColumnName="GSAllApprovedHours" />
-                <ScalarProperty Name="GSFTLeakage" ColumnName="GSFTLeakage" />
-                <ScalarProperty Name="GSHolidayTaken" ColumnName="GSHolidayTaken" />
-                <ScalarProperty Name="GSTarget" ColumnName="GSTarget" />
-                <ScalarProperty Name="GSContract" ColumnName="GSContract" />
-                <ScalarProperty Name="UtilizationZeroFlag" ColumnName="UtilizationZeroFlag" />
-                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
-                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
-                <ScalarProperty Name="OverContractFlag" ColumnName="OverContractFlag" />
-                <ScalarProperty Name="OverTargetFlag" ColumnName="OverTargetFlag" />
-                <ScalarProperty Name="SOH" ColumnName="SOH" />
-                <ScalarProperty Name="AllApprovedHours" ColumnName="AllApprovedHours" />
-                <ScalarProperty Name="LeakageCount" ColumnName="LeakageCount" />
-                <ScalarProperty Name="FTLeakage" ColumnName="FTLeakage" />
-                <ScalarProperty Name="HolidayTaken" ColumnName="HolidayTaken" />
-                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
-                <ScalarProperty Name="OriginalTarget" ColumnName="OriginalTarget" />
-                <ScalarProperty Name="PTContractHours" ColumnName="PTContractHours" />
-                <ScalarProperty Name="FTContractHours" ColumnName="FTContractHours" />
-                <ScalarProperty Name="ContractHours" ColumnName="ContractHours" />
-                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
-                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
-                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
-                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
-                <ScalarProperty Name="UkStoreNumber" ColumnName="UkStoreNumber" />
-                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
-                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
-                <ScalarProperty Name="Period" ColumnName="Period" />
-                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="DashBoardDataId" ColumnName="DashBoardDataId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -766,6 +884,92 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have 
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="CST_CNTR_int" ColumnName="CST_CNTR_int" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CPW_Clocking_Data_Trend">
+            <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Data_Trend">
+              <MappingFragment StoreEntitySet="vw_CPW_Clocking_Data_Trend">
+                <ScalarProperty Name="CHN_CD" ColumnName="CHN_CD" />
+                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
+                <ScalarProperty Name="PunchOutOveride" ColumnName="PunchOutOveride" />
+                <ScalarProperty Name="PunchInOveride" ColumnName="PunchInOveride" />
+                <ScalarProperty Name="Count_Schedule_End" ColumnName="Count_Schedule_End" />
+                <ScalarProperty Name="Count_Schedule_Start" ColumnName="Count_Schedule_Start" />
+                <ScalarProperty Name="Count_Out_Missing" ColumnName="Count_Out_Missing" />
+                <ScalarProperty Name="Count_In_Missing" ColumnName="Count_In_Missing" />
+                <ScalarProperty Name="Clock_Out_Acceptable" ColumnName="Clock_Out_Acceptable" />
+                <ScalarProperty Name="Clock_Out_Not_Acceptable" ColumnName="Clock_Out_Not_Acceptable" />
+                <ScalarProperty Name="Clock_In_Not_Acceptable" ColumnName="Clock_In_Not_Acceptable" />
+                <ScalarProperty Name="Clock_In_Acceptable" ColumnName="Clock_In_Acceptable" />
+                <ScalarProperty Name="Clock_Out_Late" ColumnName="Clock_Out_Late" />
+                <ScalarProperty Name="Clock_Out_Early" ColumnName="Clock_Out_Early" />
+                <ScalarProperty Name="Clock_In_Late" ColumnName="Clock_In_Late" />
+                <ScalarProperty Name="Clock_In_Early" ColumnName="Clock_In_Early" />
+                <ScalarProperty Name="PUNCHTIME_OUT" ColumnName="PUNCHTIME_OUT" />
+                <ScalarProperty Name="PUNCHTIME_IN" ColumnName="PUNCHTIME_IN" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="FNCL_WK_NUM" ColumnName="FNCL_WK_NUM" />
+                <ScalarProperty Name="DAY_NUM" ColumnName="DAY_NUM" />
+                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
+                <ScalarProperty Name="CONTRACT_HOURS" ColumnName="CONTRACT_HOURS" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="FORENAME" ColumnName="FORENAME" />
+                <ScalarProperty Name="EMP_NUM" ColumnName="EMP_NUM" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="CST_CNTR_int" ColumnName="CST_CNTR_int" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DashboardData_v2">
+            <EntityTypeMapping TypeName="WFMMContext.vw_DashboardData_v2">
+              <MappingFragment StoreEntitySet="vw_DashboardData_v2">
+                <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
+                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
+                <ScalarProperty Name="IgniteCredits" ColumnName="IgniteCredits" />
+                <ScalarProperty Name="ContractBaseTarget" ColumnName="ContractBaseTarget" />
+                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
+                <ScalarProperty Name="GSOverContractFlag" ColumnName="GSOverContractFlag" />
+                <ScalarProperty Name="GSOverTargetFlag" ColumnName="GSOverTargetFlag" />
+                <ScalarProperty Name="GSSOHSpend" ColumnName="GSSOHSpend" />
+                <ScalarProperty Name="GSAllApprovedHours" ColumnName="GSAllApprovedHours" />
+                <ScalarProperty Name="GSFTLeakage" ColumnName="GSFTLeakage" />
+                <ScalarProperty Name="GSHolidayTaken" ColumnName="GSHolidayTaken" />
+                <ScalarProperty Name="GSTarget" ColumnName="GSTarget" />
+                <ScalarProperty Name="GSContract" ColumnName="GSContract" />
+                <ScalarProperty Name="UtilizationZeroFlag" ColumnName="UtilizationZeroFlag" />
+                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
+                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
+                <ScalarProperty Name="OverContractFlag" ColumnName="OverContractFlag" />
+                <ScalarProperty Name="OverTargetFlag" ColumnName="OverTargetFlag" />
+                <ScalarProperty Name="SOH" ColumnName="SOH" />
+                <ScalarProperty Name="AllApprovedHours" ColumnName="AllApprovedHours" />
+                <ScalarProperty Name="LeakageCount" ColumnName="LeakageCount" />
+                <ScalarProperty Name="FTLeakage" ColumnName="FTLeakage" />
+                <ScalarProperty Name="HolidayTaken" ColumnName="HolidayTaken" />
+                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
+                <ScalarProperty Name="OriginalTarget" ColumnName="OriginalTarget" />
+                <ScalarProperty Name="PTContractHours" ColumnName="PTContractHours" />
+                <ScalarProperty Name="FTContractHours" ColumnName="FTContractHours" />
+                <ScalarProperty Name="ContractHours" ColumnName="ContractHours" />
+                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
+                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
+                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="UkStoreNumber" ColumnName="UkStoreNumber" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="DashBoardDataId" ColumnName="DashBoardDataId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

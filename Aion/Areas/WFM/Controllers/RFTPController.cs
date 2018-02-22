@@ -221,5 +221,28 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+
+        public async Task<ActionResult> ClockingBehaviours()
+        {
+            ClockBehavioursVm vm = new ClockBehavioursVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.DisplayLevel = 4;
+                    break;
+                case "C":
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.MessageType = MessageType.Error;
+                    break;
+            }
+            return View();
+        }
     }
 }

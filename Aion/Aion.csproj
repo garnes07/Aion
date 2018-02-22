@@ -165,6 +165,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\ClockBehavioursVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockCompVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompDetailVm.cs" />
@@ -173,9 +174,6 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
-    <Compile Include="DAL\Entities\DashBoardData_v2.cs">
-      <DependentUpon>WFMModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL\Entities\EmpComplianceDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -255,6 +253,12 @@
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_CPW_Clocking_Data.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_CPW_Clocking_Data_Trend.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_DashboardData_v2.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">

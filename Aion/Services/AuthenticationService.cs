@@ -96,7 +96,7 @@ namespace Aion.Services
             //create identity and sign in
             var identity = CreateIdentity(userPrincipal);
             _authenticationManager.SignOut(AionAuthentication.ApplicationCookie);
-            _authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
+            _authenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
 
             //Get employee number and translate as per business context
             var entry = new DirectoryEntry("LDAP://" + principalContext.ConnectedServer + "/" + userPrincipal.DistinguishedName, userName, password);
