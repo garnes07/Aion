@@ -12,19 +12,15 @@ namespace Aion.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_CPW_Clocking_Data_Trend
+    public partial class vw_CPW_Clocking_Repeat_Stores
     {
         public long RowId { get; set; }
         public string Chain { get; set; }
         public string Division { get; set; }
-        public Nullable<short> Region { get; set; }
-        public Nullable<short> StoreNumber { get; set; }
+        public short Region { get; set; }
+        public short StoreNumber { get; set; }
         public string StoreName { get; set; }
-        public Nullable<int> FNCL_WK_NUM { get; set; }
-        public Nullable<int> ShiftCount { get; set; }
-        public Nullable<int> MissedIn { get; set; }
-        public Nullable<int> MissedOut { get; set; }
-        public Nullable<int> LateIn { get; set; }
-        public Nullable<decimal> CompPercent { get; set; }
+        public Nullable<int> WeekNumber { get; set; }
+        public Nullable<decimal> Compliance { get; set; }
     }
 }

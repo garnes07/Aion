@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Aion.Areas.WFM.Models.RFTP;
 using Aion.DAL.Entities;
 using Aion.ViewModels;
 
@@ -15,7 +16,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             get
             {
                 return PunchDetail.GroupBy(x => new { x.FORENAME, x.EMP_NUM }).Select(x =>
-                    new ClockAggregate()
+                    new ClockAggregate
                     {
                         Name = x.Key.FORENAME,
                         empNum = x.Key.EMP_NUM,
@@ -36,7 +37,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
                 return PunchDetail.GroupBy(x => new { x.CST_CNTR_int, x.StoreName })
                     .OrderBy(x => x.Key.CST_CNTR_int)
                     .Select(x =>
-                    new ClockAggregate()
+                    new ClockAggregate
                     {
                         Name = x.Key.CST_CNTR_int + " - " + x.Key.StoreName,
                         ShiftCount = x.Count(),
@@ -53,7 +54,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             get
             {
                 return PunchDetail.GroupBy(x => new { x.Region, x.Division }).Select(x =>
-                    new ClockAggregate()
+                    new ClockAggregate
                     {
                         Name = x.Key.Region.ToString(),
                         Division = x.Key.Division,
@@ -72,7 +73,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             get
             {
                 return PunchDetail.GroupBy(x => new { x.Division }).Select(x =>
-                        new ClockAggregate()
+                        new ClockAggregate
                         {
                             Name = x.Key.Division,
                             ShiftCount = x.Count(),
@@ -90,7 +91,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             get
             {
                 return PunchDetail.GroupBy(x => new { x.CHN_CD }).Select(x =>
-                    new ClockAggregate()
+                    new ClockAggregate
                     {
                         Name = x.Key.CHN_CD,
                         ShiftCount = x.Count(),
@@ -112,7 +113,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
                 return RegionGMPunches.GroupBy(x => new { x.FORENAME, x.EMP_NUM, x.StoreName, x.CST_CNTR_int})
                     .OrderBy(x => x.Key.CST_CNTR_int)
                     .Select(x =>
-                        new ClockAggregate()
+                        new ClockAggregate
                         {
                             Name = x.Key.FORENAME,
                             empNum = x.Key.EMP_NUM,
@@ -125,25 +126,5 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
                     .ToList();
             }
         }
-    }
-
-    public class ClockAggregate
-    {
-        public string Name { get ; set; }
-        public string StoreName { get; set; }
-        public string Division { get; set; }
-        public int? empNum { get; set; }
-        public int ShiftCount { get; set; }
-        public int MissedIn { get; set; }
-        public int MissedOut { get; set; }
-        public int LateIn { get; set; }
-
-        public decimal CompPercent
-        {
-            get
-            {
-                return 100 - ((decimal)(MissedIn + MissedOut) / ShiftCount * 50);
-            }
-        } 
     }
 }

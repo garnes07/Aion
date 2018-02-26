@@ -165,6 +165,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
+    <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockBehavioursVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockCompVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
@@ -256,6 +257,12 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_CPW_Clocking_Data_Trend.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_CPW_Clocking_Repeat_Employees.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_CPW_Clocking_Repeat_Stores.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_DashboardData_v2.cs">
@@ -486,6 +493,12 @@
     <Content Include="Areas\WFM\Views\RFTP\Partials\_SummaryStore.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_SummaryDivision.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_OLDSummaryDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\ClockingBehaviours.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockBehaviourStore.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockBehaviourRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockBehaviourDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockBehaviourChain.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockCompDivision.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

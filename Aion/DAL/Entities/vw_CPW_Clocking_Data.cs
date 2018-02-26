@@ -14,12 +14,12 @@ namespace Aion.DAL.Entities
     
     public partial class vw_CPW_Clocking_Data
     {
-        public Nullable<int> CST_CNTR_int { get; set; }
+        public int CST_CNTR_int { get; set; }
         public string StoreName { get; set; }
         public string Division { get; set; }
         public string Chain { get; set; }
         public short Region { get; set; }
-        public Nullable<int> EMP_NUM { get; set; }
+        public int EMP_NUM { get; set; }
         public string FORENAME { get; set; }
         public string SURNAME { get; set; }
         public string CONTRACT_HOURS { get; set; }

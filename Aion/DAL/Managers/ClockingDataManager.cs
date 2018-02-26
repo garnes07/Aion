@@ -43,5 +43,74 @@ namespace Aion.DAL.Managers
                 return await context.vw_CPW_Clocking_Data.Where(x => x.Chain == chain && x.FNCL_WK_NUM == weekOfYr).AsNoTracking().ToListAsync();
             }
         }
+
+        public async Task<List<vw_CPW_Clocking_Data_Trend>> GetClockTrendStore(string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_CPW_Clocking_Data_Trend.Where(x => x.StoreNumber == crit).OrderBy(x => x.FNCL_WK_NUM).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_CPW_Clocking_Data_Trend>> GetClockTrendRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_CPW_Clocking_Data_Trend.Where(x => x.Region == crit).OrderBy(x => x.StoreNumber).ThenBy(x => x.FNCL_WK_NUM).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_CPW_Clocking_Data_Trend>> GetClockTrendDivision(string division)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_CPW_Clocking_Data_Trend.Where(x => x.Division == division).OrderBy(x => x.Region).ThenBy(x => x.StoreNumber).ThenBy(x => x.FNCL_WK_NUM).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_CPW_Clocking_Data_Trend>> GetClockTrendChain(string chain)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_CPW_Clocking_Data_Trend.Where(x => x.Chain == chain).OrderBy(x => x.Division)
+                    .ThenBy(x => x.Region).ThenBy(x => x.StoreNumber).ThenBy(x => x.FNCL_WK_NUM).ToListAsync();
+            }
+        }
+
+        public  async Task<List<vw_CPW_Clocking_Repeat_Employees>> GetRepeatOffendersStore(string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_CPW_Clocking_Repeat_Employees.Where(x => x.StoreNumber == crit).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_CPW_Clocking_Repeat_Employees>> GetRepeatOffendersRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_CPW_Clocking_Repeat_Employees.Where(x => x.Region == crit).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_CPW_Clocking_Repeat_Employees>> GetRepeatOffendersDivision(string division)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_CPW_Clocking_Repeat_Employees.Where(x => x.Division == division).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_CPW_Clocking_Repeat_Stores>> GetRepeatOffendersChain(string chain)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_CPW_Clocking_Repeat_Stores.Where(x => x.Chain == chain).ToListAsync();
+            }
+        }
     }
 }

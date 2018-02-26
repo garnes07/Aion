@@ -55,61 +55,23 @@
 warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_CPW_Clocking_Data">
           <Key>
-            <PropertyRef Name="StoreName" />
-            <PropertyRef Name="Division" />
-            <PropertyRef Name="Chain" />
-            <PropertyRef Name="Region" />
-            <PropertyRef Name="Clock_In_Acceptable" />
-            <PropertyRef Name="Clock_In_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Acceptable" />
-            <PropertyRef Name="Count_In_Missing" />
-            <PropertyRef Name="Count_Out_Missing" />
-            <PropertyRef Name="Count_Schedule_Start" />
-            <PropertyRef Name="Count_Schedule_End" />
-            <PropertyRef Name="PunchInOveride" />
-            <PropertyRef Name="PunchOutOveride" />
-          </Key>
-          <Property Name="CST_CNTR_int" Type="int" />
-          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="Region" Type="smallint" Nullable="false" />
-          <Property Name="EMP_NUM" Type="int" />
-          <Property Name="FORENAME" Type="varchar" MaxLength="50" />
-          <Property Name="SURNAME" Type="varchar" MaxLength="50" />
-          <Property Name="CONTRACT_HOURS" Type="varchar" MaxLength="50" />
-          <Property Name="ROLE" Type="varchar" MaxLength="50" />
-          <Property Name="DAY_NUM" Type="tinyint" />
-          <Property Name="FNCL_WK_NUM" Type="int" />
-          <Property Name="StartTime" Type="varchar" MaxLength="11" />
-          <Property Name="EndTime" Type="varchar" MaxLength="11" />
-          <Property Name="PUNCHTIME_IN" Type="varchar" MaxLength="10" />
-          <Property Name="PUNCHTIME_OUT" Type="varchar" MaxLength="10" />
-          <Property Name="Clock_In_Early" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_In_Late" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_Out_Early" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_Out_Late" Type="varchar" MaxLength="11" />
-          <Property Name="Clock_In_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Clock_In_Not_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Clock_Out_Not_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Clock_Out_Acceptable" Type="int" Nullable="false" />
-          <Property Name="Count_In_Missing" Type="int" Nullable="false" />
-          <Property Name="Count_Out_Missing" Type="int" Nullable="false" />
-          <Property Name="Count_Schedule_Start" Type="int" Nullable="false" />
-          <Property Name="Count_Schedule_End" Type="int" Nullable="false" />
-          <Property Name="PunchInOveride" Type="int" Nullable="false" />
-          <Property Name="PunchOutOveride" Type="int" Nullable="false" />
-          <Property Name="ScheduleDate" Type="varchar" MaxLength="10" />
-          <Property Name="CHN_CD" Type="varchar" MaxLength="5" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data_Trend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_CPW_Clocking_Data_Trend">
-          <Key>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <PropertyRef Name="CST_CNTR_int" />
             <PropertyRef Name="EMP_NUM" />
             <PropertyRef Name="ScheduleDate" />
-            <PropertyRef Name="CST_CNTR_int" />
           </Key>
           <Property Name="CST_CNTR_int" Type="int" Nullable="false" />
           <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -145,10 +107,63 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data_Trend' does not
           <Property Name="CHN_CD" Type="varchar" MaxLength="5" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data_Trend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CPW_Clocking_Data_Trend">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FNCL_WK_NUM" Type="int" />
+          <Property Name="ShiftCount" Type="int" />
+          <Property Name="MissedIn" Type="int" />
+          <Property Name="MissedOut" Type="int" />
+          <Property Name="LateIn" Type="int" />
+          <Property Name="CompPercent" Type="decimal" Precision="33" Scale="11" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Repeat_Employees' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CPW_Clocking_Repeat_Employees">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Forename" Type="varchar" MaxLength="50" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="Compliance" Type="decimal" Precision="33" Scale="11" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Repeat_Stores' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CPW_Clocking_Repeat_Stores">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="Compliance" Type="decimal" Precision="33" Scale="11" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_DashboardData_v2">
           <Key>
             <PropertyRef Name="DashBoardDataId" />
+            
+            
+            
             <PropertyRef Name="StoreFlag" />
           </Key>
           <Property Name="DashBoardDataId" Type="int" Nullable="false" />
@@ -264,39 +279,44 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           </EntitySet>
           <EntitySet Name="vw_CPW_Clocking_Data_Trend" EntityType="Self.vw_CPW_Clocking_Data_Trend" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [vw_CPW_Clocking_Data_Trend].[CST_CNTR_int] AS [CST_CNTR_int], 
-    [vw_CPW_Clocking_Data_Trend].[StoreName] AS [StoreName], 
-    [vw_CPW_Clocking_Data_Trend].[Division] AS [Division], 
+    [vw_CPW_Clocking_Data_Trend].[RowId] AS [RowId], 
     [vw_CPW_Clocking_Data_Trend].[Chain] AS [Chain], 
+    [vw_CPW_Clocking_Data_Trend].[Division] AS [Division], 
     [vw_CPW_Clocking_Data_Trend].[Region] AS [Region], 
-    [vw_CPW_Clocking_Data_Trend].[EMP_NUM] AS [EMP_NUM], 
-    [vw_CPW_Clocking_Data_Trend].[FORENAME] AS [FORENAME], 
-    [vw_CPW_Clocking_Data_Trend].[SURNAME] AS [SURNAME], 
-    [vw_CPW_Clocking_Data_Trend].[CONTRACT_HOURS] AS [CONTRACT_HOURS], 
-    [vw_CPW_Clocking_Data_Trend].[ROLE] AS [ROLE], 
-    [vw_CPW_Clocking_Data_Trend].[DAY_NUM] AS [DAY_NUM], 
+    [vw_CPW_Clocking_Data_Trend].[StoreNumber] AS [StoreNumber], 
+    [vw_CPW_Clocking_Data_Trend].[StoreName] AS [StoreName], 
     [vw_CPW_Clocking_Data_Trend].[FNCL_WK_NUM] AS [FNCL_WK_NUM], 
-    [vw_CPW_Clocking_Data_Trend].[StartTime] AS [StartTime], 
-    [vw_CPW_Clocking_Data_Trend].[EndTime] AS [EndTime], 
-    [vw_CPW_Clocking_Data_Trend].[PUNCHTIME_IN] AS [PUNCHTIME_IN], 
-    [vw_CPW_Clocking_Data_Trend].[PUNCHTIME_OUT] AS [PUNCHTIME_OUT], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_In_Early] AS [Clock_In_Early], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_In_Late] AS [Clock_In_Late], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Early] AS [Clock_Out_Early], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Late] AS [Clock_Out_Late], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_In_Acceptable] AS [Clock_In_Acceptable], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_In_Not_Acceptable] AS [Clock_In_Not_Acceptable], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Not_Acceptable] AS [Clock_Out_Not_Acceptable], 
-    [vw_CPW_Clocking_Data_Trend].[Clock_Out_Acceptable] AS [Clock_Out_Acceptable], 
-    [vw_CPW_Clocking_Data_Trend].[Count_In_Missing] AS [Count_In_Missing], 
-    [vw_CPW_Clocking_Data_Trend].[Count_Out_Missing] AS [Count_Out_Missing], 
-    [vw_CPW_Clocking_Data_Trend].[Count_Schedule_Start] AS [Count_Schedule_Start], 
-    [vw_CPW_Clocking_Data_Trend].[Count_Schedule_End] AS [Count_Schedule_End], 
-    [vw_CPW_Clocking_Data_Trend].[PunchInOveride] AS [PunchInOveride], 
-    [vw_CPW_Clocking_Data_Trend].[PunchOutOveride] AS [PunchOutOveride], 
-    [vw_CPW_Clocking_Data_Trend].[ScheduleDate] AS [ScheduleDate], 
-    [vw_CPW_Clocking_Data_Trend].[CHN_CD] AS [CHN_CD]
+    [vw_CPW_Clocking_Data_Trend].[ShiftCount] AS [ShiftCount], 
+    [vw_CPW_Clocking_Data_Trend].[MissedIn] AS [MissedIn], 
+    [vw_CPW_Clocking_Data_Trend].[MissedOut] AS [MissedOut], 
+    [vw_CPW_Clocking_Data_Trend].[LateIn] AS [LateIn], 
+    [vw_CPW_Clocking_Data_Trend].[CompPercent] AS [CompPercent]
     FROM [dbo].[vw_CPW_Clocking_Data_Trend] AS [vw_CPW_Clocking_Data_Trend]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_CPW_Clocking_Repeat_Employees" EntityType="Self.vw_CPW_Clocking_Repeat_Employees" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_CPW_Clocking_Repeat_Employees].[RowId] AS [RowId], 
+    [vw_CPW_Clocking_Repeat_Employees].[Chain] AS [Chain], 
+    [vw_CPW_Clocking_Repeat_Employees].[Division] AS [Division], 
+    [vw_CPW_Clocking_Repeat_Employees].[Region] AS [Region], 
+    [vw_CPW_Clocking_Repeat_Employees].[StoreNumber] AS [StoreNumber], 
+    [vw_CPW_Clocking_Repeat_Employees].[StoreName] AS [StoreName], 
+    [vw_CPW_Clocking_Repeat_Employees].[Forename] AS [Forename], 
+    [vw_CPW_Clocking_Repeat_Employees].[WeekNumber] AS [WeekNumber], 
+    [vw_CPW_Clocking_Repeat_Employees].[Compliance] AS [Compliance]
+    FROM [dbo].[vw_CPW_Clocking_Repeat_Employees] AS [vw_CPW_Clocking_Repeat_Employees]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_CPW_Clocking_Repeat_Stores" EntityType="Self.vw_CPW_Clocking_Repeat_Stores" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_CPW_Clocking_Repeat_Stores].[RowId] AS [RowId], 
+    [vw_CPW_Clocking_Repeat_Stores].[Chain] AS [Chain], 
+    [vw_CPW_Clocking_Repeat_Stores].[Division] AS [Division], 
+    [vw_CPW_Clocking_Repeat_Stores].[Region] AS [Region], 
+    [vw_CPW_Clocking_Repeat_Stores].[StoreNumber] AS [StoreNumber], 
+    [vw_CPW_Clocking_Repeat_Stores].[StoreName] AS [StoreName], 
+    [vw_CPW_Clocking_Repeat_Stores].[WeekNumber] AS [WeekNumber], 
+    [vw_CPW_Clocking_Repeat_Stores].[Compliance] AS [Compliance]
+    FROM [dbo].[vw_CPW_Clocking_Repeat_Stores] AS [vw_CPW_Clocking_Repeat_Stores]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_DashboardData_v2" EntityType="Self.vw_DashboardData_v2" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -382,8 +402,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           </FunctionImport>
           <EntitySet Name="KronosEmployeeSummaries" EntityType="WFMMContext.KronosEmployeeSummary" />
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="WFMMContext.vw_CPW_Clocking_Data" />
-          <EntitySet Name="vw_CPW_Clocking_Data_Trend" EntityType="WFMMContext.vw_CPW_Clocking_Data_Trend" />
           <EntitySet Name="vw_DashboardData_v2" EntityType="WFMMContext.vw_DashboardData_v2" />
+          <EntitySet Name="vw_CPW_Clocking_Data_Trend" EntityType="WFMMContext.vw_CPW_Clocking_Data_Trend" />
+          <EntitySet Name="vw_CPW_Clocking_Repeat_Employees" EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Employees" />
+          <EntitySet Name="vw_CPW_Clocking_Repeat_Stores" EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Stores" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -535,59 +557,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
         </EntityType>
         <EntityType Name="vw_CPW_Clocking_Data">
           <Key>
-            <PropertyRef Name="StoreName" />
-            <PropertyRef Name="Division" />
-            <PropertyRef Name="Chain" />
-            <PropertyRef Name="Region" />
-            <PropertyRef Name="Clock_In_Acceptable" />
-            <PropertyRef Name="Clock_In_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Not_Acceptable" />
-            <PropertyRef Name="Clock_Out_Acceptable" />
-            <PropertyRef Name="Count_In_Missing" />
-            <PropertyRef Name="Count_Out_Missing" />
-            <PropertyRef Name="Count_Schedule_Start" />
-            <PropertyRef Name="Count_Schedule_End" />
-            <PropertyRef Name="PunchInOveride" />
-            <PropertyRef Name="PunchOutOveride" />
-          </Key>
-          <Property Name="CST_CNTR_int" Type="Int32" />
-          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Region" Type="Int16" Nullable="false" />
-          <Property Name="EMP_NUM" Type="Int32" />
-          <Property Name="FORENAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRACT_HOURS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ROLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DAY_NUM" Type="Byte" />
-          <Property Name="FNCL_WK_NUM" Type="Int32" />
-          <Property Name="StartTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="EndTime" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="PUNCHTIME_IN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PUNCHTIME_OUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_Out_Early" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_Out_Late" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="Clock_In_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_In_Not_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_Out_Not_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Clock_Out_Acceptable" Type="Int32" Nullable="false" />
-          <Property Name="Count_In_Missing" Type="Int32" Nullable="false" />
-          <Property Name="Count_Out_Missing" Type="Int32" Nullable="false" />
-          <Property Name="Count_Schedule_Start" Type="Int32" Nullable="false" />
-          <Property Name="Count_Schedule_End" Type="Int32" Nullable="false" />
-          <Property Name="PunchInOveride" Type="Int32" Nullable="false" />
-          <Property Name="PunchOutOveride" Type="Int32" Nullable="false" />
-          <Property Name="ScheduleDate" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CHN_CD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="vw_CPW_Clocking_Data_Trend">
-          <Key>
+            <PropertyRef Name="CST_CNTR_int" />
             <PropertyRef Name="EMP_NUM" />
             <PropertyRef Name="ScheduleDate" />
-            <PropertyRef Name="CST_CNTR_int" />
           </Key>
           <Property Name="CST_CNTR_int" Type="Int32" Nullable="false" />
           <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -669,6 +641,50 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Property Name="IgniteCredits" Type="Double" />
           <Property Name="PunchCompliance" Type="Double" />
           <Property Name="ShortShifts" Type="Int16" />
+        </EntityType>
+        <EntityType Name="vw_CPW_Clocking_Data_Trend">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FNCL_WK_NUM" Type="Int32" />
+          <Property Name="ShiftCount" Type="Int32" />
+          <Property Name="MissedIn" Type="Int32" />
+          <Property Name="MissedOut" Type="Int32" />
+          <Property Name="LateIn" Type="Int32" />
+          <Property Name="CompPercent" Type="Decimal" Precision="33" Scale="11" />
+        </EntityType>
+        <EntityType Name="vw_CPW_Clocking_Repeat_Employees">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Forename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="Compliance" Type="Decimal" Precision="33" Scale="11" />
+        </EntityType>
+        <EntityType Name="vw_CPW_Clocking_Repeat_Stores">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="Compliance" Type="Decimal" Precision="33" Scale="11" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -887,44 +903,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vw_CPW_Clocking_Data_Trend">
-            <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Data_Trend">
-              <MappingFragment StoreEntitySet="vw_CPW_Clocking_Data_Trend">
-                <ScalarProperty Name="CHN_CD" ColumnName="CHN_CD" />
-                <ScalarProperty Name="ScheduleDate" ColumnName="ScheduleDate" />
-                <ScalarProperty Name="PunchOutOveride" ColumnName="PunchOutOveride" />
-                <ScalarProperty Name="PunchInOveride" ColumnName="PunchInOveride" />
-                <ScalarProperty Name="Count_Schedule_End" ColumnName="Count_Schedule_End" />
-                <ScalarProperty Name="Count_Schedule_Start" ColumnName="Count_Schedule_Start" />
-                <ScalarProperty Name="Count_Out_Missing" ColumnName="Count_Out_Missing" />
-                <ScalarProperty Name="Count_In_Missing" ColumnName="Count_In_Missing" />
-                <ScalarProperty Name="Clock_Out_Acceptable" ColumnName="Clock_Out_Acceptable" />
-                <ScalarProperty Name="Clock_Out_Not_Acceptable" ColumnName="Clock_Out_Not_Acceptable" />
-                <ScalarProperty Name="Clock_In_Not_Acceptable" ColumnName="Clock_In_Not_Acceptable" />
-                <ScalarProperty Name="Clock_In_Acceptable" ColumnName="Clock_In_Acceptable" />
-                <ScalarProperty Name="Clock_Out_Late" ColumnName="Clock_Out_Late" />
-                <ScalarProperty Name="Clock_Out_Early" ColumnName="Clock_Out_Early" />
-                <ScalarProperty Name="Clock_In_Late" ColumnName="Clock_In_Late" />
-                <ScalarProperty Name="Clock_In_Early" ColumnName="Clock_In_Early" />
-                <ScalarProperty Name="PUNCHTIME_OUT" ColumnName="PUNCHTIME_OUT" />
-                <ScalarProperty Name="PUNCHTIME_IN" ColumnName="PUNCHTIME_IN" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="FNCL_WK_NUM" ColumnName="FNCL_WK_NUM" />
-                <ScalarProperty Name="DAY_NUM" ColumnName="DAY_NUM" />
-                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
-                <ScalarProperty Name="CONTRACT_HOURS" ColumnName="CONTRACT_HOURS" />
-                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
-                <ScalarProperty Name="FORENAME" ColumnName="FORENAME" />
-                <ScalarProperty Name="EMP_NUM" ColumnName="EMP_NUM" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="Chain" ColumnName="Chain" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
-                <ScalarProperty Name="CST_CNTR_int" ColumnName="CST_CNTR_int" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vw_DashboardData_v2">
             <EntityTypeMapping TypeName="WFMMContext.vw_DashboardData_v2">
               <MappingFragment StoreEntitySet="vw_DashboardData_v2">
@@ -970,6 +948,53 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
                 <ScalarProperty Name="Quarter" ColumnName="Quarter" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="DashBoardDataId" ColumnName="DashBoardDataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CPW_Clocking_Data_Trend">
+            <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Data_Trend">
+              <MappingFragment StoreEntitySet="vw_CPW_Clocking_Data_Trend">
+                <ScalarProperty Name="CompPercent" ColumnName="CompPercent" />
+                <ScalarProperty Name="LateIn" ColumnName="LateIn" />
+                <ScalarProperty Name="MissedOut" ColumnName="MissedOut" />
+                <ScalarProperty Name="MissedIn" ColumnName="MissedIn" />
+                <ScalarProperty Name="ShiftCount" ColumnName="ShiftCount" />
+                <ScalarProperty Name="FNCL_WK_NUM" ColumnName="FNCL_WK_NUM" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CPW_Clocking_Repeat_Employees">
+            <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Repeat_Employees">
+              <MappingFragment StoreEntitySet="vw_CPW_Clocking_Repeat_Employees">
+                <ScalarProperty Name="Compliance" ColumnName="Compliance" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="Forename" ColumnName="Forename" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CPW_Clocking_Repeat_Stores">
+            <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Repeat_Stores">
+              <MappingFragment StoreEntitySet="vw_CPW_Clocking_Repeat_Stores">
+                <ScalarProperty Name="Compliance" ColumnName="Compliance" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

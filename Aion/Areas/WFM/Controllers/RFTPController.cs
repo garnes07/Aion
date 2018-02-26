@@ -202,7 +202,7 @@ namespace Aion.Areas.WFM.Controllers
                 case "D":
                     vm.PunchDetail = await _clockManager.GetClockDetailDivision(selectCrit, weekNum);
                     vm.Priority = selectCrit;
-                    vm.DisplayLevel = 4;
+                    vm.DisplayLevel = 3;
                     break;
                 case "C":
                     vm.PunchDetail = await _clockManager.GetClockDetailChain(selectCrit, weekNum);
@@ -229,20 +229,27 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
+                    vm.PunchDetail = await _clockManager.GetClockTrendStore(selectCrit);
+                    vm.RepeatEmployeeDetail = await _clockManager.GetRepeatOffendersStore(selectCrit);
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
+                    vm.PunchDetail = await _clockManager.GetClockTrendRegion(selectCrit);
+                    vm.RepeatEmployeeDetail = await _clockManager.GetRepeatOffendersRegion(selectCrit);
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.DisplayLevel = 4;
+                    vm.PunchDetail = await _clockManager.GetClockTrendDivision(selectCrit);
+                    vm.RepeatEmployeeDetail = await _clockManager.GetRepeatOffendersDivision(selectCrit);
+                    vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
-                    vm.MessageType = MessageType.Error;
+                    vm.PunchDetail = await _clockManager.GetClockTrendChain(selectCrit);
+                    vm.RepeatStoresDetail = await _clockManager.GetRepeatOffendersChain(selectCrit);
+                    vm.DisplayLevel = 4;
                     break;
             }
-            return View();
+            return View(vm);
         }
     }
 }

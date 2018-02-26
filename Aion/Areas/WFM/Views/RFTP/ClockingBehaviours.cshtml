@@ -1,0 +1,67 @@
+﻿@using Aion.Areas.WFM.ViewModels.RFTP
+@using Aion.ViewModels
+@model ClockBehavioursVm
+    
+@{
+    ViewBag.title = "Clocking Behaviours";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>Clocking Behaviours</strong>
+        </div>
+        <div class="card-body">
+            <p>The clocking behaviours view is broken into 2 parts: Trending view &amp; Repeat Offenders</p>
+            <p>Trending view provides visibility on how each store has been performing for their clocking compliance each week. This is shown over a 6 week period to provide insight to spotting positive/negative trends.</p>
+            <p>
+                Below this are your regional repeat offenders - and the region's largest opportunities! If focused this will drive the region's overall performance up very quickly along with reducing those colleagues
+                most at risk. This data can be extended to view more or less colleagues at the bottom of the screen.
+            </p>
+        </div>
+    </div>
+
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-danger text-center"><strong>@Model.Message</strong></div>
+    }
+    else if (Model.DisplayLevel == 1)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockBehaviourStore.cshtml")
+    }
+    else if (Model.DisplayLevel == 2)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockBehaviourRegion.cshtml")
+    }
+    else if (Model.DisplayLevel == 3)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockBehaviourDivision.cshtml")
+    }
+    else if (Model.DisplayLevel == 4)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockBehaviourChain.cshtml")
+    }
+</div>
+
+@section myScripts{
+    <script>
+        $(function () {
+            $('#showMore').click(function () {
+                $(this).toggle();
+                $('#showLess').toggle();
+                $('#otherRows').slideDown(300);
+            });
+
+            $('#showLess').click(function () {
+                $(this).toggle();
+                $('#showMore').toggle();
+                $('#otherRows').slideUp(300);
+            });
+        });
+    </script>
+}

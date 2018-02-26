@@ -1,0 +1,85 @@
+﻿@using Aion.Areas.WFM.ViewModels.RFTP
+@model ClockBehavioursVm
+
+<div class="card mb-3">
+    <div class="card-header text-center">
+        <strong>6 Week Trend</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center"></th>
+                @foreach (var week in Model.WeekNumbers)
+                {
+                    <th class="text-center">@week.ToString().Substring(4)</th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@string.Format("{0} - {1}", Model.StoreSummary.First().StoreNumber, Model.StoreSummary.First().StoreName)</td>
+                @foreach (var week in Model.WeekNumbers)
+                {
+                    var d = Model.StoreSummary.FirstOrDefault(x => x.FNCL_WK_NUM == week);
+                    if (d != null)
+                    {
+                        <td class="text-center @(d.CompPercent < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", d.CompPercent)</td>
+                    }
+                    else
+                    {
+                        <td class="text-center">-</td>
+                    }
+                }
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header text-center">
+        <strong>Repeat Offenders</strong>
+    </div>
+    <div class="card-body">
+        @if (Model.RepeatEmployeeList.Any())
+        {
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                <tr>
+                    <th class="text-center">Employee Name</th>
+                    @foreach (var week in Model.WeekNumbers)
+                    {
+                        <th class="text-center">@week.ToString().Substring(4)</th>
+                    }
+                </tr>
+                </thead>
+                <tbody id="top10Rows">
+                @foreach (var emp in Model.RepeatEmployeeList)
+                {
+                    <tr>
+                        <td>@emp.Forename</td>
+                        @foreach (var week in Model.WeekNumbers)
+                        {
+                            var data = Model.RepeatEmployeeDetail.FirstOrDefault(x => x.Forename == emp.Forename && x.WeekNumber == week);
+                            if (data != null)
+                            {
+                                <td class="text-center @(data.Compliance < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", data.Compliance)</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">-</td>
+                            }
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-success text-center">
+                <strong>No repeat offenders!</strong>
+            </div>
+        }
+    </div>
+</div>

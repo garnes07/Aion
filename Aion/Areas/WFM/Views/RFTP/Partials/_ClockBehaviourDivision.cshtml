@@ -1,0 +1,113 @@
+﻿@using Aion.Areas.WFM.ViewModels.RFTP
+@model ClockBehavioursVm
+    
+@{
+    int a = 1;
+}
+
+<div class="card mb-3">
+    <div class="card-header text-center">
+        <strong>6 Week Trend</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center">Store</th>
+                @foreach (var week in Model.WeekNumbers)
+                {
+                    <th class="text-center">@week.ToString().Substring(4)</th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var region in Model.RegionList)
+            {
+                <tr>
+                    <td>@region</td>
+                    @foreach (var week in Model.WeekNumbers)
+                    {
+                        var d = Model.RegionSummary.FirstOrDefault(x => x.Region == region && x.FNCL_WK_NUM == week);
+                        if (d != null)
+                        {
+                            <td class="text-center @(d.CompPercent < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", d.CompPercent)</td>
+                        }
+                        else
+                        {
+                            <td class="text-center">-</td>
+                        }
+                    }
+                </tr>
+            }
+            <tr>
+                <td><strong>Division Total</strong></td>
+                @foreach (var week in Model.WeekNumbers)
+                {
+                    <td class="text-center @(Model.DivisionSummary.First().CompPercent < 90 ? "table-danger" : "")"><strong>@string.Format("{0:0.0}%", Model.DivisionSummary.First(x => x.FNCL_WK_NUM == week).CompPercent)</strong></td>
+                }
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header text-center">
+        <strong>Repeat Offenders</strong>
+    </div>
+    <div class="card-body">
+        @if (Model.RepeatEmployeeList.Any())
+        {
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                <tr>
+                    <th class="text-center">Store Name</th>
+                    <th class="text-center">Employee Name</th>
+                    @foreach (var week in Model.WeekNumbers)
+                    {
+                        <th class="text-center">@week.ToString().Substring(4)</th>
+                    }
+                </tr>
+                </thead>
+                <tbody id="top10Rows">
+                @foreach (var emp in Model.RepeatEmployeeList)
+                {
+                    if (a == 20)
+                    {
+                        @Html.Raw("</tbody><tbody id='otherRows' style='display:none;'>")
+                    }
+                    <tr>
+                        <td>@emp.FullStoreName</td>
+                        <td>@emp.Forename</td>
+                        @foreach (var week in Model.WeekNumbers)
+                        {
+                            var data = Model.RepeatEmployeeDetail.FirstOrDefault(x => x.Forename == emp.Forename && x.WeekNumber == week);
+                            if (data != null)
+                            {
+                                <td class="text-center @(data.Compliance < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", data.Compliance)</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">-</td>
+                            }
+                        }
+                    </tr>
+                    a++;
+                }
+                </tbody>
+            </table>
+            if (a >= 20)
+             {
+                 <div class="row pr-3">
+                     <button type="button" id="showMore" class="btn btn-info col offset-10 col-2"><i class="icon ion-plus-round"></i> Show More</button>
+                     <button type="button" id="showLess" class="btn btn-info col offset-10 col-2" style="display: none;"><i class="icon ion-minus-round"></i> Show Less</button>
+                 </div>
+             }
+        }
+        else
+        {
+            <div class="alert alert-success text-center">
+                <strong>No repeat offenders!</strong>
+            </div>
+        }
+    </div>
+</div>

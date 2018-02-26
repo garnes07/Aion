@@ -37,6 +37,10 @@
     {
         @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockCompRegion.cshtml")
     }
+    else if (Model.DisplayLevel == 3)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockCompDivision.cshtml")
+    }
     else if (Model.DisplayLevel == 4)
     {
         @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_ClockCompChain.cshtml")

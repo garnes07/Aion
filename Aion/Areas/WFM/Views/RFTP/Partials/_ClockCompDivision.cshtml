@@ -24,7 +24,7 @@
                     <td class="text-center"><strong>@Model.ChainSummary.MissedIn</strong></td>
                     <td class="text-center"><strong>@Model.ChainSummary.MissedOut</strong></td>
                 </tr>
-                @foreach (var division in Model.DivisionSummary)
+                @foreach (var division in Model.DivisionSummary.Where(x => x.Name == Model.Priority))
                 {
                     <tr class="table-division">
                         <td><strong>@division.Name</strong></td>
