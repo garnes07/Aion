@@ -23,6 +23,7 @@ namespace Aion.Areas.WFM.Controllers
         private readonly ITicketManager _ticketManager;
         private readonly IStoreManager _storeManager;
         private readonly IEmpSummaryManager _empSummaryManager;
+        private readonly IEditedClockManager _editedClockManager;
 
         public RFTPController()
         {
@@ -33,6 +34,7 @@ namespace Aion.Areas.WFM.Controllers
             _ticketManager = new TicketManager();
             _storeManager = new StoreManager();
             _empSummaryManager = new EmpSummaryManager();
+            _editedClockManager = new EditedClockManager();
         }
         
         //Summary
@@ -90,7 +92,7 @@ namespace Aion.Areas.WFM.Controllers
                     if (vm._dashboardView.First().PunchCompliance < 0.9)
                         vm.loadPunchDetails(await _clockManager.GetClockDetailStore(selectCrit, weekNum));
                     if (vm._dashboardView.First().ShortShifts > 0)
-                        vm.loadSSDetails(await _dashDataManager.GetShortShiftDetail(selectCrit, weekNum));
+                        vm.loadSSDetails(await _editedClockManager.GetEditedClocksStore(selectCrit, weekNum));
 
                     vm.DisplayLevel = 1;
 
@@ -137,7 +139,7 @@ namespace Aion.Areas.WFM.Controllers
                 case "S":
                     string storeName = await _storeManager.GetKronosName(selectCrit);
                     vm.hf = await _kronosManager.GetKronosHyperFind(storeName, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
-                    vm.ss = await _dashDataManager.GetShortShiftDetail(selectCrit, weekOfYr);
+                    vm.ss = await _editedClockManager.GetEditedClocksStore(selectCrit, weekOfYr);
                     vm.HelpTcks = await _ticketManager.GetHelpTickets(selectCrit);
 
                     short a = 1;
@@ -249,6 +251,43 @@ namespace Aion.Areas.WFM.Controllers
                     vm.DisplayLevel = 4;
                     break;
             }
+            return View(vm);
+        }
+
+        public async Task<ActionResult> EditedClocks(string selectedDate = "Last Week")
+        {
+            EditedClocksVm vm = new EditedClocksVm();
+            int weekNum = selectedDate.GetWeekNumber();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.StoreDetail = await _editedClockManager.GetEditedClocksStore(selectCrit, weekNum);
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.AggregateDetail = await _editedClockManager.GetEditedClocksRegion(selectCrit, weekNum);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.AggregateDetail = await _editedClockManager.GetEditedClocksDivision(selectCrit, weekNum);
+                    vm.DisplayLevel = 3;
+                    break;
+                case "C":
+                    vm.AggregateDetail = await _editedClockManager.GetEditedClocksChain(selectCrit, weekNum);
+                    vm.DisplayLevel = 4;
+                    break;
+            }
+
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            if (selectArea != "S" && !vm.AggregateDetail.Any())
+            {
+                vm.MessageType = MessageType.Error;
+                vm.Message = "Reporting for the selected period has not yet been finalised, check back later.";
+            }
+
             return View(vm);
         }
     }

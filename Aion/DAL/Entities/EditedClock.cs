@@ -12,7 +12,7 @@ namespace Aion.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class ShortShift
+    public partial class EditedClock
     {
         public int WeekNumber { get; set; }
         public int HomeStore { get; set; }

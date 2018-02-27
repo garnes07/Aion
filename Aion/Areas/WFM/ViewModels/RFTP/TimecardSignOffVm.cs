@@ -10,7 +10,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
     public class TimecardSignOffVm : BaseVm
     {
         public List<HyperFindResult> hf { get; set; }
-        public List<ShortShift> ss { get; set; }
+        public List<EditedClock> ss { get; set; }
         public List<sp_CheckHelpTickets_Result> HelpTcks { get; set; }
         public DateTime weekStart { get; set; }
         public List<RegionSignOff> rso { get; set; }

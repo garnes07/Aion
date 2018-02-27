@@ -1,0 +1,37 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.EditedClocksVm
+    
+<div class="card">
+    <div class="card-body">
+        @if (Model.StoreDetail.Any())
+        {
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                <tr>
+                    <th class="text-center">Person Name</th>
+                    <th class="text-center">Shift Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var Person in Model.PersonList)
+                {
+                    var data = Model.PersonDetail(Person);
+                    <tr>
+                        <td rowspan="@(data.Count)">@Person</td>
+                        <td class="text-center">@data.First().PunchDate.ToShortDateString()</td>
+                    </tr>
+                    for (int i = 1; i < data.Count; i++)
+                    {
+                        <tr>
+                            <td class="text-center">@data[i].PunchDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info text-center"><strong>No edited clocks!</strong></div>
+        }
+    </div>
+</div>

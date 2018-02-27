@@ -1,0 +1,27 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.EditedClocksVm
+    
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center">Branch</th>
+                <th class="text-center">Clocks Edited</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.AggregateDetail.Where(x => x.StoreNumber != null))
+            {
+                <tr>
+                    <td>@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</td>
+                    <td class="text-center @(item.EditedCount > 1 ? "table-danger" : "")">@item.EditedCount</td>
+                </tr>
+            }
+            <tr>
+                <td><strong>Region Total</strong></td>
+                <td class="text-center"><strong>@Model.AggregateDetail.First(x => x.StoreName == null).EditedCount</strong></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -37,7 +37,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             _punchDetails = temp.Select(x => new PunchCompDetail { PersonName = x.FullName, PunchComp = 100 - (((decimal)x.MissedIn + x.MissedOut) / x.ShiftCount) * 50 }).ToList();
         }
 
-        public void loadSSDetails(List<ShortShift> a)
+        public void loadSSDetails(List<EditedClock> a)
         {
             var temp = a.GroupBy(x => new { x.PersonName }).Select(s => new { PersonName = s.Key.PersonName, ShortShifts = s.Count() }).OrderBy(x => x.PersonName).ToList();
             _ssDetails = temp.Select(x => new ShortShiftDetail { PersonName = x.PersonName, ShortShifts = x.ShortShifts }).ToList();

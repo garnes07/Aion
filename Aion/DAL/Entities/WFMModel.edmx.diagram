@@ -6,13 +6,14 @@
     <edmx:Diagrams>
       <Diagram DiagramId="79629a44d0cf4a33bf190c610d02e808" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="WFMMContext.EmpComplianceDetail" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="WFMMContext.ShortShift" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.KronosEmployeeSummary" Width="1.5" PointX="9.375" PointY="3.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_CPW_Clocking_Data" Width="1.5" PointX="3.375" PointY="4.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_DashboardData_v2" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_CPW_Clocking_Data_Trend" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Employees" Width="1.5" PointX="5.375" PointY="5.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Stores" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="WFMMContext.EditedClock" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_EditedClocks" Width="1.5" PointX="9.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

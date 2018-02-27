@@ -170,11 +170,15 @@
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockCompVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompDetailVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\EditedClocksVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\TimecardSignOffVm.cs" />
     <Compile Include="Areas\WFM\WFMAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="DAL\Entities\EditedClock.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\EmpComplianceDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -189,9 +193,6 @@
     </Compile>
     <Compile Include="DAL\Entities\RegionTPC.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Entities\ShortShift.cs">
-      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_AllChainDashboardData_v2_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -268,6 +269,9 @@
     <Compile Include="DAL\Entities\vw_DashboardData_v2.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_EditedClocks.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -312,8 +316,10 @@
     <Compile Include="DAL\IManagers\IClockingDataManager.cs" />
     <Compile Include="DAL\IManagers\IKronosManager.cs" />
     <Compile Include="DAL\IManagers\ITicketManager.cs" />
+    <Compile Include="DAL\Managers\EditedClockManager.cs" />
     <Compile Include="DAL\Managers\EmpSummaryManager.cs" />
     <Compile Include="DAL\IManagers\IEmpSummaryManager.cs" />
+    <Compile Include="DAL\IManagers\IEditedClockManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />
@@ -499,6 +505,11 @@
     <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockBehaviourDivision.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockBehaviourChain.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_ClockCompDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\EditedClocks.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_EditedClocksStore.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_EditedClocksRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_EditedClocksDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_EditedClocksChain.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

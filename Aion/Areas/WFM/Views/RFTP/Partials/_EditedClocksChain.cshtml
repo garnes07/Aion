@@ -1,0 +1,38 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.EditedClocksVm
+    
+@{
+    var chainTotal = Model.AggregateDetail.First(x => x.Division == null);
+}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center">Name</th>
+                <th class="text-center">Clocks Edited</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-chain">
+                <td><strong>@chainTotal.Chain</strong></td>
+                <td class="text-center"><strong>@chainTotal.EditedCount</strong></td>
+            </tr>
+            @foreach (var division in Model.DivisionSummary)
+            {
+                <tr class="table-division">
+                    <td><strong>@division.Division</strong></td>
+                    <td class="text-center"><strong>@division.EditedCount</strong></td>
+                </tr>
+                foreach (var region in Model.RegionSummary.Where(x => x.Division == division.Division))
+                 {
+                     <tr>
+                         <td>@region.Region</td>
+                         <td class="text-center">@region.EditedCount</td>
+                     </tr>
+                 }
+            }            
+            </tbody>
+        </table>
+    </div>
+</div>

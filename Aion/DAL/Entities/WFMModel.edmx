@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WFMMContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EditedClocks">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="PersonNum" />
+            <PropertyRef Name="PunchDate" />
+          </Key>
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="HomeStore" Type="int" Nullable="false" />
+          <Property Name="PersonNum" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PunchDate" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="EmpComplianceDetail">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -38,18 +50,6 @@
           <Property Name="Scheduled" Type="bit" Nullable="false" />
           <Property Name="ReportingRoleFlag" Type="tinyint" />
           <Property Name="Active" Type="bit" />
-        </EntityType>
-        <EntityType Name="ShortShifts">
-          <Key>
-            <PropertyRef Name="WeekNumber" />
-            <PropertyRef Name="PersonNum" />
-            <PropertyRef Name="PunchDate" />
-          </Key>
-          <Property Name="WeekNumber" Type="int" Nullable="false" />
-          <Property Name="HomeStore" Type="int" Nullable="false" />
-          <Property Name="PersonNum" Type="nvarchar" MaxLength="15" Nullable="false" />
-          <Property Name="PersonName" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="PunchDate" Type="date" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -130,6 +130,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Repeat_Employees' do
         <EntityType Name="vw_CPW_Clocking_Repeat_Employees">
           <Key>
             <PropertyRef Name="RowId" />
+            
+            
+            
+            
+            
           </Key>
           <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -146,6 +151,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Repeat_Stores' does 
         <EntityType Name="vw_CPW_Clocking_Repeat_Stores">
           <Key>
             <PropertyRef Name="RowId" />
+            
+            
+            
+            
+            
           </Key>
           <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -209,6 +219,21 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Property Name="PunchCompliance" Type="float" />
           <Property Name="ShortShifts" Type="smallint" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_EditedClocks">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="EditedCount" Type="int" />
+        </EntityType>
         <Function Name="sp_AllChainDashboardData_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Chain" Type="nvarchar" Mode="In" />
           <Parameter Name="BeginWeek" Type="int" Mode="In" />
@@ -238,9 +263,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Parameter Name="Year" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="WFMMContextStoreContainer">
+          <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ShortShifts" EntityType="Self.ShortShifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="Self.vw_CPW_Clocking_Data" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_CPW_Clocking_Data].[CST_CNTR_int] AS [CST_CNTR_int], 
@@ -364,6 +389,18 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
     [vw_DashboardData_v2].[ShortShifts] AS [ShortShifts]
     FROM [dbo].[vw_DashboardData_v2] AS [vw_DashboardData_v2]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_EditedClocks" EntityType="Self.vw_EditedClocks" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_EditedClocks].[RowId] AS [RowId], 
+    [vw_EditedClocks].[Chain] AS [Chain], 
+    [vw_EditedClocks].[Division] AS [Division], 
+    [vw_EditedClocks].[Region] AS [Region], 
+    [vw_EditedClocks].[StoreNumber] AS [StoreNumber], 
+    [vw_EditedClocks].[StoreName] AS [StoreName], 
+    [vw_EditedClocks].[WeekNumber] AS [WeekNumber], 
+    [vw_EditedClocks].[EditedCount] AS [EditedCount]
+    FROM [dbo].[vw_EditedClocks] AS [vw_EditedClocks]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -386,7 +423,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
             <Parameter Name="Year" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="EmpComplianceDetails" EntityType="WFMMContext.EmpComplianceDetail" />
-          <EntitySet Name="ShortShifts" EntityType="WFMMContext.ShortShift" />
           <FunctionImport Name="sp_ComplianceSummaryDivision" ReturnType="Collection(WFMMContext.sp_ComplianceSummary_Result)">
             <Parameter Name="Division" Mode="In" Type="String" />
             <Parameter Name="Period" Mode="In" Type="Int32" />
@@ -406,6 +442,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <EntitySet Name="vw_CPW_Clocking_Data_Trend" EntityType="WFMMContext.vw_CPW_Clocking_Data_Trend" />
           <EntitySet Name="vw_CPW_Clocking_Repeat_Employees" EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Employees" />
           <EntitySet Name="vw_CPW_Clocking_Repeat_Stores" EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Stores" />
+          <EntitySet Name="EditedClocks" EntityType="WFMMContext.EditedClock" />
+          <EntitySet Name="vw_EditedClocks" EntityType="WFMMContext.vw_EditedClocks" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -472,18 +510,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Property Name="FTLeakageFlag" Type="Boolean" Nullable="false" />
           <Property Name="WorkedHours" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
           <Property Name="ZeroHourFlag" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ShortShift">
-          <Key>
-            <PropertyRef Name="WeekNumber" />
-            <PropertyRef Name="PersonNum" />
-            <PropertyRef Name="PunchDate" />
-          </Key>
-          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
-          <Property Name="HomeStore" Type="Int32" Nullable="false" />
-          <Property Name="PersonNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="PersonName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PunchDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <ComplexType Name="sp_ComplianceSummaryDivision_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -686,6 +712,31 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Property Name="WeekNumber" Type="Int32" />
           <Property Name="Compliance" Type="Decimal" Precision="33" Scale="11" />
         </EntityType>
+        <EntityType Name="EditedClock">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="PersonNum" />
+            <PropertyRef Name="PunchDate" />
+          </Key>
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="HomeStore" Type="Int32" Nullable="false" />
+          <Property Name="PersonNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="PersonName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PunchDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="vw_EditedClocks">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="EditedCount" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -768,17 +819,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ShortShifts">
-            <EntityTypeMapping TypeName="WFMMContext.ShortShift">
-              <MappingFragment StoreEntitySet="ShortShifts">
-                <ScalarProperty Name="PunchDate" ColumnName="PunchDate" />
-                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
-                <ScalarProperty Name="PersonNum" ColumnName="PersonNum" />
-                <ScalarProperty Name="HomeStore" ColumnName="HomeStore" />
-                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -988,6 +1028,31 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
             <EntityTypeMapping TypeName="WFMMContext.vw_CPW_Clocking_Repeat_Stores">
               <MappingFragment StoreEntitySet="vw_CPW_Clocking_Repeat_Stores">
                 <ScalarProperty Name="Compliance" ColumnName="Compliance" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EditedClocks">
+            <EntityTypeMapping TypeName="WFMMContext.EditedClock">
+              <MappingFragment StoreEntitySet="EditedClocks">
+                <ScalarProperty Name="PunchDate" ColumnName="PunchDate" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonNum" ColumnName="PersonNum" />
+                <ScalarProperty Name="HomeStore" ColumnName="HomeStore" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_EditedClocks">
+            <EntityTypeMapping TypeName="WFMMContext.vw_EditedClocks">
+              <MappingFragment StoreEntitySet="vw_EditedClocks">
+                <ScalarProperty Name="EditedCount" ColumnName="EditedCount" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />

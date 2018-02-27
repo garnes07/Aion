@@ -83,14 +83,5 @@ namespace Aion.DAL.Managers
                 return await context.EmpComplianceDetails.Where(x => x.WeekNumber == weekOfYr && x.StoreNumber == crit).ToListAsync();
             }
         }
-
-        public async Task<List<ShortShift>> GetShortShiftDetail(string store, int weekOfYr)
-        {
-            using (var context = new WFMModel())
-            {
-                short crit = short.Parse(store);
-                return await context.ShortShifts.Where(x => x.WeekNumber == weekOfYr && x.HomeStore == crit).ToListAsync();
-            }
-        }
     }
 }

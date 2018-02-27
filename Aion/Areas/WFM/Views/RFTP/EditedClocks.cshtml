@@ -1,0 +1,56 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.RFTP.EditedClocksVm
+
+@{
+    ViewBag.Title = "Edited Clocks";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>Edited Clocks</strong>
+        </div>
+        <div class="card-body">
+            <p>
+                These are shifts in which a colleague's shift has been shortened by making edits to what was originally clocked by the colleague.
+            </p>
+            <p>
+                A possible cause here could be a colleague with a poor understanding of the expectation of when to clock in and clock out for their shifts.
+                Any conversations regarding this cause are recommended to be documented. Another cause could be a colleague not following clocking expectations, this should be managed via our conduct management process.
+                (Please see <a href="https://cpw-how2.com/CtrlWebIsapi.dll/?__id=webDiagram.show&map=Standard+Operating+Platform+-+Human+Resources&dgm=BDB66E1421294DFE81B3BBFC4E7AC9E0&one=841">How2</a>)
+            </p>
+            <p>
+                <strong><u>Note:</u></strong> Tolerance is 1 per store per week as we understand mistakes can happen. Any more than 1 will result in non compliance for the store.
+            </p>
+        </div>
+    </div>
+
+    @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm {Action = "EditedClocks", Controller = "RFTP", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate})
+    
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-danger text-center"><strong>@Model.Message</strong></div>
+    }
+    else if (Model.DisplayLevel == 1)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_EditedClocksStore.cshtml")
+    }
+    else if (Model.DisplayLevel == 2)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_EditedClocksRegion.cshtml")
+    }
+    else if (Model.DisplayLevel == 3)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_EditedClocksDivision.cshtml")
+    }
+    else if (Model.DisplayLevel == 4)
+    {
+        @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_EditedClocksChain.cshtml")
+    }
+</div>
+

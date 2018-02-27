@@ -15,6 +15,5 @@ namespace Aion.DAL.IManagers
         Task<List<vw_DashboardData_v2>> GetAllRegionDashData(string region, int weekOfYr);
         Task<List<vw_DashboardData_v2>> GetStoreDashData(string store, int weekOfYr);
         Task<List<EmpComplianceDetail>> GetComplianceDetail(string store, int weekOfYr);
-        Task<List<ShortShift>> GetShortShiftDetail(string store, int weekOfYr);
     }
 }
