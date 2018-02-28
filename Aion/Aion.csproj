@@ -164,8 +164,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
+    <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockBehavioursVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockCompVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
@@ -193,6 +195,15 @@
     </Compile>
     <Compile Include="DAL\Entities\RegionTPC.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\RFTPCaseAction.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\RFTPCaseAudit.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\RFTPCaseStub.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_AllChainDashboardData_v2_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -246,6 +257,12 @@
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\UserAccess.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\UserAccessArea.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\UserAccessKey.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\UserGroup.cs">
@@ -685,6 +702,7 @@
     <Content Include="Views\Shared\_RootMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\WFM\Views\RFTPTracking\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

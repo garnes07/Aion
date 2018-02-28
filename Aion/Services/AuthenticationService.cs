@@ -176,27 +176,24 @@ namespace Aion.Services
         public async Task<bool> CheckAccessLevel(AuthenticationResult a)
         {
             var UserAccess = await _authManager.GetAccessList(a.UserName, a.EmpNum);
-            if (UserAccess.Count == 0)
+            if (UserAccess == null)
             {
                 HttpContext.Current.Session["_AccessLevel"] = "0";
                 return false;
             }
-            else
-            {
-                HttpContext.Current.Session["_AccessLevel"] = UserAccess.First().AccessLevel;
-                var result = await LoadStoreMenu(UserAccess.First().AccessLevel, UserAccess.Select(x => x.Area).ToArray());
-                return true;
-            }
+
+            HttpContext.Current.Session["_AccessLevel"] = UserAccess.AccessLevel;
+            return await LoadStoreMenu(UserAccess.AreaLevel, UserAccess.UserAccessAreas.Select(x => x.AreaName).ToArray());
         }
 
         public async Task<bool> LoadStoreMenu(byte accessLevel, string[] accessArea)
         {            
             List<StoreMaster> menuList;
-            string _default = "";
+            string _default;
 
-            if (accessLevel <= 1)
+            if (accessLevel == 1)
             {
-                menuList = await _storeManager.GetStoreMenu(short.Parse(accessArea[0]));
+                menuList = await _storeManager.GetStoreMenu(Array.ConvertAll(accessArea, short.Parse));
                 _default = "S_" + accessArea[0];
             }
             else if (accessLevel == 2)
@@ -206,26 +203,24 @@ namespace Aion.Services
             }
             else if (accessLevel == 3)
             {
-                menuList = await _storeManager.GetDivisionMenu(accessArea[0]);
+                menuList = await _storeManager.GetDivisionMenu(accessArea);
                 _default = "D_" + accessArea[0];
+            }
+            else if (accessLevel == 4)
+            {
+                menuList = await _storeManager.GetChainMenu(accessArea);
+                _default = "C_" + accessArea[0];
             }
             else
             {
-                if (accessArea[0] != "All")
-                {
-                    menuList = await _storeManager.GetDivisionMenu(accessArea[0]);
-                }
-                else
-                {
-                    menuList = await _storeManager.GetAllMenu();
-                }
-                _default = "C_" + (accessArea[0] != "All" ? accessArea[0] : "SAS");
+                menuList = await _storeManager.GetAllMenu();
+                _default = "C_" + (accessArea.Any() ? accessArea[0] : "SAS");
             }
 
             StoreMenu _menu = new StoreMenu(menuList, _default, accessLevel);
 
             HttpContext.Current.Session["_storeMenu"] = _menu;
-            HttpContext.Current.Session["_store"] = menuList.First();
+            //HttpContext.Current.Session["_store"] = menuList.First();
             HttpContext.Current.Session["_ROIFlag"] = menuList.First().Chain == "ROI";
 
             return true;

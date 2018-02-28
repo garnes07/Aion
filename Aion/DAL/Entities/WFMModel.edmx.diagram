@@ -14,6 +14,10 @@
         <EntityTypeShape EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Stores" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="WFMMContext.EditedClock" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_EditedClocks" Width="1.5" PointX="9.375" PointY="8.75" />
+        <EntityTypeShape EntityType="WFMMContext.RFTPCaseAction" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="WFMMContext.RFTPCaseAudit" Width="1.5" PointX="14" PointY="1.875" />
+        <EntityTypeShape EntityType="WFMMContext.RFTPCaseStub" Width="1.5" PointX="11.75" PointY="1" />
+        <AssociationConnector Association="WFMMContext.FK_RFTPCaseAudit_RFTPCaseStub" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

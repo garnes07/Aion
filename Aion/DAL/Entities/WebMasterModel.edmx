@@ -38,13 +38,28 @@
         </EntityType>
         <EntityType Name="UserAccess">
           <Key>
-            <PropertyRef Name="EntryId" />
+            <PropertyRef Name="UserName" />
           </Key>
-          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Krn" Type="bit" Nullable="false" />
           <Property Name="AccessLevel" Type="tinyint" Nullable="false" />
-          <Property Name="Area" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AreaLevel" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAccessArea">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAccessKey">
+          <Key>
+            <PropertyRef Name="AccessKey" />
+          </Key>
+          <Property Name="AccessKey" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="UserLog">
           <Key>
@@ -286,6 +301,18 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserAccessArea_UserAccess">
+          <End Role="UserAccess" Type="Self.UserAccess" Multiplicity="1" />
+          <End Role="UserAccessArea" Type="Self.UserAccessArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccess">
+              <PropertyRef Name="UserName" />
+            </Principal>
+            <Dependent Role="UserAccessArea">
+              <PropertyRef Name="UserName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserGroups_Groups">
           <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
           <End Role="UserGroups" Type="Self.UserGroups" Multiplicity="*" />
@@ -306,6 +333,8 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <EntitySet Name="StoreMaster" EntityType="Self.StoreMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnknownIpLog" EntityType="Self.UnknownIpLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccess" EntityType="Self.UserAccess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAccessArea" EntityType="Self.UserAccessArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAccessKey" EntityType="Self.UserAccessKey" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLog" EntityType="Self.UserLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WeekRef" EntityType="Self.WeekRef" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Groups" EntityType="Self.Groups" Schema="tck" store:Type="Tables" />
@@ -356,6 +385,10 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <AssociationSet Name="FK_TicketTemplate_TicketType" Association="Self.FK_TicketTemplate_TicketType">
             <End Role="TicketType" EntitySet="TicketType" />
             <End Role="TicketTemplate" EntitySet="TicketTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAccessArea_UserAccess" Association="Self.FK_UserAccessArea_UserAccess">
+            <End Role="UserAccess" EntitySet="UserAccess" />
+            <End Role="UserAccessArea" EntitySet="UserAccessArea" />
           </AssociationSet>
           <AssociationSet Name="FK_UserGroups_Groups" Association="Self.FK_UserGroups_Groups">
             <End Role="Groups" EntitySet="Groups" />
@@ -411,7 +444,6 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             <End Role="IpRef" EntitySet="IpRefs" />
           </AssociationSet>
           <EntitySet Name="UserLogs" EntityType="WebMasterContext.UserLog" />
-          <EntitySet Name="UserAccesses" EntityType="WebMasterContext.UserAccess" />
           <EntitySet Name="UnknownIpLogs" EntityType="WebMasterContext.UnknownIpLog" />
           <EntitySet Name="WeekRefs" EntityType="WebMasterContext.WeekRef" />
           <EntitySet Name="Groups" EntityType="WebMasterContext.Group" />
@@ -458,8 +490,15 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             <End Role="TicketTemplate" EntitySet="TicketTemplates" />
           </AssociationSet>
           <FunctionImport Name="sp_CheckHelpTickets" ReturnType="Collection(WebMasterContext.sp_CheckHelpTickets_Result)">
-            <Parameter Name="BranchNum" Mode="In" Type="Int16" />
+          <Parameter Name="BranchNum" Mode="In" Type="Int16" />
           </FunctionImport>
+          <EntitySet Name="UserAccessKeys" EntityType="WebMasterContext.UserAccessKey" />
+          <EntitySet Name="UserAccessAreas" EntityType="WebMasterContext.UserAccessArea" />
+          <EntitySet Name="UserAccesses" EntityType="WebMasterContext.UserAccess" />
+          <AssociationSet Name="FK_UserAccessArea_UserAccess" Association="WebMasterContext.FK_UserAccessArea_UserAccess">
+            <End Role="UserAccess" EntitySet="UserAccesses" />
+            <End Role="UserAccessArea" EntitySet="UserAccessAreas" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserLog">
           <Key>
@@ -468,16 +507,6 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="UserAccess">
-          <Key>
-            <PropertyRef Name="EntryId" />
-          </Key>
-          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Krn" Type="Boolean" Nullable="false" />
-          <Property Name="AccessLevel" Type="Byte" Nullable="false" />
-          <Property Name="Area" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UnknownIpLog">
           <Key>
@@ -735,6 +764,45 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Type="String" Name="Status" Nullable="false" MaxLength="15" />
           <Property Type="String" Name="EmpNum" Nullable="true" />
         </ComplexType>
+        <EntityType Name="UserAccessKey">
+          <Key>
+            <PropertyRef Name="AccessKey" />
+          </Key>
+          <Property Name="AccessKey" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserAccessArea">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="AreaName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserAccess" Relationship="WebMasterContext.FK_UserAccessArea_UserAccess" FromRole="UserAccessArea" ToRole="UserAccess" />
+        </EntityType>
+        <EntityType Name="UserAccess">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Krn" Type="Boolean" Nullable="false" />
+          <Property Name="AccessLevel" Type="Byte" Nullable="false" />
+          <Property Name="AreaLevel" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="UserAccessAreas" Relationship="WebMasterContext.FK_UserAccessArea_UserAccess" FromRole="UserAccess" ToRole="UserAccessArea" />
+        </EntityType>
+        <Association Name="FK_UserAccessArea_UserAccess">
+          <End Type="WebMasterContext.UserAccess" Role="UserAccess" Multiplicity="1" />
+          <End Type="WebMasterContext.UserAccessArea" Role="UserAccessArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccess">
+              <PropertyRef Name="UserName" />
+            </Principal>
+            <Dependent Role="UserAccessArea">
+              <PropertyRef Name="UserName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -768,17 +836,6 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             <EntityTypeMapping TypeName="WebMasterContext.UserLog">
               <MappingFragment StoreEntitySet="UserLog">
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserAccesses">
-            <EntityTypeMapping TypeName="WebMasterContext.UserAccess">
-              <MappingFragment StoreEntitySet="UserAccess">
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
-                <ScalarProperty Name="Krn" ColumnName="Krn" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
@@ -937,6 +994,34 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="UserAccessKeys">
+            <EntityTypeMapping TypeName="WebMasterContext.UserAccessKey">
+              <MappingFragment StoreEntitySet="UserAccessKey">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccessKey" ColumnName="AccessKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccessAreas">
+            <EntityTypeMapping TypeName="WebMasterContext.UserAccessArea">
+              <MappingFragment StoreEntitySet="UserAccessArea">
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccesses">
+            <EntityTypeMapping TypeName="WebMasterContext.UserAccess">
+              <MappingFragment StoreEntitySet="UserAccess">
+                <ScalarProperty Name="AreaLevel" ColumnName="AreaLevel" />
+                <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+                <ScalarProperty Name="Krn" ColumnName="Krn" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

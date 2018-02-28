@@ -8,8 +8,7 @@
         <EntityTypeShape EntityType="WebMasterContext.IpRef" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="WebMasterContext.StoreMaster" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="WebMasterContext.FK_IpRef_StoreMaster" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="WebMasterContext.UserLog" Width="1.5" PointX="3.375" PointY="4.75" />
-        <EntityTypeShape EntityType="WebMasterContext.UserAccess" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="WebMasterContext.UserLog" Width="1.5" PointX="3.125" PointY="4.75" />
         <EntityTypeShape EntityType="WebMasterContext.UnknownIpLog" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="WebMasterContext.WeekRef" Width="1.5" PointX="5.375" PointY="3.75" />
         <EntityTypeShape EntityType="WebMasterContext.Group" Width="1.5" PointX="0.75" PointY="9.75" />
@@ -19,7 +18,7 @@
         <EntityTypeShape EntityType="WebMasterContext.TicketAudit" Width="1.5" PointX="12.25" PointY="12" />
         <EntityTypeShape EntityType="WebMasterContext.TicketComment" Width="1.5" PointX="12.25" PointY="9.125" />
         <EntityTypeShape EntityType="WebMasterContext.TicketStub" Width="1.5" PointX="10" PointY="6.875" />
-        <EntityTypeShape EntityType="WebMasterContext.TicketTemplate" Width="1.5" PointX="10.25" PointY="2.875" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketTemplate" Width="1.5" PointX="10" PointY="3.125" />
         <EntityTypeShape EntityType="WebMasterContext.TicketType" Width="1.5" PointX="7.75" PointY="5.75" />
         <EntityTypeShape EntityType="WebMasterContext.UserGroup" Width="1.5" PointX="3" PointY="8.125" />
         <EntityTypeShape EntityType="WebMasterContext.TicketEscalation" Width="1.5" PointX="3" PointY="11.375" />
@@ -31,6 +30,10 @@
         <AssociationConnector Association="WebMasterContext.FK_TicketComment_TicketStub" />
         <AssociationConnector Association="WebMasterContext.FK_TicketStub_TicketType" />
         <AssociationConnector Association="WebMasterContext.FK_TicketTemplate_TicketType" />
+        <EntityTypeShape EntityType="WebMasterContext.UserAccessKey" Width="1.5" PointX="9.75" PointY="0.875" />
+        <EntityTypeShape EntityType="WebMasterContext.UserAccessArea" Width="1.5" PointX="14.75" PointY="1" />
+        <EntityTypeShape EntityType="WebMasterContext.UserAccess" Width="1.5" PointX="12.5" PointY="0.875" />
+        <AssociationConnector Association="WebMasterContext.FK_UserAccessArea_UserAccess" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

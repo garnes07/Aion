@@ -12,6 +12,47 @@ namespace Aion.Models.Utils
         private string defaultSelect { get; set; }
         private short accessLvl { get; set; }
 
+        public StoreMenu(List<StoreMaster> data, string defaultSelect, short accessLvl)
+        {
+            Channels = new List<Channel>();
+            foreach (var _channel in data.GroupBy(x => x.Chain).Select(x => x.Key))
+            {
+                Channels.Add(new Channel
+                {
+                    text = _channel
+                });
+                var a = Channels.Single(x => x.text == _channel.ToString());
+                foreach (var _division in data.Where(x => x.Chain == _channel.ToString()).GroupBy(x => x.Division).Select(x => x.Key))
+                {
+                    a.nodes.Add(new Division
+                    {
+                        text = _division
+                    });
+                    var b = a.nodes.Single(x => x.text == _division.ToString());
+                    foreach (var _region in data.Where(x => x.Division == _division.ToString()).GroupBy(x => x.Region).Select(x => x.Key))
+                    {
+                        b.nodes.Add(new Region
+                        {
+                            text = _region.ToString()
+                        });
+                        var c = b.nodes.Single(x => x.text == _region.ToString());
+                        foreach (var _store in data.Where(x => x.Region == _region))
+                        {
+                            c.nodes.Add(new Store
+                            {
+                                text = string.Format("{0} - {1}", _store.StoreNumber, _store.StoreName),
+                                storeNum = _store.StoreNumber.ToString()
+                            });
+                        }
+                    };
+                }
+            }
+
+            this.defaultSelect = defaultSelect;
+            this.accessLvl = accessLvl;
+            menuSelect(defaultSelect);
+        }
+
         public string _menuSelection
         {
             get
@@ -44,7 +85,7 @@ namespace Aion.Models.Utils
             }
             else if (this.accessLvl == 2)
             {
-                return JsonConvert.SerializeObject(Channels.First().nodes.First().nodes);
+                return JsonConvert.SerializeObject(Channels.First().nodes);
             }
             else if (this.accessLvl > 2)
             {
@@ -54,47 +95,6 @@ namespace Aion.Models.Utils
             {
                 return "";
             }
-        }
-
-        public StoreMenu(List<StoreMaster> data, string defaultSelect, short accessLvl)
-        {
-            Channels = new List<Channel>();
-            foreach (var _channel in data.GroupBy(x => x.Chain).Select(x => x.Key))
-            {
-                Channels.Add(new Channel
-                {
-                    text = _channel.ToString()
-                });
-                var a = Channels.Single(x => x.text == _channel.ToString());
-                foreach (var _division in data.Where(x => x.Chain == _channel.ToString()).GroupBy(x => x.Division).Select(x => x.Key))
-                {
-                    a.nodes.Add(new Division
-                    {
-                        text = _division.ToString()
-                    });
-                    var b = a.nodes.Single(x => x.text == _division.ToString());
-                    foreach (var _region in data.Where(x => x.Division == _division.ToString()).GroupBy(x => x.Region).Select(x => x.Key))
-                    {
-                        b.nodes.Add(new Region
-                        {
-                            text = _region.ToString()
-                        });
-                        var c = b.nodes.Single(x => x.text == _region.ToString());
-                        foreach (var _store in data.Where(x => x.Region == _region))
-                        {
-                            c.nodes.Add(new Store
-                            {
-                                text = string.Format("{0} - {1}", _store.StoreNumber, _store.StoreName),
-                                storeNum = _store.StoreNumber.ToString()
-                            });
-                        }
-                    };
-                }
-            }
-
-            this.defaultSelect = defaultSelect;
-            this.accessLvl = accessLvl;
-            menuSelect(defaultSelect);
         }
 
         public bool menuSelect(string a)
@@ -165,7 +165,7 @@ namespace Aion.Models.Utils
                     _menuSearch = i.First().text;
                 }
             }
-            else if (b[0] == "R" && this.accessLvl > 2)
+            else if (b[0] == "R" && this.accessLvl >= 2)
             {
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Any(y => y.text == b[1]));
                 if (i.Any())

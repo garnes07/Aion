@@ -51,6 +51,46 @@
           <Property Name="ReportingRoleFlag" Type="tinyint" />
           <Property Name="Active" Type="bit" />
         </EntityType>
+        <EntityType Name="RFTPCaseActions">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Stage" Type="tinyint" Nullable="false" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="ActionType" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RFTPCaseAudit">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseID" Type="int" Nullable="false" />
+          <Property Name="ActionType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="CompletedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RFTPCaseStub">
+          <Key>
+            <PropertyRef Name="CaseID" />
+          </Key>
+          <Property Name="CaseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="Stage" Type="tinyint" Nullable="false" />
+          <Property Name="Override" Type="bit" Nullable="false" />
+          <Property Name="Reassign" Type="bit" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="Year" Type="nchar" MaxLength="5" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="Show" Type="bit" Nullable="false" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_CPW_Clocking_Data">
@@ -234,6 +274,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <Property Name="WeekNumber" Type="int" />
           <Property Name="EditedCount" Type="int" />
         </EntityType>
+        <Association Name="FK_RFTPCaseAudit_RFTPCaseStub">
+          <End Role="RFTPCaseStub" Type="Self.RFTPCaseStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RFTPCaseAudit" Type="Self.RFTPCaseAudit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RFTPCaseStub">
+              <PropertyRef Name="CaseID" />
+            </Principal>
+            <Dependent Role="RFTPCaseAudit">
+              <PropertyRef Name="CaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sp_AllChainDashboardData_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Chain" Type="nvarchar" Mode="In" />
           <Parameter Name="BeginWeek" Type="int" Mode="In" />
@@ -266,6 +320,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="Self.vw_CPW_Clocking_Data" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_CPW_Clocking_Data].[CST_CNTR_int] AS [CST_CNTR_int], 
@@ -401,6 +458,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
     [vw_EditedClocks].[EditedCount] AS [EditedCount]
     FROM [dbo].[vw_EditedClocks] AS [vw_EditedClocks]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="Self.FK_RFTPCaseAudit_RFTPCaseStub">
+            <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
+            <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -444,6 +505,13 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <EntitySet Name="vw_CPW_Clocking_Repeat_Stores" EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Stores" />
           <EntitySet Name="EditedClocks" EntityType="WFMMContext.EditedClock" />
           <EntitySet Name="vw_EditedClocks" EntityType="WFMMContext.vw_EditedClocks" />
+          <EntitySet Name="RFTPCaseActions" EntityType="WFMMContext.RFTPCaseAction" />
+          <EntitySet Name="RFTPCaseAudits" EntityType="WFMMContext.RFTPCaseAudit" />
+          <EntitySet Name="RFTPCaseStubs" EntityType="WFMMContext.RFTPCaseStub" />
+          <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="WFMMContext.FK_RFTPCaseAudit_RFTPCaseStub">
+            <End Role="RFTPCaseStub" EntitySet="RFTPCaseStubs" />
+            <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudits" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -737,6 +805,62 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <Property Name="WeekNumber" Type="Int32" />
           <Property Name="EditedCount" Type="Int32" />
         </EntityType>
+        <EntityType Name="RFTPCaseAction">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stage" Type="Byte" Nullable="false" />
+          <Property Name="Owner" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ActionType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RFTPCaseAudit">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseID" Type="Int32" Nullable="false" />
+          <Property Name="ActionType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompletedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="RFTPCaseStub" Relationship="WFMMContext.FK_RFTPCaseAudit_RFTPCaseStub" FromRole="RFTPCaseAudit" ToRole="RFTPCaseStub" />
+        </EntityType>
+        <EntityType Name="RFTPCaseStub">
+          <Key>
+            <PropertyRef Name="CaseID" />
+          </Key>
+          <Property Name="CaseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PersonName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="Stage" Type="Byte" Nullable="false" />
+          <Property Name="Override" Type="Boolean" Nullable="false" />
+          <Property Name="Reassign" Type="Boolean" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Confirmed" Type="Boolean" Nullable="false" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="Show" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RFTPCaseAudits" Relationship="WFMMContext.FK_RFTPCaseAudit_RFTPCaseStub" FromRole="RFTPCaseStub" ToRole="RFTPCaseAudit" />
+        </EntityType>
+        <Association Name="FK_RFTPCaseAudit_RFTPCaseStub">
+          <End Type="WFMMContext.RFTPCaseStub" Role="RFTPCaseStub" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WFMMContext.RFTPCaseAudit" Role="RFTPCaseAudit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RFTPCaseStub">
+              <PropertyRef Name="CaseID" />
+            </Principal>
+            <Dependent Role="RFTPCaseAudit">
+              <PropertyRef Name="CaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1060,6 +1184,49 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RFTPCaseActions">
+            <EntityTypeMapping TypeName="WFMMContext.RFTPCaseAction">
+              <MappingFragment StoreEntitySet="RFTPCaseActions">
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RFTPCaseAudits">
+            <EntityTypeMapping TypeName="WFMMContext.RFTPCaseAudit">
+              <MappingFragment StoreEntitySet="RFTPCaseAudit">
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RFTPCaseStubs">
+            <EntityTypeMapping TypeName="WFMMContext.RFTPCaseStub">
+              <MappingFragment StoreEntitySet="RFTPCaseStub">
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="Reassign" ColumnName="Reassign" />
+                <ScalarProperty Name="Override" ColumnName="Override" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

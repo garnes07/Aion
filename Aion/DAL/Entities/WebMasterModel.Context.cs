@@ -30,7 +30,6 @@ namespace Aion.DAL.Entities
         public virtual DbSet<IpRef> IpRefs { get; set; }
         public virtual DbSet<StoreMaster> StoreMasters { get; set; }
         public virtual DbSet<UserLog> UserLogs { get; set; }
-        public virtual DbSet<UserAccess> UserAccesses { get; set; }
         public virtual DbSet<UnknownIpLog> UnknownIpLogs { get; set; }
         public virtual DbSet<WeekRef> WeekRefs { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
@@ -44,6 +43,9 @@ namespace Aion.DAL.Entities
         public virtual DbSet<TicketType> TicketTypes { get; set; }
         public virtual DbSet<UserGroup> UserGroups { get; set; }
         public virtual DbSet<TicketEscalation> TicketEscalations { get; set; }
+        public virtual DbSet<UserAccessKey> UserAccessKeys { get; set; }
+        public virtual DbSet<UserAccessArea> UserAccessAreas { get; set; }
+        public virtual DbSet<UserAccess> UserAccesses { get; set; }
     
         public virtual ObjectResult<sp_CheckHelpTickets_Result> sp_CheckHelpTickets(Nullable<short> branchNum)
         {

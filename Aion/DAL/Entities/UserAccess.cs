@@ -14,10 +14,18 @@ namespace Aion.DAL.Entities
     
     public partial class UserAccess
     {
-        public int EntryId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UserAccess()
+        {
+            this.UserAccessAreas = new HashSet<UserAccessArea>();
+        }
+    
         public string UserName { get; set; }
         public bool Krn { get; set; }
         public byte AccessLevel { get; set; }
-        public string Area { get; set; }
+        public byte AreaLevel { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserAccessArea> UserAccessAreas { get; set; }
     }
 }

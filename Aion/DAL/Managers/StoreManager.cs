@@ -27,11 +27,11 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<StoreMaster>> GetStoreMenu(short _storeNumber)
+        public async Task<List<StoreMaster>> GetStoreMenu(short[] _storeNumber)
         {
             using (var context = new WebMasterModel())
             {
-                return await context.StoreMasters.Where(x => x.StoreNumber == _storeNumber).ToListAsync();
+                return await context.StoreMasters.Where(x => _storeNumber.Contains(x.StoreNumber)).ToListAsync();
             }
         }
 
@@ -43,19 +43,19 @@ namespace Aion.DAL.Managers
             }
         }
         
-        public async Task<List<StoreMaster>> GetDivisionMenu(string _division)
+        public async Task<List<StoreMaster>> GetDivisionMenu(string[] _division)
         {
             using (var context = new WebMasterModel())
             {
-                return await context.StoreMasters.Where(x => x.Division == _division).OrderBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
+                return await context.StoreMasters.Where(x => _division.Contains(x.Division)).OrderBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
             }
         }
 
-        public async Task<List<StoreMaster>> GetChainMenu(string _chain)
+        public async Task<List<StoreMaster>> GetChainMenu(string[] _chain)
         {
             using (var context = new WebMasterModel())
             {
-                return await context.StoreMasters.Where(x => x.Chain == _chain).OrderBy(x => x.Chain).ThenBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
+                return await context.StoreMasters.Where(x => _chain.Contains(x.Chain)).OrderBy(x => x.Chain).ThenBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
             }
         }
 
