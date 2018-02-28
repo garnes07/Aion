@@ -47,10 +47,8 @@ namespace Aion.Controllers
                 {
                     return Redirect(a.ReturnURL);
                 }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+
+                return RedirectToAction("Index", "Home");
             }
 
             if (string.Equals(Request.UrlReferrer.AbsolutePath, "/oos", StringComparison.CurrentCultureIgnoreCase))
@@ -62,6 +60,11 @@ namespace Aion.Controllers
             ViewBag.errorMessage = authenticationResult.ErrorMessage;
             ModelState.AddModelError("", authenticationResult.ErrorMessage);
             return View(a);
+        }
+
+        public ActionResult Unauthorised()
+        {
+            return View();
         }
 
         public ActionResult Logoff()
@@ -77,7 +80,7 @@ namespace Aion.Controllers
             return Json(_menu.JsonString(), JsonRequestBehavior.AllowGet);
         }
 
-        //[Authorize]
+        [Authorize]
         public ActionResult MenuSelect(string a)
         {
             StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
@@ -90,7 +93,7 @@ namespace Aion.Controllers
             return Redirect(Request.UrlReferrer.PathAndQuery);
         }
 
-        //[Authorize]
+        [Authorize]
         public ActionResult MenuReset()
         {
             StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
@@ -103,7 +106,7 @@ namespace Aion.Controllers
             return Redirect(Request.UrlReferrer.PathAndQuery);
         }
 
-        //[Authorize]
+        [Authorize]
         public ActionResult MenuUpOne()
         {
             StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];

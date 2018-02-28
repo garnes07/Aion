@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Unauthorised";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="alert alert-danger text-center">
+                You are not authorised to view this page
+                <div class="text-center mt-2" id ="aHelp"><div class="btn btn-light btn-sm">I think I should have access</div></div>
+                <div class="card mt-2" style="display: none;">
+                    <div class="card-body">
+                        <h5><strong><u>Branch Manager, Assistant Manager</u></strong></h5>
+                        <p>Access rights are managed by GIS. If you get this error message, you are not currently in the correct group and should raise a ticket with IT services to be added to either <i>‘BranchManager-RETAIL-CPW-UK’</i> or <i>‘AssistantBranchManager-RETAIL-CPW-UK’</i>. This is the only way to gain access; it is not managed on a user by user basis.</p>
+                        <hr />
+                        <h5><strong><u>RM, DD, TPC</u></strong></h5>
+                        <p>Please contact <u>STAR@cpwplc.com</u> who will assist you with getting the correct access</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script>
+        $(function () {
+            $('#aHelp').click(function () {
+                $('#Help').slideToggle(350);
+            });
+        })
+    </script>    
+}

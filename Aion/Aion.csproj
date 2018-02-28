@@ -175,6 +175,7 @@
     <Compile Include="Areas\WFM\ViewModels\RFTP\EditedClocksVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\TimecardSignOffVm.cs" />
     <Compile Include="Areas\WFM\WFMAreaRegistration.cs" />
+    <Compile Include="Attributes\UserFilterAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -700,6 +701,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_WeekPicker.cshtml" />
     <Content Include="Views\Shared\_RootMenu.cshtml" />
+    <Content Include="Views\Profile\Unauthorised.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\WFM\Views\RFTPTracking\" />
