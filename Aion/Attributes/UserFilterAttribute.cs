@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -9,7 +7,11 @@ namespace Aion.Attributes
 {
     public class UserFilterAttribute : ActionFilterAttribute
     {
-        public short[] AccessLevel { get; set; }
+        public int[] AccessLevels { get; set; }
+        public int[] ExcludeLevels { get; set; }
+        public int MinLevel { get; set; }
+        private bool IsAuthorised { get; set; }
+        private int CurrentUserLevel { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -27,15 +29,18 @@ namespace Aion.Attributes
                 return;
             }
 
-            var isAuthorised = false;
-
-            if ((short)HttpContext.Current.Session["_AccessLevel"] != 0)
+            CurrentUserLevel = (int) HttpContext.Current.Session["_AccessLevel"];
+            if (AccessLevels != null)
             {
-                if (AccessLevel.Any(x => x >= (short) HttpContext.Current.Session["_AccessLevel"]))
-                    isAuthorised = true;
+                IsAuthorised = AccessLevels.Any(x => x == CurrentUserLevel);
             }
+            else
+            {
+                IsAuthorised = CurrentUserLevel >= MinLevel && ExcludeLevels.Any(x => x == CurrentUserLevel);
+            }
+            
 
-            if (!isAuthorised)
+            if (!IsAuthorised)
             {
                 filterContext.Result = new RedirectToRouteResult(
                     new RouteValueDictionary(
