@@ -338,7 +338,9 @@
     <Compile Include="DAL\Managers\EmpSummaryManager.cs" />
     <Compile Include="DAL\IManagers\IEmpSummaryManager.cs" />
     <Compile Include="DAL\IManagers\IEditedClockManager.cs" />
+    <Compile Include="DAL\IManagers\IRFTPTrackingManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
+    <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />
     <Compile Include="DAL\Managers\WeeksManager.cs" />
@@ -528,6 +530,10 @@
     <Content Include="Areas\WFM\Views\RFTP\Partials\_EditedClocksRegion.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_EditedClocksDivision.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_EditedClocksChain.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTPTracking\ManagerTracking.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_ManagerTrackingRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_ManagerTrackingDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_employeeSearch.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -662,6 +668,10 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\site\RFTPTracking.js" />
+    <Content Include="Scripts\site\RFTPTracking.min.js">
+      <DependentUpon>RFTPTracking.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\site\selectMenu.js" />
     <Content Include="Scripts\site\selectMenu.min.js">
       <DependentUpon>selectMenu.js</DependentUpon>
@@ -704,7 +714,6 @@
     <Content Include="Views\Profile\Unauthorised.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\WFM\Views\RFTPTracking\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

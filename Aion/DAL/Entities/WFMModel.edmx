@@ -58,6 +58,7 @@
           <Property Name="ActionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Stage" Type="tinyint" Nullable="false" />
           <Property Name="Owner" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="OwnerLevel" Type="tinyint" Nullable="false" />
           <Property Name="ActionType" Type="nvarchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <EntityType Name="RFTPCaseAudit">
@@ -316,6 +317,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <Parameter Name="Period" Type="int" Mode="In" />
           <Parameter Name="Year" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_RFTPReassignCase" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="personNumber" Type="varchar" Mode="In" />
+          <Parameter Name="oldCaseID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="WFMMContextStoreContainer">
           <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
@@ -505,13 +510,17 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <EntitySet Name="vw_CPW_Clocking_Repeat_Stores" EntityType="WFMMContext.vw_CPW_Clocking_Repeat_Stores" />
           <EntitySet Name="EditedClocks" EntityType="WFMMContext.EditedClock" />
           <EntitySet Name="vw_EditedClocks" EntityType="WFMMContext.vw_EditedClocks" />
-          <EntitySet Name="RFTPCaseActions" EntityType="WFMMContext.RFTPCaseAction" />
           <EntitySet Name="RFTPCaseAudits" EntityType="WFMMContext.RFTPCaseAudit" />
           <EntitySet Name="RFTPCaseStubs" EntityType="WFMMContext.RFTPCaseStub" />
           <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="WFMMContext.FK_RFTPCaseAudit_RFTPCaseStub">
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStubs" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudits" />
           </AssociationSet>
+          <EntitySet Name="RFTPCaseActions" EntityType="WFMMContext.RFTPCaseAction" />
+          <FunctionImport Name="sp_RFTPReassignCase">
+            <Parameter Name="personNumber" Mode="In" Type="String" />
+            <Parameter Name="oldCaseID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -805,15 +814,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <Property Name="WeekNumber" Type="Int32" />
           <Property Name="EditedCount" Type="Int32" />
         </EntityType>
-        <EntityType Name="RFTPCaseAction">
-          <Key>
-            <PropertyRef Name="ActionID" />
-          </Key>
-          <Property Name="ActionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Stage" Type="Byte" Nullable="false" />
-          <Property Name="Owner" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="ActionType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="RFTPCaseAudit">
           <Key>
             <PropertyRef Name="ActionID" />
@@ -861,6 +861,16 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RFTPCaseAction">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stage" Type="Byte" Nullable="false" />
+          <Property Name="Owner" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerLevel" Type="Byte" Nullable="false" />
+          <Property Name="ActionType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1187,16 +1197,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RFTPCaseActions">
-            <EntityTypeMapping TypeName="WFMMContext.RFTPCaseAction">
-              <MappingFragment StoreEntitySet="RFTPCaseActions">
-                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="Stage" ColumnName="Stage" />
-                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RFTPCaseAudits">
             <EntityTypeMapping TypeName="WFMMContext.RFTPCaseAudit">
               <MappingFragment StoreEntitySet="RFTPCaseAudit">
@@ -1230,6 +1230,18 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RFTPCaseActions">
+            <EntityTypeMapping TypeName="WFMMContext.RFTPCaseAction">
+              <MappingFragment StoreEntitySet="RFTPCaseActions">
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="OwnerLevel" ColumnName="OwnerLevel" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_RFTPReassignCase" FunctionName="WFMMContext.Store.sp_RFTPReassignCase" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

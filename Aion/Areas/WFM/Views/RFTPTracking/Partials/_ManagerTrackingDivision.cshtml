@@ -1,0 +1,130 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTPTracking.RFTPManagerSummaryVm
+
+@foreach (var region in Model.RegionList)
+{
+    var caseList = Model.Cases.Where(x => Model.RegionManagers.Where(c => c.Region == region).Select(c => c.PersonNumber).Contains(x.PersonNumber)).OrderBy(x => x.Year).ThenBy(x => x.Period).ThenBy(x => x.PersonName).ToList();
+    if (caseList.Any())
+    {
+        <div class="table-responsive mb-3">
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                <tr>
+                    <th colspan="7" class="text-center">Region @region</th>
+                </tr>
+                <tr>
+                    <th class="text-center" rowspan="2" style="width: 25%;">Manager</th>
+                    <th class="text-center" rowspan="2" style="width: 10%;">Issue Store</th>
+                    <th class="text-center" rowspan="2" style="width: 10%;">Period</th>
+                    <th class="text-center" rowspan="2" style="width: 25%;"></th>
+                    <th class="text-center" colspan="3">Actions Required</th>
+                </tr>
+                <tr>
+                    <th class="text-center" style="width: 10%;">RM</th>
+                    <th class="text-center" style="width: 10%;">TPC</th>
+                    <th class="text-center" style="width: 10%;">WFM</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in caseList)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("ManagerDetail", "RightFirstTime", new {personNum = item.PersonNumber})">
+                                @item.PersonName <i class="icon ion-android-arrow-dropright-circle"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">@item.StoreNumber</td>
+                        <td class="text-center @(item.Period < 10 ? "table-danger" : "")">@item.Period</td>
+                        <td class="text-center">
+                            @if (!item.Confirmed)
+                            {
+                                <div class="btn-group d-none d-lg-block" role="group">
+                                    <button class="btn btn-light disabled">Reassign</button>
+                                    <button class="btn btn-success disabled">Confirm</button>
+                                </div>
+                                <div class="btn-group d-lg-none">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action required... </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#"><s>Reassign</s></a>
+                                        </li>
+                                        <li role="separator" class="dropdown-divider"></li>
+                                        <li>
+                                            <a href="#"><s>Confirm</s></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                            else if (!item.Override)
+                            {
+                                <button class="btn btn-warning disabled">Override</button>
+                            }
+                            else
+                            {
+                                <strong>
+                                    <u>Overridden</u>
+                                </strong>
+                            }
+                        </td>
+                        @if (item.Confirmed && !item.Override)
+                        {
+                            var actionsNeeded = Model.Actions.Where(x => x.Stage == item.Stage).ToList();
+                            <td>
+                                @if (actionsNeeded.Any(x => x.Owner == "RM"))
+                                {
+                                    if (item.RFTPCaseAudits.Any(x => x.ActionType.Contains(actionsNeeded.First(c => c.Owner == "RM").ActionType)))
+                                    {
+                                        <a class="btn btn-info disabled" style="width: 100%;">
+                                            <s>@actionsNeeded.First(x => x.Owner == "RM").ActionType</s>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn disabled btn-info" style="width: 100%;">@actionsNeeded.First(x => x.Owner == "RM").ActionType</a>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (actionsNeeded.Any(x => x.Owner == "TPC"))
+                                {
+                                    if (item.RFTPCaseAudits.Any(x => x.ActionType.Contains(actionsNeeded.First(c => c.Owner == "TPC").ActionType)))
+                                    {
+                                        <a class="btn btn-info disabled" style="width: 100%;">
+                                            <s>@actionsNeeded.First(x => x.Owner == "TPC").ActionType</s>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn disabled btn-info" style="width: 100%;" data-toggle="modal" data-target="#aModal">@actionsNeeded.First(x => x.Owner == "TPC").ActionType</a>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (actionsNeeded.Any(x => x.Owner == "WFM"))
+                                {
+                                    if (item.RFTPCaseAudits.Any(x => x.ActionType.Contains(actionsNeeded.First(c => c.Owner == "WFM").ActionType)))
+                                    {
+                                        <a class="btn btn-info disabled" style="width: 100%;">
+                                            <s>@actionsNeeded.First(x => x.Owner == "WFM").ActionType</s>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn disabled btn-info">@actionsNeeded.First(x => x.Owner == "WFM").ActionType</a>
+                                    }
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+}

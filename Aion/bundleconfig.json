@@ -10,5 +10,11 @@
     "inputFiles": [
       "Scripts/site/selectMenu.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/site/RFTPTracking.min.js",
+    "inputFiles": [
+      "Scripts/site/RFTPTracking.js"
+    ]
   }
 ]

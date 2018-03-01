@@ -88,25 +88,10 @@
     }
 }
 
-/*.table-bordered-blue {
-  border: 1px solid #ddd;
+.table th, .table td,
+.table thead th{
+    vertical-align: middle;
 }
-.table-bordered-blue > thead > tr > th,
-.table-bordered-blue > tbody > tr > th,
-.table-bordered-blue > tfoot > tr > th{
-  border: 1px solid #ddd;
-  background-color:#002249;
-  color:aliceblue;
-}
-.table-bordered-blue > thead > tr > td,
-.table-bordered-blue > tbody > tr > td,
-.table-bordered-blue > tfoot > tr > td {
-  border: 1px solid #ddd;
-}
-.table-bordered-blue > thead > tr > th,
-.table-bordered-blue > thead > tr > td {
-    border-bottom-width: 2px;
-}*/
 
 /* The switch - the box around the slider */
 .switch {

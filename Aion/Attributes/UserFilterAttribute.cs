@@ -28,15 +28,15 @@ namespace Aion.Attributes
                     );
                 return;
             }
-
-            CurrentUserLevel = (int) HttpContext.Current.Session["_AccessLevel"];
+            
+            CurrentUserLevel = HttpContext.Current.Session["_AccessLevel"] == null ? 0 : int.Parse(HttpContext.Current.Session["_AccessLevel"].ToString());
             if (AccessLevels != null)
             {
                 IsAuthorised = AccessLevels.Any(x => x == CurrentUserLevel);
             }
             else
             {
-                IsAuthorised = CurrentUserLevel >= MinLevel && ExcludeLevels.Any(x => x == CurrentUserLevel);
+                IsAuthorised = CurrentUserLevel >= MinLevel && !ExcludeLevels.Contains(CurrentUserLevel);
             }
             
 

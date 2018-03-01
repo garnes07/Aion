@@ -36,9 +36,9 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_CPW_Clocking_Repeat_Stores> vw_CPW_Clocking_Repeat_Stores { get; set; }
         public virtual DbSet<EditedClock> EditedClocks { get; set; }
         public virtual DbSet<vw_EditedClocks> vw_EditedClocks { get; set; }
-        public virtual DbSet<RFTPCaseAction> RFTPCaseActions { get; set; }
         public virtual DbSet<RFTPCaseAudit> RFTPCaseAudits { get; set; }
         public virtual DbSet<RFTPCaseStub> RFTPCaseStubs { get; set; }
+        public virtual DbSet<RFTPCaseAction> RFTPCaseActions { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {
@@ -132,6 +132,19 @@ namespace Aion.DAL.Entities
                 new ObjectParameter("BeginWeek", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_AllChainDashboardData_v2_Result>("sp_AllDivisionDashboardData_v2", divisionParameter, beginWeekParameter);
+        }
+    
+        public virtual int sp_RFTPReassignCase(string personNumber, Nullable<int> oldCaseID)
+        {
+            var personNumberParameter = personNumber != null ?
+                new ObjectParameter("personNumber", personNumber) :
+                new ObjectParameter("personNumber", typeof(string));
+    
+            var oldCaseIDParameter = oldCaseID.HasValue ?
+                new ObjectParameter("oldCaseID", oldCaseID) :
+                new ObjectParameter("oldCaseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RFTPReassignCase", personNumberParameter, oldCaseIDParameter);
         }
     }
 }

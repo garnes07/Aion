@@ -1,0 +1,210 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTPTracking.RFTPManagerSummaryVm
+
+@{
+    ViewBag.Title = "GM Tracking";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Period Action Summary</strong>
+        </div>
+        <div class="card-body">
+            <p>These are all the stores in your region that were non-compliant for RFTP last period.</p>
+            <p>
+                We have attributed the responsibility to the manager that was assigned to the store at the end of the period. Please confirm that you are holding the indicated manager accountable or re-assign accountability to a different manager if necessary. This should be completed within the first week of the period.
+                Once you’ve confirmed accountability please take the required action or (if required due to exceptional circumstance) process an override. Required actions must be completed and confirmed before the end of the period.
+            </p>
+            <div class="text-center mb-1">
+                <a href="@Url.Action("ManagerTrend", "RightFirstTime")" class="btn btn-lg btn-info">12 Month Trend</a>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.MessageType == Aion.ViewModels.MessageType.Error)
+    {
+        <div class="alert alert-warning text-center mt-4"><strong>@Model.Message</strong></div>
+    }
+    else
+    {
+        <div class="card mt-3">
+            <div class="card-body" style="min-height: 250px;">
+                @if (Model.Cases.Any())
+                {
+                    if (Model.DisplayLevel == 2)
+                    {
+                        @Html.Partial("~/Areas/WFM/Views/RFTPTracking/Partials/_ManagerTrackingRegion.cshtml")
+                    }
+                    else if (Model.DisplayLevel == 3)
+                    {
+                        @Html.Partial("~/Areas/WFM/Views/RFTPTracking/Partials/_ManagerTrackingDivision.cshtml")
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-success text-center"><strong>No Right First Time Pay cases for this Region!</strong></div>
+                }
+            </div>
+        </div>
+        <div class="modal fade" id="rModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="rModalLabel">Reassign to Manager</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/WFM/RFTPTracking/CaseReassign" method="post" id="rForm">
+                            <input id="rCaseID" name="caseID" hidden value="e"/>
+                            <div class="form-group">
+                                <label for="empNumber" style="display: block;">Manager</label>
+                                <select id="empNumber" name="empNumber" class="form-control" style="display: inline-block;">
+                                    <optgroup label="Managers in Region">
+                                        @foreach (var item in Model.ManagerDropdown)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </optgroup>
+                                    <optgroup label="Exception">
+                                        <option value="RM">No GM - RM Responsible</option>
+                                        <option value="Terminated">No GM - Left the business</option>
+                                        <option value="LeftRegion">GM not in list - Please search for colleague below</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div id="rSearchCont" style="display: none;">
+                                <input style="display: inline-block; width: 80%;" type="text" class="form-control" id="rSearchCrit" placeholder="Search by name..."/>
+                                <button type="button" id="rSearchSubmit" class="btn btn-info">Search</button>
+                                <div id="rSearchResult" class="table-responsive" style="max-height: 300px; margin: 10px 0px;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rComment">Comment</label>
+                                <textarea id="rComment" name="comment" class="form-control" rows="3" style="resize: vertical;"></textarea>
+                            </div>
+                            <hr/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success">Save Changes</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="oModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="oModalLabel">Override</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/WFM/RFTPTracking/CaseOverride" method="post">
+                            <input id="oCaseID" name="caseID" hidden value="e"/>
+                            <div class="form-group">
+                                <label for="oReason">Reason</label>
+                                <select id="oReason" name="reason" class="form-control">
+                                    <option>Manager joined half way through period</option>
+                                    <option>Manager had unplanned absence - RM accountable</option>
+                                    <option>Exceptional circumstance (please specify)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="oCommentContainer" style="display: none;">
+                                <label for="oComment">Comment</label>
+                                <textarea id="oComment" name="comment" class="form-control" rows="3" style="resize: vertical;"></textarea>
+                            </div>
+                            <hr/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success">Save Changes</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="cModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="cModalLabel">Confirm</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/WFM/RFTPTracking/CaseConfirm" method="post">
+                            <input id="cCaseID" name="caseID" hidden value="e"/>
+                            <h4>Confirm this case is for <strong><u id="cName"></u></strong></h4>
+                            <hr/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success">Confirm</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="aModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="oModalLabel">Confirm Action</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please confirm the <strong id="aActionText"></strong> for this colleague is completed. Add any relevant comments below.</p>
+                        <form action="/WFM/RFTPTracking/caseSubmitAction" method="post">
+                            <input id="aCaseID" name="caseID" hidden value="e"/>
+                            <input id="aActionType" name="actionType" hidden value="e"/>
+                            <div class="form-group" id="aCommentContainer">
+                                <label for="aComment">Comment</label>
+                                <textarea id="aComment" name="comment" class="form-control" rows="3" style="resize: vertical;"></textarea>
+                            </div>
+                            <hr/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success">Save Changes</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    }
+</div>
+
+<div class="modal" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Oops, looks like something went wrong...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                We weren't able to save the change you were trying to make. <br/>Please try again and contact <strong><u>STAR@cpwplc.com</u></strong> if you continue to experience problems
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script src="~/Scripts/site/RFTPTracking.min.js"></script>
+    @if ((bool) ViewBag.UpdateError)
+    {
+        <script>
+            $(function() {
+                $('#errorModal').modal('show');
+            })
+        </script>
+    }
+}
