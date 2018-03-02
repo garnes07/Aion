@@ -12,9 +12,17 @@ namespace Aion.Controllers
     public class ProfileController : Controller
     {
         [AllowAnonymous]
-        public ActionResult Login(bool o = false)
+        public ActionResult Login(bool o = false, string returnUrl = null)
         {
-            if (Request.UrlReferrer != null) ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            if (returnUrl != null)
+            {
+                ViewBag.ReturnUrl = returnUrl;
+            }
+            else if (Request.UrlReferrer != null)
+            {
+                ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            }
+
             if (!o)
             {
                 ViewBag.SecureCheck = true;

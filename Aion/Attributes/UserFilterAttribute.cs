@@ -23,6 +23,7 @@ namespace Aion.Attributes
                         {
                             area = "",
                             controller = "Profile",
+                            returnUrl = filterContext.HttpContext.Request.Url.PathAndQuery,
                             action = "Login"
                         })
                     );
