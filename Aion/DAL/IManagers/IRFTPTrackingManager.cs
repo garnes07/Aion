@@ -15,5 +15,7 @@ namespace Aion.DAL.Managers
         Task<int> OverrideCase(int caseId, string userName, string reason, string comment);
         Task<int> ReassignCase(int caseId, string empNumber, string userName, string comment);
         Task<int> SubmitAction(int caseId, string actionType, string comment, string username, string accessLevel);
+        Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesRegion(string region);
+        Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesStore(string store);
     }
 }

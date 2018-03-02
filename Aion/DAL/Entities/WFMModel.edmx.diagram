@@ -18,6 +18,7 @@
         <EntityTypeShape EntityType="WFMMContext.RFTPCaseStub" Width="1.5" PointX="11.75" PointY="1" />
         <AssociationConnector Association="WFMMContext.FK_RFTPCaseAudit_RFTPCaseStub" />
         <EntityTypeShape EntityType="WFMMContext.RFTPCaseAction" Width="1.5" PointX="14.25" PointY="5.25" />
+        <EntityTypeShape EntityType="WFMMContext.vw_Last12MonthRFTPCases" Width="1.5" PointX="0.75" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

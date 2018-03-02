@@ -168,6 +168,7 @@
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerSummaryVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerTrendVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockBehavioursVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockCompVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
@@ -193,6 +194,9 @@
     </Compile>
     <Compile Include="DAL\Entities\KronosEmployeeSummary.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\Last12MonthList.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\RegionTPC.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -288,6 +292,9 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_EditedClocks.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_Last12MonthRFTPCases.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
@@ -534,6 +541,7 @@
     <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_ManagerTrackingRegion.cshtml" />
     <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_ManagerTrackingDivision.cshtml" />
     <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_employeeSearch.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTPTracking\ManagerTrend.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

@@ -1,0 +1,93 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.RFTPTracking.RFTPManagerTrendVm
+
+@{
+    ViewBag.Title = "Manager Trend";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Manager Compliance Trend</strong>
+        </div>
+        <div class="card-body">
+            @if (Model.MessageType == MessageType.Error)
+            {
+                <div class="alert alert-warning text-center mt-4">
+                    <strong>@Model.Message</strong>
+                </div>
+            }
+            else
+            {
+                <div class="row justify-content-center mb-3">
+                    <div class="card bg-light col-sm-4 col-10 text-center">
+                        <div class="card-body" style="padding: 0.5rem;">
+                            <span style="margin-right: 20px; white-space: nowrap;"><strong>X </strong>- Non Compliant</span>
+                            <span style="margin-right: 20px; white-space: nowrap;"><strong>O </strong>- Overridden</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
+                        <thead class="thead-blue">
+                            <tr>
+                                <th class="text-center">GM Name</th>
+                                @foreach (var item in Model.PeriodList)
+                                {
+                                    <th class="text-center">@(item.FY)<br />P@(item.Period)</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.gmList)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("ManagerDetail", "RightFirstTime", new {personNum = item.PersonNumber})">
+                                            @item.PersonName <i class="icon ion-android-arrow-dropright-circle"></i>
+                                        </a>
+                                    </td>
+                                    @foreach (var period in Model.PeriodList)
+                                    {
+                                        var c = Model.Cases.FirstOrDefault(x => x.PersonNumber == item.PersonNumber && x.Year == period.FY && x.Period == period.Period);
+                                        <td class="text-center">@(c == null ? "" : (c.Override ? "O" : "X"))</td>
+                                    }
+                                </tr>
+                            }
+                            @if (Model.nonGMList.Count > 0)
+                            {
+                                <tr class="active">
+                                    <td colspan="13">
+                                        <strong>
+                                            <small>Non Management</small>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                foreach (var item in Model.nonGMList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("ManagerDetail", "RightFirstTime", new {personNum = item.PersonNumber})">
+                                                @item.PersonName <span class="icon ion-android-arrow-dropright-circle"></span>
+                                            </a>
+                                        </td>
+                                        @foreach (var period in Model.PeriodList)
+                                        {
+                                            var c = Model.Cases.FirstOrDefault(x => x.PersonNumber == item.PersonNumber && x.Year == period.FY && x.Period == period.Period);
+                                            <td class="text-center">@(c == null ? "" : (c.Override ? "O" : "X"))</td>
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

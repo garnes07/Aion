@@ -15,11 +15,13 @@ namespace Aion.Areas.WFM.Controllers
     {
         private readonly IRFTPTrackingManager _RFTPTrackingManager;
         private readonly IEmpSummaryManager _empSummaryManager;
+        private readonly IWeeksManager _weeksManager;
 
         public RFTPTrackingController()
         {
             _RFTPTrackingManager = new RFTPTrackingManager();
             _empSummaryManager = new EmpSummaryManager();
+            _weeksManager = new WeeksManager();
         }
 
         [UserFilter(MinLevel = 2, ExcludeLevels = new []{7})]
@@ -157,6 +159,32 @@ namespace Aion.Areas.WFM.Controllers
             }
 
             return RedirectToAction("ManagerTracking");
+        }
+
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] {7})]
+        public async Task<ActionResult> ManagerTrend()
+        {
+            RFTPManagerTrendVm vm = new RFTPManagerTrendVm();
+
+            if (selectArea == "S" || selectArea == "R")
+            {
+                vm.Cases = selectArea == "S" ? await _RFTPTrackingManager.GetLast12MonthRFTPCasesStore(selectCrit) : await _RFTPTrackingManager.GetLast12MonthRFTPCasesRegion(selectCrit);
+                vm.PeriodList = await _weeksManager.GetLast12MonthList();
+                vm.EmployeeList = await _empSummaryManager.GetEmployeeDetails(vm.Cases.GroupBy(x => x.PersonNumber).Select(x => x.Key).ToList());
+                vm.DisplayLevel = 2;
+            }
+            else if (selectArea == "D")
+            {
+                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                vm.MessageType = MessageType.Error;
+            }
+            else if (selectArea == "C")
+            {
+                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                vm.MessageType = MessageType.Error;
+            }
+
+            return View(vm);
         }
     }
 }

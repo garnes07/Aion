@@ -213,5 +213,37 @@ namespace Aion.DAL.Managers
                 return -5;
             }
         }
+
+        public async Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesRegion(string region)
+        {
+            var regionNo = int.Parse(region);
+            using (var context = new WFMModel())
+            {
+                var caseList = await context.vw_Last12MonthRFTPCases
+                    .Where(x =>
+                        context.KronosEmployeeSummaries.Where(y => y.Region == regionNo).Any(y => y.PersonNumber == x.PersonNumber)
+                        && x.Confirmed)
+                    .ToListAsync();
+
+                return caseList;
+            }
+        }
+
+        public async Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesStore(string store)
+        {
+            var storeNo = int.Parse(store);
+            using (var context = new WFMModel())
+            {
+                var caseList = await context.vw_Last12MonthRFTPCases
+                    .Where(x =>
+                        context.KronosEmployeeSummaries.Where(y =>
+                            y.Region == context.KronosEmployeeSummaries.FirstOrDefault(z => z.HomeBranch == storeNo).Region
+                        ).Any(y => y.PersonNumber == x.PersonNumber)
+                        && x.Confirmed)
+                    .ToListAsync();
+
+                return caseList;
+            }
+        }
     }
 }

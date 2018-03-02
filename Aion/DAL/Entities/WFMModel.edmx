@@ -275,6 +275,36 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <Property Name="WeekNumber" Type="int" />
           <Property Name="EditedCount" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Last12MonthRFTPCases">
+          <Key>
+            <PropertyRef Name="CaseID" />
+            <PropertyRef Name="PersonNumber" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="Stage" />
+            <PropertyRef Name="Override" />
+            <PropertyRef Name="Reassign" />
+            <PropertyRef Name="DateTimeCreated" />
+            <PropertyRef Name="Confirmed" />
+            <PropertyRef Name="Completed" />
+            <PropertyRef Name="Show" />
+          </Key>
+          <Property Name="CaseID" Type="int" Nullable="false" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="Stage" Type="tinyint" Nullable="false" />
+          <Property Name="Override" Type="bit" Nullable="false" />
+          <Property Name="Reassign" Type="bit" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="Year" Type="nchar" MaxLength="5" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="Show" Type="bit" Nullable="false" />
+        </EntityType>
         <Association Name="FK_RFTPCaseAudit_RFTPCaseStub">
           <End Role="RFTPCaseStub" Type="Self.RFTPCaseStub" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -463,6 +493,24 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
     [vw_EditedClocks].[EditedCount] AS [EditedCount]
     FROM [dbo].[vw_EditedClocks] AS [vw_EditedClocks]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_Last12MonthRFTPCases" EntityType="Self.vw_Last12MonthRFTPCases" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Last12MonthRFTPCases].[CaseID] AS [CaseID], 
+    [vw_Last12MonthRFTPCases].[PersonNumber] AS [PersonNumber], 
+    [vw_Last12MonthRFTPCases].[StoreNumber] AS [StoreNumber], 
+    [vw_Last12MonthRFTPCases].[Stage] AS [Stage], 
+    [vw_Last12MonthRFTPCases].[Override] AS [Override], 
+    [vw_Last12MonthRFTPCases].[Reassign] AS [Reassign], 
+    [vw_Last12MonthRFTPCases].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [vw_Last12MonthRFTPCases].[LastUpdated] AS [LastUpdated], 
+    [vw_Last12MonthRFTPCases].[DateTimeCreated] AS [DateTimeCreated], 
+    [vw_Last12MonthRFTPCases].[Confirmed] AS [Confirmed], 
+    [vw_Last12MonthRFTPCases].[Completed] AS [Completed], 
+    [vw_Last12MonthRFTPCases].[Year] AS [Year], 
+    [vw_Last12MonthRFTPCases].[Period] AS [Period], 
+    [vw_Last12MonthRFTPCases].[Show] AS [Show]
+    FROM [dbo].[vw_Last12MonthRFTPCases] AS [vw_Last12MonthRFTPCases]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="Self.FK_RFTPCaseAudit_RFTPCaseStub">
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
@@ -521,6 +569,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
             <Parameter Name="personNumber" Mode="In" Type="String" />
             <Parameter Name="oldCaseID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="vw_Last12MonthRFTPCases" EntityType="WFMMContext.vw_Last12MonthRFTPCases" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -870,6 +919,34 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <Property Name="Owner" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="OwnerLevel" Type="Byte" Nullable="false" />
           <Property Name="ActionType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_Last12MonthRFTPCases">
+          <Key>
+            <PropertyRef Name="CaseID" />
+            <PropertyRef Name="PersonNumber" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="Stage" />
+            <PropertyRef Name="Override" />
+            <PropertyRef Name="Reassign" />
+            <PropertyRef Name="DateTimeCreated" />
+            <PropertyRef Name="Confirmed" />
+            <PropertyRef Name="Completed" />
+            <PropertyRef Name="Show" />
+          </Key>
+          <Property Name="CaseID" Type="Int32" Nullable="false" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="Stage" Type="Byte" Nullable="false" />
+          <Property Name="Override" Type="Boolean" Nullable="false" />
+          <Property Name="Reassign" Type="Boolean" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Confirmed" Type="Boolean" Nullable="false" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="Show" Type="Boolean" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1242,6 +1319,26 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_RFTPReassignCase" FunctionName="WFMMContext.Store.sp_RFTPReassignCase" />
+          <EntitySetMapping Name="vw_Last12MonthRFTPCases">
+            <EntityTypeMapping TypeName="WFMMContext.vw_Last12MonthRFTPCases">
+              <MappingFragment StoreEntitySet="vw_Last12MonthRFTPCases">
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="Reassign" ColumnName="Reassign" />
+                <ScalarProperty Name="Override" ColumnName="Override" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

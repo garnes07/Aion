@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Aion.DAL.Entities;
 
 namespace Aion.DAL.Managers
 {
@@ -8,5 +9,6 @@ namespace Aion.DAL.Managers
     {
         int? GetSingleWeek(DateTime dt);
         Task<List<int?>> GetMultipleWeeks(DateTime startDate, DateTime endDate);
+        Task<List<Last12MonthList>> GetLast12MonthList();
     }
 }

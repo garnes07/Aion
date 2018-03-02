@@ -44,6 +44,7 @@
           <Property Name="Krn" Type="bit" Nullable="false" />
           <Property Name="AccessLevel" Type="tinyint" Nullable="false" />
           <Property Name="AreaLevel" Type="tinyint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="UserAccessArea">
           <Key>
@@ -193,6 +194,16 @@ warning 6002: The table/view '99999_WebMaster.tck.TicketEscalations' does not ha
           <Property Name="FriendlyName" Type="nvarchar" MaxLength="50" />
           <Property Name="CoverEmail" Type="nvarchar" MaxLength="50" />
           <Property Name="CoverEndDate" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WebMaster.dbo.Last12MonthList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Last12MonthList">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="bigint" Nullable="false" />
+          <Property Name="FY" Type="varchar" MaxLength="5" />
+          <Property Name="Period" Type="tinyint" />
         </EntityType>
         <Association Name="FK_IpRef_StoreMaster">
           <End Role="StoreMaster" Type="Self.StoreMaster" Multiplicity="1">
@@ -354,6 +365,13 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
     [TicketEscalations].[GroupId] AS [GroupId]
     FROM [tck].[TicketEscalations] AS [TicketEscalations]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="Last12MonthList" EntityType="Self.Last12MonthList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Last12MonthList].[EntryId] AS [EntryId], 
+    [Last12MonthList].[FY] AS [FY], 
+    [Last12MonthList].[Period] AS [Period]
+    FROM [dbo].[Last12MonthList] AS [Last12MonthList]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_IpRef_StoreMaster" Association="Self.FK_IpRef_StoreMaster">
             <End Role="StoreMaster" EntitySet="StoreMaster" />
             <End Role="IpRef" EntitySet="IpRef" />
@@ -499,6 +517,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             <End Role="UserAccess" EntitySet="UserAccesses" />
             <End Role="UserAccessArea" EntitySet="UserAccessAreas" />
           </AssociationSet>
+          <EntitySet Name="Last12MonthList" EntityType="WebMasterContext.Last12MonthList" />
         </EntityContainer>
         <EntityType Name="UserLog">
           <Key>
@@ -790,6 +809,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Name="AccessLevel" Type="Byte" Nullable="false" />
           <Property Name="AreaLevel" Type="Byte" Nullable="false" />
           <NavigationProperty Name="UserAccessAreas" Relationship="WebMasterContext.FK_UserAccessArea_UserAccess" FromRole="UserAccess" ToRole="UserAccessArea" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_UserAccessArea_UserAccess">
           <End Type="WebMasterContext.UserAccess" Role="UserAccess" Multiplicity="1" />
@@ -803,6 +823,14 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Last12MonthList">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int64" Nullable="false" />
+          <Property Name="FY" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Period" Type="Byte" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1015,10 +1043,20 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <EntitySetMapping Name="UserAccesses">
             <EntityTypeMapping TypeName="WebMasterContext.UserAccess">
               <MappingFragment StoreEntitySet="UserAccess">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="AreaLevel" ColumnName="AreaLevel" />
                 <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
                 <ScalarProperty Name="Krn" ColumnName="Krn" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Last12MonthList">
+            <EntityTypeMapping TypeName="WebMasterContext.Last12MonthList">
+              <MappingFragment StoreEntitySet="Last12MonthList">
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="FY" ColumnName="FY" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

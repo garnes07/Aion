@@ -24,5 +24,13 @@ namespace Aion.DAL.Managers
                 return await context.WeekRefs.Where(x => x.Date >= startDate && x.Date <= endDate).GroupBy(x => x.YearWeek).Select(x => x.Key).OrderByDescending(x => x).ToListAsync();
             }
         }
+
+        public async Task<List<Last12MonthList>> GetLast12MonthList()
+        {
+            using (var context = new WebMasterModel())
+            {
+                return await context.Last12MonthList.OrderBy(x => x.FY).ThenBy(x => x.Period).ToListAsync();
+            }
+        }
     }
 }
