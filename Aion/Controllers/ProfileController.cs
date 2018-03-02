@@ -14,7 +14,7 @@ namespace Aion.Controllers
         [AllowAnonymous]
         public ActionResult Login(bool o = false)
         {
-            ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            if (Request.UrlReferrer != null) ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
             if (!o)
             {
                 ViewBag.SecureCheck = true;
