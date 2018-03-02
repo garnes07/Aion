@@ -219,13 +219,11 @@ namespace Aion.DAL.Managers
             var regionNo = int.Parse(region);
             using (var context = new WFMModel())
             {
-                var caseList = await context.vw_Last12MonthRFTPCases
+                return await context.vw_Last12MonthRFTPCases
                     .Where(x =>
                         context.KronosEmployeeSummaries.Where(y => y.Region == regionNo).Any(y => y.PersonNumber == x.PersonNumber)
                         && x.Confirmed)
                     .ToListAsync();
-
-                return caseList;
             }
         }
 
@@ -234,15 +232,21 @@ namespace Aion.DAL.Managers
             var storeNo = int.Parse(store);
             using (var context = new WFMModel())
             {
-                var caseList = await context.vw_Last12MonthRFTPCases
+                return await context.vw_Last12MonthRFTPCases
                     .Where(x =>
                         context.KronosEmployeeSummaries.Where(y =>
                             y.Region == context.KronosEmployeeSummaries.FirstOrDefault(z => z.HomeBranch == storeNo).Region
                         ).Any(y => y.PersonNumber == x.PersonNumber)
                         && x.Confirmed)
                     .ToListAsync();
+            }
+        }
 
-                return caseList;
+        public async Task<List<RFTPCaseStub>> GetAllCasesForPerson(string personNum)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.RFTPCaseStubs.Where(x => x.PersonNumber == personNum).Include("RFTPCaseAudits").OrderByDescending(x => x.DateTimeCreated).ToListAsync();
             }
         }
     }

@@ -1,0 +1,94 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.RFTPTracking.RFTPManagerDetailVm
+
+@{
+    ViewBag.Title = "Manager Detail";
+    bool first = true;
+}
+
+<div class="container-fluid">
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-info text-center"><strong>@Model.Message</strong></div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>@Model.caseDetails.First().PersonName</strong>
+            </div>
+        </div>
+        <div class="card-accordion" id="cases">
+            @foreach (var item in Model.caseDetails)
+            {
+                <div class="card my-2 @(item.Confirmed || item.Reassign ? "" : "card-danger")">
+                    <div class="card-header text-center">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#@(item.CaseID)"><strong>@(string.Format("{0} P{1} - Stage {2}", item.Year, item.Period, item.Stage))@(item.Override ? " - Overridden" : "")</strong></button>
+                    </div>
+                    <div id="@item.CaseID" class="collapse @(first ? "show" : "")" data-parent="#cases">
+                        <div class="card-body">
+                            @*@if (item.Override)
+                                {
+                                    var auditItem = item.RFTPCaseAudits.Where(x => x.ActionType == "Override").First();
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading text-center">
+                                                <strong>Overridden</strong>
+                                            </div>
+                                            <div class="panel-body">
+                                                <strong>Overridden by</strong> : @auditItem.CompletedBy <br />
+                                                <strong>Date Completed</strong> : @auditItem.DateTimeCreated <br />
+                                                <strong>Comment</strong> : <br />@auditItem.Comment
+                                            </div>
+                                        </div>
+                                    </div>
+                                }*@
+                            <div class="row">
+                                <div class="col-sm-6" style="min-height:50px;">
+                                    @if (item.Confirmed)
+                                    {
+                                        <h4>Colleague confirmed as responsible</h4>
+                                    }
+                                    else if (item.Reassign)
+                                    {
+                                        <h4>Reassigned to different colleague</h4>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="text-danger">Not yet confirmed</h4>
+                                    }
+                                    @if (item.Override)
+                                    {
+                                        <p>Non compliance overridden, full details in comments.</p>
+                                    }
+                                </div>
+                                <div class="col-sm-6" style="min-height:50px;">
+                                    @foreach (var auditItem in item.RFTPCaseAudits.OrderByDescending(x => x.DateTimeCreated))
+                                    {
+                                        <div class="card @(auditItem.ActionType == "Override" ? "card-warning" : "card-info")">
+                                            <div class="card-header text-center p-2">
+                                                <strong>@auditItem.ActionType</strong>
+                                            </div>
+                                            <div class="card-body">
+                                                @(auditItem.Comment.Length == 0 ? "No comment added" : auditItem.Comment)
+                                            </div>
+                                            <div class="card-footer text-center p-2">
+                                                @Html.Raw(string.Format("Added {0:g} by <strong>{1}</strong>", auditItem.DateTimeCreated, auditItem.CompletedBy))
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (item.RFTPCaseAudits.Count == 0)
+                                    {
+                                        <div class="alert alert-info text-center"><strong>No further actions yet</strong></div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                first = false;
+            }
+        </div>
+    }
+</div>
+

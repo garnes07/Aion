@@ -17,5 +17,6 @@ namespace Aion.DAL.Managers
         Task<int> SubmitAction(int caseId, string actionType, string comment, string username, string accessLevel);
         Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesRegion(string region);
         Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesStore(string store);
+        Task<List<RFTPCaseStub>> GetAllCasesForPerson(string personNum);
     }
 }

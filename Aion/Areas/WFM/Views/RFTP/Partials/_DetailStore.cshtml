@@ -48,7 +48,7 @@
                     <div class="card @(Model._dashboardView.First().ShortShifts == 0 ? "card-success" : Model._dashboardView.First().ShortShifts == 1 ? "card-warning" : "card-danger")">
                         <div class="card-header">
                             <strong>
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseShift">Edited Clocks - @(Model._dashboardView.First().ShortShifts == 0 ? "No shift edit issues!" : "(" + Model._dashboardView.First().ShortShifts + ")")</button>
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseShift">Edited Clocks - @(Model._dashboardView.First().ShortShifts == 0 ? "No shift edit issues!" : "(" + Model._dashboardView.First().ShortShifts + ")")</button>
                             </strong>
                         </div>
                         <div id="collapseShift" class="collapse" data-parent="#accordion">
@@ -79,7 +79,7 @@
                                         </tbody>
                                     </table>
 
-                                    <div class="text-center"><a href="@Url.Action("EditedClocks", "Reports",new { selectedDate = Model.WeeksOfYear.First(x => x.Selected).Value })" class="btn btn-primary" role="button">Edited Shifts</a></div>
+                                    <div class="text-center"><a href="@Url.Action("EditedClocks", "RFTP",new { selectedDate = Model.WeeksOfYear.First(x => x.Selected).Value })" class="btn btn-primary" role="button">Edited Shifts</a></div>
                                 </div>
                             }
                         </div>
@@ -87,7 +87,7 @@
                     <div class="card @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "card-success" : "card-danger")">
                         <div class="card-header">
                             <strong>
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsePunch">Clocking Compliance - @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "No Clocking issues!" : "(" + string.Format("{0:0}%", Model._dashboardView.First().PunchCompliance * 100) + ")")</button>
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePunch">Clocking Compliance - @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "No Clocking issues!" : "(" + string.Format("{0:0}%", Model._dashboardView.First().PunchCompliance * 100) + ")")</button>
                             </strong>
                         </div>
                         <div id="collapsePunch" class="collapse" data-parent="#accordion">
@@ -116,7 +116,7 @@
                                                 </tr>
                                             }
                                     </table>
-                                    <div class="text-center"><a href="@Url.Action("ClockingCompliance", "Reports",new { selectedDate = Model.WeeksOfYear.First(x => x.Selected).Value})" class="btn btn-primary" role="button">Clocking Compliance</a></div>
+                                    <div class="text-center"><a href="@Url.Action("ClockingCompliance", "RFTP",new { selectedDate = Model.WeeksOfYear.First(x => x.Selected).Value})" class="btn btn-primary" role="button">Clocking Compliance</a></div>
                                 </div>
                             }
                         </div>

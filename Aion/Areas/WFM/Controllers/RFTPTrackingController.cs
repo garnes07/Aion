@@ -186,5 +186,25 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        public async Task<ActionResult> ManagerDetail(string personNum)
+        {
+            if(personNum == null)
+                return RedirectToAction("ManagerTracking");
+
+            RFTPManagerDetailVm vm = new RFTPManagerDetailVm
+            {
+                caseDetails = await _RFTPTrackingManager.GetAllCasesForPerson(personNum)
+            };
+
+            if (vm.caseDetails == null)
+            {
+                vm.Message = "No case details for the selected colleague.";
+                vm.MessageType = MessageType.Error;
+            }
+
+            return View(vm);
+        }
     }
 }
