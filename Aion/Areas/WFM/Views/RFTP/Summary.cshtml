@@ -27,7 +27,7 @@
                 <strong>Note: </strong>Figures for the previous week are published Tuesday AM <i><small>(Wednesday following BH)</small></i>
             </div>
             <div class="row mb-1 justify-content-center">
-                <div class="col-12 col-sm-4">
+                <div class="col-11 col-sm-4">
                     @using (Html.BeginForm("Summary", "RFTP", new { c = Model.selectedDate }, FormMethod.Get))
                     {
                         @Html.DropDownList("c", Model.WeeksOfYear, new { onchange = "this.form.submit();", @class = "form-control" })

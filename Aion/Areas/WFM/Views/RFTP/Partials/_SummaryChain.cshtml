@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                     @{ var data = Model.collection.Where(x => x.Chain != null).OrderBy(x => x.wk).ToList();}
-                    <tr style="background-color:#93c6ff">
+                    <tr class="table-chain">
                         <td><strong>@data.First().Chain</strong></td>
                         @foreach (var row in data)
                         {
@@ -34,7 +34,7 @@
                     </tr>
                     @foreach (var division in Model.DivisionList)
                     {
-                        <tr style="background-color:#d5e9ff;">
+                        <tr class="table-division">
                             <td><strong>@division</strong></td>
                             @foreach (var row in Model.collection.Where(x => x.Division == division && x.Region == null).OrderBy(x => x.wk))
                             {
@@ -78,7 +78,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="background-color:#93c6ff">
+                    <tr class="table-chain">
                         <td><strong>@data.First().Chain</strong></td>
                         @foreach (var row in data)
                         {
@@ -90,7 +90,7 @@
                     </tr>
                     @foreach (var division in Model.DivisionList)
                     {
-                        <tr style="background-color:#d5e9ff">
+                        <tr class="table-division">
                             <td><strong>@division</strong></td>
                             @foreach (var row in Model.collection.Where(x => x.Division == division && x.Region == null).OrderBy(x => x.wk))
                             {
@@ -134,7 +134,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="background-color:#93c6ff">
+                    <tr class="table-chain">
                         <td><strong>@data.First().Chain</strong></td>
                         @foreach (var row in data)
                         {
@@ -146,7 +146,7 @@
                     </tr>
                     @foreach (var division in Model.DivisionList)
                     {
-                        <tr style="background-color:#d5e9ff">
+                        <tr class="table-division">
                             <td><strong>@division</strong></td>
                             @foreach (var row in Model.collection.Where(x => x.Division == division && x.Region == null).OrderBy(x => x.wk))
                             {
@@ -190,7 +190,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="background-color:#93c6ff">
+                    <tr class="table-chain">
                         <td><strong>@data.First().Chain</strong></td>
                         @foreach (var row in data)
                         {
@@ -202,7 +202,7 @@
                     </tr>
                     @foreach (var division in Model.DivisionList)
                     {
-                        <tr style="background-color:#d5e9ff">
+                        <tr class="table-division">
                             <td><strong>@division</strong></td>
                             @foreach (var row in Model.collection.Where(x => x.Division == division && x.Region == null).OrderBy(x => x.wk))
                             {

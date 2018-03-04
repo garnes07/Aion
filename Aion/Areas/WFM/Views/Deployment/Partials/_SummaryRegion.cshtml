@@ -1,0 +1,46 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentSummaryVm
+
+
+<div class="tab-content">
+    @foreach (var week in Model.WeekNumbers)
+    {
+        <div role="tabpanel" id="@(week != null ? week.ToString() : "period")" class="tab-pane fade @(week == Model.MaxWeek ? "show active" : "")">
+            <div class="container-fluid mt-1">
+                <table class="table table-bordered table-sm" style="table-layout: fixed;">
+                    <thead class="thead-blue">
+                        <tr>
+                            <th class="text-center" rowspan="2"></th>
+                            <th class="text-center" colspan="3">SOH Spend</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Budget</th>
+                            <th class="text-center">Actual</th>
+                            <th class="text-center">Var</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var store in Model.StoreList)
+                    {
+                        var storeData = Model.collection.First(x => x.WeekNumber == week && x.StoreNumber == store);
+                        <tr>
+                            <td>@string.Format("{0} - {1}", storeData.StoreNumber, storeData.StoreName)</td>
+                            <td class="text-center">@string.Format("{0:#,#}", storeData.SOHBudget)</td>
+                            <td class="text-center">@string.Format("{0:#,#}", storeData.SOHSpend)</td>
+                            <td class="text-center">@string.Format("{0:#,#}", storeData.Variance) <small>@string.Format("({0:0.0}%)", storeData.ToBudget * 100)</small></td>
+                        </tr>
+                    }
+                    @{ var regionData = Model.RegionSummary.First(x => x.WeekNumber == week);}
+                    <tr>
+                        <td><strong>Region Total</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:#,#}", regionData.SOHBudget)</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:#,#}", regionData.SOHSpend)</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:#,#}", regionData.Variance) <small>@string.Format("({0:0.0}%)", regionData.ToBudget * 100)</small></strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+

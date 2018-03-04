@@ -15,5 +15,9 @@ namespace Aion.DAL.IManagers
         Task<List<vw_DashboardData_v2>> GetAllRegionDashData(string region, int weekOfYr);
         Task<List<vw_DashboardData_v2>> GetStoreDashData(string store, int weekOfYr);
         Task<List<EmpComplianceDetail>> GetComplianceDetail(string store, int weekOfYr);
+        Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryStore(string year, byte period, string store);
+        Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryRegion(string year, byte period, string region);
+        Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryDivision(string year, byte period, string division);
+        Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryChain(string year, byte period, string chain);
     }
 }

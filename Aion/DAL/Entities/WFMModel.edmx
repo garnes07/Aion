@@ -347,6 +347,12 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Parameter Name="Period" Type="int" Mode="In" />
           <Parameter Name="Year" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_PeriodDeploymentSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Level" Type="tinyint" Mode="In" />
+          <Parameter Name="Area" Type="nvarchar" Mode="In" />
+          <Parameter Name="Year" Type="nvarchar" Mode="In" />
+          <Parameter Name="Period" Type="tinyint" Mode="In" />
+        </Function>
         <Function Name="sp_RFTPReassignCase" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="personNumber" Type="varchar" Mode="In" />
           <Parameter Name="oldCaseID" Type="int" Mode="In" />
@@ -570,6 +576,12 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
             <Parameter Name="oldCaseID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="vw_Last12MonthRFTPCases" EntityType="WFMMContext.vw_Last12MonthRFTPCases" />
+          <FunctionImport Name="sp_PeriodDeploymentSummary" ReturnType="Collection(WFMMContext.sp_PeriodDeploymentSummary_Result)">
+            <Parameter Name="Level" Mode="In" Type="Byte" />
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Year" Mode="In" Type="String" />
+            <Parameter Name="Period" Mode="In" Type="Byte" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -948,6 +960,23 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Name="Period" Type="Byte" />
           <Property Name="Show" Type="Boolean" Nullable="false" />
         </EntityType>
+        <ComplexType Name="sp_PeriodDeploymentSummary_Result">
+          <Property Type="Int64" Name="RowId" Nullable="false" />
+          <Property Type="String" Name="Year" Nullable="true" MaxLength="10" />
+          <Property Type="Byte" Name="Period" Nullable="true" />
+          <Property Type="Int32" Name="WeekNumber" Nullable="true" />
+          <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="Division" Nullable="true" MaxLength="25" />
+          <Property Type="Int16" Name="Region" Nullable="true" />
+          <Property Type="Int16" Name="StoreNumber" Nullable="true" />
+          <Property Type="String" Name="StoreName" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="SOHSpend" Nullable="true" />
+          <Property Type="Double" Name="TKHSpend" Nullable="true" />
+          <Property Type="Double" Name="SOHBudget" Nullable="true" />
+          <Property Type="Double" Name="TKHBudget" Nullable="true" />
+          <Property Type="Double" Name="Variance" Nullable="true" />
+          <Property Type="Double" Name="ToBudget" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1339,6 +1368,27 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_PeriodDeploymentSummary" FunctionName="WFMMContext.Store.sp_PeriodDeploymentSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WFMMContext.sp_PeriodDeploymentSummary_Result">
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="SOHSpend" ColumnName="SOHSpend" />
+                <ScalarProperty Name="TKHSpend" ColumnName="TKHSpend" />
+                <ScalarProperty Name="SOHBudget" ColumnName="SOHBudget" />
+                <ScalarProperty Name="TKHBudget" ColumnName="TKHBudget" />
+                <ScalarProperty Name="Variance" ColumnName="Variance" />
+                <ScalarProperty Name="ToBudget" ColumnName="ToBudget" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

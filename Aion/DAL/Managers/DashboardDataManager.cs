@@ -83,5 +83,37 @@ namespace Aion.DAL.Managers
                 return await context.EmpComplianceDetails.Where(x => x.WeekNumber == weekOfYr && x.StoreNumber == crit).ToListAsync();
             }
         }
+
+        public async Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryStore(string year, byte period, string store)
+        {
+            using (var context = new WFMModel())
+            {
+                return await Task.Run(() => context.sp_PeriodDeploymentSummary(1, store, year, period).ToList());
+            }
+        }
+
+        public async Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryRegion(string year, byte period, string region)
+        {
+            using (var context = new WFMModel())
+            {
+                return await Task.Run(() => context.sp_PeriodDeploymentSummary(2, region, year, period).ToList());
+            }
+        }
+
+        public async Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryDivision(string year, byte period, string division)
+        {
+            using (var context = new WFMModel())
+            {
+                return await Task.Run(() => context.sp_PeriodDeploymentSummary(3, division, year, period).ToList());
+            }
+        }
+
+        public async Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryChain(string year, byte period, string chain)
+        {
+            using (var context = new WFMModel())
+            {
+                return await Task.Run(() => context.sp_PeriodDeploymentSummary(4, chain, year, period).ToList());
+            }
+        }
     }
 }

@@ -1,0 +1,66 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentSummaryVm
+
+@{
+    ViewBag.Title = "Deployment Summary";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Deployment Summary</strong>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info text-center">
+                <strong>Note: </strong>Figures for the previous week are published Tuesday AM <i><small>(Wednesday following BH)</small></i>
+            </div>
+            <div class="row justify-content-center mb-1">
+                <div class="col-sm-4 col-11">
+                    @using (Html.BeginForm("Summary", "Deployment", new { crit = Model.selectedDate }, FormMethod.Get))
+                    {
+                        @Html.DropDownList("c", Model.WeeksOfYear, new { onchange = "this.form.submit();", @class = "form-control" })
+                    }
+                </div>
+            </div>
+            @if (!Model.collection.Any())
+            {
+                <div class="alert alert-danger text-center"><strong>Reporting for the selected period has not yet been finalised, check back later.</strong></div>
+            }
+            else
+            {
+                <div class="row justify-content-center my-2">
+                    <ul class="nav nav-pills nav-fill" role="tablist" id="dTabs">
+                        @foreach (var week in Model.WeekNumbers)
+                        {
+                            <li role="presentation" class="nav-item">
+                                <a class="nav-link @(week == Model.MaxWeek ? "active" : "")" href="#@(week != null ? week.ToString() : "period")" aria-controls="home" role="tab" data-toggle="tab">
+                                    @(week != null ? string.Format("Wk {0}", week.ToString().Substring(4)) : "Period")
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                if (Model.DisplayLevel == 1)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SummaryStore.cshtml")
+                }
+                else if (Model.DisplayLevel == 2)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SummaryRegion.cshtml")
+                }
+                else if (Model.DisplayLevel == 3)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SummaryDivision.cshtml")
+                }
+                else if (Model.DisplayLevel == 4)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SummaryChain.cshtml")
+                }
+            }
+        </div>
+    </div>
+</div>

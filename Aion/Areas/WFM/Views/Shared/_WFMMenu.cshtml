@@ -7,15 +7,15 @@
         <a class="dropdown-item" href="@Url.Action("ClockingCompliance", "RFTP", new {area = "WFM"})">Clocking Compliance</a>
         <a class="dropdown-item" href="@Url.Action("ClockingBehaviours", "RFTP", new {area = "WFM"})">Clocking Behaviours</a>
         <a class="dropdown-item" href="@Url.Action("EditedClocks", "RFTP", new {area = "WFM"})">Edited Clocks</a>
-        <a class="dropdown-divider"></a>
+        <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="@Url.Action("ManagerTracking", "RFTPTracking", new {area = "WFM"})">Manager Tracking</a>
     </div>
 </li>
 <li class="nav-item dropdown mx-1">
     <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-stats-bars m-1"></i> Deployment</a>
     <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another Action</a>
+        <a class="dropdown-item" href="@Url.Action("Summary", "Deployment", new { area = "WFM" })">Deployment Summary</a>
+        <a class="dropdown-item" href="@Url.Action("Detail", "Deployment", new { area = "WFM" })">Deployment Detail</a>
     </div>
 </li>
 <li class="nav-item dropdown mx-1">

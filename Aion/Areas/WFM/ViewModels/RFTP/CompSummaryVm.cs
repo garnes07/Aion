@@ -13,29 +13,11 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
         public string priority { get; set; }
         public string selectedDate { get; set; }
 
-        public List<int> WeekNumbers
-        {
-            get
-            {
-                return collection.GroupBy(x => x.wk).Select(x => x.Key).OrderBy(x => x).ToList();
-            }
-        }
+        public List<int> WeekNumbers => collection.GroupBy(x => x.wk).Select(x => x.Key).OrderBy(x => x).ToList();
 
-        public List<string> DivisionList
-        {
-            get
-            {
-                return collection.Where(x => x.Division != null).GroupBy(x => x.Division).Select(x => x.Key).ToList();
-            }
-        }
+        public List<string> DivisionList => collection.Where(x => x.Division != null).GroupBy(x => x.Division).Select(x => x.Key).ToList();
 
-        public List<int?> BranchList
-        {
-            get
-            {
-                return collection.Where(x => x.StoreCount != null).OrderBy(x => x.StoreCount).GroupBy(x => x.StoreCount).Select(x => x.Key).ToList();
-            }
-        }
+        public List<int?> BranchList => collection.Where(x => x.StoreCount != null).OrderBy(x => x.StoreCount).GroupBy(x => x.StoreCount).Select(x => x.Key).ToList();
 
         public List<short?> GetRegionList(string _division)
         {

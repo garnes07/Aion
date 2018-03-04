@@ -89,9 +89,9 @@ namespace Aion.Areas.WFM.Controllers
 
                     if (empCompliance.Any())
                         vm.loadTimecardDetails(empCompliance);
-                    if (vm._dashboardView.First().PunchCompliance < 0.9)
+                    if (vm._dashboardView.Any(x => x.PunchCompliance < 0.9))
                         vm.loadPunchDetails(await _clockManager.GetClockDetailStore(selectCrit, weekNum));
-                    if (vm._dashboardView.First().ShortShifts > 0)
+                    if (vm._dashboardView.Any(x => x.ShortShifts > 0))
                         vm.loadSSDetails(await _editedClockManager.GetEditedClocksStore(selectCrit, weekNum));
 
                     vm.DisplayLevel = 1;

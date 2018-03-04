@@ -1,0 +1,56 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentSummaryVm
+
+
+<div class="tab-content">
+    @foreach (var week in Model.WeekNumbers)
+    {
+        <div role="tabpanel" id="@(week != null ? week.ToString() : "period")" class="tab-pane fade @(week == Model.MaxWeek ? "show active" : "")">
+            <div class="container-fluid mt-1">
+                <table class="table table-bordered table-sm" style="table-layout: fixed;">
+                    <thead class="thead-blue">
+                        <tr>
+                            <th class="text-center" rowspan="2"></th>
+                            <th class="text-center" colspan="3">SOH Spend</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Budget</th>
+                            <th class="text-center">Actual</th>
+                            <th class="text-center">Var</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @{ var chainData = Model.ChainSummary.First(x => x.WeekNumber == week);}
+                    <tr class="table-chain">
+                        <td><strong>@chainData.Chain</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:#,#}", chainData.SOHBudget)</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:#,#}", chainData.SOHSpend)</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:#,#}", chainData.Variance) <small>@string.Format("({0:0.0}%)", chainData.ToBudget * 100)</small></strong></td>
+                    </tr>
+                    @foreach (var division in Model.DivisionList)
+                    {
+                        var divisionData = Model.DivisionSummary.First(x => x.WeekNumber == week && x.Division == division);
+                        <tr class="table-division">
+                            <td><strong>@division</strong></td>
+                            <td class="text-center"><strong>@string.Format("{0:#,#}", divisionData.SOHBudget)</strong></td>
+                            <td class="text-center"><strong>@string.Format("{0:#,#}", divisionData.SOHSpend)</strong></td>
+                            <td class="text-center"><strong>@string.Format("{0:#,#}", divisionData.Variance) <small>@string.Format("({0:0.0}%)", divisionData.ToBudget * 100)</small></strong></td>
+                        </tr>
+                        foreach (var region in Model.GetRegionList(division))
+                        {
+                            var regionData = Model.RegionSummary.First(x => x.WeekNumber == week && x.Region == region);
+                            <tr>
+                                <td>@region</td>
+                                <td class="text-center">@string.Format("{0:#,#}", regionData.SOHBudget)</td>
+                                <td class="text-center">@string.Format("{0:#,#}", regionData.SOHSpend)</td>
+                                <td class="text-center">@string.Format("{0:#,#}", regionData.Variance) <small>@string.Format("({0:0.0}%)", regionData.ToBudget * 100)</small></td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+

@@ -163,10 +163,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Areas\WFM\Controllers\DeploymentController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerTrendVm.cs" />
@@ -230,6 +232,9 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_ComplianceSummary_Result.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_PeriodDeploymentSummary_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\StoreMaster.cs">
@@ -544,6 +549,12 @@
     <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_employeeSearch.cshtml" />
     <Content Include="Areas\WFM\Views\RFTPTracking\ManagerTrend.cshtml" />
     <Content Include="Areas\WFM\Views\RFTPTracking\ManagerDetail.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Summary.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryChainOLD.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryChain.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryStore.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

@@ -147,5 +147,26 @@ namespace Aion.DAL.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RFTPReassignCase", personNumberParameter, oldCaseIDParameter);
         }
+    
+        public virtual ObjectResult<sp_PeriodDeploymentSummary_Result> sp_PeriodDeploymentSummary(Nullable<byte> level, string area, string year, Nullable<byte> period)
+        {
+            var levelParameter = level.HasValue ?
+                new ObjectParameter("Level", level) :
+                new ObjectParameter("Level", typeof(byte));
+    
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            var yearParameter = year != null ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(string));
+    
+            var periodParameter = period.HasValue ?
+                new ObjectParameter("Period", period) :
+                new ObjectParameter("Period", typeof(byte));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_PeriodDeploymentSummary_Result>("sp_PeriodDeploymentSummary", levelParameter, areaParameter, yearParameter, periodParameter);
+        }
     }
 }
