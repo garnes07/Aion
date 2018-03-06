@@ -115,5 +115,14 @@ namespace Aion.DAL.Managers
                 return await Task.Run(() => context.sp_PeriodDeploymentSummary(4, chain, year, period).ToList());
             }
         }
+
+        public async Task<List<DailyDeployment>> GetDailyDeploymentStore(string store, int weekOfYr)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.DailyDeployments.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).ToListAsync();
+            }
+        }
     }
 }

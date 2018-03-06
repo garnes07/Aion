@@ -1,0 +1,32 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDetailVm
+
+<table class="table table-bordered table-sm" style="table-layout: fixed;">
+    <thead class="thead-blue">
+        <tr>
+            <th class="text-center">Branch Name</th>
+            <th class="text-center">SOH Spend</th>
+            <th class="text-center">SOH Budget</th>
+            <th class="text-center">Variance</th>
+            <th class="text-center">Deployment Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.WeekData.OrderBy(x => x.StoreNumber))
+        {
+            <tr>
+                <td>@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</td>
+                <td class="text-center">@string.Format("{0:0.0}", item.SOH)</td>
+                <td class="text-center">@string.Format("{0:0.0}", item.FinalTarget)</td>
+                <td class="text-center">@string.Format("{0:0.0}", item.FinalTarget - item.SOH)</td>
+                <td class="text-center @Model.GetColor(item.SOHUtilization)">@item.SOHUtilization</td>
+            </tr>
+        }
+        <tr>
+            <td><strong>Region Total</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0.0}", Model.RegionTotal.SOHSpend)</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0.0}", Model.RegionTotal.FinalTarget)</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0.0}", Model.RegionTotal.FinalTarget - Model.RegionTotal.SOHSpend)</strong></td>
+            <td class="text-center @Model.GetColor(Model.RegionTotal.DeploymentScore)"><strong>@string.Format("{0:0.0}", Model.RegionTotal.DeploymentScore)</strong></td>
+        </tr>
+    </tbody>
+</table>

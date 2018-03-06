@@ -19,5 +19,6 @@ namespace Aion.DAL.IManagers
         Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryRegion(string year, byte period, string region);
         Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryDivision(string year, byte period, string division);
         Task<List<sp_PeriodDeploymentSummary_Result>> GetDeploymentSummaryChain(string year, byte period, string chain);
+        Task<List<DailyDeployment>> GetDailyDeploymentStore(string store, int weekOfYr);
     }
 }

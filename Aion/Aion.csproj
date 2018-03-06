@@ -166,8 +166,10 @@
     <Compile Include="Areas\WFM\Controllers\DeploymentController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
+    <Compile Include="Areas\WFM\Models\Deployment\DeploymentAggregate.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerSummaryVm.cs" />
@@ -183,6 +185,9 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="DAL\Entities\DailyDeployment.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\EditedClock.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -555,6 +560,11 @@
     <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryDivision.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryRegion.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_SummaryStore.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Detail.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailStore.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailChain.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -570,6 +580,7 @@
     <Content Include="DAL\Entities\WFMModel.edmx.diagram">
       <DependentUpon>WFMModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />

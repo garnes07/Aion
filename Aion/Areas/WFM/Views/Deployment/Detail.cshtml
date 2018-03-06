@@ -1,0 +1,137 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDetailVm
+
+@{
+    ViewBag.Title = "Deployment Detail";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>WFM Deployment</strong>
+        </div>
+        <div class="card-body">
+            <p>WFM deployment is a measure of how well you are utilising the hours that have been made available to your store. Good deployment ensures appropriate shop floor coverage in order to take full advantage of the customer opportunity.</p>
+            <p>
+                When looking at the current and future weeks in the below report the SOH spend is calculated based on your schedules as they currently exist in STAR. Schedule information is refreshed overnight each day so if you have made improvements to these schedules check back the following day to see your new score.<br/>
+                <strong>Note: </strong>The SOH spend for the previous week is not published until <u>Tuesday AM</u> to allow for sign off and data validation, before this time the schedule information will continue to be shown.
+            </p>
+        </div>
+    </div>
+
+    @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "Detail", Controller = "Deployment", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
+    
+    @if (Model.MessageType == MessageType.Warning)
+    {
+        <div class="alert alert-danger text-center"><strong>Reporting for the selected period has not yet been finalised, check back later.</strong></div>
+    }
+    else if (Model.DisplayLevel == 1)
+    {
+        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DetailStore.cshtml")
+    }
+    else if (Model.DisplayLevel == 2)
+    {
+        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DetailRegion.cshtml")
+    }
+    else if (Model.DisplayLevel == 3)
+    {
+        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DetailDivision.cshtml")
+    }
+    else if (Model.DisplayLevel == 4)
+    {
+        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DetailChain.cshtml")
+    }
+</div>
+
+@section myScripts
+{
+    <script src="~/Scripts/Chart.min.js"></script>
+    @if (Model.DisplayLevel == 1 && Model.WeekData != null)
+    {
+        <script>
+            $(function () {
+                var ctx = document.getElementById("spend-bar-chart");
+                var testChart = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: {
+                        labels: ["Spend", "Budget"],
+                        datasets: [
+                            {
+                                data: [@(Model.StoreData.SOH > Model.StoreData.FinalTarget ? Model.StoreData.FinalTarget.ToString() : Model.StoreData.SOH.ToString()), @Model.StoreData.FinalTarget],
+                                backgroundColor: [
+                                    'rgba(0, 140, 168,0.9)',
+                                    'rgba(10, 23, 49,0.9)'
+                                ]
+                            },
+                            {
+                                data:[@(Model.StoreData.SOH > Model.StoreData.FinalTarget ? Math.Round((double)Model.StoreData.SOH - (double)Model.StoreData.FinalTarget,2).ToString() : "0"),0],
+                                backgroundColor: [
+                                    'rgba(255, 77, 77,0.9)',
+                                    'rgba(10, 23, 49,0.9)'
+                                ]
+                            }
+                        ]
+                    },
+                    options: {
+                        legend:{
+                            display: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        },
+                        maintainAspectRatio: false
+                    }
+                });
+            });
+        </script>
+    }   
+    @if (Model.DisplayLevel == 1 && Model.WeekData != null)
+    {
+        <script>
+            $(function(){
+                var ctx = document.getElementById("deployment-bar-chart");
+                var testChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                        datasets: [
+                            {
+                                label: 'Required %',
+                                data: @Model.RequiredGraphArray,
+                                backgroundColor: 'rgba(10, 23, 49,0.9)'
+                            },
+                            {
+                                label: 'Deployed %',
+                                data: @Model.DeployedGraphArray,
+                                backgroundColor: 'rgba(0, 140, 168,0.9)'
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        maintainAspectRatio: false
+                    }
+                });
+            });
+        </script>
+    }
+}

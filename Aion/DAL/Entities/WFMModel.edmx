@@ -5,6 +5,37 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WFMMContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DailyDeployment">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="SundayReq" Type="numeric" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="MondayReq" Type="numeric" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="TuesdayReq" Type="numeric" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="WednesdayReq" Type="numeric" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="ThursdayReq" Type="numeric" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="FridayReq" Type="numeric" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="SaturdayReq" Type="numeric" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="SundayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="MondayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="TuesdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="WednesdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="ThursdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="FridayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SaturdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="DateTimeModified" Type="datetime" Nullable="false" />
+          <Property Name="DeployedTotal" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SundayMove" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="MondayMove" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="TuesdayMove" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="WednesdayMove" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="ThursdayMove" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="FridayMove" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SaturdayMove" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="EditedClocks">
           <Key>
             <PropertyRef Name="WeekNumber" />
@@ -358,6 +389,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Parameter Name="oldCaseID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="WFMMContextStoreContainer">
+          <EntitySet Name="DailyDeployment" EntityType="Self.DailyDeployment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
@@ -582,6 +614,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
             <Parameter Name="Year" Mode="In" Type="String" />
             <Parameter Name="Period" Mode="In" Type="Byte" />
           </FunctionImport>
+          <EntitySet Name="DailyDeployments" EntityType="WFMMContext.DailyDeployment" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -977,6 +1010,37 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Type="Double" Name="Variance" Nullable="true" />
           <Property Type="Double" Name="ToBudget" Nullable="true" />
         </ComplexType>
+        <EntityType Name="DailyDeployment">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="SundayReq" Type="Decimal" Nullable="false" Precision="5" Scale="3" />
+          <Property Name="MondayReq" Type="Decimal" Nullable="false" Precision="5" Scale="3" />
+          <Property Name="TuesdayReq" Type="Decimal" Nullable="false" Precision="5" Scale="3" />
+          <Property Name="WednesdayReq" Type="Decimal" Nullable="false" Precision="5" Scale="3" />
+          <Property Name="ThursdayReq" Type="Decimal" Nullable="false" Precision="5" Scale="3" />
+          <Property Name="FridayReq" Type="Decimal" Nullable="false" Precision="5" Scale="3" />
+          <Property Name="SaturdayReq" Type="Decimal" Nullable="false" Precision="5" Scale="3" />
+          <Property Name="SundayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="MondayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="TuesdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="WednesdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="ThursdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="FridayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SaturdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="DateTimeModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeployedTotal" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SundayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="MondayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="TuesdayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="WednesdayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="ThursdayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="FridayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SaturdayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1389,6 +1453,38 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="DailyDeployments">
+            <EntityTypeMapping TypeName="WFMMContext.DailyDeployment">
+              <MappingFragment StoreEntitySet="DailyDeployment">
+                <ScalarProperty Name="SaturdayMove" ColumnName="SaturdayMove" />
+                <ScalarProperty Name="FridayMove" ColumnName="FridayMove" />
+                <ScalarProperty Name="ThursdayMove" ColumnName="ThursdayMove" />
+                <ScalarProperty Name="WednesdayMove" ColumnName="WednesdayMove" />
+                <ScalarProperty Name="TuesdayMove" ColumnName="TuesdayMove" />
+                <ScalarProperty Name="MondayMove" ColumnName="MondayMove" />
+                <ScalarProperty Name="SundayMove" ColumnName="SundayMove" />
+                <ScalarProperty Name="DeployedTotal" ColumnName="DeployedTotal" />
+                <ScalarProperty Name="DateTimeModified" ColumnName="DateTimeModified" />
+                <ScalarProperty Name="SaturdayDeployed" ColumnName="SaturdayDeployed" />
+                <ScalarProperty Name="FridayDeployed" ColumnName="FridayDeployed" />
+                <ScalarProperty Name="ThursdayDeployed" ColumnName="ThursdayDeployed" />
+                <ScalarProperty Name="WednesdayDeployed" ColumnName="WednesdayDeployed" />
+                <ScalarProperty Name="TuesdayDeployed" ColumnName="TuesdayDeployed" />
+                <ScalarProperty Name="MondayDeployed" ColumnName="MondayDeployed" />
+                <ScalarProperty Name="SundayDeployed" ColumnName="SundayDeployed" />
+                <ScalarProperty Name="SaturdayReq" ColumnName="SaturdayReq" />
+                <ScalarProperty Name="FridayReq" ColumnName="FridayReq" />
+                <ScalarProperty Name="ThursdayReq" ColumnName="ThursdayReq" />
+                <ScalarProperty Name="WednesdayReq" ColumnName="WednesdayReq" />
+                <ScalarProperty Name="TuesdayReq" ColumnName="TuesdayReq" />
+                <ScalarProperty Name="MondayReq" ColumnName="MondayReq" />
+                <ScalarProperty Name="SundayReq" ColumnName="SundayReq" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

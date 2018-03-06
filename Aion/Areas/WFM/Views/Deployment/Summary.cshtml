@@ -32,18 +32,6 @@
             }
             else
             {
-                <div class="row justify-content-center my-2">
-                    <ul class="nav nav-pills nav-fill" role="tablist" id="dTabs">
-                        @foreach (var week in Model.WeekNumbers)
-                        {
-                            <li role="presentation" class="nav-item">
-                                <a class="nav-link @(week == Model.MaxWeek ? "active" : "")" href="#@(week != null ? week.ToString() : "period")" aria-controls="home" role="tab" data-toggle="tab">
-                                    @(week != null ? string.Format("Wk {0}", week.ToString().Substring(4)) : "Period")
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
                 if (Model.DisplayLevel == 1)
                 {
                     @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SummaryStore.cshtml")

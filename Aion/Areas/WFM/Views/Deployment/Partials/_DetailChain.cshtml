@@ -1,0 +1,42 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDetailVm
+
+<table class="table table-bordered table-sm" style="table-layout: fixed;">
+    <thead class="thead-blue">
+        <tr>
+            <th class="text-center">Branch Name</th>
+            <th class="text-center">SOH Spend</th>
+            <th class="text-center">SOH Budget</th>
+            <th class="text-center">Variance</th>
+            <th class="text-center">Deployment Score</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr class="table-chain">
+        <td><strong>@Model.ChainSummary.StoreFlag</strong></td>
+        <td class="text-center"><strong>@string.Format("{0:0}", Model.ChainSummary.SOH)</strong></td>
+        <td class="text-center"><strong>@string.Format("{0:0}", Model.ChainSummary.FinalTarget)</strong></td>
+        <td class="text-center"><strong>@string.Format("{0:0}", Model.ChainSummary.FinalTarget - Model.ChainSummary.SOH)</strong></td>
+        <td class="text-center"><strong>@string.Format("{0:0.0}", Model.ChainSummary.SOHUtilization)</strong></td>
+    </tr>
+    @foreach (var division in Model.DivisionSummary)
+    {
+        <tr class="table-division">
+            <td><strong>@division.Division</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0}", division.SOH)</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0}", division.FinalTarget)</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0}", division.FinalTarget - division.SOH)</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0.0}", division.SOHUtilization)</strong></td>
+        </tr>
+        foreach (var region in Model.RegionSummary.Where(x => x.Division == division.Division))
+         {
+             <tr>
+                 <td>@region.Region</td>
+                 <td class="text-center">@string.Format("{0:0}", region.SOH)</td>
+                 <td class="text-center">@string.Format("{0:0}", region.FinalTarget)</td>
+                 <td class="text-center">@string.Format("{0:0}", region.FinalTarget - region.SOH)</td>
+                 <td class="text-center">@string.Format("{0:0}", region.SOHUtilization)</td>
+             </tr>
+         }
+    }
+    </tbody>
+</table>
