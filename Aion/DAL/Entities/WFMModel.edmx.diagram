@@ -20,6 +20,7 @@
         <EntityTypeShape EntityType="WFMMContext.RFTPCaseAction" Width="1.5" PointX="14.25" PointY="5.25" />
         <EntityTypeShape EntityType="WFMMContext.vw_Last12MonthRFTPCases" Width="1.5" PointX="0.75" PointY="10.75" />
         <EntityTypeShape EntityType="WFMMContext.DailyDeployment" Width="1.5" PointX="11.375" PointY="6.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_FootfallHourly" Width="1.5" PointX="3.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

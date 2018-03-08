@@ -171,6 +171,7 @@
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerTrendVm.cs" />
@@ -305,6 +306,9 @@
     <Compile Include="DAL\Entities\vw_EditedClocks.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_FootfallHourly.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_Last12MonthRFTPCases.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -357,6 +361,8 @@
     <Compile Include="DAL\IManagers\IEmpSummaryManager.cs" />
     <Compile Include="DAL\IManagers\IEditedClockManager.cs" />
     <Compile Include="DAL\IManagers\IRFTPTrackingManager.cs" />
+    <Compile Include="DAL\Managers\FootfallManager.cs" />
+    <Compile Include="DAL\IManagers\IFootfallManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
@@ -565,6 +571,7 @@
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailRegion.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailDivision.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailChain.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Footfall.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

@@ -15,11 +15,13 @@ namespace Aion.Areas.WFM.Controllers
     {
         private readonly IDashboardDataManager _dashDataManager;
         private readonly IWeeksManager _weeksManager;
+        private readonly IFootfallManager _footfallManager;
 
         public DeploymentController()
         {
             _dashDataManager = new DashboardDataManager();
             _weeksManager = new WeeksManager();
+            _footfallManager = new FootfallManager();
         }
 
         public async Task<ActionResult> Summary(string c = "e_0")
@@ -89,6 +91,47 @@ namespace Aion.Areas.WFM.Controllers
 
             vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));
             vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            return View(vm);
+        }
+
+        public async Task<ActionResult> Footfall(string selectedYear = null, string selectedWeek = null)
+        {
+            FootfallVm vm = new FootfallVm();
+
+            if (selectedWeek == null)
+            {
+                var weekDetail = _weeksManager.GetSingleWeek(DateTime.Now.AddDays(-7).Date);
+                selectedYear = weekDetail.ToString().Substring(2, 2);
+                vm.SelectedYear = selectedYear = (int.Parse(selectedYear) - 1) + "/" + selectedYear;
+                vm.SelectedWeek = selectedWeek = weekDetail.ToString().Substring(4, 2);
+            }
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.FootfallCollection = await _footfallManager.GetFootfallStore(selectCrit,selectedYear, int.Parse(selectedWeek));
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.FootfallCollection = await _footfallManager.GetFootfallRegion(selectCrit, selectedYear, int.Parse(selectedWeek));
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.FootfallCollection = await _footfallManager.GetFootfallDivision(selectCrit, selectedYear, int.Parse(selectedWeek));
+                    vm.DisplayLevel = 3;
+                    break;
+                case "C":
+                    vm.FootfallCollection = await _footfallManager.GetFootfallChain(selectCrit, selectedYear, int.Parse(selectedWeek));
+                    vm.DisplayLevel = 4;
+                    break;
+            }
+
+            if (!vm.FootfallCollection.Any())
+            {
+                vm.MessageType = MessageType.Warning;
+                vm.Message = "No data found for the selected period";
+            }
 
             return View(vm);
         }

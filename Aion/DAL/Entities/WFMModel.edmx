@@ -307,19 +307,37 @@ warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a pri
           <Property Name="EditedCount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_FootfallHourly' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_FootfallHourly">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Year" Type="varchar" MaxLength="5" />
+          <Property Name="WeekNumber" Type="smallint" />
+          <Property Name="Day" Type="varchar" MaxLength="10" />
+          <Property Name="Hour In Day 24" Type="smallint" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Footfall Volume" Type="smallint" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Last12MonthRFTPCases">
           <Key>
             <PropertyRef Name="CaseID" />
-            <PropertyRef Name="PersonNumber" />
-            <PropertyRef Name="StoreNumber" />
-            <PropertyRef Name="Stage" />
-            <PropertyRef Name="Override" />
-            <PropertyRef Name="Reassign" />
-            <PropertyRef Name="DateTimeCreated" />
-            <PropertyRef Name="Confirmed" />
-            <PropertyRef Name="Completed" />
-            <PropertyRef Name="Show" />
+            
+            
+            
+            
+            
+            
+            
+            
+            
           </Key>
           <Property Name="CaseID" Type="int" Nullable="false" />
           <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
@@ -531,6 +549,21 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
     [vw_EditedClocks].[EditedCount] AS [EditedCount]
     FROM [dbo].[vw_EditedClocks] AS [vw_EditedClocks]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_FootfallHourly" EntityType="Self.vw_FootfallHourly" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_FootfallHourly].[Key] AS [Key], 
+    [vw_FootfallHourly].[Year] AS [Year], 
+    [vw_FootfallHourly].[WeekNumber] AS [WeekNumber], 
+    [vw_FootfallHourly].[Day] AS [Day], 
+    [vw_FootfallHourly].[Hour In Day 24] AS [Hour In Day 24], 
+    [vw_FootfallHourly].[Chain] AS [Chain], 
+    [vw_FootfallHourly].[Division] AS [Division], 
+    [vw_FootfallHourly].[Region] AS [Region], 
+    [vw_FootfallHourly].[StoreNumber] AS [StoreNumber], 
+    [vw_FootfallHourly].[StoreName] AS [StoreName], 
+    [vw_FootfallHourly].[Footfall Volume] AS [Footfall Volume]
+    FROM [dbo].[vw_FootfallHourly] AS [vw_FootfallHourly]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_Last12MonthRFTPCases" EntityType="Self.vw_Last12MonthRFTPCases" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Last12MonthRFTPCases].[CaseID] AS [CaseID], 
@@ -615,6 +648,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
             <Parameter Name="Period" Mode="In" Type="Byte" />
           </FunctionImport>
           <EntitySet Name="DailyDeployments" EntityType="WFMMContext.DailyDeployment" />
+          <EntitySet Name="vw_FootfallHourly" EntityType="WFMMContext.vw_FootfallHourly" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -968,15 +1002,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
         <EntityType Name="vw_Last12MonthRFTPCases">
           <Key>
             <PropertyRef Name="CaseID" />
-            <PropertyRef Name="PersonNumber" />
-            <PropertyRef Name="StoreNumber" />
-            <PropertyRef Name="Stage" />
-            <PropertyRef Name="Override" />
-            <PropertyRef Name="Reassign" />
-            <PropertyRef Name="DateTimeCreated" />
-            <PropertyRef Name="Confirmed" />
-            <PropertyRef Name="Completed" />
-            <PropertyRef Name="Show" />
           </Key>
           <Property Name="CaseID" Type="Int32" Nullable="false" />
           <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
@@ -1040,6 +1065,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Name="ThursdayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <Property Name="FridayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <Property Name="SaturdayMove" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="vw_FootfallHourly">
+          <Key>
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="WeekNumber" Type="Int16" />
+          <Property Name="Day" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Hour_In_Day_24" Type="Int16" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Footfall_Volume" Type="Int16" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1482,6 +1523,23 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_FootfallHourly">
+            <EntityTypeMapping TypeName="WFMMContext.vw_FootfallHourly">
+              <MappingFragment StoreEntitySet="vw_FootfallHourly">
+                <ScalarProperty Name="Footfall_Volume" ColumnName="Footfall Volume" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Hour_In_Day_24" ColumnName="Hour In Day 24" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

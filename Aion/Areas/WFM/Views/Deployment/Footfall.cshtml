@@ -1,0 +1,243 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.Deployment.FootfallVm
+
+@{
+    ViewBag.Title = "Footfall";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Footfall</strong>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Footfall", "Deployment", new {area = "WFM", year = Model.SelectedYear, month = Model.SelectedWeek}, FormMethod.Get))
+            {
+                <div class="row justify-content-center mb-3">
+                    <div class="col-8 col-sm-4 col-md-3">
+                        <div class="text-center">
+                            <strong>Year</strong>
+                            <div>@Html.DropDownListFor(m => m.SelectedYear, Model.Years, new {@class = "form-control"})</div>
+                        </div>
+                    </div>
+                    <div class="col-8 col-sm-4 col-md-3">
+                        <div class="text-center">
+                            <strong>Week</strong>
+                            <div>@Html.DropDownListFor(m => m.SelectedWeek, Model.Weeks, new {onchange = "this.form.submit();", @class = "form-control"})</div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.MessageType == MessageType.Warning)
+            {
+                <div class="alert alert-danger text-center"><strong>@Model.Message</strong></div>
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="chart">
+                        <canvas id="weekPlot" style="height: 300px"></canvas>
+                    </div>
+                </div>
+            }
+        </div>
+        @if (Model.MessageType != MessageType.Warning)
+        {
+            <div class="card-header text-center" style="border-top: 1px solid rgba(0, 0, 0, 0.125);">
+                <strong>By Hour View</strong>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center mb-3">
+                    <div class="d-none d-sm-block col-12">
+                        <div class="btn-group w-100" role="group">
+                            <button id="1" type="button" class="btn btn-light active showDay" style="width: 14.2%;">Sunday</button>
+                            <button id="2" type="button" class="btn btn-light showDay" style="width: 14.2%;">Monday</button>
+                            <button id="3" type="button" class="btn btn-light showDay" style="width: 14.2%;">Tuesday</button>
+                            <button id="4" type="button" class="btn btn-light showDay" style="width: 14.2%;">Wednesday</button>
+                            <button id="5" type="button" class="btn btn-light showDay" style="width: 14.2%;">Thursday</button>
+                            <button id="6" type="button" class="btn btn-light showDay" style="width: 14.2%;">Friday</button>
+                            <button id="7" type="button" class="btn btn-light showDay" style="width: 14.2%;">Saturday</button>
+                        </div>
+                    </div>
+                    <div class="d-block d-sm-none">
+                        <button type="button" class="btn btn-light dropdown-toggle col-8" data-toggle="dropdown">Monday </button>
+                        <ul class="dropdown-menu col-8">
+                            <li id="1" class="showDay">Sunday</li>
+                            <li id="2" class="showDay">Monday</li>
+                            <li id="3" class="showDay">Tuesday</li>
+                            <li id="4" class="showDay">Wednesday</li>
+                            <li id="5" class="showDay">Thursday</li>
+                            <li id="6" class="showDay">Friday</li>
+                            <li id="7" class="showDay">Saturday</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="chart">
+                        <canvas id="dayPlot" style="height: 300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section myScripts
+{
+    <script src="~/Scripts/Chart.min.js"></script>
+    @if (Model.MessageType != MessageType.Warning)
+    {
+        <script>
+            var Sun = @Model.HourlyGraphData("Sunday");
+            var Mon = @Model.HourlyGraphData("Monday");
+            var Tue = @Model.HourlyGraphData("Tuesday");
+            var Wed = @Model.HourlyGraphData("Wednesday");
+            var Thu = @Model.HourlyGraphData("Thursday");
+            var Fri = @Model.HourlyGraphData("Friday");
+            var Sat = @Model.HourlyGraphData("Saturday");
+            var current = 1;
+            var _labels = [];
+
+            for (var i = 0; i < Sun.length; i++) {
+                _labels.push((8+i).toString() + ":00");
+            }
+
+            var weekCtx = document.getElementById("weekPlot");
+            var weekChart = new Chart(weekCtx, {
+                type: 'bar',
+                data: {
+                    labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                    datasets: [
+                        {
+                            label: 'Footfall',
+                            data: @Model.DailyGraphData,
+                            backgroundColor: 'rgba(10, 23, 49,0.9)'
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+
+            var dayCtx = document.getElementById("dayPlot");
+            var dayData = {
+                labels : _labels,
+                datasets:[{
+                    label: 'Footfall',
+                    data: Sun,
+                    backgroundColor: 'rgba(0, 140, 168,0.9)'
+                }]
+            };
+            var dayOptions ={
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                maintainAspectRatio: false
+            };
+            dayChart = new Chart(dayCtx, {
+                type: 'bar',
+                data: dayData,
+                options: dayOptions
+            });
+
+            $('.showDay').on('click',function(){
+                $('.showDay').removeClass('active');
+                $(this).addClass('active');
+                var day = $(this).attr('id');
+                if(day != current){
+                    switch(day){
+                        case '1':
+                            _labels = [];
+                            for (var i = 0; i < Sun.length; i++) {
+                                _labels.push((8+i).toString() + ":00");
+                            }
+                            dayData.datasets[0].data = Sun;
+                            dayData.labels = _labels;
+                            break;
+                        case '2':
+                            _labels = [];
+                            for (var i = 0; i < Mon.length; i++) {
+                                _labels.push((8+i).toString() + ":00");
+                            }
+                            dayData.datasets[0].data = Mon;
+                            dayData.labels = _labels;
+                            break;
+                        case '3':
+                            _labels = [];
+                            for (var i = 0; i < Tue.length; i++) {
+                                _labels.push((8+i).toString() + ":00");
+                            }
+                            dayData.datasets[0].data = Tue;
+                            dayData.labels = _labels;
+                            break;
+                        case '4':
+                            _labels = [];
+                            for (var i = 0; i < Wed.length; i++) {
+                                _labels.push((8+i).toString() + ":00");
+                            }
+                            dayData.datasets[0].data = Wed;
+                            dayData.labels = _labels;
+                            break;
+                        case '5':
+                            _labels = [];
+                            for (var i = 0; i < Thu.length; i++) {
+                                _labels.push((8+i).toString() + ":00");
+                            }
+                            dayData.datasets[0].data = Thu;
+                            dayData.labels = _labels;
+                            break;
+                        case '6':
+                            _labels = [];
+                            for (var i = 0; i < Fri.length; i++) {
+                                _labels.push((8+i).toString() + ":00");
+                            }
+                            dayData.datasets[0].data = Fri;
+                            dayData.labels = _labels;
+                            break;
+                        case '7':
+                            _labels = [];
+                            for (var i = 0; i < Sat.length; i++) {
+                                _labels.push((8+i).toString() + ":00");
+                            }
+                            dayData.datasets[0].data = Sat;
+                            dayData.labels = _labels;
+                            break;
+                        default:
+                            break;
+                    };
+
+                    current = day;
+                    dayChart.destroy();
+                    dayChart = new Chart(dayCtx,{
+                        type: 'bar',
+                        data: dayData,
+                        options: dayOptions
+                    });
+                };
+            });
+        </script>
+    }
+}
