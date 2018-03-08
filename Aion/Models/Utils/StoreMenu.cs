@@ -79,22 +79,14 @@ namespace Aion.Models.Utils
 
         public string JsonString()
         {
-            if (this.accessLvl <= 1)
-            {
+            if(accessLvl == 0)
+                return JsonConvert.SerializeObject(Channels.First().nodes.First().nodes.First().nodes);
+            if (accessLvl == 1)
                 return JsonConvert.SerializeObject(Channels.First().nodes.First().nodes);
-            }
-            else if (this.accessLvl == 2)
-            {
+            if (accessLvl == 2)
                 return JsonConvert.SerializeObject(Channels.First().nodes);
-            }
-            else if (this.accessLvl > 2)
-            {
-                return JsonConvert.SerializeObject(Channels);
-            }
-            else
-            {
-                return "";
-            }
+
+            return accessLvl > 2 ? JsonConvert.SerializeObject(Channels) : "";
         }
 
         public bool menuSelect(string a)
@@ -156,7 +148,7 @@ namespace Aion.Models.Utils
             string[] b = _menuSelection.Split('_');
             bool result = false;
 
-            if (b[0] == "S")
+            if (b[0] == "S" && accessLvl >= 1)
             {
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.nodes.Any(y => y.storeNum == b[1]));
                 if (i.Any())
@@ -165,7 +157,7 @@ namespace Aion.Models.Utils
                     _menuSearch = i.First().text;
                 }
             }
-            else if (b[0] == "R" && this.accessLvl >= 2)
+            else if (b[0] == "R" && accessLvl >= 2)
             {
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.nodes.Any(y => y.text == b[1]));
                 if (i.Any())
