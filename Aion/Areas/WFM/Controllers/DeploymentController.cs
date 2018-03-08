@@ -16,12 +16,14 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IDashboardDataManager _dashDataManager;
         private readonly IWeeksManager _weeksManager;
         private readonly IFootfallManager _footfallManager;
+        private readonly IGmWeWorkingManager _gmWeWorkingManager;
 
         public DeploymentController()
         {
             _dashDataManager = new DashboardDataManager();
             _weeksManager = new WeeksManager();
             _footfallManager = new FootfallManager();
+            _gmWeWorkingManager = new GmWeWorkingManager();
         }
 
         public async Task<ActionResult> Summary(string c = "e_0")
@@ -131,6 +133,33 @@ namespace Aion.Areas.WFM.Controllers
             {
                 vm.MessageType = MessageType.Warning;
                 vm.Message = "No data found for the selected period";
+            }
+
+            return View(vm);
+        }
+
+        public async Task<ActionResult> WeekendWorking()
+        {
+            WeekendWorkingVm vm = new WeekendWorkingVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingRegionUsingStore(selectCrit);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "R":
+                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingRegion(selectCrit);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingDivision(selectCrit);
+                    vm.DisplayLevel = 3;
+                    break;
+                case "C":
+                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingChain(selectCrit);
+                    vm.DisplayLevel = 4;
+                    break;
             }
 
             return View(vm);

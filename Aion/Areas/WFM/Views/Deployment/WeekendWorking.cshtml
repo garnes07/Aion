@@ -1,0 +1,89 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.WeekendWorkingVm
+
+@{
+    ViewBag.Title = "Weekend Working";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>GM Weekend Working</strong>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>Future weeks shown below are based on schedules present in STAR and are updated 3 times daily.</li>
+                <li>Following sign off on Mondays the previous week is updated as per what was present on the completed timecard.</li>
+                @if (Model.DisplayLevel == 2)
+                {
+                    <li><u>If a colleague was previously scheduled but did not physically punch in on that day the cell will be highlighted red.</u></li>
+                }                        
+            </ul>
+        </div>
+    </div>
+    <div class="row justify-content-center my-3">
+        <div class="btn-group col-6">
+            <button type="button" class="btn btn-info active col-6" id="btnPast">Past</button>
+            <button type="button" class="btn btn-info col-6" id="btnFuture">Future</button>
+        </div>
+    </div>
+    @if (!Model.Collection.Any())
+    {
+        <div class="alert alert-danger text-center"><strong>Looks like something isn't working here. PLease try refreshing and escalate to STAR if the issue persists.</strong></div>
+    }
+    else
+    {
+        if (Model.DisplayLevel == 2)
+        {
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_WeWorkingRegion.cshtml")
+        }
+        else if (Model.DisplayLevel == 3)
+        {
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_WeWorkingDivision.cshtml")
+        }
+        else if (Model.DisplayLevel == 4)
+        {
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_WeWorkingChain.cshtml")
+        }
+    }
+</div>
+
+@section myScripts
+{
+    <script>
+        $(function () {
+            var past = true;
+            var $btnPast = $('#btnPast');
+            var $btnFuture = $('#btnFuture');
+            var $tblPast = $('#tblPast');
+            var $tblFuture = $('#tblFuture');
+
+            $btnPast.click(function () {
+                if (!past) {
+                    $(this).toggleClass('active');
+                    $btnFuture.toggleClass('active');
+                    $tblPast.slideToggle(400);
+                    $tblFuture.slideToggle(400);
+                    past = !past;
+                };
+            });
+
+            $btnFuture.click(function () {
+                if (past) {
+                    $(this).toggleClass('active');
+                    $btnPast.toggleClass('active');
+                    $tblFuture.slideToggle(400);
+                    $tblPast.slideToggle(400);
+                    past = !past;
+                };
+            });
+        });
+    </script>
+}

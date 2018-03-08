@@ -311,6 +311,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_FootfallHourly' does not have a p
         <EntityType Name="vw_FootfallHourly">
           <Key>
             <PropertyRef Name="Key" />
+            
+            
+            
+            
+            
           </Key>
           <Property Name="Key" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Year" Type="varchar" MaxLength="5" />
@@ -323,6 +328,26 @@ warning 6002: The table/view '99999_WFM.dbo.vw_FootfallHourly' does not have a p
           <Property Name="StoreNumber" Type="smallint" Nullable="false" />
           <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Footfall Volume" Type="smallint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_GmWeWorking' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_GmWeWorking">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="date" />
+          <Property Name="day" Type="tinyint" />
+          <Property Name="Count" Type="int" />
+          <Property Name="Worked" Type="int" />
+          <Property Name="Holiday" Type="int" />
+          <Property Name="NotPunched" Type="int" />
+          <Property Name="Closed" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -564,6 +589,23 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
     [vw_FootfallHourly].[Footfall Volume] AS [Footfall Volume]
     FROM [dbo].[vw_FootfallHourly] AS [vw_FootfallHourly]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_GmWeWorking" EntityType="Self.vw_GmWeWorking" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_GmWeWorking].[RowId] AS [RowId], 
+    [vw_GmWeWorking].[Chain] AS [Chain], 
+    [vw_GmWeWorking].[Division] AS [Division], 
+    [vw_GmWeWorking].[Region] AS [Region], 
+    [vw_GmWeWorking].[StoreNumber] AS [StoreNumber], 
+    [vw_GmWeWorking].[StoreName] AS [StoreName], 
+    [vw_GmWeWorking].[Date] AS [Date], 
+    [vw_GmWeWorking].[day] AS [day], 
+    [vw_GmWeWorking].[Count] AS [Count], 
+    [vw_GmWeWorking].[Worked] AS [Worked], 
+    [vw_GmWeWorking].[Holiday] AS [Holiday], 
+    [vw_GmWeWorking].[NotPunched] AS [NotPunched], 
+    [vw_GmWeWorking].[Closed] AS [Closed]
+    FROM [dbo].[vw_GmWeWorking] AS [vw_GmWeWorking]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_Last12MonthRFTPCases" EntityType="Self.vw_Last12MonthRFTPCases" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Last12MonthRFTPCases].[CaseID] AS [CaseID], 
@@ -649,6 +691,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           </FunctionImport>
           <EntitySet Name="DailyDeployments" EntityType="WFMMContext.DailyDeployment" />
           <EntitySet Name="vw_FootfallHourly" EntityType="WFMMContext.vw_FootfallHourly" />
+          <EntitySet Name="vw_GmWeWorking" EntityType="WFMMContext.vw_GmWeWorking" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1081,6 +1124,24 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Name="StoreNumber" Type="Int16" Nullable="false" />
           <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Footfall_Volume" Type="Int16" />
+        </EntityType>
+        <EntityType Name="vw_GmWeWorking">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="day" Type="Byte" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="Worked" Type="Int32" />
+          <Property Name="Holiday" Type="Int32" />
+          <Property Name="NotPunched" Type="Int32" />
+          <Property Name="Closed" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1540,6 +1601,25 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Key" ColumnName="Key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_GmWeWorking">
+            <EntityTypeMapping TypeName="WFMMContext.vw_GmWeWorking">
+              <MappingFragment StoreEntitySet="vw_GmWeWorking">
+                <ScalarProperty Name="Closed" ColumnName="Closed" />
+                <ScalarProperty Name="NotPunched" ColumnName="NotPunched" />
+                <ScalarProperty Name="Holiday" ColumnName="Holiday" />
+                <ScalarProperty Name="Worked" ColumnName="Worked" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="day" ColumnName="day" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

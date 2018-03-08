@@ -1,0 +1,103 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.WeekendWorkingVm
+
+<div id="tblPast">
+    <table class="table table-bordered table-sm">
+        <thead class="thead-blue">
+        <tr>
+            <th class="text-center">Store</th>
+            @foreach (var date in Model.PastDates)
+            {
+                <th class="text-center"><small>@string.Format("{0:d}", date)<br />@date.Value.DayOfWeek</small></th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var store in Model.StoreList)
+        {
+            <tr>
+                <td>
+                    <small>
+                        @string.Format("{0} - {1}", Model.Collection.First(x => x.StoreNumber == store).StoreNumber, Model.Collection.First(x => x.StoreNumber == store).StoreName)
+                    </small>
+                </td>
+                @foreach (var date in Model.PastDates)
+                {
+                    var data = Model.Collection.SingleOrDefault(x => x.StoreNumber == store && x.Date == date);
+                    <td class="text-center @(data?.NotPunched == 1 ? "table-danger" : "")">
+                        @if (data?.Worked == 1)
+                        {
+                            <strong>✔</strong>
+                        }
+                        else if (data?.Closed == 1)
+                        {
+                            <strong>-</strong>
+                        }
+                        else if (data?.Holiday == 1)
+                        {
+                            <strong>H</strong>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+        <tr>
+            <td><strong>Region Total <small>Excl. Closed</small></strong></td>
+            @foreach (var date in Model.PastDates)
+            {
+                <td class="text-center"><strong>@string.Format("{0:0}%", Model.RegionWorking(date))</strong></td>
+            }
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tblFuture" style="display: none;">
+    <table class="table table-bordered table-sm">
+        <thead class="thead-blue">
+        <tr>
+            <th class="text-center">Store</th>
+            @foreach (var date in Model.FutureDates)
+            {
+                <th class="text-center"><small>@string.Format("{0:d}", date)<br />@date.Value.DayOfWeek</small></th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var store in Model.StoreList)
+        {
+            <tr>
+                <td>
+                    <small>
+                        @string.Format("{0} - {1}", Model.Collection.First(x => x.StoreNumber == store).StoreNumber, Model.Collection.First(x => x.StoreNumber == store).StoreName)
+                    </small>
+                </td>
+                @foreach (var date in Model.FutureDates)
+                {
+                    var data = Model.Collection.SingleOrDefault(x => x.StoreNumber == store && x.Date == date);
+                    <td class="text-center @(data?.NotPunched == 1 ? "table-danger" : "")">
+                        @if (data?.Worked == 1)
+                        {
+                            <strong>✔</strong>
+                        }
+                        else if (data?.Closed == 1)
+                        {
+                            <strong>-</strong>
+                        }
+                        else if (data?.Holiday == 1)
+                        {
+                            <strong>H</strong>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+        <tr>
+            <td><strong>Region Total <small>Excl. Closed</small></strong></td>
+            @foreach (var date in Model.FutureDates)
+            {
+                <td class="text-center"><strong>@string.Format("{0:0}%", Model.RegionWorking(date))</strong></td>
+            }
+        </tr>
+        </tbody>
+    </table>
+</div>

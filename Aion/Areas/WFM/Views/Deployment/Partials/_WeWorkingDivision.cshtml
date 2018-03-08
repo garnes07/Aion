@@ -1,0 +1,89 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.WeekendWorkingVm
+
+<div id="tblPast">
+    <table class="table table-bordered table-sm">
+        <thead class="thead-blue">
+        <tr>
+            <th class="text-center">Name</th>
+            @foreach (var date in Model.PastDates)
+            {
+                <th class="text-center"><small>@string.Format("{0:d}", date)<br />@date.Value.DayOfWeek</small></th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-chain">
+            <td><strong>@Model.ChainSingle</strong></td>
+            @foreach (var date in Model.PastDates)
+            {
+                <td class="text-center"><strong>@string.Format("{0:0}%", Model.ChainWorking(date))</strong></td>
+            }
+        </tr>
+        <tr class="table-division">
+            <td><strong>@Model.DivisionList.First()</strong></td>
+            @foreach (var date in Model.PastDates)
+            {
+                <td class="text-center"><strong>@string.Format("{0:0}%", Model.DivisionWorking(date))</strong></td>
+            }
+        </tr>
+        @foreach (var region in Model.RegionList)
+        {
+            <tr>
+                <td>@region</td>
+                @foreach (var date in Model.PastDates)
+                {
+                    <td class="text-center">@string.Format("{0:0}%", Model.RegionWorking(date, region))</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div id="tblFuture" style="display: none;">
+    <table class="table table-bordered table-sm">
+        <thead class="thead-blue">
+        <tr>
+            <th class="text-center">Name</th>
+            @foreach (var date in Model.FutureDates)
+            {
+                <th class="text-center"><small>@string.Format("{0:d}", date)<br />@date.Value.DayOfWeek</small></th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-chain">
+            <td>
+                <strong>@Model.ChainSingle</strong>
+            </td>
+            @foreach (var date in Model.FutureDates)
+            {
+                <td class="text-center">
+                    <strong>@string.Format("{0:0}%", Model.ChainWorking(date))</strong>
+                </td>
+            }
+        </tr>
+        <tr class="table-division">
+            <td>
+                <strong>@Model.DivisionList.First()</strong>
+            </td>
+            @foreach (var date in Model.FutureDates)
+            {
+                <td class="text-center">
+                    <strong>@string.Format("{0:0}%", Model.DivisionWorking(date))</strong>
+                </td>
+            }
+        </tr>
+        @foreach (var region in Model.RegionList)
+        {
+            <tr>
+                <td>@region</td>
+                @foreach (var date in Model.FutureDates)
+                {
+                    <td class="text-center">@string.Format("{0:0}%", Model.RegionWorking(date, region))</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
