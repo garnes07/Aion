@@ -655,14 +655,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
             <Parameter Name="Period" Mode="In" Type="Int32" />
             <Parameter Name="Year" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_AllChainDashboardData_v2" ReturnType="Collection(WFMMContext.sp_AllChainDashboardData_v2_Result)">
-            <Parameter Name="Chain" Mode="In" Type="String" />
-            <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_AllDivisionDashboardData_v2" ReturnType="Collection(WFMMContext.sp_AllChainDashboardData_v2_Result)">
-            <Parameter Name="Division" Mode="In" Type="String" />
-            <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="KronosEmployeeSummaries" EntityType="WFMMContext.KronosEmployeeSummary" />
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="WFMMContext.vw_CPW_Clocking_Data" />
           <EntitySet Name="vw_DashboardData_v2" EntityType="WFMMContext.vw_DashboardData_v2" />
@@ -692,6 +684,14 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <EntitySet Name="DailyDeployments" EntityType="WFMMContext.DailyDeployment" />
           <EntitySet Name="vw_FootfallHourly" EntityType="WFMMContext.vw_FootfallHourly" />
           <EntitySet Name="vw_GmWeWorking" EntityType="WFMMContext.vw_GmWeWorking" />
+          <FunctionImport Name="sp_AllChainDashboardData_v2" ReturnType="Collection(WFMMContext.sp_AllChainDashboardData_v2_Result)">
+            <Parameter Name="Chain" Mode="In" Type="String" />
+            <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AllDivisionDashboardData_v2" ReturnType="Collection(WFMMContext.sp_AllChainDashboardData_v2_Result)">
+            <Parameter Name="Division" Mode="In" Type="String" />
+            <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -774,40 +774,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Type="Int32" Name="ZeroHour" Nullable="true" />
           <Property Type="Int32" Name="PunchCompliance" Nullable="true" />
           <Property Type="Int32" Name="ShortShiftCompliance" Nullable="true" />
-          <Property Type="Int32" Name="ShortShifts" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_AllChainDashboardData_v2_Result">
-          <Property Type="Int32" Name="DashboardDataId" Nullable="true" />
-          <Property Type="Int32" Name="WeekNumber" Nullable="true" />
-          <Property Type="String" Name="StoreFlag" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Division" Nullable="true" MaxLength="255" />
-          <Property Type="Int16" Name="Region" Nullable="true" />
-          <Property Type="Int32" Name="StoreCount" Nullable="true" />
-          <Property Type="Int32" Name="TotalHeadCount" Nullable="true" />
-          <Property Type="Int32" Name="TimeCardsCompleted" Nullable="true" />
-          <Property Type="Int32" Name="ZeroHour" Nullable="true" />
-          <Property Type="Double" Name="FinalTarget" Nullable="true" />
-          <Property Type="Double" Name="SOH" Nullable="true" />
-          <Property Type="Int32" Name="ComplianceScore" Nullable="true" />
-          <Property Type="Int32" Name="SOHUtilization" Nullable="true" />
-          <Property Type="Double" Name="PunchCompliance" Nullable="true" />
-          <Property Type="Int32" Name="ShortShifts" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_AllDivisionDashboardData_v2_Result">
-          <Property Type="Int32" Name="DashboardDataId" Nullable="true" />
-          <Property Type="Int32" Name="WeekNumber" Nullable="true" />
-          <Property Type="String" Name="StoreFlag" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="Division" Nullable="true" MaxLength="255" />
-          <Property Type="Int16" Name="Region" Nullable="true" />
-          <Property Type="Int32" Name="StoreCount" Nullable="true" />
-          <Property Type="Int32" Name="TotalHeadCount" Nullable="true" />
-          <Property Type="Int32" Name="TimeCardsCompleted" Nullable="true" />
-          <Property Type="Int32" Name="ZeroHour" Nullable="true" />
-          <Property Type="Double" Name="FinalTarget" Nullable="true" />
-          <Property Type="Double" Name="SOH" Nullable="true" />
-          <Property Type="Int32" Name="ComplianceScore" Nullable="true" />
-          <Property Type="Int32" Name="SOHUtilization" Nullable="true" />
-          <Property Type="Double" Name="PunchCompliance" Nullable="true" />
           <Property Type="Int32" Name="ShortShifts" Nullable="true" />
         </ComplexType>
         <EntityType Name="KronosEmployeeSummary">
@@ -1143,6 +1109,40 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Name="NotPunched" Type="Int32" />
           <Property Name="Closed" Type="Int32" />
         </EntityType>
+        <ComplexType Name="sp_AllChainDashboardData_v2_Result">
+          <Property Type="Int32" Name="DashboardDataId" Nullable="true" />
+          <Property Type="Int32" Name="WeekNumber" Nullable="true" />
+          <Property Type="String" Name="StoreFlag" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="Division" Nullable="true" MaxLength="25" />
+          <Property Type="Int16" Name="Region" Nullable="true" />
+          <Property Type="Int32" Name="StoreCount" Nullable="true" />
+          <Property Type="Int32" Name="TotalHeadCount" Nullable="true" />
+          <Property Type="Int32" Name="TimeCardsCompleted" Nullable="true" />
+          <Property Type="Int32" Name="ZeroHour" Nullable="true" />
+          <Property Type="Double" Name="FinalTarget" Nullable="true" />
+          <Property Type="Double" Name="SOH" Nullable="true" />
+          <Property Type="Int32" Name="ComplianceScore" Nullable="true" />
+          <Property Type="Double" Name="SOHUtilization" Nullable="true" />
+          <Property Type="Double" Name="PunchCompliance" Nullable="true" />
+          <Property Type="Int32" Name="ShortShifts" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_AllDivisionDashboardData_v2_Result">
+          <Property Type="Int32" Name="DashboardDataId" Nullable="true" />
+          <Property Type="Int32" Name="WeekNumber" Nullable="true" />
+          <Property Type="String" Name="StoreFlag" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Division" Nullable="true" MaxLength="25" />
+          <Property Type="Int16" Name="Region" Nullable="true" />
+          <Property Type="Int32" Name="StoreCount" Nullable="true" />
+          <Property Type="Int32" Name="TotalHeadCount" Nullable="true" />
+          <Property Type="Int32" Name="TimeCardsCompleted" Nullable="true" />
+          <Property Type="Int32" Name="ZeroHour" Nullable="true" />
+          <Property Type="Double" Name="FinalTarget" Nullable="true" />
+          <Property Type="Double" Name="SOH" Nullable="true" />
+          <Property Type="Int32" Name="ComplianceScore" Nullable="true" />
+          <Property Type="Double" Name="SOHUtilization" Nullable="true" />
+          <Property Type="Double" Name="PunchCompliance" Nullable="true" />
+          <Property Type="Int32" Name="ShortShifts" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1245,48 +1245,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
                 <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
                 <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
                 <ScalarProperty Name="ShortShiftCompliance" ColumnName="ShortShiftCompliance" />
-                <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_AllChainDashboardData_v2" FunctionName="WFMMContext.Store.sp_AllChainDashboardData_v2">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="WFMMContext.sp_AllChainDashboardData_v2_Result">
-                <ScalarProperty Name="DashboardDataId" ColumnName="DashboardDataId" />
-                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
-                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="StoreCount" ColumnName="StoreCount" />
-                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
-                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
-                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
-                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
-                <ScalarProperty Name="SOH" ColumnName="SOH" />
-                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
-                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
-                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
-                <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_AllDivisionDashboardData_v2" FunctionName="WFMMContext.Store.sp_AllDivisionDashboardData_v2">
-          <ResultMapping>
-              <ComplexTypeMapping TypeName="WFMMContext.sp_AllChainDashboardData_v2_Result">
-                <ScalarProperty Name="DashboardDataId" ColumnName="DashboardDataId" />
-                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
-                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="StoreCount" ColumnName="StoreCount" />
-                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
-                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
-                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
-                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
-                <ScalarProperty Name="SOH" ColumnName="SOH" />
-                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
-                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
-                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
                 <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -1623,6 +1581,48 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_AllChainDashboardData_v2" FunctionName="WFMMContext.Store.sp_AllChainDashboardData_v2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WFMMContext.sp_AllChainDashboardData_v2_Result">
+                <ScalarProperty Name="DashboardDataId" ColumnName="DashboardDataId" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="StoreCount" ColumnName="StoreCount" />
+                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
+                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
+                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
+                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
+                <ScalarProperty Name="SOH" ColumnName="SOH" />
+                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
+                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
+                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
+                <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_AllDivisionDashboardData_v2" FunctionName="WFMMContext.Store.sp_AllDivisionDashboardData_v2">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="WFMMContext.sp_AllChainDashboardData_v2_Result">
+                <ScalarProperty Name="DashboardDataId" ColumnName="DashboardDataId" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="StoreCount" ColumnName="StoreCount" />
+                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
+                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
+                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
+                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
+                <ScalarProperty Name="SOH" ColumnName="SOH" />
+                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
+                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
+                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
+                <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

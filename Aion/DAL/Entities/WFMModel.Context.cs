@@ -112,32 +112,6 @@ namespace Aion.DAL.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ComplianceSummary_Result>("sp_ComplianceSummaryDivision", divisionParameter, periodParameter, yearParameter);
         }
     
-        public virtual ObjectResult<sp_AllChainDashboardData_v2_Result> sp_AllChainDashboardData_v2(string chain, Nullable<int> beginWeek)
-        {
-            var chainParameter = chain != null ?
-                new ObjectParameter("Chain", chain) :
-                new ObjectParameter("Chain", typeof(string));
-    
-            var beginWeekParameter = beginWeek.HasValue ?
-                new ObjectParameter("BeginWeek", beginWeek) :
-                new ObjectParameter("BeginWeek", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_AllChainDashboardData_v2_Result>("sp_AllChainDashboardData_v2", chainParameter, beginWeekParameter);
-        }
-    
-        public virtual ObjectResult<sp_AllChainDashboardData_v2_Result> sp_AllDivisionDashboardData_v2(string division, Nullable<int> beginWeek)
-        {
-            var divisionParameter = division != null ?
-                new ObjectParameter("Division", division) :
-                new ObjectParameter("Division", typeof(string));
-    
-            var beginWeekParameter = beginWeek.HasValue ?
-                new ObjectParameter("BeginWeek", beginWeek) :
-                new ObjectParameter("BeginWeek", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_AllChainDashboardData_v2_Result>("sp_AllDivisionDashboardData_v2", divisionParameter, beginWeekParameter);
-        }
-    
         public virtual int sp_RFTPReassignCase(string personNumber, Nullable<int> oldCaseID)
         {
             var personNumberParameter = personNumber != null ?
@@ -170,6 +144,32 @@ namespace Aion.DAL.Entities
                 new ObjectParameter("Period", typeof(byte));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_PeriodDeploymentSummary_Result>("sp_PeriodDeploymentSummary", levelParameter, areaParameter, yearParameter, periodParameter);
+        }
+    
+        public virtual ObjectResult<sp_AllChainDashboardData_v2_Result> sp_AllChainDashboardData_v2(string chain, Nullable<int> beginWeek)
+        {
+            var chainParameter = chain != null ?
+                new ObjectParameter("Chain", chain) :
+                new ObjectParameter("Chain", typeof(string));
+    
+            var beginWeekParameter = beginWeek.HasValue ?
+                new ObjectParameter("BeginWeek", beginWeek) :
+                new ObjectParameter("BeginWeek", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_AllChainDashboardData_v2_Result>("sp_AllChainDashboardData_v2", chainParameter, beginWeekParameter);
+        }
+    
+        public virtual ObjectResult<sp_AllChainDashboardData_v2_Result> sp_AllDivisionDashboardData_v2(string division, Nullable<int> beginWeek)
+        {
+            var divisionParameter = division != null ?
+                new ObjectParameter("Division", division) :
+                new ObjectParameter("Division", typeof(string));
+    
+            var beginWeekParameter = beginWeek.HasValue ?
+                new ObjectParameter("BeginWeek", beginWeek) :
+                new ObjectParameter("BeginWeek", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_AllChainDashboardData_v2_Result>("sp_AllDivisionDashboardData_v2", divisionParameter, beginWeekParameter);
         }
     }
 }

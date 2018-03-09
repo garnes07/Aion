@@ -25,7 +25,7 @@ namespace Aion.DAL.Entities
         public Nullable<double> FinalTarget { get; set; }
         public Nullable<double> SOH { get; set; }
         public Nullable<int> ComplianceScore { get; set; }
-        public Nullable<int> SOHUtilization { get; set; }
+        public Nullable<double> SOHUtilization { get; set; }
         public Nullable<double> PunchCompliance { get; set; }
         public Nullable<int> ShortShifts { get; set; }
     }
