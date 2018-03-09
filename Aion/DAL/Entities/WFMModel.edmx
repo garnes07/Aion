@@ -123,6 +123,36 @@
           <Property Name="Period" Type="tinyint" />
           <Property Name="Show" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreOpeningTimes">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreNumber" Type="int" Nullable="false" />
+          <Property Name="DateTimeSubmitted" Type="datetime" Nullable="false" />
+          <Property Name="SundayOpen" Type="time" Precision="0" Nullable="false" />
+          <Property Name="SundayClose" Type="time" Precision="0" Nullable="false" />
+          <Property Name="MondayOpen" Type="time" Precision="0" Nullable="false" />
+          <Property Name="MondayClose" Type="time" Precision="0" Nullable="false" />
+          <Property Name="TuesdayOpen" Type="time" Precision="0" Nullable="false" />
+          <Property Name="TuesdayClose" Type="time" Precision="0" Nullable="false" />
+          <Property Name="WednesdayOpen" Type="time" Precision="0" Nullable="false" />
+          <Property Name="WednesdayClose" Type="time" Precision="0" Nullable="false" />
+          <Property Name="ThursdayOpen" Type="time" Precision="0" Nullable="false" />
+          <Property Name="ThursdayClose" Type="time" Precision="0" Nullable="false" />
+          <Property Name="FridayOpen" Type="time" Precision="0" Nullable="false" />
+          <Property Name="FridayClose" Type="time" Precision="0" Nullable="false" />
+          <Property Name="SaturdayOpen" Type="time" Precision="0" Nullable="false" />
+          <Property Name="SaturdayClose" Type="time" Precision="0" Nullable="false" />
+          <Property Name="EffectiveDate" Type="date" Nullable="false" />
+          <Property Name="TemporaryChange" Type="bit" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateTimeModified" Type="datetime" />
+          <Property Name="ModifiedByUser" Type="nvarchar" MaxLength="20" />
+          <Property Name="SubmittedByUser" Type="nvarchar" MaxLength="20" />
+          <Property Name="ReasonForChange" Type="nvarchar(max)" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_CPW_Clocking_Data">
@@ -439,6 +469,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreOpeningTimes" EntityType="Self.StoreOpeningTimes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="Self.vw_CPW_Clocking_Data" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_CPW_Clocking_Data].[CST_CNTR_int] AS [CST_CNTR_int], 
@@ -692,6 +723,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
             <Parameter Name="Division" Mode="In" Type="String" />
             <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="StoreOpeningTimes" EntityType="WFMMContext.StoreOpeningTime" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1143,6 +1175,36 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Type="Double" Name="PunchCompliance" Nullable="true" />
           <Property Type="Int32" Name="ShortShifts" Nullable="true" />
         </ComplexType>
+        <EntityType Name="StoreOpeningTime">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreNumber" Type="Int32" Nullable="false" />
+          <Property Name="DateTimeSubmitted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SundayOpen" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="SundayClose" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="MondayOpen" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="MondayClose" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="TuesdayOpen" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="TuesdayClose" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="WednesdayOpen" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="WednesdayClose" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="ThursdayOpen" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="ThursdayClose" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="FridayOpen" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="FridayClose" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="SaturdayOpen" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="SaturdayClose" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="EffectiveDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TemporaryChange" Type="Boolean" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeModified" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedByUser" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SubmittedByUser" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ReasonForChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1623,6 +1685,37 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="StoreOpeningTimes">
+            <EntityTypeMapping TypeName="WFMMContext.StoreOpeningTime">
+              <MappingFragment StoreEntitySet="StoreOpeningTimes">
+                <ScalarProperty Name="ReasonForChange" ColumnName="ReasonForChange" />
+                <ScalarProperty Name="SubmittedByUser" ColumnName="SubmittedByUser" />
+                <ScalarProperty Name="ModifiedByUser" ColumnName="ModifiedByUser" />
+                <ScalarProperty Name="DateTimeModified" ColumnName="DateTimeModified" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="TemporaryChange" ColumnName="TemporaryChange" />
+                <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+                <ScalarProperty Name="SaturdayClose" ColumnName="SaturdayClose" />
+                <ScalarProperty Name="SaturdayOpen" ColumnName="SaturdayOpen" />
+                <ScalarProperty Name="FridayClose" ColumnName="FridayClose" />
+                <ScalarProperty Name="FridayOpen" ColumnName="FridayOpen" />
+                <ScalarProperty Name="ThursdayClose" ColumnName="ThursdayClose" />
+                <ScalarProperty Name="ThursdayOpen" ColumnName="ThursdayOpen" />
+                <ScalarProperty Name="WednesdayClose" ColumnName="WednesdayClose" />
+                <ScalarProperty Name="WednesdayOpen" ColumnName="WednesdayOpen" />
+                <ScalarProperty Name="TuesdayClose" ColumnName="TuesdayClose" />
+                <ScalarProperty Name="TuesdayOpen" ColumnName="TuesdayOpen" />
+                <ScalarProperty Name="MondayClose" ColumnName="MondayClose" />
+                <ScalarProperty Name="MondayOpen" ColumnName="MondayOpen" />
+                <ScalarProperty Name="SundayClose" ColumnName="SundayClose" />
+                <ScalarProperty Name="SundayOpen" ColumnName="SundayOpen" />
+                <ScalarProperty Name="DateTimeSubmitted" ColumnName="DateTimeSubmitted" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

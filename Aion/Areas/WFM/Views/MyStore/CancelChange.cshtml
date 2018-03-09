@@ -1,0 +1,105 @@
+﻿@model Aion.DAL.Entities.StoreOpeningTime
+
+@{
+    ViewBag.Title = "Cancel Change";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Cancel Change</strong>
+        </div>
+        <div class="card-body">
+            <h3>Remove entry for w/c - @Model.EffectiveDate.ToShortDateString()</h3>
+            <h4 class="mb-3">Are you sure you want to remove this pending change?</h4>
+            <div class="table-responsive-lg">
+                <table class="table table-bordered table-sm table-smtxt text-center">
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="text-center">Sunday</th>
+                        <th colspan="2" class="text-center">Monday</th>
+                        <th colspan="2" class="text-center">Tuesday</th>
+                        <th colspan="2" class="text-center">Wednesday</th>
+                        <th colspan="2" class="text-center">Thursday</th>
+                        <th colspan="2" class="text-center">Friday</th>
+                        <th colspan="2" class="text-center">Saturday</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Close</th>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Close</th>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Close</th>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Close</th>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Close</th>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Close</th>
+                        <th class="text-center">Open</th>
+                        <th class="text-center">Close</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            @(Model.SundayOpen.ToString() == "00:00:00" ? "Closed" : Model.SundayOpen.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.SundayClose.ToString() == "00:00:00" ? "Closed" : Model.SundayClose.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.MondayOpen.ToString() == "00:00:00" ? "Closed" : Model.MondayOpen.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.MondayClose.ToString() == "00:00:00" ? "Closed" : Model.MondayClose.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.TuesdayOpen.ToString() == "00:00:00" ? "Closed" : Model.TuesdayOpen.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.TuesdayClose.ToString() == "00:00:00" ? "Closed" : Model.TuesdayClose.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.WednesdayOpen.ToString() == "00:00:00" ? "Closed" : Model.WednesdayOpen.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.WednesdayClose.ToString() == "00:00:00" ? "Closed" : Model.WednesdayClose.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.ThursdayOpen.ToString() == "00:00:00" ? "Closed" : Model.ThursdayOpen.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.ThursdayClose.ToString() == "00:00:00" ? "Closed" : Model.ThursdayClose.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.FridayOpen.ToString() == "00:00:00" ? "Closed" : Model.FridayOpen.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.FridayClose.ToString() == "00:00:00" ? "Closed" : Model.FridayClose.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.SaturdayOpen.ToString() == "00:00:00" ? "Closed" : Model.SaturdayOpen.ToString("hh\\:mm"))
+                        </td>
+                        <td>
+                            @(Model.SaturdayClose.ToString() == "00:00:00" ? "Closed" : Model.SaturdayClose.ToString("hh\\:mm"))
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="row justify-content-center">
+                    <input type="submit" value="Delete" class="btn btn-danger col-2" />
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink("Back", "OpeningTimes")
+    </div>
+</div>

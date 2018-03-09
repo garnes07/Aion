@@ -1,0 +1,123 @@
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.NewOpeningTimeVm
+
+@{
+    ViewBag.Title = "Edit Peak Time";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Submit Change</strong>
+        </div>
+        <div class="card-body">
+            <h2 class="mb-3">Edit Week Commencing - @Model.NewTime.EffectiveDate.ToShortDateString()</h2>
+            @using (Html.BeginForm("EditPeak", "MyStore", null, FormMethod.Post, new { id = "changeTimeDateForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.NewTime.EntryId)
+                <div class="row">
+                    <div class="col-6">
+                        <table class="table table-bordered table-sm text-center">
+                            <thead>
+                                <tr>
+                                    <th style="width:33.3%;"></th>
+                                    <th style="width:33.3%;" class="text-center">Open</th>
+                                    <th style="width:33.3%;" class="text-center">Close</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td>
+                                        <strong>Sunday</strong>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.SundayOpen, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.SundayClose, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Monday</strong>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.MondayOpen, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.MondayClose, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Tuesday</strong>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.TuesdayOpen, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.TuesdayClose, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Wednesday</strong>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.WednesdayOpen, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.WednesdayClose, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Thursday</strong>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.ThursdayOpen, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.ThursdayClose, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Friday</strong>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.FridayOpen, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.FridayClose, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Saturday</strong>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.SaturdayOpen, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.NewTime.SaturdayClose, Model.Times, new { @class = "form-control select-center" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-6">
+                        <div class="row justify-content-center">
+                            <div class="form-group">
+                                <div class="col-10">
+                                    <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

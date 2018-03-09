@@ -243,3 +243,15 @@ input:checked + .slider:before {
 .table-division > th,
 .table-division > td {
     background-color: #d5e9ff; }
+
+
+@media (max-width: 1023px) {
+    .table-smtxt > tbody > tr > td,
+    .table-smtxt > thead > tr > th{
+        font-size: 0.8rem;
+    }
+}
+
+select.select-center {
+    text-align-last:center;
+}

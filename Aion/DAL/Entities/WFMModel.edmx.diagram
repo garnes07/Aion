@@ -22,6 +22,7 @@
         <EntityTypeShape EntityType="WFMMContext.DailyDeployment" Width="1.5" PointX="11.375" PointY="6.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_FootfallHourly" Width="1.5" PointX="3.375" PointY="12.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_GmWeWorking" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="WFMMContext.StoreOpeningTime" Width="1.5" PointX="7.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

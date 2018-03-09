@@ -164,15 +164,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\WFM\Controllers\DeploymentController.cs" />
+    <Compile Include="Areas\WFM\Controllers\MyStoreController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\DeploymentAggregate.cs" />
+    <Compile Include="Areas\WFM\Models\MyStore\NewOpeningTime.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\MyStore\NewOpeningTimeVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\MyStore\OpeningTimesVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerTrendVm.cs" />
@@ -246,6 +250,9 @@
     </Compile>
     <Compile Include="DAL\Entities\StoreMaster.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\StoreOpeningTime.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\tempRegionLookup.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -369,7 +376,9 @@
     <Compile Include="DAL\IManagers\IFootfallManager.cs" />
     <Compile Include="DAL\Managers\GmWeWorkingManager.cs" />
     <Compile Include="DAL\IManagers\IGmWeWorkingManager.cs" />
+    <Compile Include="DAL\IManagers\IOpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
+    <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />
@@ -582,6 +591,10 @@
     <Content Include="Areas\WFM\Views\Deployment\Partials\_WeWorkingRegion.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_WeWorkingDivision.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_WeWorkingChain.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\OpeningTimes.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\NewOpeningTime.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\CancelChange.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\EditPeak.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

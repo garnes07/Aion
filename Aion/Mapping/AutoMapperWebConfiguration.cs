@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Aion.Areas.WFM.Models.MyStore;
+using AutoMapper;
 using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
 
@@ -23,6 +24,7 @@ namespace Aion.Mapping
             _mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new DashboardProfile());
+                cfg.AddProfile(new OpeningTimeProfile());
             });
         }
     }
@@ -34,6 +36,15 @@ namespace Aion.Mapping
             CreateMap<sp_ComplianceSummary_Result, CompSummaryView>();
             CreateMap<sp_ComplianceSummaryRegion_Result, CompSummaryView>();
             CreateMap<sp_ComplianceSummaryStore_Result, CompSummaryView>();
+        }
+    }
+
+    public class OpeningTimeProfile : Profile
+    {
+        public OpeningTimeProfile()
+        {
+            CreateMap<StoreOpeningTime, NewOpeningTime>();
+            CreateMap<NewOpeningTime, StoreOpeningTime>();
         }
     }
 }
