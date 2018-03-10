@@ -1,0 +1,42 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.MyStore.SOHBudgetsVm
+
+@{
+    ViewBag.Title = "SOH Budgets";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-warning text-center"><strong>@Model.Message</strong></div>
+    }
+    else
+    {
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                <strong>SOH Budgets</strong>
+            </div>
+            <div class="card-body">
+                <p>Below are the most recent set of SOH budget numbers to be published for your store.</p>
+                <p>If there are any queries with the numbers shown below please escalate to your RM in the first instance.</p>
+            </div>
+        </div>
+
+        if (Model.DisplayLevel == 1)
+        {
+            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SOHBudgetsStore.cshtml")
+        }
+        else if (Model.DisplayLevel == 2)
+        {
+            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SOHBudgetsRegion.cshtml")
+        }
+    }
+</div>

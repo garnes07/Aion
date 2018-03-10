@@ -17,10 +17,12 @@ namespace Aion.Areas.WFM.Controllers
     public class MyStoreController : BaseController
     {
         private readonly IOpeningTimesManager _openingTimesManager;
+        private readonly ISOHBudgetsManager _sohBudgetsManager;
 
         public MyStoreController()
         {
             _openingTimesManager = new OpeningTimesManager();
+            _sohBudgetsManager = new SOHBudgetsManager();
         }
         
         public async Task<ActionResult> OpeningTimes()
@@ -189,6 +191,33 @@ namespace Aion.Areas.WFM.Controllers
             }
 
             return RedirectToAction("OpeningTimes");
+        }
+
+        public async Task<ActionResult> SOHBudgets()
+        {
+            SOHBudgetsVm vm = new SOHBudgetsVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.Collection = !(bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? 
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetUKStore(selectCrit)) :
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetROIStore(selectCrit));
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.Collection = !(bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ?
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetUKRegion(selectCrit)) :
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetROIRegion(selectCrit));
+                    vm.DisplayLevel = 2;
+                    break;
+                default:
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
+
+            return View(vm);
         }
     }
 }

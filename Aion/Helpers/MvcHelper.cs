@@ -70,6 +70,7 @@ namespace Aion.Helpers
 
                 StoreMenu _menu = new StoreMenu(menuList, "S_" + storeList.First().StoreNumber,0);
 
+                HttpContext.Current.Session["_ROIFlag"] = menuList.First().Chain == "ROI";
                 HttpContext.Current.Session.Add("_storeMenu", _menu);
                 HttpContext.Current.Session.Add("_store", storeList.First());
                 return 1;

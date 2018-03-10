@@ -1,0 +1,25 @@
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.SOHBudgetsVm
+    
+<table class="table table-bordered table-sm table-smtxt">
+    <thead class="thead-blue">
+    <tr>
+        <th class="text-center">Store</th>
+        @foreach (var item in Model.WeekList)
+        {
+            <th class="text-center">@string.Format("Week {0}", item.ToString().Substring(4))</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var store in Model.StoreList)
+    {
+        <tr>
+            <td><small>@string.Format("{0} - {1}", store, Model.StoreTotalSummary.First(x => x.StoreNumber == store).StoreName)</small></td>
+            @foreach (var item in Model.StoreTotalSummary.Where(x => x.StoreNumber == store))
+            {
+                <td class="text-center">@item.OriginalTarget</td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

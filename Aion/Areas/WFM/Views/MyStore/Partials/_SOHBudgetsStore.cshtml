@@ -1,0 +1,63 @@
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.SOHBudgetsVm
+
+@if (Model.Collection.All(x => x.Hours == null))
+{
+    <table class="table table-bordered table-sm table-smtxt text-center">
+        <thead class="thead-blue">
+        <tr>
+            @foreach (var item in Model.WeekList)
+            {
+                <th>@string.Format("Week {0}", item.ToString().Substring(4))</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            @foreach (var item in Model.StoreBaseSummary)
+            {
+                <td>@(item.OriginalTarget)</td>
+            }
+        </tr>
+        </tbody>    
+    </table>
+}
+else
+{
+    <table class="table table-bordered table-sm table-smtxt text-center">
+        <thead class="thead-blue">
+        <tr>
+            <th></th>
+            @foreach (var item in Model.WeekList)
+            {
+                <th>@string.Format("Week {0}", item.ToString().Substring(4))</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Base Budget</td>
+            @foreach (var item in Model.StoreBaseSummary)
+            {
+                <td>@(item.OriginalTarget)</td>
+            }
+        </tr>
+        @foreach (var type in Model.AdditionTypes)
+        {
+            <tr>
+                <td>@type</td>
+                @foreach (var week in Model.WeekList)
+                {
+                    <td>@(Model.StoreAdditionSummary.FirstOrDefault(x => x.YearWeek == week && x.Type == type)?.Hours)</td>
+                }
+            </tr>
+        }
+            <tr>
+                <td><strong>Total Budget</strong></td>
+                @foreach (var week in Model.WeekList)
+                {
+                    <td>@(Model.StoreBaseSummary.FirstOrDefault(x => x.YearWeek == week)?.OriginalTarget + Model.StoreAdditionSummary.Where(x => x.YearWeek == week).Sum(x => x.Hours))</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+}

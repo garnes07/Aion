@@ -409,6 +409,40 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Name="Period" Type="tinyint" />
           <Property Name="Show" Type="bit" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsROI' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_PublishedBudgetsROI">
+          <Key>
+            <PropertyRef Name="RowID" />
+          </Key>
+          <Property Name="RowID" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="YearWeek" Type="int" />
+          <Property Name="OriginalTarget" Type="real" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" />
+          <Property Name="Hours" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_PublishedBudgetsUK">
+          <Key>
+            <PropertyRef Name="RowID" />
+          </Key>
+          <Property Name="RowID" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="YearWeek" Type="int" />
+          <Property Name="OriginalTarget" Type="real" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" />
+          <Property Name="Hours" Type="float" />
+        </EntityType>
         <Association Name="FK_RFTPCaseAudit_RFTPCaseStub">
           <End Role="RFTPCaseStub" Type="Self.RFTPCaseStub" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -655,6 +689,34 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
     [vw_Last12MonthRFTPCases].[Show] AS [Show]
     FROM [dbo].[vw_Last12MonthRFTPCases] AS [vw_Last12MonthRFTPCases]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_PublishedBudgetsROI" EntityType="Self.vw_PublishedBudgetsROI" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_PublishedBudgetsROI].[RowID] AS [RowID], 
+    [vw_PublishedBudgetsROI].[Chain] AS [Chain], 
+    [vw_PublishedBudgetsROI].[Division] AS [Division], 
+    [vw_PublishedBudgetsROI].[Region] AS [Region], 
+    [vw_PublishedBudgetsROI].[StoreNumber] AS [StoreNumber], 
+    [vw_PublishedBudgetsROI].[StoreName] AS [StoreName], 
+    [vw_PublishedBudgetsROI].[YearWeek] AS [YearWeek], 
+    [vw_PublishedBudgetsROI].[OriginalTarget] AS [OriginalTarget], 
+    [vw_PublishedBudgetsROI].[Type] AS [Type], 
+    [vw_PublishedBudgetsROI].[Hours] AS [Hours]
+    FROM [dbo].[vw_PublishedBudgetsROI] AS [vw_PublishedBudgetsROI]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_PublishedBudgetsUK" EntityType="Self.vw_PublishedBudgetsUK" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_PublishedBudgetsUK].[RowID] AS [RowID], 
+    [vw_PublishedBudgetsUK].[Chain] AS [Chain], 
+    [vw_PublishedBudgetsUK].[Division] AS [Division], 
+    [vw_PublishedBudgetsUK].[Region] AS [Region], 
+    [vw_PublishedBudgetsUK].[StoreNumber] AS [StoreNumber], 
+    [vw_PublishedBudgetsUK].[StoreName] AS [StoreName], 
+    [vw_PublishedBudgetsUK].[YearWeek] AS [YearWeek], 
+    [vw_PublishedBudgetsUK].[OriginalTarget] AS [OriginalTarget], 
+    [vw_PublishedBudgetsUK].[Type] AS [Type], 
+    [vw_PublishedBudgetsUK].[Hours] AS [Hours]
+    FROM [dbo].[vw_PublishedBudgetsUK] AS [vw_PublishedBudgetsUK]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="Self.FK_RFTPCaseAudit_RFTPCaseStub">
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
@@ -724,6 +786,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
             <Parameter Name="BeginWeek" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="StoreOpeningTimes" EntityType="WFMMContext.StoreOpeningTime" />
+          <EntitySet Name="vw_PublishedBudgetsROI" EntityType="WFMMContext.vw_PublishedBudgetsROI" />
+          <EntitySet Name="vw_PublishedBudgetsUK" EntityType="WFMMContext.vw_PublishedBudgetsUK" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1204,6 +1268,36 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Name="ModifiedByUser" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SubmittedByUser" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ReasonForChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_PublishedBudgetsROI">
+          <Key>
+            <PropertyRef Name="RowID" />
+          </Key>
+          <Property Name="RowID" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="YearWeek" Type="Int32" />
+          <Property Name="OriginalTarget" Type="Single" />
+          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Hours" Type="Double" />
+        </EntityType>
+        <EntityType Name="vw_PublishedBudgetsUK">
+          <Key>
+            <PropertyRef Name="RowID" />
+          </Key>
+          <Property Name="RowID" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="YearWeek" Type="Int32" />
+          <Property Name="OriginalTarget" Type="Single" />
+          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Hours" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1713,6 +1807,38 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
                 <ScalarProperty Name="DateTimeSubmitted" ColumnName="DateTimeSubmitted" />
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_PublishedBudgetsROI">
+            <EntityTypeMapping TypeName="WFMMContext.vw_PublishedBudgetsROI">
+              <MappingFragment StoreEntitySet="vw_PublishedBudgetsROI">
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OriginalTarget" ColumnName="OriginalTarget" />
+                <ScalarProperty Name="YearWeek" ColumnName="YearWeek" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowID" ColumnName="RowID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_PublishedBudgetsUK">
+            <EntityTypeMapping TypeName="WFMMContext.vw_PublishedBudgetsUK">
+              <MappingFragment StoreEntitySet="vw_PublishedBudgetsUK">
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OriginalTarget" ColumnName="OriginalTarget" />
+                <ScalarProperty Name="YearWeek" ColumnName="YearWeek" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowID" ColumnName="RowID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -24,7 +24,7 @@ namespace Aion.Mapping
             _mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new DashboardProfile());
-                cfg.AddProfile(new OpeningTimeProfile());
+                cfg.AddProfile(new MyStoreProfile());
             });
         }
     }
@@ -39,12 +39,14 @@ namespace Aion.Mapping
         }
     }
 
-    public class OpeningTimeProfile : Profile
+    public class MyStoreProfile : Profile
     {
-        public OpeningTimeProfile()
+        public MyStoreProfile()
         {
             CreateMap<StoreOpeningTime, NewOpeningTime>();
             CreateMap<NewOpeningTime, StoreOpeningTime>();
+            CreateMap<vw_PublishedBudgetsROI, SOHBudgetView>();
+            CreateMap<vw_PublishedBudgetsUK, SOHBudgetView>();
         }
     }
 }

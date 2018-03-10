@@ -221,7 +221,7 @@ namespace Aion.Services
 
             HttpContext.Current.Session["_storeMenu"] = _menu;
             //HttpContext.Current.Session["_store"] = menuList.First();
-            HttpContext.Current.Session["_ROIFlag"] = menuList.First().Chain == "ROI";
+            HttpContext.Current.Session["_ROIFlag"] = menuList.First().Chain == "ROI" && accessLevel < 5;
 
             return true;
         }

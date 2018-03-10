@@ -169,6 +169,7 @@
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\DeploymentAggregate.cs" />
     <Compile Include="Areas\WFM\Models\MyStore\NewOpeningTime.cs" />
+    <Compile Include="Areas\WFM\Models\MyStore\SOHBudgetView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\NewOpeningTimeVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\OpeningTimesVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\MyStore\SOHBudgetsVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerTrendVm.cs" />
@@ -323,6 +325,12 @@
     <Compile Include="DAL\Entities\vw_Last12MonthRFTPCases.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_PublishedBudgetsROI.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_PublishedBudgetsUK.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -377,9 +385,11 @@
     <Compile Include="DAL\Managers\GmWeWorkingManager.cs" />
     <Compile Include="DAL\IManagers\IGmWeWorkingManager.cs" />
     <Compile Include="DAL\IManagers\IOpeningTimesManager.cs" />
+    <Compile Include="DAL\IManagers\ISOHBudgetsManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
+    <Compile Include="DAL\Managers\SOHBudgetsManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />
     <Compile Include="DAL\Managers\WeeksManager.cs" />
@@ -595,6 +605,9 @@
     <Content Include="Areas\WFM\Views\MyStore\NewOpeningTime.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\CancelChange.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\EditPeak.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\SOHBudgets.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\Partials\_SOHBudgetsStore.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\Partials\_SOHBudgetsRegion.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
