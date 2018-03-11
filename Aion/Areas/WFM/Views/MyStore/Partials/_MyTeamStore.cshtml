@@ -1,0 +1,116 @@
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.MyTeamVm
+    
+<div class="card mb-3">
+    <div class="card-header text-center">
+        <strong>Contract Bases</strong>
+    </div>
+    <div class="card-body">
+        <p>
+            These contract bases provide guidance as to where the store's contracted cost needs to sit for the remainder of the year. Contract bases are used in order to:
+            <ul>
+                <li>Keep payroll (SOH) controlled,</li>
+                <li>Ensure we recruit into the right stores,</li>
+                <li>Enable us to react to changes in trade.</li>
+            </ul>
+        </p>
+        <p>
+            Please remember these are <u>max</u> contract bases and not targets - you should only recruit to these numbers if you have robust plans in place to deliver your SOH, including good holiday management.
+        </p>
+        <p class="text-center">
+            <i><u>Team Know How hours are not included in the max contract base.</u></i>
+        </p>
+        <div class="row justify-content-center mb-2">
+            <a class="btn btn-info" href="@Url.Action("TrainingDoc","Reports", new { f = "ContractBases.pdf" })" target="_blank">Training Guide</a>
+        </div>
+        <table class="table table-bordered table-sm" style="table-layout: fixed;">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center col-md-3">Current Contract Hours</th>
+                <th class="text-center col-md-3">Max Contract Base</th>
+                <th class="text-center col-md-3">Forecasted Highest Week (Non Peak)</th>
+                <th class="text-center col-md-3">Forecasted Lowest Week</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-center">@Model.ContractBaseDetailStore.Contract_Hours</td>
+                <td class="text-center">@Model.ContractBaseDetailStore.Contract_Base</td>
+                <td class="text-center">@Model.ContractBaseDetailStore.Highest_Week</td>
+                <td class="text-center">@Model.ContractBaseDetailStore.Lowest_Week</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>
+            Great holiday management will enable you to contract to the max contract base and deliver your SOH budget each week, click through to the holiday planning page to see your current usage.<br />
+        </p>
+        <div class="row justify-content-center">
+            <a class="btn btn-success" href="@Url.Action("HolidayPlanning", "Reports")" role="button">Holiday Planning</a>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header text-center">
+        <strong>My Team</strong>
+    </div>
+    <div class="card-body">
+        <p>These are the details of your team currently held by the HR system.</p>
+        <p>If you believe any of these details are incorrect please raise with your TPC who can help get these rectified.</p>
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center" style="width:24.5%;">Employee Name</th>
+                <th class="text-center" style="width:24.5%;">Job Role</th>
+                <th class="text-center" style="width:17%;">Contract Hours</th>
+                <th class="text-center" style="width:17%;">YTD Holiday Remaining (Hrs)<br/><small>(excludes future planned)</small></th>
+                <th class="text-center" style="width:17%;">Avg Weekly Hrs</th>
+            </tr>
+            </thead>
+            <tbody style="font-size: small;">
+            @foreach (var item in Model.StaffList)
+            {
+                <tr>
+                    <td>@string.Format("{0}, {1}", item.SURNAME, item.FORENAME)</td>
+                    <td>@item.ROLE.Replace(".Retail","")</td>
+                    <td class="text-center">@item.CONTRACT_HOURS</td>
+                    <td class="text-center">@item.TODAYS_BALANCE</td>
+                    <td class="text-center">@item.CONTRACT_DAYS</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <br />
+        <p>
+            <h4><strong><u>Average Contract Hours</u></strong></h4>
+            This is the average number of hours colleagues in your store have contracted.<br />
+            <i>It is calculated as: [Total Contracted Hours] / [Total Contracted Heads] = [Average Contracted Hours]</i>
+        </p>
+        <br />
+        <div id="container" class="text-center smallcontainer">
+            <canvas id="contract-mix" height="223" width="413" style="z-index:0;position:absolute">Contract Mix</canvas>
+            <canvas id="contract-act" height="223" width="413" style="z-index:1;position:relative">Contract Mix</canvas>
+        </div>
+        <br />
+        <table class="table table-bordered">
+            <tr>
+                <td>If your average contract hours are too high:</td>
+                <td style="font-size:small">
+                    <ul>
+                        <li>You will be less able to flex up for busier periods</li>
+                        <li>Any colleague absence (or resignations) will be harder to back fill</li>
+                        <li>You will be less likely to be able to deploy well across the week and will struggle to get the right amount of hours in on your busy days</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>If your average contract hours are too low:</td>
+                <td style="font-size:small">
+                    <ul>
+                        <li>You may have a higher rate of colleague turnover</li>
+                        <li>May find it harder to attract the right candidates for vacancies</li>
+                        <li>May have colleagues with lower skills or knowledge due to less experience / time serving</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

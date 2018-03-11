@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Aion.Areas.WFM.Models.MyStore;
 using Aion.Areas.WFM.ViewModels.MyStore;
@@ -18,11 +15,13 @@ namespace Aion.Areas.WFM.Controllers
     {
         private readonly IOpeningTimesManager _openingTimesManager;
         private readonly ISOHBudgetsManager _sohBudgetsManager;
+        private readonly IHRDataManager _hrDataManager;
 
         public MyStoreController()
         {
             _openingTimesManager = new OpeningTimesManager();
             _sohBudgetsManager = new SOHBudgetsManager();
+            _hrDataManager = new HRDataManager();
         }
         
         public async Task<ActionResult> OpeningTimes()
@@ -217,6 +216,29 @@ namespace Aion.Areas.WFM.Controllers
                     break;
             }
 
+            return View(vm);
+        }
+
+        public async Task<ActionResult> MyTeam()
+        {
+            MyTeamVm vm = new MyTeamVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.ContractBaseDetailStore = await _hrDataManager.GetContractAndHolidayStore(selectCrit);
+                    vm.StaffList = await _hrDataManager.GetStaffListStore(selectCrit);
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.ContractBaseDetailRegion = await _hrDataManager.GetContractAndHolidayRegion(selectCrit);
+                    vm.DisplayLevel = 2;
+                    break;
+                default:
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
             return View(vm);
         }
     }

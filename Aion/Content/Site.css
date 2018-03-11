@@ -255,3 +255,12 @@ input:checked + .slider:before {
 select.select-center {
     text-align-last:center;
 }
+
+.smallcontainer{
+    width:413px; 
+    height:223px;
+    margin: 0 auto; 
+    position:relative;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}

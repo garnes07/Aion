@@ -1,0 +1,49 @@
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.MyTeamVm
+    
+<div class="card">
+    <div class="card-header text-center">
+        <strong>Contract Bases</strong>
+    </div>
+    <div class="card-body">
+        <p>
+            These contract bases provide guidance as to where the store's contracted cost needs to sit for the remainder of the year. Contract bases are used in order to:
+            <ul>
+                <li>Keep payroll (SOH) controlled,</li>
+                <li>Ensure we recruit into the right stores,</li>
+                <li>Enable us to react to changes in trade.</li>
+            </ul>
+        </p>
+        <p>
+            Please remember these are <u>max</u> contract bases and not targets - you should only recruit to these numbers if you have robust plans in place to deliver your SOH, including good holiday management.
+        </p>
+        <p class="text-center">
+            <i><u>Team Know How hours are not included in the max contract base.</u></i>
+        </p>
+        <div class="row justify-content-center mb-2">
+            <a class="btn btn-info" href="@Url.Action("TrainingDoc","Reports", new { f = "ContractBases.pdf" })" target="_blank">Training Guide</a>
+        </div>
+        <table class="table table-bordered table-sm">
+            <thead class="thead-blue">
+            <tr>
+                <th class="text-center" style="width:32%";>Store</th>
+                <th class="text-center" style="width:17%";>Current Contract Hours</th>
+                <th class="text-center" style="width:17%";>Max Contract Base</th>
+                <th class="text-center" style="width:17%";>Forecasted Highest Week (Non Peak)</th>
+                <th class="text-center" style="width:17%";>Forecasted Lowest Week</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.ContractBaseDetailRegion)
+            {
+                <tr>
+                    <td>@(item.StoreNumber + " - " + item.StoreName)</td>
+                    <td class="text-center">@item.Contract_Hours</td>
+                    <td class="text-center">@item.Contract_Base</td>
+                    <td class="text-center">@item.Highest_Week</td>
+                    <td class="text-center">@item.Lowest_Week</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -16,5 +16,11 @@
     "inputFiles": [
       "Scripts/site/RFTPTracking.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/Gauge.min.js",
+    "inputFiles": [
+      "Scripts/Gauge.js"
+    ]
   }
 ]

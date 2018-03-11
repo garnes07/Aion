@@ -63,6 +63,37 @@
           <Property Name="WorkedHours" Type="numeric" Precision="6" Scale="2" Nullable="false" />
           <Property Name="ZeroHourFlag" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="HrFeed">
+          <Key>
+            <PropertyRef Name="HR_FEED_ID" />
+          </Key>
+          <Property Name="HR_FEED_ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="STORE_NUM" Type="int" />
+          <Property Name="EMP_NUM" Type="bigint" />
+          <Property Name="FORENAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="SURNAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="CONTRACT_DAYS" Type="nvarchar" MaxLength="255" />
+          <Property Name="CONTRACT_HOURS" Type="float" />
+          <Property Name="SalaryType" Type="nvarchar" MaxLength="255" />
+          <Property Name="HourlyBasic" Type="nvarchar" MaxLength="255" />
+          <Property Name="AnnualBasic" Type="nvarchar" MaxLength="255" />
+          <Property Name="ROLE" Type="nvarchar" MaxLength="255" />
+          <Property Name="DOJ" Type="datetime" />
+          <Property Name="DOL" Type="nvarchar" MaxLength="255" />
+          <Property Name="DATE_IN_CURRENT_ROLE" Type="datetime" />
+          <Property Name="DATE_IN_CURRENT_DEPARTMENT" Type="datetime" />
+          <Property Name="StaffTypeId" Type="int" />
+          <Property Name="EMP_CLASS" Type="nvarchar" MaxLength="255" />
+          <Property Name="DATE_OF_BIRTH" Type="datetime" />
+          <Property Name="AGE" Type="float" />
+          <Property Name="SET_ID_DEPT" Type="nvarchar" MaxLength="255" />
+          <Property Name="DX_STARTYPE" Type="nvarchar" MaxLength="255" />
+          <Property Name="DIVISION" Type="nvarchar" MaxLength="255" />
+          <Property Name="REGION" Type="nvarchar" MaxLength="50" />
+          <Property Name="MAY_01_BALANCE" Type="float" />
+          <Property Name="TODAYS_BALANCE" Type="float" />
+          <Property Name="ABSENCE_TAKEN" Type="float" />
+        </EntityType>
         <EntityType Name="KronosEmployeeSummary">
           <Key>
             <PropertyRef Name="PersonNumber" />
@@ -152,6 +183,40 @@
           <Property Name="ModifiedByUser" Type="nvarchar" MaxLength="20" />
           <Property Name="SubmittedByUser" Type="nvarchar" MaxLength="20" />
           <Property Name="ReasonForChange" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_ContractBaseDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_ContractBaseDetail">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="TotalHoliday" />
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="Contract Base" Type="smallint" />
+          <Property Name="Contract_Hours" Type="float" />
+          <Property Name="Highest Week" Type="smallint" />
+          <Property Name="Lowest Week" Type="smallint" />
+          <Property Name="P1" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P2" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P3" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P4" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P5" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P6" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P7" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P8" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P9" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P10" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P11" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="P12" Type="numeric" Precision="3" Scale="2" />
+          <Property Name="TotalHoliday" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -413,6 +478,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
 warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsROI' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_PublishedBudgetsROI">
           <Key>
+            
+            
+            
+            
+            
             <PropertyRef Name="RowID" />
           </Key>
           <Property Name="RowID" Type="bigint" Nullable="false" />
@@ -430,6 +500,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsROI' does not hav
 warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_PublishedBudgetsUK">
           <Key>
+            
+            
+            
+            
+            
             <PropertyRef Name="RowID" />
           </Key>
           <Property Name="RowID" Type="bigint" Nullable="false" />
@@ -499,11 +574,38 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <EntitySet Name="DailyDeployment" EntityType="Self.DailyDeployment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HrFeed" EntityType="Self.HrFeed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreOpeningTimes" EntityType="Self.StoreOpeningTimes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_ContractBaseDetail" EntityType="Self.vw_ContractBaseDetail" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ContractBaseDetail].[Chain] AS [Chain], 
+    [vw_ContractBaseDetail].[Division] AS [Division], 
+    [vw_ContractBaseDetail].[Region] AS [Region], 
+    [vw_ContractBaseDetail].[StoreName] AS [StoreName], 
+    [vw_ContractBaseDetail].[StoreNumber] AS [StoreNumber], 
+    [vw_ContractBaseDetail].[Contract Base] AS [Contract Base], 
+    [vw_ContractBaseDetail].[Contract_Hours] AS [Contract_Hours], 
+    [vw_ContractBaseDetail].[Highest Week] AS [Highest Week], 
+    [vw_ContractBaseDetail].[Lowest Week] AS [Lowest Week], 
+    [vw_ContractBaseDetail].[P1] AS [P1], 
+    [vw_ContractBaseDetail].[P2] AS [P2], 
+    [vw_ContractBaseDetail].[P3] AS [P3], 
+    [vw_ContractBaseDetail].[P4] AS [P4], 
+    [vw_ContractBaseDetail].[P5] AS [P5], 
+    [vw_ContractBaseDetail].[P6] AS [P6], 
+    [vw_ContractBaseDetail].[P7] AS [P7], 
+    [vw_ContractBaseDetail].[P8] AS [P8], 
+    [vw_ContractBaseDetail].[P9] AS [P9], 
+    [vw_ContractBaseDetail].[P10] AS [P10], 
+    [vw_ContractBaseDetail].[P11] AS [P11], 
+    [vw_ContractBaseDetail].[P12] AS [P12], 
+    [vw_ContractBaseDetail].[TotalHoliday] AS [TotalHoliday]
+    FROM [dbo].[vw_ContractBaseDetail] AS [vw_ContractBaseDetail]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="Self.vw_CPW_Clocking_Data" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_CPW_Clocking_Data].[CST_CNTR_int] AS [CST_CNTR_int], 
@@ -788,6 +890,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <EntitySet Name="StoreOpeningTimes" EntityType="WFMMContext.StoreOpeningTime" />
           <EntitySet Name="vw_PublishedBudgetsROI" EntityType="WFMMContext.vw_PublishedBudgetsROI" />
           <EntitySet Name="vw_PublishedBudgetsUK" EntityType="WFMMContext.vw_PublishedBudgetsUK" />
+          <EntitySet Name="HrFeeds" EntityType="WFMMContext.HrFeed" />
+          <EntitySet Name="vw_ContractBaseDetail" EntityType="WFMMContext.vw_ContractBaseDetail" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1298,6 +1402,69 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <Property Name="OriginalTarget" Type="Single" />
           <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Hours" Type="Double" />
+        </EntityType>
+        <EntityType Name="HrFeed">
+          <Key>
+            <PropertyRef Name="HR_FEED_ID" />
+          </Key>
+          <Property Name="HR_FEED_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="STORE_NUM" Type="Int32" />
+          <Property Name="EMP_NUM" Type="Int64" />
+          <Property Name="FORENAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SURNAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CONTRACT_DAYS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CONTRACT_HOURS" Type="Double" />
+          <Property Name="SalaryType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="HourlyBasic" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AnnualBasic" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ROLE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DOJ" Type="DateTime" Precision="3" />
+          <Property Name="DOL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DATE_IN_CURRENT_ROLE" Type="DateTime" Precision="3" />
+          <Property Name="DATE_IN_CURRENT_DEPARTMENT" Type="DateTime" Precision="3" />
+          <Property Name="StaffTypeId" Type="Int32" />
+          <Property Name="EMP_CLASS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DATE_OF_BIRTH" Type="DateTime" Precision="3" />
+          <Property Name="AGE" Type="Double" />
+          <Property Name="SET_ID_DEPT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DX_STARTYPE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DIVISION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="REGION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MAY_01_BALANCE" Type="Double" />
+          <Property Name="TODAYS_BALANCE" Type="Double" />
+          <Property Name="ABSENCE_TAKEN" Type="Double" />
+        </EntityType>
+        <EntityType Name="vw_ContractBaseDetail">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="TotalHoliday" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="Contract_Base" Type="Int16" />
+          <Property Name="Contract_Hours" Type="Double" />
+          <Property Name="Highest_Week" Type="Int16" />
+          <Property Name="Lowest_Week" Type="Int16" />
+          <Property Name="P1" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P2" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P3" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P4" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P5" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P6" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P7" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P8" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P9" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P10" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P11" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="P12" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="TotalHoliday" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1839,6 +2006,66 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="RowID" ColumnName="RowID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HrFeeds">
+            <EntityTypeMapping TypeName="WFMMContext.HrFeed">
+              <MappingFragment StoreEntitySet="HrFeed">
+                <ScalarProperty Name="ABSENCE_TAKEN" ColumnName="ABSENCE_TAKEN" />
+                <ScalarProperty Name="TODAYS_BALANCE" ColumnName="TODAYS_BALANCE" />
+                <ScalarProperty Name="MAY_01_BALANCE" ColumnName="MAY_01_BALANCE" />
+                <ScalarProperty Name="REGION" ColumnName="REGION" />
+                <ScalarProperty Name="DIVISION" ColumnName="DIVISION" />
+                <ScalarProperty Name="DX_STARTYPE" ColumnName="DX_STARTYPE" />
+                <ScalarProperty Name="SET_ID_DEPT" ColumnName="SET_ID_DEPT" />
+                <ScalarProperty Name="AGE" ColumnName="AGE" />
+                <ScalarProperty Name="DATE_OF_BIRTH" ColumnName="DATE_OF_BIRTH" />
+                <ScalarProperty Name="EMP_CLASS" ColumnName="EMP_CLASS" />
+                <ScalarProperty Name="StaffTypeId" ColumnName="StaffTypeId" />
+                <ScalarProperty Name="DATE_IN_CURRENT_DEPARTMENT" ColumnName="DATE_IN_CURRENT_DEPARTMENT" />
+                <ScalarProperty Name="DATE_IN_CURRENT_ROLE" ColumnName="DATE_IN_CURRENT_ROLE" />
+                <ScalarProperty Name="DOL" ColumnName="DOL" />
+                <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
+                <ScalarProperty Name="AnnualBasic" ColumnName="AnnualBasic" />
+                <ScalarProperty Name="HourlyBasic" ColumnName="HourlyBasic" />
+                <ScalarProperty Name="SalaryType" ColumnName="SalaryType" />
+                <ScalarProperty Name="CONTRACT_HOURS" ColumnName="CONTRACT_HOURS" />
+                <ScalarProperty Name="CONTRACT_DAYS" ColumnName="CONTRACT_DAYS" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="FORENAME" ColumnName="FORENAME" />
+                <ScalarProperty Name="EMP_NUM" ColumnName="EMP_NUM" />
+                <ScalarProperty Name="STORE_NUM" ColumnName="STORE_NUM" />
+                <ScalarProperty Name="HR_FEED_ID" ColumnName="HR_FEED_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ContractBaseDetail">
+            <EntityTypeMapping TypeName="WFMMContext.vw_ContractBaseDetail">
+              <MappingFragment StoreEntitySet="vw_ContractBaseDetail">
+                <ScalarProperty Name="TotalHoliday" ColumnName="TotalHoliday" />
+                <ScalarProperty Name="P12" ColumnName="P12" />
+                <ScalarProperty Name="P11" ColumnName="P11" />
+                <ScalarProperty Name="P10" ColumnName="P10" />
+                <ScalarProperty Name="P9" ColumnName="P9" />
+                <ScalarProperty Name="P8" ColumnName="P8" />
+                <ScalarProperty Name="P7" ColumnName="P7" />
+                <ScalarProperty Name="P6" ColumnName="P6" />
+                <ScalarProperty Name="P5" ColumnName="P5" />
+                <ScalarProperty Name="P4" ColumnName="P4" />
+                <ScalarProperty Name="P3" ColumnName="P3" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="Lowest_Week" ColumnName="Lowest Week" />
+                <ScalarProperty Name="Highest_Week" ColumnName="Highest Week" />
+                <ScalarProperty Name="Contract_Hours" ColumnName="Contract_Hours" />
+                <ScalarProperty Name="Contract_Base" ColumnName="Contract Base" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -176,6 +176,7 @@
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\MyStore\MyTeamVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\NewOpeningTimeVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\OpeningTimesVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\SOHBudgetsVm.cs" />
@@ -204,6 +205,9 @@
     </Compile>
     <Compile Include="DAL\Entities\Group.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\HrFeed.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\IpRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -298,6 +302,9 @@
     <Compile Include="DAL\Entities\UserLog.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_ContractBaseDetail.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_CPW_Clocking_Data.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -386,6 +393,8 @@
     <Compile Include="DAL\IManagers\IGmWeWorkingManager.cs" />
     <Compile Include="DAL\IManagers\IOpeningTimesManager.cs" />
     <Compile Include="DAL\IManagers\ISOHBudgetsManager.cs" />
+    <Compile Include="DAL\Managers\HRDataManager.cs" />
+    <Compile Include="DAL\IManagers\IHRDataManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
@@ -608,6 +617,9 @@
     <Content Include="Areas\WFM\Views\MyStore\SOHBudgets.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\Partials\_SOHBudgetsStore.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\Partials\_SOHBudgetsRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\MyTeam.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\Partials\_MyTeamStore.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\Partials\_MyTeamRegion.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -725,6 +737,10 @@
     <Content Include="Content\bootstrap\js\bootstrap.js.map" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js.map" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\Gauge.js" />
+    <Content Include="Scripts\Gauge.min.js">
+      <DependentUpon>Gauge.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />

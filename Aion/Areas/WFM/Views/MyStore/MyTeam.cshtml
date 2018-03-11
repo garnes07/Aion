@@ -1,0 +1,106 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.MyStore.MyTeamVm
+
+@{
+    ViewBag.Title = "My Team";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-warning text-center"><strong>@Model.Message</strong></div>
+    }
+    else
+    {
+        if (Model.DisplayLevel == 1)
+        {
+            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_MyTeamStore.cshtml")
+        }
+        else if (Model.DisplayLevel == 2)
+        {
+            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_MyTeamRegion.cshtml")
+        }
+    }
+
+</div>
+
+@section myScripts{
+    @if (Model.DisplayLevel == 1)
+    {
+        <script src="~/Scripts/Gauge.min.js"></script>
+        <script>
+        var canvas = document.getElementById("contract-mix");
+        var value = @Model.StaffList.Average(x => x.CONTRACT_HOURS);
+
+        if (value > 33) {
+            value = 33
+        };
+        if(value < 15){
+            value = 15
+        };
+
+        var opts = {
+
+            angle: 0, // The length of each line
+            lineWidth: 0.5, // The line thickness
+            radiusScale: 0.66,
+            pointer: {
+                length: 0.6, // The radius of the inner circle
+                strokeWidth: 0.035, // The rotation offset
+                color: '#000000' // Fill color
+            },
+            strokeColor: '#E0E0E0',   // to see which ones work best for you
+            generateGradient: true,
+            staticZones: [
+                {strokeStyle: "#F03E3E", min: 15, max: 18}, // Red from 100 to 130
+                {strokeStyle: "#FFDD00", min: 18, max: 21}, // Yellow
+                {strokeStyle: "#30B32D", min: 21, max: 27}, // Green
+                {strokeStyle: "#FFDD00", min: 27, max: 30}, // Yellow
+                {strokeStyle: "#F03E3E", min: 30, max: 33}  // Red
+            ],
+            staticLabels:{
+                font: "16px sans-serif",  // Specifies font
+                labels: [18,24,30],  // Print labels at these values
+                color: "#000000",  // Optional: Label text color
+                fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+            }
+        };
+        canvas = document.getElementById('contract-mix'); // your canvas element
+        var gauge = new Gauge(canvas);
+        gauge.setOptions(opts);
+        gauge.setMinValue(15);
+        gauge.maxValue = 33; // set max gauge value
+        gauge.animationSpeed = 32; // set animation speed (32 is default value)
+        gauge.set(value); // set actual value
+
+        </script>
+        <script>
+        var cnv = document.getElementById("contract-act");
+        var ctx = cnv.getContext("2d");
+        var posx = cnv.width/2;
+        var posy = cnv.height * 0.8;
+
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.arc(posx, posy, 17, 0, 2* Math.PI);
+        ctx.fill();
+
+        ctx.font = "bold 16px sans-serif";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillText(@string.Format("{0:0}", Model.StaffList.Average(x => x.CONTRACT_HOURS)),posx - 10, posy + 5)
+
+        ctx.fillStyle = '#000000';
+        ctx.font = "bold 14px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Current Average Contract Hours", posx, cnv.height * 0.95);
+        </script>
+    }
+}
