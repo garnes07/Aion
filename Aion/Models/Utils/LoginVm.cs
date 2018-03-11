@@ -12,5 +12,6 @@ namespace Aion.Models.Utils
         public string Password { get; set; }
         
         public string ReturnURL { get; set; }
+        
     }
 }

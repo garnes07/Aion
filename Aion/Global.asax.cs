@@ -23,12 +23,15 @@ namespace Aion
 
         void Session_Start(object sender, EventArgs e)
         {
-            var init = Helpers.MvcHelper.InitStoreDetails();
+            if (Session.IsNewSession)
+            {
+                var init = Helpers.MvcHelper.InitStoreDetails();
 
-            if (init == 0)
-                Response.Redirect("/Profile/UnknownStore");
-            else if (init == -1)
-                Response.Redirect("Profile/DuplicateRecords");
+                if (init == 0)
+                    Response.Redirect("/Profile/UnknownStore");
+                else if (init == -1)
+                    Response.Redirect("Profile/DuplicateRecords");
+            }
 
             //if (Session.IsNewSession)
             //    Response.Redirect("/");

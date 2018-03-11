@@ -30,6 +30,22 @@ namespace Aion.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult OOS()
+        {
+            LoginVm model = new LoginVm();
+
+            if (TempData["modelPass"] != null)
+            {
+                model = (LoginVm)TempData["modelPass"];
+                if (TempData["errorMessage"] != null)
+                {
+                    ViewBag.errorMessage = TempData["errorMessage"].ToString();
+                }
+            }
+            return View(model);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -53,17 +69,20 @@ namespace Aion.Controllers
             {
                 if (!string.IsNullOrEmpty(a.ReturnURL) && Url.IsLocalUrl(a.ReturnURL))
                 {
-                    return Redirect(a.ReturnURL);
+                    return string.Equals(Request.UrlReferrer.AbsolutePath, "/Profiles/UnkownStore",
+                        StringComparison.CurrentCultureIgnoreCase)
+                        ? Redirect(a.ReturnURL)
+                        : Redirect("/");
                 }
 
                 return RedirectToAction("Index", "Home");
             }
 
-            if (string.Equals(Request.UrlReferrer.AbsolutePath, "/oos", StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(Request.UrlReferrer.AbsolutePath, "/Profile/oos", StringComparison.CurrentCultureIgnoreCase))
             {
                 TempData["modelPass"] = a;
                 TempData["errorMessage"] = authenticationResult.ErrorMessage;
-                return RedirectToAction("Index", "OOS");
+                return RedirectToAction("OOS");
             }
             ViewBag.errorMessage = authenticationResult.ErrorMessage;
             ModelState.AddModelError("", authenticationResult.ErrorMessage);

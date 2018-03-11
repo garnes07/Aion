@@ -803,6 +803,7 @@
     <Content Include="Views\Shared\_WeekPicker.cshtml" />
     <Content Include="Views\Shared\_RootMenu.cshtml" />
     <Content Include="Views\Profile\Unauthorised.cshtml" />
+    <Content Include="Views\Profile\OOS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />
