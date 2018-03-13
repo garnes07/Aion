@@ -1,0 +1,33 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.MyStore.ScheduleVm
+
+@{
+    ViewBag.Title = "Schedules";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-warning text-center"><strong>@Model.Message</strong></div>
+    }
+    else
+    {
+        @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "Schedules", Controller = "MyStore", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
+        if (Model.DisplayLevel == 1)
+        {
+            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SchedulesStore.cshtml")
+        }
+        else if (Model.DisplayLevel == 2)
+        {
+            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SchedulesRegion.cshtml")
+        }
+    }
+</div>

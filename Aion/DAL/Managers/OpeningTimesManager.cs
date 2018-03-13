@@ -30,6 +30,15 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<StoreOpeningTime>> GetSpecificStoreOpeningTime(string store, DateTime sDate)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.StoreOpeningTimes.Where(x => x.StoreNumber == crit && ((x.EffectiveDate == sDate && x.Status != "Cancelled") || x.Status == "Live")).ToListAsync();
+            }
+        }
+
         public async Task<int> SubmitOpeningTimeChange(StoreOpeningTime entry, string userName)
         {
             using (var context = new WFMModel())

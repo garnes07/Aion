@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Aion.DAL.Entities;
 
@@ -8,6 +9,7 @@ namespace Aion.DAL.Managers
     {
         Task<List<StoreOpeningTime>> GetOpeningTimesStore(string store);
         Task<StoreOpeningTime> GetCurrentOpeningTimeStore(string store);
+        Task<List<StoreOpeningTime>> GetSpecificStoreOpeningTime(string store, DateTime sDate);
         Task<int> SubmitOpeningTimeChange(StoreOpeningTime entry, string userName);
         Task<StoreOpeningTime> GetSinglePendingById(int entryId, string store);
         Task<StoreOpeningTime> GetSinglePeakById(int entryId, string store);

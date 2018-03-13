@@ -1,0 +1,70 @@
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.ScheduleVm
+
+
+
+@if (!Model.Collection.Any())
+{
+    <div class="alert alert-danger text-center"><strong>No schedules found for the selected period!</strong></div>
+}
+else
+{
+    if (ViewBag.Historic != null)
+    {
+        <div class="alert alert-warning text-center">
+            <strong>This schedule was last updated close of play Friday of the selected week</strong>
+        </div>
+    }
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th class="text-center" style="width: 10%">Store</th>
+            <th class="text-center" style="width: 20%">Name</th>
+            <th class="text-center" style="width: 10%">Sun</th>
+            <th class="text-center" style="width: 10%">Mon</th>
+            <th class="text-center" style="width: 10%">Tue</th>
+            <th class="text-center" style="width: 10%">Wed</th>
+            <th class="text-center" style="width: 10%">Thu</th>
+            <th class="text-center" style="width: 10%">Fri</th>
+            <th class="text-center" style="width: 10%">Sat</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var colleague in Model.ColleagueList)
+            {
+                <tr>
+                    <td><small>@string.Format("{0} - {1}", Model.Collection.First(x => x.PersonNumber == colleague).StoreNumber, Model.Collection.First(x => x.PersonNumber == colleague).StoreName)</small></td>
+                    <td><small>@string.Format("{0} ({1})", Model.Collection.First(x => x.PersonNumber == colleague).FullName, Model.Collection.First(x => x.PersonNumber == colleague).ContractHours)</small></td>
+                    @for (int j = 1; j <= 7; j++)
+                    {
+                        var selected = Model.Collection.FirstOrDefault(x => x.PersonNumber == colleague && x.DayNum == j);
+                        if (selected?.StartTime != null)
+                        {
+                            if (selected.ShiftType == "Regular" && selected.TransferBranch != null)
+                            {
+                                <td class="text-center"><small>@string.Format("{0:hh\\:mm} - {1:hh\\:mm} : {2}", selected.StartTime, selected.EndTime, selected.TransferBranch)</small></td>
+                            }
+                            else if (selected.ShiftType == "Regular")
+                            {
+                                <td class="text-center"><small>@string.Format("{0:hh\\:mm} - {1:hh\\:mm}", selected.StartTime, selected.EndTime)</small></td>
+                            }
+                        }
+                        else if (selected != null && selected.ShiftType != "Regular")
+                        {
+                            <td class="text-center">@selected.ShiftType</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row justify-content-center">
+        <p><strong>@string.Format("Last Updated : {0:g}", Model.Collection.First().DateTimeUpdated)</strong></p>
+    </div>
+    <div class="row justify-content-center d-print-none">
+        <button class="btn btn-light btn-lg" onclick="window.print()">Print Schedule</button>
+    </div>
+}

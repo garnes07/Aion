@@ -518,6 +518,33 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <Property Name="Type" Type="nvarchar" MaxLength="100" />
           <Property Name="Hours" Type="float" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_ScheduleData">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonNumber" Type="int" />
+          <Property Name="ContractHours" Type="numeric" Precision="3" Scale="1" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShiftType" Type="nvarchar" MaxLength="50" />
+          <Property Name="TransferBranch" Type="nvarchar" MaxLength="10" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="StartTime" Type="time" Precision="0" />
+          <Property Name="EndTime" Type="time" Precision="0" />
+          <Property Name="DayNum" Type="tinyint" />
+          <Property Name="PersonWeekTotal" Type="numeric" Precision="5" Scale="2" />
+          <Property Name="DayWeekTotal" Type="numeric" Precision="5" Scale="2" />
+          <Property Name="DateTimeUpdated" Type="datetime" />
+          <Property Name="JobCode" Type="smallint" />
+        </EntityType>
         <Association Name="FK_RFTPCaseAudit_RFTPCaseStub">
           <End Role="RFTPCaseStub" Type="Self.RFTPCaseStub" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -819,6 +846,30 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
     [vw_PublishedBudgetsUK].[Hours] AS [Hours]
     FROM [dbo].[vw_PublishedBudgetsUK] AS [vw_PublishedBudgetsUK]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_ScheduleData" EntityType="Self.vw_ScheduleData" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ScheduleData].[EntryId] AS [EntryId], 
+    [vw_ScheduleData].[Chain] AS [Chain], 
+    [vw_ScheduleData].[Division] AS [Division], 
+    [vw_ScheduleData].[Region] AS [Region], 
+    [vw_ScheduleData].[StoreNumber] AS [StoreNumber], 
+    [vw_ScheduleData].[StoreName] AS [StoreName], 
+    [vw_ScheduleData].[PersonNumber] AS [PersonNumber], 
+    [vw_ScheduleData].[ContractHours] AS [ContractHours], 
+    [vw_ScheduleData].[FullName] AS [FullName], 
+    [vw_ScheduleData].[ShiftType] AS [ShiftType], 
+    [vw_ScheduleData].[TransferBranch] AS [TransferBranch], 
+    [vw_ScheduleData].[WeekNumber] AS [WeekNumber], 
+    [vw_ScheduleData].[StartDate] AS [StartDate], 
+    [vw_ScheduleData].[StartTime] AS [StartTime], 
+    [vw_ScheduleData].[EndTime] AS [EndTime], 
+    [vw_ScheduleData].[DayNum] AS [DayNum], 
+    [vw_ScheduleData].[PersonWeekTotal] AS [PersonWeekTotal], 
+    [vw_ScheduleData].[DayWeekTotal] AS [DayWeekTotal], 
+    [vw_ScheduleData].[DateTimeUpdated] AS [DateTimeUpdated], 
+    [vw_ScheduleData].[JobCode] AS [JobCode]
+    FROM [dbo].[vw_ScheduleData] AS [vw_ScheduleData]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="Self.FK_RFTPCaseAudit_RFTPCaseStub">
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
@@ -892,6 +943,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <EntitySet Name="vw_PublishedBudgetsUK" EntityType="WFMMContext.vw_PublishedBudgetsUK" />
           <EntitySet Name="HrFeeds" EntityType="WFMMContext.HrFeed" />
           <EntitySet Name="vw_ContractBaseDetail" EntityType="WFMMContext.vw_ContractBaseDetail" />
+          <EntitySet Name="vw_ScheduleData" EntityType="WFMMContext.vw_ScheduleData" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1465,6 +1517,31 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <Property Name="P11" Type="Decimal" Precision="3" Scale="2" />
           <Property Name="P12" Type="Decimal" Precision="3" Scale="2" />
           <Property Name="TotalHoliday" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_ScheduleData">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PersonNumber" Type="Int32" />
+          <Property Name="ContractHours" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ShiftType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TransferBranch" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="0" />
+          <Property Name="EndTime" Type="Time" Precision="0" />
+          <Property Name="DayNum" Type="Byte" />
+          <Property Name="PersonWeekTotal" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="DayWeekTotal" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="DateTimeUpdated" Type="DateTime" Precision="3" />
+          <Property Name="JobCode" Type="Int16" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2066,6 +2143,32 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ScheduleData">
+            <EntityTypeMapping TypeName="WFMMContext.vw_ScheduleData">
+              <MappingFragment StoreEntitySet="vw_ScheduleData">
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="DateTimeUpdated" ColumnName="DateTimeUpdated" />
+                <ScalarProperty Name="DayWeekTotal" ColumnName="DayWeekTotal" />
+                <ScalarProperty Name="PersonWeekTotal" ColumnName="PersonWeekTotal" />
+                <ScalarProperty Name="DayNum" ColumnName="DayNum" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="TransferBranch" ColumnName="TransferBranch" />
+                <ScalarProperty Name="ShiftType" ColumnName="ShiftType" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ContractHours" ColumnName="ContractHours" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

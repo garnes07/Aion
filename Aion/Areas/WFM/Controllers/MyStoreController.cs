@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Aion.Areas.WFM.Models.MyStore;
@@ -7,6 +8,7 @@ using Aion.Areas.WFM.ViewModels.MyStore;
 using Aion.Controllers;
 using Aion.DAL.Entities;
 using Aion.DAL.Managers;
+using Aion.Helpers;
 using Aion.ViewModels;
 
 namespace Aion.Areas.WFM.Controllers
@@ -16,12 +18,16 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IOpeningTimesManager _openingTimesManager;
         private readonly ISOHBudgetsManager _sohBudgetsManager;
         private readonly IHRDataManager _hrDataManager;
+        private readonly IScheduleManager _scheduleManager;
+        private readonly IWeeksManager _weeksManager;
 
         public MyStoreController()
         {
             _openingTimesManager = new OpeningTimesManager();
             _sohBudgetsManager = new SOHBudgetsManager();
             _hrDataManager = new HRDataManager();
+            _scheduleManager = new ScheduleManager();
+            _weeksManager = new WeeksManager();
         }
         
         public async Task<ActionResult> OpeningTimes()
@@ -239,6 +245,63 @@ namespace Aion.Areas.WFM.Controllers
                     vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
                     break;
             }
+            return View(vm);
+        }
+
+        public async Task<ActionResult> Schedules(string selectedDate = "This Week")
+        {
+            ScheduleVm vm = new ScheduleVm();
+            int weekNum = selectedDate.GetWeekNumber();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.Collection = await _scheduleManager.GetStoreSchedule(selectCrit, weekNum);
+                    if (vm.Collection.Min(x => x.StartDate) < DateTime.Now.Date.FirstDayOfWeek())
+                    {
+                        ViewBag.historic = true;
+                    }
+                    if (vm.Collection.Any())
+                    {
+                        var oTimes = await _openingTimesManager.GetSpecificStoreOpeningTime(selectCrit, (DateTime)vm.Collection.Min(x => x.StartDate));
+                        if (oTimes.Any(x => x.Status != "Live"))
+                        {
+                            vm.OpeningTime = oTimes.First(x => x.Status != "Live");
+                        }
+                        else if (oTimes.Any(x => x.Status == "Live"))
+                        {
+                            vm.OpeningTime = oTimes.First(x => x.Status == "Live");
+                        }
+                        else
+                        {
+                            vm.OpeningTime = null;
+                        }
+                    }
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.Collection = await _scheduleManager.GetRegionGMScheduleData(selectCrit, weekNum);
+                    if (vm.Collection.Min(x => x.StartDate) < DateTime.Now.Date.FirstDayOfWeek())
+                    {
+                        ViewBag.historic = true;
+                    }
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.DisplayLevel = 3;
+                    break;
+                case "C":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.DisplayLevel = 4;
+                    break;
+            }
+
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(42), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-28), DateTime.Now.FirstDayOfWeek().AddDays(42).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
             return View(vm);
         }
     }
