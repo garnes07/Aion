@@ -176,6 +176,7 @@
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\MyStore\HolidayPlanningVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\MyTeamVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\NewOpeningTimeVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\OpeningTimesVm.cs" />
@@ -206,6 +207,9 @@
     </Compile>
     <Compile Include="DAL\Entities\Group.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\HolidayPlanningEmp.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\HrFeed.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -330,6 +334,12 @@
     <Compile Include="DAL\Entities\vw_GmWeWorking.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_HolidayPlanningRollup.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_HolidayPlanningStore.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_Last12MonthRFTPCases.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -397,9 +407,11 @@
     <Compile Include="DAL\IManagers\IGmWeWorkingManager.cs" />
     <Compile Include="DAL\IManagers\IOpeningTimesManager.cs" />
     <Compile Include="DAL\IManagers\ISOHBudgetsManager.cs" />
+    <Compile Include="DAL\Managers\HolidayPlanningManager.cs" />
     <Compile Include="DAL\Managers\HRDataManager.cs" />
     <Compile Include="DAL\IManagers\IHRDataManager.cs" />
     <Compile Include="DAL\IManagers\IScheduleManager.cs" />
+    <Compile Include="DAL\IManagers\IHolidayPlanningManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
@@ -629,6 +641,10 @@
     <Content Include="Areas\WFM\Views\MyStore\Schedules.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\Partials\_SchedulesStore.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\Partials\_SchedulesRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\HolidayPlanning.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\Partials\_HolidayPlanningStore.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\Partials\_HolidayPlanningRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\MyStore\Partials\_HolidayPlanningDivision.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

@@ -63,6 +63,19 @@
           <Property Name="WorkedHours" Type="numeric" Precision="6" Scale="2" Nullable="false" />
           <Property Name="ZeroHourFlag" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="HolidayPlanningEmp">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreNumber" Type="int" Nullable="false" />
+          <Property Name="PersonNum" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Balance" Type="int" />
+          <Property Name="Taken" Type="int" />
+          <Property Name="Scheduled" Type="int" />
+          <Property Name="YearStart" Type="int" />
+        </EntityType>
         <EntityType Name="HrFeed">
           <Key>
             <PropertyRef Name="HR_FEED_ID" />
@@ -193,7 +206,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ContractBaseDetail' does not have
             <PropertyRef Name="Region" />
             <PropertyRef Name="StoreName" />
             <PropertyRef Name="StoreNumber" />
-            <PropertyRef Name="TotalHoliday" />
+            
           </Key>
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -445,6 +458,40 @@ warning 6002: The table/view '99999_WFM.dbo.vw_GmWeWorking' does not have a prim
           <Property Name="Closed" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_HolidayPlanningRollup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_HolidayPlanningRollup">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="YearStart" Type="int" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Balance" Type="int" />
+          <Property Name="Taken" Type="int" />
+          <Property Name="Scheduled" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_HolidayPlanningStore' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_HolidayPlanningStore">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="Taken" Type="int" />
+          <Property Name="Scheduled" Type="int" />
+          <Property Name="Guideline" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_Last12MonthRFTPCases">
           <Key>
@@ -523,6 +570,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
         <EntityType Name="vw_ScheduleData">
           <Key>
             <PropertyRef Name="EntryId" />
+            
+            
+            
+            
+            
           </Key>
           <Property Name="EntryId" Type="int" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -601,6 +653,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <EntitySet Name="DailyDeployment" EntityType="Self.DailyDeployment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HolidayPlanningEmp" EntityType="Self.HolidayPlanningEmp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HrFeed" EntityType="Self.HrFeed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
@@ -800,6 +853,34 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
     [vw_GmWeWorking].[Closed] AS [Closed]
     FROM [dbo].[vw_GmWeWorking] AS [vw_GmWeWorking]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_HolidayPlanningRollup" EntityType="Self.vw_HolidayPlanningRollup" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_HolidayPlanningRollup].[RowId] AS [RowId], 
+    [vw_HolidayPlanningRollup].[YearStart] AS [YearStart], 
+    [vw_HolidayPlanningRollup].[Chain] AS [Chain], 
+    [vw_HolidayPlanningRollup].[Division] AS [Division], 
+    [vw_HolidayPlanningRollup].[Region] AS [Region], 
+    [vw_HolidayPlanningRollup].[StoreNumber] AS [StoreNumber], 
+    [vw_HolidayPlanningRollup].[StoreName] AS [StoreName], 
+    [vw_HolidayPlanningRollup].[Balance] AS [Balance], 
+    [vw_HolidayPlanningRollup].[Taken] AS [Taken], 
+    [vw_HolidayPlanningRollup].[Scheduled] AS [Scheduled]
+    FROM [dbo].[vw_HolidayPlanningRollup] AS [vw_HolidayPlanningRollup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_HolidayPlanningStore" EntityType="Self.vw_HolidayPlanningStore" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_HolidayPlanningStore].[RowId] AS [RowId], 
+    [vw_HolidayPlanningStore].[Chain] AS [Chain], 
+    [vw_HolidayPlanningStore].[Division] AS [Division], 
+    [vw_HolidayPlanningStore].[Region] AS [Region], 
+    [vw_HolidayPlanningStore].[StoreNumber] AS [StoreNumber], 
+    [vw_HolidayPlanningStore].[StoreName] AS [StoreName], 
+    [vw_HolidayPlanningStore].[WeekNumber] AS [WeekNumber], 
+    [vw_HolidayPlanningStore].[Taken] AS [Taken], 
+    [vw_HolidayPlanningStore].[Scheduled] AS [Scheduled], 
+    [vw_HolidayPlanningStore].[Guideline] AS [Guideline]
+    FROM [dbo].[vw_HolidayPlanningStore] AS [vw_HolidayPlanningStore]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_Last12MonthRFTPCases" EntityType="Self.vw_Last12MonthRFTPCases" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_Last12MonthRFTPCases].[CaseID] AS [CaseID], 
@@ -944,6 +1025,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <EntitySet Name="HrFeeds" EntityType="WFMMContext.HrFeed" />
           <EntitySet Name="vw_ContractBaseDetail" EntityType="WFMMContext.vw_ContractBaseDetail" />
           <EntitySet Name="vw_ScheduleData" EntityType="WFMMContext.vw_ScheduleData" />
+          <EntitySet Name="HolidayPlanningEmps" EntityType="WFMMContext.HolidayPlanningEmp" />
+          <EntitySet Name="vw_HolidayPlanningStore" EntityType="WFMMContext.vw_HolidayPlanningStore" />
+          <EntitySet Name="vw_HolidayPlanningRollup" EntityType="WFMMContext.vw_HolidayPlanningRollup" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1493,7 +1577,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
             <PropertyRef Name="Region" />
             <PropertyRef Name="StoreName" />
             <PropertyRef Name="StoreNumber" />
-            <PropertyRef Name="TotalHoliday" />
           </Key>
           <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
@@ -1542,6 +1625,49 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <Property Name="DayWeekTotal" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="DateTimeUpdated" Type="DateTime" Precision="3" />
           <Property Name="JobCode" Type="Int16" />
+        </EntityType>
+        <EntityType Name="HolidayPlanningEmp">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreNumber" Type="Int32" Nullable="false" />
+          <Property Name="PersonNum" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Balance" Type="Int32" />
+          <Property Name="Taken" Type="Int32" />
+          <Property Name="Scheduled" Type="Int32" />
+          <Property Name="YearStart" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_HolidayPlanningStore">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="Taken" Type="Int32" />
+          <Property Name="Scheduled" Type="Int32" />
+          <Property Name="Guideline" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_HolidayPlanningRollup">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="YearStart" Type="Int32" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Balance" Type="Int32" />
+          <Property Name="Taken" Type="Int32" />
+          <Property Name="Scheduled" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2169,6 +2295,52 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HolidayPlanningEmps">
+            <EntityTypeMapping TypeName="WFMMContext.HolidayPlanningEmp">
+              <MappingFragment StoreEntitySet="HolidayPlanningEmp">
+                <ScalarProperty Name="YearStart" ColumnName="YearStart" />
+                <ScalarProperty Name="Scheduled" ColumnName="Scheduled" />
+                <ScalarProperty Name="Taken" ColumnName="Taken" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="PersonNum" ColumnName="PersonNum" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_HolidayPlanningStore">
+            <EntityTypeMapping TypeName="WFMMContext.vw_HolidayPlanningStore">
+              <MappingFragment StoreEntitySet="vw_HolidayPlanningStore">
+                <ScalarProperty Name="Guideline" ColumnName="Guideline" />
+                <ScalarProperty Name="Scheduled" ColumnName="Scheduled" />
+                <ScalarProperty Name="Taken" ColumnName="Taken" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_HolidayPlanningRollup">
+            <EntityTypeMapping TypeName="WFMMContext.vw_HolidayPlanningRollup">
+              <MappingFragment StoreEntitySet="vw_HolidayPlanningRollup">
+                <ScalarProperty Name="Scheduled" ColumnName="Scheduled" />
+                <ScalarProperty Name="Taken" ColumnName="Taken" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="YearStart" ColumnName="YearStart" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

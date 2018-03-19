@@ -124,5 +124,37 @@ namespace Aion.DAL.Managers
                 return await context.DailyDeployments.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).ToListAsync();
             }
         }
+
+        public async Task<List<vw_DashboardData_v2>> GetStoreDetailBetween(string store, int startWeek, int endWeek)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_DashboardData_v2
+                    .Where(x => x.StoreNumber == crit && x.WeekNumber >= startWeek && x.WeekNumber <= endWeek)
+                    .OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_DashboardData_v2>> GetRegionDetailBetween(string region, int startWeek, int endWeek)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_DashboardData_v2
+                    .Where(x => x.Region == crit && x.WeekNumber >= startWeek && x.WeekNumber <= endWeek)
+                    .OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_DashboardData_v2>> GetDivisionDetailBetween(string division, int startWeek, int endWeek)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_DashboardData_v2
+                    .Where(x => x.Division == division && x.WeekNumber >= startWeek && x.WeekNumber <= endWeek)
+                    .OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
     }
 }

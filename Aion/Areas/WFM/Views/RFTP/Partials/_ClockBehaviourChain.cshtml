@@ -1,6 +1,6 @@
 ﻿@using Aion.Areas.WFM.ViewModels.RFTP
 @model ClockBehavioursVm
-    
+
 @{
     int a = 1;
 }
@@ -12,40 +12,40 @@
     <div class="card-body">
         <table class="table table-bordered table-sm">
             <thead class="thead-blue">
-            <tr>
-                <th class="text-center">Store</th>
-                @foreach (var week in Model.WeekNumbers)
-                {
-                    <th class="text-center">@week.ToString().Substring(4)</th>
-                }
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var division in Model.DivisionList)
-            {
                 <tr>
-                    <td>@division</td>
+                    <th class="text-center">Store</th>
                     @foreach (var week in Model.WeekNumbers)
                     {
-                        var d = Model.DivisionSummary.FirstOrDefault(x => x.Division == division && x.FNCL_WK_NUM == week);
-                        if (d != null)
-                        {
-                            <td class="text-center @(d.CompPercent < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", d.CompPercent)</td>
-                        }
-                        else
-                        {
-                            <td class="text-center">-</td>
-                        }
+                        <th class="text-center">@week.ToString().Substring(4)</th>
                     }
                 </tr>
-            }
-            <tr>
-                <td><strong>Chain Total</strong></td>
-                @foreach (var week in Model.WeekNumbers)
-                {
-                    <td class="text-center @(Model.ChainSummary.First().CompPercent < 90 ? "table-danger" : "")"><strong>@string.Format("{0:0.0}%", Model.ChainSummary.First(x => x.FNCL_WK_NUM == week).CompPercent)</strong></td>
+            </thead>
+            <tbody>
+                @foreach (var division in Model.DivisionList)
+            {
+                    <tr>
+                        <td>@division</td>
+                        @foreach (var week in Model.WeekNumbers)
+                        {
+                            var d = Model.DivisionSummary.FirstOrDefault(x => x.Division == division && x.FNCL_WK_NUM == week);
+                            if (d != null)
+                            {
+                                <td class="text-center @(d.CompPercent < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", d.CompPercent)</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">-</td>
+                            }
+                        }
+                    </tr>
                 }
-            </tr>
+                <tr>
+                    <td><strong>Chain Total</strong></td>
+                    @foreach (var week in Model.WeekNumbers)
+                    {
+                        <td class="text-center @(Model.ChainSummary.First().CompPercent < 90 ? "table-danger" : "")"><strong>@string.Format("{0:0.0}%", Model.ChainSummary.First(x => x.FNCL_WK_NUM == week).CompPercent)</strong></td>
+                    }
+                </tr>
             </tbody>
         </table>
     </div>
@@ -78,9 +78,9 @@
                             <td>@store.FullStoreName</td>
                             @foreach (var week in Model.WeekNumbers)
                             {
-                            var data = Model.RepeatStoresDetail.FirstOrDefault(x => x.StoreNumber == store.StoreNumber && x.WeekNumber == week);
-                            if (data != null)
-                            {
+                                var data = Model.RepeatStoresDetail.FirstOrDefault(x => x.StoreNumber == store.StoreNumber && x.WeekNumber == week);
+                                if (data != null)
+                                {
                                     <td class="text-center @(data.Compliance < 90 ? "table-danger" : "")">@string.Format("{0:0.0}%", data.Compliance)</td>
                                 }
                                 else
@@ -100,6 +100,12 @@
                     <button type="button" id="showLess" class="btn btn-info col offset-10 col-2" style="display: none;"><i class="icon ion-minus-round"></i> Show Less</button>
                 </div>
             }
+        }
+        else
+        {
+            <div class="alert alert-success text-center">
+                <strong>No repeat offenders!</strong>
+            </div>
         }
     </div>
 </div>

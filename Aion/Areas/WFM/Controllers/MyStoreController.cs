@@ -7,6 +7,7 @@ using Aion.Areas.WFM.Models.MyStore;
 using Aion.Areas.WFM.ViewModels.MyStore;
 using Aion.Controllers;
 using Aion.DAL.Entities;
+using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.Helpers;
 using Aion.ViewModels;
@@ -20,6 +21,8 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IHRDataManager _hrDataManager;
         private readonly IScheduleManager _scheduleManager;
         private readonly IWeeksManager _weeksManager;
+        private readonly IHolidayPlanningManager _holidayPlanningManager;
+        private readonly IDashboardDataManager _dashboardDataManager;
 
         public MyStoreController()
         {
@@ -28,6 +31,8 @@ namespace Aion.Areas.WFM.Controllers
             _hrDataManager = new HRDataManager();
             _scheduleManager = new ScheduleManager();
             _weeksManager = new WeeksManager();
+            _holidayPlanningManager = new HolidayPlanningManager();
+            _dashboardDataManager = new DashboardDataManager();
         }
         
         public async Task<ActionResult> OpeningTimes()
@@ -302,6 +307,39 @@ namespace Aion.Areas.WFM.Controllers
             vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(42), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-28), DateTime.Now.FirstDayOfWeek().AddDays(42).FirstDayOfWeek()));
             vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
 
+            return View(vm);
+        }
+
+        public async Task<ActionResult> HolidayPlanning(int year = 201800)
+        {
+            HolidayPlanningVm vm = new HolidayPlanningVm();
+            vm.CurrentWeek = ("This Week").GetWeekNumber();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayStore(selectCrit, year + 1, year + 52);
+                    vm.EmpCollection = await _holidayPlanningManager.GetHolidayStoreEmp(selectCrit, year + 1);
+                    vm.DashCollection = await _dashboardDataManager.GetStoreDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayRegion(selectCrit, year + 1, year + 52);
+                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayRegionRollup(selectCrit, year + 1);
+                    vm.DashCollection = await _dashboardDataManager.GetRegionDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayDivision(selectCrit, year + 1, year + 52);
+                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayDivisionRollup(selectCrit, year + 1);
+                    vm.DashCollection = await _dashboardDataManager.GetDivisionDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.DisplayLevel = 3;
+                    break;
+                case "C":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
             return View(vm);
         }
     }
