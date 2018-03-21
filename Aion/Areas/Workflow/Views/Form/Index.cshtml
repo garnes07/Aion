@@ -1,0 +1,90 @@
+﻿@model List<Aion.DAL.Entities.TicketType>
+
+@{
+    ViewBag.Title = "Workflow";
+}
+
+<div class="container-fluid mt-2">
+    <div class="row">
+        <h2 class="col-10">Raise a ticket</h2>
+        @if (Request.IsAuthenticated)
+        {
+            <div class="col-2">
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        }
+    </div>
+
+    @if (ViewBag.ticketID != null)
+    {
+        <div id="ticketRef" class="modal fade in bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-show="true">
+            <div class="vertical-alignment-helper">
+                <div class="modal-dialog vertical-align-center" role="document">
+                    <div class="modal-content modal-content-center">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title" id="mySmallModalLabel">Reference Number</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="text-center modal-body">
+                            <h4>Your ticket has been raised, please note the reference number below</h4>
+                            <h3><strong>#@(ViewBag.ticketID)</strong></h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info m-auto" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (ViewBag.errorMessage != null)
+    {
+        <div class="row">&emsp;</div>
+        <div class="alert alert-warning text-center">
+            @ViewBag.errorMessage
+        </div>
+    }
+    else
+    {
+        if (ViewBag.invalid != null)
+        {
+            <div class="alert alert-danger text-center">
+                <strong>
+                    @ViewBag.invalid
+                </strong>
+            </div>
+        }
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">Raise</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center"><strong>@item.Title</strong></td>
+                        <td class="text-center">@item.Description</td>
+                        <td class="text-center">
+                            <a class="btn btn-info" href="@Url.Action("NewSubmission","Form", new { FormTypeId = item.TicketTypeId })">Go</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@section myScripts{
+    @if (ViewBag.ticketID != null)
+    {
+        <script>
+            $(function () {
+                $('#ticketRef').modal('show');
+            });
+        </script>
+    }
+}

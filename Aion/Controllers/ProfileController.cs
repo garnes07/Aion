@@ -69,10 +69,10 @@ namespace Aion.Controllers
             {
                 if (!string.IsNullOrEmpty(a.ReturnURL) && Url.IsLocalUrl(a.ReturnURL))
                 {
-                    return string.Equals(Request.UrlReferrer.AbsolutePath, "/Profiles/UnkownStore",
+                    return string.Equals(Request.UrlReferrer.AbsolutePath, "/Profiles/UnknownStore",
                         StringComparison.CurrentCultureIgnoreCase)
-                        ? Redirect(a.ReturnURL)
-                        : Redirect("/");
+                        ? Redirect("/")
+                        : Redirect(a.ReturnURL);
                 }
 
                 return RedirectToAction("Index", "Home");

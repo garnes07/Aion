@@ -205,6 +205,34 @@ warning 6002: The table/view '99999_WebMaster.dbo.Last12MonthList' does not have
           <Property Name="FY" Type="varchar" MaxLength="5" />
           <Property Name="Period" Type="tinyint" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WebMaster.tck.vw_TicketStubRef' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_TicketStubRef">
+          <Key>
+            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="GroupId" />
+            <PropertyRef Name="TicketTypeId" />
+            <PropertyRef Name="TPCUsername" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="DateTimeCreated" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="LastUpdate" />
+            <PropertyRef Name="RaisedBy" />
+            <PropertyRef Name="EscalationLevel" />
+          </Key>
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="TicketTypeId" Type="int" Nullable="false" />
+          <Property Name="TPCUsername" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+          <Property Name="RaisedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="EscalationLevel" Type="tinyint" Nullable="false" />
+          <Property Name="BranchNumber" Type="smallint" />
+        </EntityType>
         <Association Name="FK_IpRef_StoreMaster">
           <End Role="StoreMaster" Type="Self.StoreMaster" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -336,8 +364,21 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_CheckAccessRight" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tck">
+          <Parameter Name="GroupId" Type="int" Mode="In" />
+          <Parameter Name="TicketId" Type="int" Mode="In" />
+          <Parameter Name="Username" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="sp_CheckHelpTickets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tck">
           <Parameter Name="BranchNum" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_ChkInteractLvl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tck">
+          <Parameter Name="level" Type="int" Mode="In" />
+          <Parameter Name="TicketTypeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_EscalationOptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tck">
+          <Parameter Name="TicketType" Type="int" Mode="In" />
+          <Parameter Name="Level" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="WebMasterContextStoreContainer">
           <EntitySet Name="IpRef" EntityType="Self.IpRef" Schema="dbo" store:Type="Tables" />
@@ -371,6 +412,22 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
     [Last12MonthList].[FY] AS [FY], 
     [Last12MonthList].[Period] AS [Period]
     FROM [dbo].[Last12MonthList] AS [Last12MonthList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_TicketStubRef" EntityType="Self.vw_TicketStubRef" store:Type="Views" store:Schema="tck">
+            <DefiningQuery>SELECT 
+    [vw_TicketStubRef].[TicketId] AS [TicketId], 
+    [vw_TicketStubRef].[GroupId] AS [GroupId], 
+    [vw_TicketStubRef].[TicketTypeId] AS [TicketTypeId], 
+    [vw_TicketStubRef].[TPCUsername] AS [TPCUsername], 
+    [vw_TicketStubRef].[Title] AS [Title], 
+    [vw_TicketStubRef].[DateTimeCreated] AS [DateTimeCreated], 
+    [vw_TicketStubRef].[Status] AS [Status], 
+    [vw_TicketStubRef].[Description] AS [Description], 
+    [vw_TicketStubRef].[LastUpdate] AS [LastUpdate], 
+    [vw_TicketStubRef].[RaisedBy] AS [RaisedBy], 
+    [vw_TicketStubRef].[EscalationLevel] AS [EscalationLevel], 
+    [vw_TicketStubRef].[BranchNumber] AS [BranchNumber]
+    FROM [tck].[vw_TicketStubRef] AS [vw_TicketStubRef]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_IpRef_StoreMaster" Association="Self.FK_IpRef_StoreMaster">
             <End Role="StoreMaster" EntitySet="StoreMaster" />
@@ -518,6 +575,20 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             <End Role="UserAccessArea" EntitySet="UserAccessAreas" />
           </AssociationSet>
           <EntitySet Name="Last12MonthList" EntityType="WebMasterContext.Last12MonthList" />
+          <EntitySet Name="vw_TicketStubRef" EntityType="WebMasterContext.vw_TicketStubRef" />
+          <FunctionImport Name="sp_CheckAccessRight" ReturnType="Collection(Int32)">
+            <Parameter Name="GroupId" Mode="In" Type="Int32" />
+            <Parameter Name="TicketId" Mode="In" Type="Int32" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ChkInteractLvl" ReturnType="Collection(Int32)">
+            <Parameter Name="level" Mode="In" Type="Int32" />
+            <Parameter Name="TicketTypeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_EscalationOptions" ReturnType="Collection(WebMasterContext.sp_EscalationOptions_Result)">
+            <Parameter Name="TicketType" Mode="In" Type="Int32" />
+            <Parameter Name="Level" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="UserLog">
           <Key>
@@ -831,6 +902,36 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Name="FY" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Period" Type="Byte" />
         </EntityType>
+        <EntityType Name="vw_TicketStubRef">
+          <Key>
+            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="GroupId" />
+            <PropertyRef Name="TicketTypeId" />
+            <PropertyRef Name="TPCUsername" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="DateTimeCreated" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="LastUpdate" />
+            <PropertyRef Name="RaisedBy" />
+            <PropertyRef Name="EscalationLevel" />
+          </Key>
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="TicketTypeId" Type="Int32" Nullable="false" />
+          <Property Name="TPCUsername" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RaisedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EscalationLevel" Type="Byte" Nullable="false" />
+          <Property Name="BranchNumber" Type="Int16" />
+        </EntityType>
+        <ComplexType Name="sp_EscalationOptions_Result">
+          <Property Type="Int32" Name="Level" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1060,6 +1161,34 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="vw_TicketStubRef">
+            <EntityTypeMapping TypeName="WebMasterContext.vw_TicketStubRef">
+              <MappingFragment StoreEntitySet="vw_TicketStubRef">
+                <ScalarProperty Name="BranchNumber" ColumnName="BranchNumber" />
+                <ScalarProperty Name="EscalationLevel" ColumnName="EscalationLevel" />
+                <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TPCUsername" ColumnName="TPCUsername" />
+                <ScalarProperty Name="TicketTypeId" ColumnName="TicketTypeId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_CheckAccessRight" FunctionName="WebMasterContext.Store.sp_CheckAccessRight" />
+          <FunctionImportMapping FunctionImportName="sp_ChkInteractLvl" FunctionName="WebMasterContext.Store.sp_ChkInteractLvl" />
+          <FunctionImportMapping FunctionImportName="sp_EscalationOptions" FunctionName="WebMasterContext.Store.sp_EscalationOptions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WebMasterContext.sp_EscalationOptions_Result">
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
+using Aion.Areas.Workflow.Models;
 
 namespace Aion.Mapping
 {
@@ -25,6 +26,7 @@ namespace Aion.Mapping
             {
                 cfg.AddProfile(new DashboardProfile());
                 cfg.AddProfile(new MyStoreProfile());
+                cfg.AddProfile(new TicketProfile());
             });
         }
     }
@@ -47,6 +49,14 @@ namespace Aion.Mapping
             CreateMap<NewOpeningTime, StoreOpeningTime>();
             CreateMap<vw_PublishedBudgetsROI, SOHBudgetView>();
             CreateMap<vw_PublishedBudgetsUK, SOHBudgetView>();
+        }
+    }
+
+    public class TicketProfile : Profile
+    {
+        public TicketProfile()
+        {
+            CreateMap<TicketQ_A, TicketAnswer>();
         }
     }
 }

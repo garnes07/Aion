@@ -1,0 +1,10 @@
+﻿@model Aion.DAL.Entities.StoreMaster
+
+@if (Model == null || Model.StoreNumber == 0)
+{
+    <div class="text-danger" id="_branchValidate" style="padding-left:13px" data-valid="0"><strong>No such store found...</strong></div>
+}
+else
+{
+    <div class="text-muted" id="_branchValidate" style="padding-left:13px" data-valid="1"><strong>@string.Format("{0} - {1}", Model.StoreNumber, Model.StoreName)</strong></div>
+}

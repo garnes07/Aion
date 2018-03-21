@@ -1,0 +1,68 @@
+﻿@model Aion.Areas.Workflow.ViewModels.TicketSummaryVM
+
+@{
+    ViewBag.Title = "Workflow";
+}
+
+<div class="container-fluid">
+    <h2>All Workflow Tickets</h2>
+    @if (!string.IsNullOrEmpty(Model?.Message))
+    {
+        <div class="text-center alert @(Model.GetAlertType)"><strong>@Model.Message</strong></div>
+    }
+    <div class="row">
+        <div class="wf-header col-12">
+            <div class="row">
+                <div class="col-12 col-sm-3">
+                    <i class="icon ion-funnel"></i>
+                    <span class="wf-text">Filter View:</span>
+                </div>
+                <div class="col-12 col-sm-5 wf-text">
+                    <div class="form-group row" style="margin-bottom:0;">
+                        <span>Open/Closed:</span>
+                        <select class="form-control" id="statusFilter" style="margin:auto 5px; max-width:100px;">
+                            <option value="1" selected="selected">Open</option>
+                            <option value="0">Archived</option>
+                        </select>
+                    </div>
+                </div>
+                @if (Model._TPCMenu != null)
+                {
+                    <div class="col-12 col-sm-4 wf-text">
+                        <div class="form-group row">
+                            <span>TPC View:</span>
+                            @Html.DropDownList("TPCFilter", Model._TPCMenu, new { id = "TPCFilter", @class = "form-control" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div style="overflow:auto;">
+        <table id="summaryTable" class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th class="text-center">View</th>
+                    <th class="text-center">Reference</th>
+                    <th class="text-center">Type</th>
+                    <th class="text-center">Created</th>
+                    <th class="text-center">Created By</th>
+                    <th class="text-center">Branch Number</th>
+                    <th class="text-center">Stage</th>
+                    <th class="text-center">Last Updated</th>
+                </tr>
+            </thead>
+            <tbody id="summaryBody">
+                @Html.Partial("~/Areas/Workflow/Views/Workflow/Partials/_SummaryList.cshtml", Model.TicketCollection)
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section myStyles{
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+}
+@section myScripts{
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+    <script id="wf1" src="~/Scripts/workflow/WorkflowSummary.min.js"></script>
+}

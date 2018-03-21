@@ -1,0 +1,187 @@
+﻿@model Aion.Areas.Workflow.ViewModels.NewSubmissionVm
+
+@{
+    ViewBag.Title = "New Submission";
+    int qCounter = 0;
+    bool firstGroup = true;
+    var grpCount = Model.QuestionList.Where(x => x.GrpLimit != null).Count();
+    var width = grpCount > 0 && grpCount <= 3 ? (12 / grpCount) : 12;
+    var ticketType = Model.QuestionList.First().TicketTypeId;
+}
+
+<div class="col-sm-12"><h2>@Model.FormName</h2></div>
+<form action="/Workflow/Form/NewSubmission" method="post" id="formContainer">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="TicketTypeId" name="TicketTypeId" value="@ticketType" />
+    <input type="hidden" id="exception" name="exception" value="0" />
+    @foreach (var q in Model.QuestionList)
+    {
+        var grp = q.GrpLimit != null ? "grp" : "";
+        var grpWidth = q.GrpLimit != null ? "col-" + width : "";
+        if (grp != "" && firstGroup)
+        {
+            firstGroup = !firstGroup;
+        }
+
+        if (q.ReturnType == "api")
+        {
+            <div class="form-group @grp @grpWidth" id="@qCounter">
+                <label for="@q.QuestionId">@q.Question</label>
+                <input type="hidden" name="q.Index" value="@qCounter" />
+                <input type="hidden" name="@string.Format("q[{0}].QuestionID", qCounter)" value="@q.QuestionId" required />
+                <input type="hidden" name="@string.Format("q[{0}].ReturnType", qCounter)" value="@q.ReturnType" required />
+                <select name="@string.Format("q[{0}].Answer", qCounter)" class="form-control @q.apiIdent" required>
+                    <option>Loading...</option>
+                </select>
+            </div>
+        }
+        else
+        {
+            <div class="form-group @grp @grpWidth" id="@qCounter">
+                <label for="@q.QuestionId">@q.Question</label>
+                <input type="hidden" name="q.Index" value="@qCounter" />
+                <input type="hidden" name="@string.Format("q[{0}].QuestionID", qCounter)" value="@q.QuestionId" required />
+                <input type="hidden" name="@string.Format("q[{0}].ReturnType", qCounter)" value="@q.ReturnType" required />
+                @if (q.ReturnType == "textarea")
+                {
+                    <textarea class="form-control @q.apiIdent" style="resize:vertical;" placeholder="" name="@string.Format("q[{0}].Answer", qCounter)" rows="2"></textarea>
+                }
+                else if (q.ReturnType == "radio")
+                {
+                    string[] options = q.apiIdent.Split(',');
+                    foreach (var item in options)
+                    {
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="@string.Format("q[{0}].Answer", qCounter)" value="@item" />
+                                <strong>@item</strong>
+                            </label>
+                        </div>
+                    }
+                }
+                else if (q.ReturnType == "date")
+                {
+                    <input type="text" class="form-control date" name="@string.Format("q[{0}].Answer", qCounter)" required id="@string.Format("q[{0}].Answer", qCounter)" />
+                }
+                else
+                {
+                    <input type="@q.ReturnType" class="form-control @q.apiIdent" placeholder="" name="@string.Format("q[{0}].Answer", qCounter)" required />
+                }
+                @if (q.apiIdent == "branchValidate")
+                {
+                    <div id="_branchValidate">&emsp;</div>
+                }
+            </div>
+        }
+        qCounter++;
+    }
+    <div id="addGrpContainer" class="text-center">
+        @if (Model.QuestionList.Where(x => x.GrpLimit != null).Count() > 0)
+        {
+            <div class="text-left ml-3"><button id="addGrp" class="btn btn-sm btn-success"><i class="icon ion-plus-circled"></i> Click to add more</button></div>
+        }
+        <button type="submit" class="btn btn-lg btn-info mt-1">Submit</button>
+    </div>
+</form>
+
+@if (ticketType == 1)
+{
+    <div class="modal fade" id="crReminder" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Reminder</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Ensure all shifts you are requesting have already been scheduled in STAR at the colleague's home branch.</h4>
+                    <h4>Please confirm this has been actioned</h4>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success m-auto" id="crDismiss" data-dismiss="modal">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="crException" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Confirmation</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Due to the time this is being submitted your TPC will be signing off the colleagues timecard.</h4>
+                    <h4>You must ensure all exceptions are cleared in STAR so that the TPC can complete this.</h4>
+                    <h4>Please confirm this will be actioned</h4>
+                </div>
+                <div class="modal-footer">
+                    <div class="m-auto">
+                        <button type="button" class="btn btn-default" id="cancException">Cancel</button>
+                        <a class="btn btn-success" id="confException" href="#">Confirm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (ticketType == 7)
+{
+    <div class="modal fade" id="crReminder" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Reminder</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>Please confirm you have completed the below actions:</h4>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="chkA"> All clocks have been manually added to STAR
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="chkB"> A copy of the contingency paperwork has been emailed to my TPC
+                        </label>
+                    </div>
+                    <h4><strong><u>This form will be rejected if the above actions have not been completed</u></strong></h4>
+                </div>
+                <div class="modal-footer text-center">
+                    <div class="m-auto">
+                        <a href="@Url.Action("/")" class="btn btn-danger">Cancel</a>
+                        <button class="btn btn-success" id="crDismiss" data-dismiss="modal" disabled>Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section myStyles{
+    <link rel="stylesheet" href="~/Content/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/Content/jquery-ui.structure.min.css" />
+    <link rel="stylesheet" href="~/Content/jquery-ui.theme.min.css" />
+}
+
+@section myScripts{
+    <script id="jqUI" src="~/Scripts/jquery-ui.min.js"></script>
+    <script id="wfMaster" src="~/Scripts/workflow/WorkflowMaster.min.js" data-grpLimit="@(Model.QuestionList.Where(x => x.GrpLimit != null).FirstOrDefault() != null ? Model.QuestionList.Where(x => x.GrpLimit != null).First().GrpLimit : 0)" data-qCount="@Model.QuestionList.Count()" data-defaultemp="@ViewBag.defaultEmp"></script>
+    @if (ticketType == 1)
+    {
+        <script id="wf1" src="~/Scripts/workflow/WorkflowCrossRegion.min.js" today="@DateTime.Now.ToString("yyyy-MM-dd")" min="@DateTime.Now.AddDays(-14).ToString("yyyy-MM-dd")"></script>
+    }
+    else if (ticketType == 4)
+    {
+        <script id="wf4" src="~/Scripts/workflow/WorkflowHelpTransfer.min.js" today="@DateTime.Now.ToString("yyyy-MM-dd")"></script>
+    }
+    else if (ticketType == 5)
+    {
+        <script id="wf5" src="~/Scripts/workflow/WorkflowHelpUnknown.min.js"></script>
+    }
+    else if (ticketType == 7)
+    {
+        <script id="wf7" src="~/Scripts/workflow/WorkflowContingency.min.js"></script>
+    }
+}
+

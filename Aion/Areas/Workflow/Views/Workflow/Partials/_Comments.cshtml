@@ -1,0 +1,31 @@
+﻿@model List<Aion.DAL.Entities.TicketComment>
+
+<div style="display:none; width:100%;" id="newCommentContainer">
+    <div class="form-group">
+        <textarea class="w-100" type="text" id="newComment"></textarea>
+    </div>
+    <div class="text-center">
+        <button id="submitComment" class="btn btn-primary btn-sm">Submit</button>
+    </div>
+    <hr />
+</div>
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model.OrderByDescending(x => x.Timestamp))
+    {
+        <div class="wf-comment">
+            <div class="wf-comment-body">
+                <p class="text-muted" style="font-size:small">@Html.Raw(string.Format("Added {0:g} by <strong>{1}</strong>", item.Timestamp, item.User))</p>
+                <p>@item.Comment</p>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="wf-comment" id="noComments">
+        <div class="wf-comment-body">
+            <p class="text-muted" style="font-size:small">No comments yet...</p>
+        </div>
+    </div>
+}

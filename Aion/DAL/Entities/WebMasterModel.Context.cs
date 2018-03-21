@@ -47,6 +47,7 @@ namespace Aion.DAL.Entities
         public virtual DbSet<UserAccessArea> UserAccessAreas { get; set; }
         public virtual DbSet<UserAccess> UserAccesses { get; set; }
         public virtual DbSet<Last12MonthList> Last12MonthList { get; set; }
+        public virtual DbSet<vw_TicketStubRef> vw_TicketStubRef { get; set; }
     
         public virtual ObjectResult<sp_CheckHelpTickets_Result> sp_CheckHelpTickets(Nullable<short> branchNum)
         {
@@ -55,6 +56,49 @@ namespace Aion.DAL.Entities
                 new ObjectParameter("BranchNum", typeof(short));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CheckHelpTickets_Result>("sp_CheckHelpTickets", branchNumParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_CheckAccessRight(Nullable<int> groupId, Nullable<int> ticketId, string username)
+        {
+            var groupIdParameter = groupId.HasValue ?
+                new ObjectParameter("GroupId", groupId) :
+                new ObjectParameter("GroupId", typeof(int));
+    
+            var ticketIdParameter = ticketId.HasValue ?
+                new ObjectParameter("TicketId", ticketId) :
+                new ObjectParameter("TicketId", typeof(int));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_CheckAccessRight", groupIdParameter, ticketIdParameter, usernameParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_ChkInteractLvl(Nullable<int> level, Nullable<int> ticketTypeId)
+        {
+            var levelParameter = level.HasValue ?
+                new ObjectParameter("level", level) :
+                new ObjectParameter("level", typeof(int));
+    
+            var ticketTypeIdParameter = ticketTypeId.HasValue ?
+                new ObjectParameter("TicketTypeId", ticketTypeId) :
+                new ObjectParameter("TicketTypeId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_ChkInteractLvl", levelParameter, ticketTypeIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_EscalationOptions_Result> sp_EscalationOptions(Nullable<int> ticketType, Nullable<int> level)
+        {
+            var ticketTypeParameter = ticketType.HasValue ?
+                new ObjectParameter("TicketType", ticketType) :
+                new ObjectParameter("TicketType", typeof(int));
+    
+            var levelParameter = level.HasValue ?
+                new ObjectParameter("Level", level) :
+                new ObjectParameter("Level", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EscalationOptions_Result>("sp_EscalationOptions", ticketTypeParameter, levelParameter);
         }
     }
 }

@@ -1,0 +1,7 @@
+﻿@model List<Aion.DAL.Entities.HrFeed>
+
+<option value="" disabled selected hidden>Select colleague...</option>
+@foreach (var item in Model.OrderBy(x => x.SURNAME))
+{
+    <option value="@string.Format("{0}.{1}.{2}",item.EMP_NUM,item.SURNAME,item.FORENAME)">@string.Format("{0}, {1}", item.SURNAME, item.FORENAME)</option>
+}

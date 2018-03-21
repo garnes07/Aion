@@ -1,0 +1,7 @@
+﻿@model IEnumerable<SelectListItem>
+
+<option value="" disabled selected hidden>Select time...</option>
+@foreach (var item in Model)
+{
+    <option value="@item.Value">@item.Text</option>
+}

@@ -192,6 +192,12 @@
     <Compile Include="Areas\WFM\ViewModels\RFTP\EditedClocksVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\TimecardSignOffVm.cs" />
     <Compile Include="Areas\WFM\WFMAreaRegistration.cs" />
+    <Compile Include="Areas\Workflow\Controllers\FormController.cs" />
+    <Compile Include="Areas\Workflow\Controllers\WorkflowController.cs" />
+    <Compile Include="Areas\Workflow\Models\TicketQ_A.cs" />
+    <Compile Include="Areas\Workflow\ViewModels\NewSubmissionVm.cs" />
+    <Compile Include="Areas\Workflow\ViewModels\TicketSummaryVM.cs" />
+    <Compile Include="Areas\Workflow\WorkflowAreaRegistration.cs" />
     <Compile Include="Attributes\UserFilterAttribute.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -255,6 +261,9 @@
     </Compile>
     <Compile Include="DAL\Entities\sp_ComplianceSummary_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_EscalationOptions_Result.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_PeriodDeploymentSummary_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -351,6 +360,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_ScheduleData.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_TicketStubRef.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -453,7 +465,21 @@
     <Content Include="Content\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\Images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\Images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\Images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\Images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\Images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\Images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\ionicons.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery-ui.structure.min.css" />
+    <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="Content\scss\custom.css">
       <DependentUpon>custom.scss</DependentUpon>
     </Content>
@@ -645,6 +671,19 @@
     <Content Include="Areas\WFM\Views\MyStore\Partials\_HolidayPlanningStore.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\Partials\_HolidayPlanningRegion.cshtml" />
     <Content Include="Areas\WFM\Views\MyStore\Partials\_HolidayPlanningDivision.cshtml" />
+    <Content Include="Areas\Workflow\Views\web.config" />
+    <Content Include="Areas\Workflow\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Workflow\Views\Workflow\Index.cshtml" />
+    <Content Include="Areas\Workflow\Views\Workflow\Partials\_SummaryList.cshtml" />
+    <Content Include="Areas\Workflow\Views\Workflow\ViewTicket.cshtml" />
+    <Content Include="Areas\Workflow\Views\Workflow\Partials\_Comments.cshtml" />
+    <Content Include="Areas\Workflow\Views\Workflow\Partials\_NewComment.cshtml" />
+    <Content Include="Areas\Workflow\Views\Workflow\Partials\_EscOptions.cshtml" />
+    <Content Include="Areas\Workflow\Views\Form\Index.cshtml" />
+    <Content Include="Areas\Workflow\Views\Form\NewSubmission.cshtml" />
+    <Content Include="Areas\Workflow\Views\Form\Partials\_empList.cshtml" />
+    <Content Include="Areas\Workflow\Views\Form\Partials\_timeList.cshtml" />
+    <Content Include="Areas\Workflow\Views\Form\Partials\_branchValidate.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -773,6 +812,7 @@
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -796,6 +836,42 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\workflow\WorkflowContingency.js" />
+    <Content Include="Scripts\workflow\WorkflowContingency.min.js">
+      <DependentUpon>WorkflowContingency.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowCrossRegion.js" />
+    <Content Include="Scripts\workflow\WorkflowCrossRegion.min.js">
+      <DependentUpon>WorkflowCrossRegion.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowHelpTransfer.js" />
+    <Content Include="Scripts\workflow\WorkflowHelpTransfer.min.js">
+      <DependentUpon>WorkflowHelpTransfer.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowHelpUnknown.js" />
+    <Content Include="Scripts\workflow\WorkflowHelpUnknown.min.js">
+      <DependentUpon>WorkflowHelpUnknown.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowMaster.js" />
+    <Content Include="Scripts\workflow\WorkflowMaster.min.js">
+      <DependentUpon>WorkflowMaster.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowSummary.js" />
+    <Content Include="Scripts\workflow\WorkflowSummary.min.js">
+      <DependentUpon>WorkflowSummary.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowViewTicket.js" />
+    <Content Include="Scripts\workflow\WorkflowViewTicket.min.js">
+      <DependentUpon>WorkflowViewTicket.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowViewTicketCR.js" />
+    <Content Include="Scripts\workflow\WorkflowViewTicketCR.min.js">
+      <DependentUpon>WorkflowViewTicketCR.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\workflow\WorkflowViewTicketHT.js" />
+    <Content Include="Scripts\workflow\WorkflowViewTicketHT.min.js">
+      <DependentUpon>WorkflowViewTicketHT.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -831,6 +907,7 @@
     <Content Include="Views\Profile\OOS.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Workflow\Views\Shared\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

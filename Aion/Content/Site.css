@@ -264,3 +264,81 @@ select.select-center {
     border: 1px solid #ddd;
     border-radius: 10px;
 }
+
+.wf-header{
+    min-height:50px;
+    background-color:aliceblue;
+    border: 1px #ddd solid;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    padding:5px;    
+}
+
+.wf-header .icon{
+    font-size:x-large;
+    margin:auto 5px;
+    line-height:50px;
+}
+
+.wf-header .wf-text{
+    font-size:large;
+    margin:auto 5px;
+    line-height: 50px;
+}
+
+.badge-wf-red {
+  display: inline-block;
+  min-width: 10px;
+  padding: 4px 4px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: indianred;
+  border-radius: 25%;
+  margin: -1px 5px;
+}
+
+.wf-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  width: 50%;
+  color:#fff;
+  background-color:#337ab7;
+}
+
+.wf-comment-container{
+    border:2px #999 solid;
+    border-radius:8px;
+    background: aliceblue;
+    padding: 8px 15px;
+    max-height: 650px;
+    overflow-y:auto;
+}
+
+.wf-comment {
+  margin: 10px;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.wf-comment-body{
+    padding:4px;
+    text-align: center;
+}

@@ -1,0 +1,199 @@
+﻿@model Aion.DAL.Entities.TicketStub
+
+@{
+    ViewBag.Title = "View Ticket";
+    var grpQuestions = Model.TicketAnswers.Where(x => x.TicketTemplate.GrpLimit != null).OrderBy(x => x.EntryId).ToList();
+    var firstGrpq = grpQuestions.Count() > 0 ? grpQuestions.First().QuestionId : 0;
+    var grpCount = Model.TicketAnswers.Where(x => x.QuestionId == firstGrpq).Count();
+    var qInGrp = grpQuestions.Select(x => x.QuestionId).Distinct().Count();
+}
+
+@if (Model.Status == "Open")
+{
+    if (ViewBag.action != null)
+    {
+        <div class="modal fade" id="sendConfirm" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Confirmation</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>This will send the current ticket to <span id="sendTo"></span></h4>
+                        <h4>Are you sure you wish to continue?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-success" id="sendTckCon" href="#"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        if (Model.EscalationLevel > 0)
+        {
+            <div class="modal fade" id="compConfirm" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Confirmation</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>This will mark the current ticket as complete</h4>
+                            <h4>Are you sure you wish to continue?</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-success" id="compTckCon" href="@Url.Action("CompleteTicket","Workflow", new { TicketId = Model.TicketId })">Mark Complete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.RaisedBy == User.Identity.Name)
+        {
+            <div class="modal fade" id="cancelConfirm" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Confirmation</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>This will cancel the current ticket</h4>
+                            <h4>Are you sure you wish to continue?</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-danger" id="cnclTckCon" href="@Url.Action("CancelTicket","Workflow", new { TicketId = Model.TicketId })">Cancel Ticket</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}
+
+<div class="container-fluid">
+    <div class="row p-1">
+        <a href="@Url.Action("Index","Workflow")" class="btn btn-light"><i class="icon ion-arrow-left-b"></i> Back</a>
+    </div>
+    @Html.AntiForgeryToken()
+    <div class="row" id="tckHeader">
+        <h2 class="col-sm-12">Ticket Ref: #@Model.TicketId</h2>
+    </div>
+    <div class="row">
+        <div id="detailContainer" class="col-12 col-sm-6">
+            <table class="table">
+                <tr>
+                    <td>Type</td>
+                    <td>@Model.TicketType.Title</td>
+                </tr>
+                <tr>
+                    <td>Created</td>
+                    <td>@string.Format("{0:g}", Model.DateTimeCreated)</td>
+                </tr>
+                <tr>
+                    <td>Created By</td>
+                    <td>@Model.RaisedBy</td>
+                </tr>
+                <tr>
+                    <td>Branch Number</td>
+                    <td>@Model.BranchNumber</td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>@Model.Status</td>
+                </tr>
+                <tr>
+                    <td>Last Updated</td>
+                    <td>@string.Format("{0:g}", Model.LastUpdate)</td>
+                </tr>
+                <tr class="table-active"><td colspan="2" style="padding:0px">&emsp;</td></tr>
+                @foreach (var item in Model.TicketAnswers.Where(x => x.TicketTemplate.GrpLimit == null))
+                {
+                    <tr>
+                        <td>@item.TicketTemplate.Question</td>
+                        @if (item.TicketTemplate.apiIdent == "empList")
+                        {
+                            string[] values = item.Answer.Split('.');
+                            <td id="@("q_" + item.QuestionId)">@string.Format("{0} - {1}, {2}", values[0], values[1], values[2])</td>
+                        }
+                        else
+                        {
+                            <td id="@("q_" + item.QuestionId)">@item.Answer</td>
+                        }
+                    </tr>
+                }
+                @if (grpCount > 0)
+                {
+                    <tr class="table-active"><td colspan="2" style="padding:0px">&emsp;</td></tr>
+                    var z = 0;
+                    for (int i = 0; i < grpCount; i++)
+                    {
+                        for (int j = 0; j < qInGrp; j++)
+                        {
+                            <tr>
+                                <td>@grpQuestions[z].TicketTemplate.Question</td>
+                                <td>@grpQuestions[z].Answer</td>
+                            </tr>
+                            z++;
+                        }
+                        <tr class="table-active"><td colspan="2" style="padding:0px">&emsp;</td></tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="col-12 col-sm-6 mb-1">
+            <div class="text-center mb-2">
+                <div class="btn-group">
+                    @if (Model.Status == "Open")
+                    {
+                        <button class="btn btn-info" id="addComment">Add Comment</button>
+                        if (ViewBag.action != null)
+                        {
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Send to...
+                                    <span class="caret"></span>
+                                </button>
+                                <div class="dropdown-menu" id="escOptions">
+                                    <a class="dropdown-item">Loading...</a>
+                                </div>
+                            </div>
+                            if (Model.EscalationLevel > 0)
+                            {
+                                <button class="btn btn-success" id="compTck" data-toggle="modal" data-target="#compConfirm">Mark Complete</button>
+                            }
+                        }
+                        if (Model.RaisedBy == User.Identity.Name)
+                        {
+                            <button class="btn btn-danger" id="compTck" data-toggle="modal" data-target="#cancelConfirm">Cancel Ticket</button>
+                        }
+                    }
+                    else
+                    {
+                        <button class="btn btn-info">This ticket is closed.</button>
+                    }
+                </div>
+            </div>
+            <div class="wf-comment-container">
+                <div class="text-center mb-1"><strong class="wf-btn"><u>Comments</u></strong></div>
+                @Html.Partial("~/Areas/Workflow/Views/Workflow/Partials/_Comments.cshtml", Model.TicketComments.ToList())
+            </div>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script id="wf1" data-TickType="@Model.TicketTypeId" data-level="@Model.EscalationLevel" src="~/Scripts/workflow/WorkflowViewTicket.min.js"></script>
+    @if (Model.TicketTypeId == 1 && Model.RaisedBy != User.Identity.Name)
+    {
+        <script id="wfCR" src="~/Scripts/workflow/WorkflowViewTicketCR.min.js" data-branch="@Model.TicketAnswers.Where(x => x.QuestionId == 2).First().Answer" data-exception="@Model.Exception"></script>
+    }
+    else if (Model.TicketTypeId == 4)
+    {
+        <script id="wfHT" src="~/Scripts/workflow/WorkflowViewTicketHT.min.js"></script>
+    }
+}

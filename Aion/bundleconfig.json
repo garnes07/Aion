@@ -22,5 +22,59 @@
     "inputFiles": [
       "Scripts/Gauge.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowContingency.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowContingency.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowCrossRegion.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowCrossRegion.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowHelpTransfer.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowHelpTransfer.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowHelpUnknown.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowHelpUnknown.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowMaster.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowMaster.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowSummary.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowSummary.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowViewTicket.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowViewTicket.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowViewTicketCR.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowViewTicketCR.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/workflow/WorkflowViewTicketHT.min.js",
+    "inputFiles": [
+      "Scripts/workflow/WorkflowViewTicketHT.js"
+    ]
   }
 ]

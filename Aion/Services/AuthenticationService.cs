@@ -21,12 +21,14 @@ namespace Aion.Services
         private readonly IAuthenticationManager _authenticationManager;
         private readonly IAuthManager _authManager;
         private readonly IStoreManager _storeManager;
+        private readonly ITicketManager _ticketManager;
 
         public AuthenticationService(IAuthenticationManager authenticationManager = null)
         {
             _authenticationManager = authenticationManager;
             _authManager = new AuthManager();
             _storeManager = new StoreManager();
+            _ticketManager = new TicketManager();
         }
 
         public async Task<AuthenticationResult> SignIn(string userName, string password)
@@ -107,6 +109,12 @@ namespace Aion.Services
             else
             {
                 RetriveDSGEmpNum(entry);
+            }
+
+            //
+            if (HttpContext.Current.Session["_wfUserGroup"] == null)
+            {
+                HttpContext.Current.Session["_wfUserGroup"] = _ticketManager.GetUserGroup(authResult.UserName);
             }
 
             await CheckAccessLevel(authResult);

@@ -8,6 +8,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("myStyles", false)
     <meta name="description" content="Dixons Carphone Reporting" />
 </head>
 <body>
@@ -38,11 +39,15 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            @if(ViewContext.RouteData.DataTokens["area"] == null)
+                            @if (ViewContext.RouteData.DataTokens["area"] == null)
                             {
                                 Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
                             }
                             else if (ViewContext.RouteData.DataTokens["area"].ToString() == "WFM")
+                            {
+                                Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
+                            }
+                            else
                             {
                                 Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
                             }
@@ -79,12 +84,37 @@
                 </div>*@
 
             @RenderBody()
-
         </div>
     }
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    @if (Request.IsAuthenticated)
+    {
+    <script>
+        //session end
+        var sessionTimeoutWarning = @Session.Timeout -1;
+
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+        setTimeout('SessionEnd()', sTimeout);
+
+        function SessionEnd() {
+            window.location = "/Profile/Logoff";
+        }
+    </script>
+    <script>
+        $(function () {
+            $.get('/Workflow/Workflow/_getTicketCount', function (result) {
+                if (result != 0) {
+                    $('#wfBadge').html(result);
+                    $('#wfBadge').toggle();
+                }
+            });
+        });
+    </script>
+    }
+
     @RenderSection("myScripts", false)
 </body>
 </html>

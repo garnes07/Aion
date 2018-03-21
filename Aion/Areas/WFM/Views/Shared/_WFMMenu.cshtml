@@ -31,10 +31,10 @@
     </div>
 </li>
 <li class="nav-item dropdown mx-1">
-    <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-list m-1"></i> Requests &amp; Tickets</a>
+    <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-list m-1"></i> Requests &amp; Tickets <span id="wfBadge" class="badge-wf-red" style="display:none;"></span></a>
     <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another Action</a>
+        <a class="dropdown-item" href="@Url.Action("Index", "Workflow", new { area = "Workflow" })">My Tickets</a>
+        <a class="dropdown-item" href="@Url.Action("Index", "Form", new { area = "Workflow" })">Raise a Ticket</a>
     </div>
 </li>
 <li class="nav-item dropdown mx-1">

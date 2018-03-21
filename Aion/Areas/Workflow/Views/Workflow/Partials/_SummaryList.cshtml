@@ -1,0 +1,39 @@
+﻿@model List<Aion.DAL.Entities.vw_TicketStubRef>
+
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr class="tck">
+            <td class="text-center"><a class="btn btn-sm btn-info" href="@Url.Action("ViewTicket","Workflow", new { TicketId = item.TicketId })">View</a></td>
+            <td class="text-center">@item.TicketId</td>
+            <td class="text-center">@item.Title</td>
+            <td class="text-center">@string.Format("{0:d}", item.DateTimeCreated)</td>
+            <td class="text-center">@item.RaisedBy</td>
+            <td class="text-center">@item.BranchNumber</td>
+            <td class="text-center">
+                @if (item.Status != "Open")
+                {
+                    <span class="badge">Closed</span>
+                }
+                else if (item.Description == "Branch")
+                {
+                    <span class="badge-wf">Needs action</span>
+                }
+                else
+                {
+                    @item.Description
+                }
+            </td>
+            <td class="text-center">@string.Format("{0:d}", item.LastUpdate)</td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="8" class="text-muted text-center info">
+            <strong>Nothing to display...</strong>
+        </td>
+    </tr>
+}
