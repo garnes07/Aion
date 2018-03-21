@@ -1,0 +1,266 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog" id="helpModal" data-backdrop="static">
+    <form action="/RightFirstTime/Help" id="helpForm" method="post">
+        <input id="helpType" name="helpType" type="hidden" value="e" />
+        <input id="id" name="id" type="hidden" value="e" />
+    </form>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="col-11 modal-title text-center"><strong>I Need Help</strong></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div id="helpBody" class="modal-body" style="min-height:400px;">
+                <div id="baseContainer">
+                    <div class="list-group">
+                        <button type="button" class="list-group-item list-group-item-action lvl1" data-step="1">Absence Processing</button>
+                        <button type="button" class="list-group-item list-group-item-action lvl1" data-step="2">Cross Region Transfer</button>
+                        <button type="button" class="list-group-item list-group-item-action lvl1" data-step="3">This colleague isn't in my store</button>
+                        <button type="button" class="list-group-item list-group-item-action lvl1" data-step="4">Ignite related issue</button>
+                        <button type="button" class="list-group-item list-group-item-action lvl1" data-step="5">Error message on timecard</button>
+                    </div>
+                </div>
+                <div id="level1">
+                    <div id="1" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Absence Processing</strong></div>
+                            <div class="card-body">
+                                <div class="list-group mb-2">
+                                    <a href="/STARHandbook/Scheduling?articleNumber=6" target="_blank" onClick="getElementById('1_ticket').style.display= null" class="list-group-item">Self help - Using Paycodes<i class="float-right icon ion-android-arrow-dropright-circle"></i></a>
+                                </div>
+                                <div id="1_ticket" class="card" style="display:none;">
+                                    <div class="card-header">Did this help?</div>
+                                    <div class="card-body">
+                                        <div class="row justify-content-center">
+                                            <button type="button" class="btn btn-success dismiss col-4" data-dismiss="modal">Yes</button>
+                                            <button class="btn btn-danger lvl2 col-4" data-step="1_1">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="2" style="display:none;">
+                        <div class="row justify-content-center">
+                            <button type="button" class="btn btn-lg btn-info col-10 text-center tckRaise" data-formtype="1"><strong>Raise a ticket</strong></button>
+                        </div>
+                    </div>
+                    <div id="3" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Do you know who this colleague is? (eg. a leaver, new starter on the system early)</strong></div>
+                            <div class="card-body">
+                                <div class="list-group">
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="3_1">Yes - They are due to start in my store</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="3_2">Yes - They are due to leave my store</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="3_3">Yes - They are on extended leave</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="3_4">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="4" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Ignite related issue</strong></div>
+                            <div class="card-body">
+                                <div class="list-group">
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="4_1">Ignite course date pushed back</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="4_2">Colleague has exited mid-course / failed</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="4_3">Colleague was absent for Ignite course and will not be joining CPW</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl2" data-step="4_4">Colleague was on Ignite, how do I process?</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="5" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Error message on timecard</strong></div>
+                            <div class="card-body">
+                                <p>Have all exceptions in the current week been processed?</p>
+                                <div class="row justify-content-center">
+                                    <button type="button" class="col-4 btn btn-success dismiss lvl2" data-step="5_1">Yes</button>
+                                    <button class="col-4 btn btn-danger lvl2" data-step="5_2">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="5" style="display:none;">
+                        <div class="card">
+                            <div class="panel-heading"><strong>Error message on timecard</strong></div>
+                            <div class="panel-body">
+                                <p>Have all exceptions in the current week been processed?</p>
+                                <div class="justify-content-center">
+                                    <button type="button" class="col-4 btn btn-success dismiss lvl2" data-step="5_1">Yes</button>
+                                    <button class="col-4 btn btn-danger lvl2" data-step="5_2">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="level2">
+                    <div id="1_1" class="row justify-content-center" style="display:none;">
+                        <button type="button" class="btn btn-lg btn-info col-10 tckRaise" data-formtype="3">
+                            <strong>Raise a ticket</strong>
+                        </button>
+                    </div>
+                    <div id="3_1" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Yes - They are due to start in my store</strong></div>
+                            <div class="card-body">
+                                <div class="list-group">
+                                    <button type="button" class="list-group-item list-group-item-action lvl3" data-step="3_1_1">A transfer was cancelled or has happened at the wrong time</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl3" data-step="3_1_2">New starter is no longer joining <u>and did not attend Ignite</u></button>
+                                    <button type="button" class="list-group-item list-group-item-action lvlup3" data-step="4">New starter that is still joining</button>
+                                    <button type="button" class="list-group-item list-group-item-action lvl3" data-step="3_1_4">New starter attended Ignite but failed</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="3_2" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Yes - They are due to leave my store</strong></div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Process this with your TPC</li>
+                                    <li>Complete the timecard with the colleague's contract hours as the <u>'Approved Unpaid Leave'</u> paycode</li>
+                                </ol>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-info dismiss" data-dismiss="modal">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="3_3" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Yes - They are on extended leave</strong></div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Process this with your TPC</li>
+                                    <li>Complete the timecard with the colleague's contract hours as the <u>'Approved Unpaid Leave'</u> paycode</li>
+                                </ol>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-info dismiss" data-dismiss="modal">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="3_4" style="display:none;">
+                        <button type="button" class="btn btn-lg btn-info text-center tckRaise" data-formtype="5"><strong>Raise a ticket</strong></button>
+                    </div>
+                    <div id="4_1" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Ignite course date pushed back</strong></div>
+                            <div class="card-body">
+                                <p>If the course has been pushed back and your collegues hasn't worked any hours this week you should process this as <u>'Approved Unpaid Leave'</u> for the colleague's contracted hours.</p>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-info dismiss" data-dismiss="modal">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="4_2" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Colleague has exited mid-course / failed</strong></div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Process this with your TPC</li>
+                                    <li>Process the hours the colleague attended Ignite on the timecard as normal</li>
+                                </ol>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-info dismiss" data-dismiss="modal">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="4_3" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Colleague was absent for Ignite course and will not be joining CPW</strong></div>
+                            <div class="card-body">
+                                <p>
+                                    If the colleague is no longer joining and did not attend any of the ignite course then process this as <u>'Approved Unpaid Leave'</u> for the colleague's contracted hours and ensure the colleague's termination has been processed.
+                                </p>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-info dismiss" data-dismiss="modal">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="4_4" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Colleague was on Ignite, how do I process?</strong></div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <button class="btn btn-info dismiss" data-dismiss="modal" onclick="window.open('/Reports/TrainingDoc?f=IgniteSOHProcess.pdf', '_blank');">Briefing pack</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="5_1" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Outstanding Exceptions</strong></div>
+                            <div class="card-body">
+                                <p>Please check back through previous weeks and review any missed exceptions.<br />Once done change to the previous pay period and sign off as normal.</p>
+                                <p>Has this fixed the issue?</p>
+                                <div class="row justify-content-center">
+                                    <button type="button" class="col-4 btn btn-success dismiss dismiss" data-dismiss="modal">Yes</button>
+                                    <button type="button" class="col-4 btn btn-danger lvl3" data-step="5_1_1">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="5_2" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>Outstanding Exceptions</strong></div>
+                            <div class="card-body">
+                                <p>Handle all exceptions as per BAU process.</p>
+                                <p>Can you now sign off the timecard?</p>
+                                <div class="row justify-content-center">
+                                    <button type="button" class="col-4 btn btn-success dismiss dismiss" data-dismiss="modal">Yes</button>
+                                    <button type="button" class="col-4 btn btn-danger lvlup4" data-step="5_1">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="level3">
+                    <div id="3_1_1" style="display:none;">
+                        <div class="row justify-content-center">
+                            <button type="button" class="btn btn-lg btn-info col-10 text-center tckRaise" data-formtype="4"><strong>Raise a ticket</strong></button>
+                        </div>
+                    </div>
+                    <div id="3_1_2" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>New starter is no longer joining <U>and did not attend Ignite</U></strong></div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Process the leaver with your TPC</li>
+                                    <li>Complete the timecard with the colleague's contract hours as the <u>'Approved Unpaid Leave'</u> paycode</li>
+                                </ol>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-info dismiss" data-dismiss="modal">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="3_1_4" style="display:none;">
+                        <div class="card">
+                            <div class="card-header"><strong>New starter attended Ignite but failed</strong></div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Process the leaver with your TPC</li>
+                                    <li>Process the hours the colleague attended Ignite on the timecard as normal</li>
+                                </ol>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-info dismiss" data-dismiss="modal">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="5_1_1" style="display:none;">
+                        <div class="row">
+                            <button type="button" class="btn btn-lg btn-info col-10 tckRaise" data-formtype="6"><strong>Raise a ticket</strong></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -13,7 +13,7 @@
             Here the timecard view makes it very easy and provides a real time view of how many timecards per store vs total are signed off, enabling each store % region to deliver 100% by the 3PM deadline.
         </p>
         <p>
-            Provided also is full visibility of each stores planning, with guidance showing if a timecard approver is scheduled in store as well as clocked in store to complete timecards. The schedule and clocked ing data is
+            Provided also is full visibility of each stores planning, with guidance showing if a timecard approver is scheduled in store as well as clocked in store to complete timecards. The schedule and clocking data is
             real time for today.
         </p>
         <p>
@@ -38,7 +38,7 @@
                 {
                     <tr>
                         <td>@string.Format("{0} - {1}", item.BranchNumber, item.BranchName)</td>
-                        <td class="text-center @(item.RAG > 0 ? "danger" : "")">@string.Format("{0}/{1}", item.SignedOff, item.Headcount)</td>
+                        <td class="text-center @(item.RAG > 0 ? "table-danger" : "")">@string.Format("{0}/{1}", item.SignedOff, item.Headcount)</td>
                         <td class="text-center @(!item.KronosScheduled ? item.RAGClass : "")">@(item.KronosScheduled ? "Y" : "N")</td>
                         <td class="text-center @(!item.KronosPunched ? item.RAGClass : "")">@(item.KronosPunched ? "Y" : "N")</td>
                     </tr>

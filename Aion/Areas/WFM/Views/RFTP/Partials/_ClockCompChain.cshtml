@@ -20,7 +20,7 @@
                 <tr class="table-chain">
                     <td><strong>@Model.ChainSummary.Name</strong></td>
                     <td class="text-center"><strong>@Model.ChainSummary.ShiftCount</strong></td>
-                    <td class="text-center"><strong>@string.Format("{0:0}%", Model.ChainSummary.CompPercent)</strong></td>
+                    <td class="text-center"><strong>@string.Format("{0:0.0}%", Model.ChainSummary.CompPercent)</strong></td>
                     <td class="text-center"><strong>@Model.ChainSummary.MissedIn</strong></td>
                     <td class="text-center"><strong>@Model.ChainSummary.MissedOut</strong></td>
                 </tr>
@@ -29,7 +29,7 @@
                     <tr class="table-division">
                         <td><strong>@division.Name</strong></td>
                         <td class="text-center"><strong>@division.ShiftCount</strong></td>
-                        <td class="text-center"><strong>@string.Format("{0:0}%", division.CompPercent)</strong></td>
+                        <td class="text-center"><strong>@string.Format("{0:0.0}%", division.CompPercent)</strong></td>
                         <td class="text-center"><strong>@division.MissedIn</strong></td>
                         <td class="text-center"><strong>@division.MissedOut</strong></td>
                     </tr>
@@ -38,7 +38,7 @@
                         <tr>
                             <td>@region.Name</td>
                             <td class="text-center">@region.ShiftCount</td>
-                            <td class="text-center">@string.Format("{0:0}%", region.CompPercent)</td>
+                            <td class="text-center">@string.Format("{0:0.0}%", region.CompPercent)</td>
                             <td class="text-center">@region.MissedIn</td>
                             <td class="text-center">@region.MissedOut</td>
                         </tr>

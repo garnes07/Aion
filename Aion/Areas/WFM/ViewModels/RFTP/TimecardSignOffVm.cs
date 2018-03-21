@@ -59,12 +59,12 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
                 if (SignedOff >= Headcount) return "";
                 if (!KronosScheduled && !KronosPunched)
                 {
-                    return "danger";
+                    return "table-danger";
                 }
 
                 if (!KronosScheduled || !KronosPunched)
                 {
-                    return "warning";
+                    return "table-warning";
                 }
 
                 return "";

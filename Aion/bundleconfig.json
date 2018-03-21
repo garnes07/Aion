@@ -76,5 +76,11 @@
     "inputFiles": [
       "Scripts/workflow/WorkflowViewTicketHT.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/site/TCSignOff.min.js",
+    "inputFiles": [
+      "Scripts/site/TCSignOff.js"
+    ]
   }
 ]

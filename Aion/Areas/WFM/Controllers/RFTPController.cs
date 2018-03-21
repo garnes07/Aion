@@ -186,6 +186,14 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [HttpPost]
+        public ActionResult RaiseTicket(string empId, string formType)
+        {
+            TempData["empId"] = int.Parse(empId.Replace("UK", ""));
+
+            return RedirectToAction("NewSubmission", "Form", new { area = "Workflow", FormTypeId = formType });
+        }
+
         public async Task<ActionResult> ClockingCompliance(string selectedDate = "Last Week")
         {
             ClockCompVm vm = new ClockCompVm();

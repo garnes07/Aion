@@ -21,6 +21,7 @@
         }
         else if (Model.DisplayLevel == 1)
         {
+            @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_INeedHelpModal.cshtml")
             @Html.Partial("~/Areas/WFM/Views/RFTP/Partials/_TimecardStore.cshtml")
         }
         else if (Model.DisplayLevel == 2)
@@ -29,3 +30,10 @@
         }
     </div>
 </div>
+
+@section myScripts{
+    @if (Model.DisplayLevel == 1)
+    {
+        <script id="tc1" src="~/Scripts/site/TCSignOff.min.js"></script>
+    }    
+}
