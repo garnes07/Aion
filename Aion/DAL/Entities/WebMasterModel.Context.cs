@@ -48,6 +48,8 @@ namespace Aion.DAL.Entities
         public virtual DbSet<UserAccess> UserAccesses { get; set; }
         public virtual DbSet<Last12MonthList> Last12MonthList { get; set; }
         public virtual DbSet<vw_TicketStubRef> vw_TicketStubRef { get; set; }
+        public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<ActivityType> ActivityTypes { get; set; }
     
         public virtual ObjectResult<sp_CheckHelpTickets_Result> sp_CheckHelpTickets(Nullable<short> branchNum)
         {

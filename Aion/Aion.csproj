@@ -202,6 +202,12 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="DAL\Entities\Activity.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\ActivityType.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\DailyDeployment.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -316,6 +322,9 @@
     <Compile Include="DAL\Entities\UserLog.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_4WeekSummary.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_ContractBaseDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -401,6 +410,7 @@
     <Compile Include="DAL\IManagers\IDashboardDataManager.cs" />
     <Compile Include="DAL\IManagers\IStoreManager.cs" />
     <Compile Include="DAL\Kronos\KronosApi.cs" />
+    <Compile Include="DAL\Managers\ActivityManager.cs" />
     <Compile Include="DAL\Managers\AuthManager.cs" />
     <Compile Include="DAL\Managers\ClockingDataManager.cs" />
     <Compile Include="DAL\Managers\DashboardDataManager.cs" />
@@ -424,6 +434,7 @@
     <Compile Include="DAL\IManagers\IHRDataManager.cs" />
     <Compile Include="DAL\IManagers\IScheduleManager.cs" />
     <Compile Include="DAL\IManagers\IHolidayPlanningManager.cs" />
+    <Compile Include="DAL\IManagers\IActivityManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
@@ -455,6 +466,7 @@
     <Compile Include="Models\Utils\StoreMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BaseVm.cs" />
+    <Compile Include="ViewModels\HomeVm.cs" />
     <Compile Include="ViewModels\WeekPickerVm.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -910,6 +922,8 @@
     <Content Include="Views\Shared\_RootMenu.cshtml" />
     <Content Include="Views\Profile\Unauthorised.cshtml" />
     <Content Include="Views\Profile\OOS.cshtml" />
+    <Content Include="Views\Home\Partials\_ScoreSummary.cshtml" />
+    <Content Include="Views\Home\NewsArchive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Workflow\Views\Shared\" />

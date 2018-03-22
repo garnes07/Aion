@@ -156,5 +156,39 @@ namespace Aion.DAL.Managers
                     .OrderBy(x => x.WeekNumber).ToListAsync();
             }
         }
+
+        public async Task<List<vw_4WeekSummary>> Get4WeekSummaryStore(string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_4WeekSummary.Where(x => x.StoreNumber == crit).OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_4WeekSummary>> Get4WeekSummaryRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_4WeekSummary.Where(x => x.Region == crit && x.StoreNumber == null).OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_4WeekSummary>> Get4WeekSummaryDivision(string division)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_4WeekSummary.Where(x => x.Division == division && x.Region == null).OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_4WeekSummary>> Get4WeekSummaryChain(string chain)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_4WeekSummary.Where(x => x.Chain == chain && x.Division == null).OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
     }
 }

@@ -198,6 +198,21 @@
           <Property Name="ReasonForChange" Type="nvarchar(max)" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_4WeekSummary">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="NonCompliant" Type="int" />
+          <Property Name="Deployment" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_ContractBaseDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_ContractBaseDetail">
           <Key>
@@ -660,6 +675,18 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreOpeningTimes" EntityType="Self.StoreOpeningTimes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_4WeekSummary" EntityType="Self.vw_4WeekSummary" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_4WeekSummary].[RowId] AS [RowId], 
+    [vw_4WeekSummary].[Chain] AS [Chain], 
+    [vw_4WeekSummary].[Division] AS [Division], 
+    [vw_4WeekSummary].[Region] AS [Region], 
+    [vw_4WeekSummary].[StoreNumber] AS [StoreNumber], 
+    [vw_4WeekSummary].[WeekNumber] AS [WeekNumber], 
+    [vw_4WeekSummary].[NonCompliant] AS [NonCompliant], 
+    [vw_4WeekSummary].[Deployment] AS [Deployment]
+    FROM [dbo].[vw_4WeekSummary] AS [vw_4WeekSummary]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_ContractBaseDetail" EntityType="Self.vw_ContractBaseDetail" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_ContractBaseDetail].[Chain] AS [Chain], 
@@ -1028,6 +1055,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <EntitySet Name="HolidayPlanningEmps" EntityType="WFMMContext.HolidayPlanningEmp" />
           <EntitySet Name="vw_HolidayPlanningStore" EntityType="WFMMContext.vw_HolidayPlanningStore" />
           <EntitySet Name="vw_HolidayPlanningRollup" EntityType="WFMMContext.vw_HolidayPlanningRollup" />
+          <EntitySet Name="vw_4WeekSummary" EntityType="WFMMContext.vw_4WeekSummary" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1668,6 +1696,19 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <Property Name="Balance" Type="Int32" />
           <Property Name="Taken" Type="Int32" />
           <Property Name="Scheduled" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_4WeekSummary">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="NonCompliant" Type="Int32" />
+          <Property Name="Deployment" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2340,6 +2381,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="YearStart" ColumnName="YearStart" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_4WeekSummary">
+            <EntityTypeMapping TypeName="WFMMContext.vw_4WeekSummary">
+              <MappingFragment StoreEntitySet="vw_4WeekSummary">
+                <ScalarProperty Name="Deployment" ColumnName="Deployment" />
+                <ScalarProperty Name="NonCompliant" ColumnName="NonCompliant" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -36,6 +36,9 @@
         <AssociationConnector Association="WebMasterContext.FK_UserAccessArea_UserAccess" />
         <EntityTypeShape EntityType="WebMasterContext.Last12MonthList" Width="1.5" PointX="0.75" PointY="4.75" />
         <EntityTypeShape EntityType="WebMasterContext.vw_TicketStubRef" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="WebMasterContext.Activity" Width="1.5" PointX="5.625" PointY="15" />
+        <EntityTypeShape EntityType="WebMasterContext.ActivityType" Width="1.5" PointX="3.375" PointY="15.875" />
+        <AssociationConnector Association="WebMasterContext.FK_Activity_ActivityType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

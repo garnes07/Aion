@@ -1,0 +1,94 @@
+﻿@model Aion.ViewModels.HomeVm
+
+@{ 
+    var x = 0;
+    Func<int, string> GetColor = (i) =>
+    {
+        var rtn = "primary";
+        switch (i)
+        {
+            case 1:
+                rtn = "success";
+                break;
+            case 2:
+                rtn = "warning";
+                break;
+            case 3:
+                rtn = "danger";
+                break;
+        }
+
+        return rtn;
+    };
+
+    Func<int, string> GetWeekName = (i) =>
+    {
+        var rtn = "Last Week";
+        switch (i)
+        {
+            case 1:
+                rtn = "This Week";
+                break;
+            case 2:
+                rtn = "Next Week";
+                break;
+            case 3:
+                rtn = "Week After";
+                break;
+        }
+
+        return rtn;
+    };
+}
+
+<div class="row mb-3">
+    @foreach (var item in Model.ScoreSummary)
+    {
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card @("border-" + GetColor(x))">
+                <div class="card-header text-white @("bg-" + GetColor(x))">
+                    <div class="row">
+                        <div class="col-3">
+                            <i class="icon ion-stats-bars" style="font-size:4rem;"></i>
+                        </div>
+                        <div class="col-9 text-right">
+                            <h2 class="d-lg-none">@GetWeekName(x)</h2>
+                            <h1 class="d-none d-lg-block">@GetWeekName(x)</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group list-group-flush bg-light">
+                    <a class="list-group-item" href="@Url.Action("Detail","Deployment", new { area = "WFM", selectedDate = GetWeekName(x) })">
+                        <span class="float-left">Deployment &nbsp;&nbsp;&nbsp;<span class="float-right badge badge-secondary" style="margin-top:3px;">@(item.Deployment) / 10</span></span>
+                        <span class="float-right"><i class="icon ion-android-arrow-dropright-circle"></i></span>
+                        <div class="clearfix"></div>
+                    </a>
+                    @if (x == 0)
+                    {
+                        <a class="list-group-item" href="@Url.Action("Detail","RFTP", new { area = "WFM", selectedDate = GetWeekName(x) })">
+                            @if (Model.DisplayLevel == 1)
+                            {
+                                <span class="float-left">Compliant &nbsp;&nbsp;&nbsp;<span class="float-right badge badge-secondary" style="margin-top:3px;">@(item.NonCompliant > 0 ? "No" : "Yes")</span></span>
+                            }
+                            else
+                            {
+                                <span class="float-left">Compliant &nbsp;&nbsp;&nbsp;<span class="float-right badge badge-secondary" style="margin-top:3px;">@(item.Deployment) /10</span></span>
+                            }
+                            <span class="float-right"><i class="icon ion-android-arrow-dropright-circle"></i></span>
+                            <div class="clearfix"></div>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="list-group-item">
+                            <span class="float-left">&nbsp;&nbsp;&nbsp;</span>
+                            <span class="float-right">&nbsp;</span>
+                            <div class="clearfix"></div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+        x++;
+    }
+</div>

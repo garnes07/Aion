@@ -1,10 +1,40 @@
-﻿
+﻿@model Aion.ViewModels.HomeVm
+
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Workforce Management";
+    var firstNews = true;
 }
 
 <div class="container-fluid">
-    <p>
-        <h3>Home Page</h3>
-    </p>
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    @Html.Partial("~/Views/Home/Partials/_ScoreSummary.cshtml")
+
+    @if (Model.TopNews.Any() && !(bool)HttpContext.Current.Session["_ROIFlag"])
+    {
+        <div class="card">
+            <div class="card-header pt-2 pb-1">
+                <h5 class="card-title"><strong>News</strong></h5>
+            </div>
+            <div class="card-body">
+                @foreach (var item in Model.TopNews)
+                {
+                    if (firstNews == false)
+                    {
+                        <hr />
+                    }
+                    <h4 style="color:#279399"><u><strong>@string.Format("{0} - {1:d}", item.ActivityName, item.ActivityDate)</strong></u></h4>
+                    @item.Detail
+                    firstNews = false;
+                }
+                <a href="@Url.Action("NewsArchive", "Home", new { area = "" })" class="btn btn-info btn-lg float-right mt-2" role="button">View Archive</a>
+            </div>
+        </div>
+    }
 </div>
