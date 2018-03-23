@@ -82,5 +82,11 @@
     "inputFiles": [
       "Scripts/site/TCSignOff.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/site/CPayPortal.min.js",
+    "inputFiles": [
+      "Scripts/site/CPayPortal.js"
+    ]
   }
 ]

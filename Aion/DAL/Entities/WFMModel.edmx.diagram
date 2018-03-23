@@ -34,6 +34,9 @@
         <EntityTypeShape EntityType="WFMMContext.vw_4WeekSummary" Width="1.5" PointX="16.375" PointY="4.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_StoreContractStatus" Width="1.5" PointX="15.375" PointY="16.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_DeploymentStatus" Width="1.5" PointX="3.375" PointY="17.75" />
+        <EntityTypeShape EntityType="WFMMContext.PayCalendarDate" Width="1.5" PointX="19.625" PointY="8.875" />
+        <EntityTypeShape EntityType="WFMMContext.PayCalendarRef" Width="1.5" PointX="17.375" PointY="9" />
+        <AssociationConnector Association="WFMMContext.FK_PayCalendarDates_PayCalendarRef" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

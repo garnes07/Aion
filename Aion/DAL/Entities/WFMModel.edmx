@@ -126,6 +126,29 @@
           <Property Name="ReportingRoleFlag" Type="tinyint" />
           <Property Name="Active" Type="bit" />
         </EntityType>
+        <EntityType Name="PayCalendarDates">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Week" />
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Year" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="Period" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Week" Type="int" Nullable="false" />
+          <Property Name="WCDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PayCalendarRef">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Year" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="Period" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="PayDate" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="RFTPCaseActions">
           <Key>
             <PropertyRef Name="ActionID" />
@@ -420,6 +443,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DeploymentStatus' does not have a
         <EntityType Name="vw_DeploymentStatus">
           <Key>
             <PropertyRef Name="RowId" />
+            
+            
+            
           </Key>
           <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" />
@@ -428,11 +454,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DeploymentStatus' does not have a
           <Property Name="StoreNumber" Type="smallint" />
           <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
           <Property Name="WeekNumber" Type="int" />
-          <Property Name="Budget" Type="float" />
+          <Property Name="Budget" Type="float" Nullable="false" />
           <Property Name="Actual" Type="float" />
           <Property Name="Holiday" Type="float" />
-          <Property Name="ToBudget" Type="float" />
-          <Property Name="PercHoliday" Type="float" />
+          <Property Name="ToBudget" Type="float" Nullable="false" />
+          <Property Name="PercHoliday" Type="float" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -648,6 +674,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="ContractBase" Type="float" />
           <Property Name="VacancyHours" Type="float" />
         </EntityType>
+        <Association Name="FK_PayCalendarDates_PayCalendarRef">
+          <End Role="PayCalendarRef" Type="Self.PayCalendarRef" Multiplicity="1" />
+          <End Role="PayCalendarDates" Type="Self.PayCalendarDates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayCalendarRef">
+              <PropertyRef Name="Chain" />
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="Period" />
+            </Principal>
+            <Dependent Role="PayCalendarDates">
+              <PropertyRef Name="Chain" />
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="Period" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RFTPCaseAudit_RFTPCaseStub">
           <End Role="RFTPCaseStub" Type="Self.RFTPCaseStub" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -707,6 +749,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySet Name="HolidayPlanningEmp" EntityType="Self.HolidayPlanningEmp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HrFeed" EntityType="Self.HrFeed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayCalendarDates" EntityType="Self.PayCalendarDates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayCalendarRef" EntityType="Self.PayCalendarRef" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
@@ -1043,6 +1087,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_StoreContractStatus].[VacancyHours] AS [VacancyHours]
     FROM [dbo].[vw_StoreContractStatus] AS [vw_StoreContractStatus]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_PayCalendarDates_PayCalendarRef" Association="Self.FK_PayCalendarDates_PayCalendarRef">
+            <End Role="PayCalendarRef" EntitySet="PayCalendarRef" />
+            <End Role="PayCalendarDates" EntitySet="PayCalendarDates" />
+          </AssociationSet>
           <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="Self.FK_RFTPCaseAudit_RFTPCaseStub">
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
@@ -1123,6 +1171,12 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySet Name="vw_4WeekSummary" EntityType="WFMMContext.vw_4WeekSummary" />
           <EntitySet Name="vw_StoreContractStatus" EntityType="WFMMContext.vw_StoreContractStatus" />
           <EntitySet Name="vw_DeploymentStatus" EntityType="WFMMContext.vw_DeploymentStatus" />
+          <EntitySet Name="PayCalendarDates" EntityType="WFMMContext.PayCalendarDate" />
+          <EntitySet Name="PayCalendarRefs" EntityType="WFMMContext.PayCalendarRef" />
+          <AssociationSet Name="FK_PayCalendarDates_PayCalendarRef" Association="WFMMContext.FK_PayCalendarDates_PayCalendarRef">
+            <End Role="PayCalendarRef" EntitySet="PayCalendarRefs" />
+            <End Role="PayCalendarDate" EntitySet="PayCalendarDates" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1802,12 +1856,53 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="StoreNumber" Type="Int16" />
           <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WeekNumber" Type="Int32" />
-          <Property Name="Budget" Type="Double" />
+          <Property Name="Budget" Type="Double" Nullable="false" />
           <Property Name="Actual" Type="Double" />
           <Property Name="Holiday" Type="Double" />
-          <Property Name="ToBudget" Type="Double" />
-          <Property Name="PercHoliday" Type="Double" />
+          <Property Name="ToBudget" Type="Double" Nullable="false" />
+          <Property Name="PercHoliday" Type="Double" Nullable="false" />
         </EntityType>
+        <EntityType Name="PayCalendarDate">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Week" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Period" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Week" Type="Int32" Nullable="false" />
+          <Property Name="WCDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="PayCalendarRef" Relationship="WFMMContext.FK_PayCalendarDates_PayCalendarRef" FromRole="PayCalendarDate" ToRole="PayCalendarRef" />
+        </EntityType>
+        <EntityType Name="PayCalendarRef">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Period" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="PayDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="PayCalendarDates" Relationship="WFMMContext.FK_PayCalendarDates_PayCalendarRef" FromRole="PayCalendarRef" ToRole="PayCalendarDate" />
+        </EntityType>
+        <Association Name="FK_PayCalendarDates_PayCalendarRef">
+          <End Type="WFMMContext.PayCalendarRef" Role="PayCalendarRef" Multiplicity="1" />
+          <End Type="WFMMContext.PayCalendarDate" Role="PayCalendarDate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayCalendarRef">
+              <PropertyRef Name="Chain" />
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="Period" />
+            </Principal>
+            <Dependent Role="PayCalendarDate">
+              <PropertyRef Name="Chain" />
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="Period" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2527,6 +2622,27 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayCalendarDates">
+            <EntityTypeMapping TypeName="WFMMContext.PayCalendarDate">
+              <MappingFragment StoreEntitySet="PayCalendarDates">
+                <ScalarProperty Name="WCDate" ColumnName="WCDate" />
+                <ScalarProperty Name="Week" ColumnName="Week" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayCalendarRefs">
+            <EntityTypeMapping TypeName="WFMMContext.PayCalendarRef">
+              <MappingFragment StoreEntitySet="PayCalendarRef">
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,52 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.ColleaguePortalVm
+
+@{
+    ViewBag.Title = "Colleague Portal";
+}
+
+<div class="container-fluid">
+    <div class="card" style="min-height:500px;">
+        <div class="card-header text-center">
+            <strong>Colleague Pay Portal</strong>
+        </div>
+        <div class="card-body">
+            @if (!Model.menu.Any())
+            {
+                <div class="alert alert-info text-center"><strong>This view is currently not available for GMs, AMs and colleagues on the full time payroll.</strong></div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <strong>Select Pay Period:</strong>
+                        @Html.DropDownList("PayPeriod", Model.menu, "--- Select Period ---", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div id="loading" class="row mt-2" style="display:none;">
+                    <div class="col-12">
+                        <div class="row mx-1 text-center">
+                            <strong>Loading data... Please wait.</strong>
+                            <div class="progress w-100">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="errorContainer" class="row justify-content-center mt-2 px-0 py-3" style="display:none;">
+                    <div class="col">
+                        <strong>Oops...</strong>
+                        <p>Something went wrong, please try again</p>
+                        <button class="btn btn-sm btn-info" id="retry">Retry</button>
+                    </div>
+                </div>
+                <div id="container" class="row m-2" style="display:none;">
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script src="~/Scripts/site/CPayPortal.min.js"></script>
+}

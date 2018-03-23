@@ -190,6 +190,8 @@
     <Compile Include="Areas\WFM\ViewModels\RFTPTracking\RFTPManagerTrendVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockBehavioursVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\ClockCompVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\ColleaguePayDataVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\ColleaguePortalVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\EditedClocksVm.cs" />
@@ -237,6 +239,12 @@
     </Compile>
     <Compile Include="DAL\Entities\Last12MonthList.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\PayCalendarDate.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\PayCalendarRef.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\RegionTPC.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -446,8 +454,10 @@
     <Compile Include="DAL\IManagers\IHolidayPlanningManager.cs" />
     <Compile Include="DAL\IManagers\IActivityManager.cs" />
     <Compile Include="DAL\IManagers\IContractStatusManager.cs" />
+    <Compile Include="DAL\IManagers\IPayCalendarManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
+    <Compile Include="DAL\Managers\PayCalendarManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
     <Compile Include="DAL\Managers\ScheduleManager.cs" />
     <Compile Include="DAL\Managers\SOHBudgetsManager.cs" />
@@ -713,6 +723,8 @@
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentStatusRegion.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentStatusDivision.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentStatusChain.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\ColleaguePayPortal.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_PayData.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -853,6 +865,10 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\site\CPayPortal.js" />
+    <Content Include="Scripts\site\CPayPortal.min.js">
+      <DependentUpon>CPayPortal.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\site\RFTPTracking.js" />
     <Content Include="Scripts\site\RFTPTracking.min.js">
       <DependentUpon>RFTPTracking.js</DependentUpon>

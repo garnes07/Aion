@@ -21,10 +21,10 @@ namespace Aion.DAL.Entities
         public Nullable<short> StoreNumber { get; set; }
         public string StoreName { get; set; }
         public Nullable<int> WeekNumber { get; set; }
-        public Nullable<double> Budget { get; set; }
+        public double Budget { get; set; }
         public Nullable<double> Actual { get; set; }
         public Nullable<double> Holiday { get; set; }
-        public Nullable<double> ToBudget { get; set; }
-        public Nullable<double> PercHoliday { get; set; }
+        public double ToBudget { get; set; }
+        public double PercHoliday { get; set; }
     }
 }

@@ -55,6 +55,8 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_4WeekSummary> vw_4WeekSummary { get; set; }
         public virtual DbSet<vw_StoreContractStatus> vw_StoreContractStatus { get; set; }
         public virtual DbSet<vw_DeploymentStatus> vw_DeploymentStatus { get; set; }
+        public virtual DbSet<PayCalendarDate> PayCalendarDates { get; set; }
+        public virtual DbSet<PayCalendarRef> PayCalendarRefs { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {

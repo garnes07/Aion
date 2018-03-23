@@ -24,6 +24,7 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IStoreManager _storeManager;
         private readonly IEmpSummaryManager _empSummaryManager;
         private readonly IEditedClockManager _editedClockManager;
+        private readonly IPayCalendarManager _payCalendarManager;
 
         public RFTPController()
         {
@@ -35,6 +36,7 @@ namespace Aion.Areas.WFM.Controllers
             _storeManager = new StoreManager();
             _empSummaryManager = new EmpSummaryManager();
             _editedClockManager = new EditedClockManager();
+            _payCalendarManager = new PayCalendarManager();
         }
         
         //Summary
@@ -297,6 +299,49 @@ namespace Aion.Areas.WFM.Controllers
             }
 
             return View(vm);
+        }
+
+        public async Task<ActionResult> ColleaguePayPortal()
+        {
+            ColleaguePortalVm vm = new ColleaguePortalVm();
+
+            if(System.Web.HttpContext.Current.Session["_PTFlag"] == null)
+            {
+                if(!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+                {
+                    var person = await _empSummaryManager.GetEmployeeMatchingNumber(System.Web.HttpContext.Current.Session["_EmpNum"].ToString());
+                    System.Web.HttpContext.Current.Session["_PTFlag"] = person?.EmployeeStandardHours != 45 ? "PT" : "FT";
+                }
+                else
+                {
+                    System.Web.HttpContext.Current.Session["_PTFlag"] = "";
+                }
+            }
+
+            vm.rawMenu = await _payCalendarManager.GetPayCalendarRef(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString());
+
+            return View(vm);
+        }
+
+        public async Task<PartialViewResult> _PayData(string period)
+        {
+            ColleaguePayDataVm vm = new ColleaguePayDataVm();
+
+            string payroll = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
+            string sessionID = System.Web.HttpContext.Current.Session.SessionID;
+                        
+            if(payroll != "e")
+            {
+                vm.payDates = await _payCalendarManager.GetPayCalendarDates(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString(), period);
+                vm.tSheet = await _kronosManager.GetTimesheet(vm.payDates.Select(x => x.WCDate).ToArray(), payroll, sessionID);
+                vm.punch = await _clockManager.GetEmployeePunch(payroll, vm.payDates.Min(x => x.Week), vm.payDates.Max(x => x.Week));
+            }
+            else
+            {
+                vm.errorPayroll = true;
+            }
+            
+            return PartialView("~/Areas/WFM/Views/RFTP/Partials/_PayData.cshtml", vm);
         }
     }
 }

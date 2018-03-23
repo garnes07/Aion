@@ -18,5 +18,6 @@ namespace Aion.DAL.Managers
         Task<List<vw_CPW_Clocking_Repeat_Employees>> GetRepeatOffendersRegion(string region);
         Task<List<vw_CPW_Clocking_Repeat_Employees>> GetRepeatOffendersDivision(string division);
         Task<List<vw_CPW_Clocking_Repeat_Stores>> GetRepeatOffendersChain(string chain);
+        Task<List<vw_CPW_Clocking_Data>> GetEmployeePunch(string empNumber, int startWeek, int endWeek);
     }
 }

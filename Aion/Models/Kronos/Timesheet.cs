@@ -95,5 +95,21 @@ namespace Aion.Models.Kronos
 
         [XmlAttribute]
         public string OrgJobDescription { get; set; }
+
+        public int amtHour
+        {
+            get
+            {
+                return int.Parse(AmountInTime.Split(':')[0]);
+            }
+        }
+
+        public int amtMinute
+        {
+            get
+            {
+                return int.Parse(AmountInTime.Split(':')[1]);
+            }
+        }
     }
 }

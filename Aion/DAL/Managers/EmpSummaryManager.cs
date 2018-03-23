@@ -45,6 +45,14 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<KronosEmployeeSummary> GetEmployeeMatchingNumber(string personNumber)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.KronosEmployeeSummaries.Where(x => x.PersonNumber == personNumber && x.Active == true).OrderBy(x => x.PersonName).FirstOrDefaultAsync();
+            }
+        }
+
         public async Task<List<KronosEmployeeSummary>> GetEmployeeMatchingName(string PersonName)
         {
             using (var context = new WFMModel())

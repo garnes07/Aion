@@ -112,5 +112,14 @@ namespace Aion.DAL.Managers
                 return await context.vw_CPW_Clocking_Repeat_Stores.Where(x => x.Chain == chain).ToListAsync();
             }
         }
+
+        public async Task<List<vw_CPW_Clocking_Data>> GetEmployeePunch(string empNumber, int startWeek, int endWeek)
+        {
+            using(var context = new WFMModel())
+            {
+                var crit = int.Parse(empNumber.Replace("UK", ""));
+                return await context.vw_CPW_Clocking_Data.Where(x => x.EMP_NUM == crit && x.FNCL_WK_NUM >= startWeek && x.FNCL_WK_NUM <= endWeek).ToListAsync();
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Aion.DAL.Kronos;
 using Aion.Models.Kronos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace Aion.DAL.Managers
             }
 
             return toRtn;
+        }
+
+        public async Task<List<Timesheet>> GetTimesheet(DateTime[] dates, string personNumber, string sessionID = null)
+        {
+            return KronosApi.RequestTimesheet(dates, personNumber, sessionID);
         }
     }
 }
