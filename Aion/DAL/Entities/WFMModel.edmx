@@ -202,6 +202,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary' does not have a pri
         <EntityType Name="vw_4WeekSummary">
           <Key>
             <PropertyRef Name="RowId" />
+            
           </Key>
           <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" />
@@ -210,7 +211,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary' does not have a pri
           <Property Name="StoreNumber" Type="smallint" />
           <Property Name="WeekNumber" Type="int" />
           <Property Name="NonCompliant" Type="int" />
-          <Property Name="Deployment" Type="float" />
+          <Property Name="Deployment" Type="float" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_ContractBaseDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -415,6 +416,25 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Property Name="ShortShifts" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_DeploymentStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_DeploymentStatus">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="Budget" Type="float" />
+          <Property Name="Actual" Type="float" />
+          <Property Name="Holiday" Type="float" />
+          <Property Name="ToBudget" Type="float" />
+          <Property Name="PercHoliday" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_EditedClocks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_EditedClocks">
           <Key>
@@ -611,6 +631,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <Property Name="DayWeekTotal" Type="numeric" Precision="5" Scale="2" />
           <Property Name="DateTimeUpdated" Type="datetime" />
           <Property Name="JobCode" Type="smallint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_StoreContractStatus">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContractHours" Type="float" />
+          <Property Name="ContractBase" Type="float" />
+          <Property Name="VacancyHours" Type="float" />
         </EntityType>
         <Association Name="FK_RFTPCaseAudit_RFTPCaseStub">
           <End Role="RFTPCaseStub" Type="Self.RFTPCaseStub" Multiplicity="1">
@@ -836,6 +872,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
     [vw_DashboardData_v2].[ShortShifts] AS [ShortShifts]
     FROM [dbo].[vw_DashboardData_v2] AS [vw_DashboardData_v2]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_DeploymentStatus" EntityType="Self.vw_DeploymentStatus" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_DeploymentStatus].[RowId] AS [RowId], 
+    [vw_DeploymentStatus].[Chain] AS [Chain], 
+    [vw_DeploymentStatus].[Division] AS [Division], 
+    [vw_DeploymentStatus].[Region] AS [Region], 
+    [vw_DeploymentStatus].[StoreNumber] AS [StoreNumber], 
+    [vw_DeploymentStatus].[StoreName] AS [StoreName], 
+    [vw_DeploymentStatus].[WeekNumber] AS [WeekNumber], 
+    [vw_DeploymentStatus].[Budget] AS [Budget], 
+    [vw_DeploymentStatus].[Actual] AS [Actual], 
+    [vw_DeploymentStatus].[Holiday] AS [Holiday], 
+    [vw_DeploymentStatus].[ToBudget] AS [ToBudget], 
+    [vw_DeploymentStatus].[PercHoliday] AS [PercHoliday]
+    FROM [dbo].[vw_DeploymentStatus] AS [vw_DeploymentStatus]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_EditedClocks" EntityType="Self.vw_EditedClocks" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_EditedClocks].[RowId] AS [RowId], 
@@ -978,6 +1030,19 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
     [vw_ScheduleData].[JobCode] AS [JobCode]
     FROM [dbo].[vw_ScheduleData] AS [vw_ScheduleData]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_StoreContractStatus" EntityType="Self.vw_StoreContractStatus" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_StoreContractStatus].[RowId] AS [RowId], 
+    [vw_StoreContractStatus].[Chain] AS [Chain], 
+    [vw_StoreContractStatus].[Division] AS [Division], 
+    [vw_StoreContractStatus].[Region] AS [Region], 
+    [vw_StoreContractStatus].[StoreNumber] AS [StoreNumber], 
+    [vw_StoreContractStatus].[StoreName] AS [StoreName], 
+    [vw_StoreContractStatus].[ContractHours] AS [ContractHours], 
+    [vw_StoreContractStatus].[ContractBase] AS [ContractBase], 
+    [vw_StoreContractStatus].[VacancyHours] AS [VacancyHours]
+    FROM [dbo].[vw_StoreContractStatus] AS [vw_StoreContractStatus]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="Self.FK_RFTPCaseAudit_RFTPCaseStub">
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
@@ -1056,6 +1121,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <EntitySet Name="vw_HolidayPlanningStore" EntityType="WFMMContext.vw_HolidayPlanningStore" />
           <EntitySet Name="vw_HolidayPlanningRollup" EntityType="WFMMContext.vw_HolidayPlanningRollup" />
           <EntitySet Name="vw_4WeekSummary" EntityType="WFMMContext.vw_4WeekSummary" />
+          <EntitySet Name="vw_StoreContractStatus" EntityType="WFMMContext.vw_StoreContractStatus" />
+          <EntitySet Name="vw_DeploymentStatus" EntityType="WFMMContext.vw_DeploymentStatus" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1708,7 +1775,38 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <Property Name="StoreNumber" Type="Int16" />
           <Property Name="WeekNumber" Type="Int32" />
           <Property Name="NonCompliant" Type="Int32" />
-          <Property Name="Deployment" Type="Double" />
+          <Property Name="Deployment" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_StoreContractStatus">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContractHours" Type="Double" />
+          <Property Name="ContractBase" Type="Double" />
+          <Property Name="VacancyHours" Type="Double" />
+        </EntityType>
+        <EntityType Name="vw_DeploymentStatus">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="Budget" Type="Double" />
+          <Property Name="Actual" Type="Double" />
+          <Property Name="Holiday" Type="Double" />
+          <Property Name="ToBudget" Type="Double" />
+          <Property Name="PercHoliday" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2391,6 +2489,39 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
                 <ScalarProperty Name="Deployment" ColumnName="Deployment" />
                 <ScalarProperty Name="NonCompliant" ColumnName="NonCompliant" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_StoreContractStatus">
+            <EntityTypeMapping TypeName="WFMMContext.vw_StoreContractStatus">
+              <MappingFragment StoreEntitySet="vw_StoreContractStatus">
+                <ScalarProperty Name="VacancyHours" ColumnName="VacancyHours" />
+                <ScalarProperty Name="ContractBase" ColumnName="ContractBase" />
+                <ScalarProperty Name="ContractHours" ColumnName="ContractHours" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DeploymentStatus">
+            <EntityTypeMapping TypeName="WFMMContext.vw_DeploymentStatus">
+              <MappingFragment StoreEntitySet="vw_DeploymentStatus">
+                <ScalarProperty Name="PercHoliday" ColumnName="PercHoliday" />
+                <ScalarProperty Name="ToBudget" ColumnName="ToBudget" />
+                <ScalarProperty Name="Holiday" ColumnName="Holiday" />
+                <ScalarProperty Name="Actual" ColumnName="Actual" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="Division" ColumnName="Division" />

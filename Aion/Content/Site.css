@@ -342,3 +342,12 @@ select.select-center {
     padding:4px;
     text-align: center;
 }
+
+.depl_Popup{
+    padding:5px;
+    position: absolute;
+    display: none;
+    background: #FFF;
+    border: 1px solid;
+    border-radius: 5px;
+}

@@ -164,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\WFM\Controllers\DeploymentController.cs" />
+    <Compile Include="Areas\WFM\Controllers\FuturePlanningController.cs" />
     <Compile Include="Areas\WFM\Controllers\MyStoreController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
@@ -176,6 +177,8 @@
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\FuturePlanning\DeploymentStatusVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\FuturePlanning\RecruitmentStatusVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\HolidayPlanningVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\MyTeamVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\NewOpeningTimeVm.cs" />
@@ -343,6 +346,9 @@
     <Compile Include="DAL\Entities\vw_DashboardData_v2.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_DeploymentStatus.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_EditedClocks.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -368,6 +374,9 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_ScheduleData.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_StoreContractStatus.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_TicketStubRef.cs">
@@ -413,6 +422,7 @@
     <Compile Include="DAL\Managers\ActivityManager.cs" />
     <Compile Include="DAL\Managers\AuthManager.cs" />
     <Compile Include="DAL\Managers\ClockingDataManager.cs" />
+    <Compile Include="DAL\Managers\ContractStatusManager.cs" />
     <Compile Include="DAL\Managers\DashboardDataManager.cs" />
     <Compile Include="DAL\IManagers\IWeeksManager.cs" />
     <Compile Include="DAL\IManagers\IClockingDataManager.cs" />
@@ -435,6 +445,7 @@
     <Compile Include="DAL\IManagers\IScheduleManager.cs" />
     <Compile Include="DAL\IManagers\IHolidayPlanningManager.cs" />
     <Compile Include="DAL\IManagers\IActivityManager.cs" />
+    <Compile Include="DAL\IManagers\IContractStatusManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
@@ -697,6 +708,11 @@
     <Content Include="Areas\Workflow\Views\Form\Partials\_timeList.cshtml" />
     <Content Include="Areas\Workflow\Views\Form\Partials\_branchValidate.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_INeedHelpModal.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\RecruitmentStatus.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\DeploymentStatus.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentStatusRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentStatusDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentStatusChain.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

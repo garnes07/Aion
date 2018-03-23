@@ -190,5 +190,59 @@ namespace Aion.DAL.Managers
                 return await context.vw_4WeekSummary.Where(x => x.Chain == chain && x.Division == null).OrderBy(x => x.WeekNumber).ToListAsync();
             }
         }
+
+        public async Task<List<vw_DeploymentStatus>> GetDeploymentStatusStore(string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_DeploymentStatus
+                    .Where(x => x.Region == context.vw_DashboardData_v2.FirstOrDefault(y => y.StoreNumber == crit).Region)
+                    .OrderBy(x => x.StoreNumber)
+                    .ThenBy(x => x.WeekNumber)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_DeploymentStatus>> GetDeploymentStatusRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_DeploymentStatus
+                    .Where(x => x.Region == crit)
+                    .OrderBy(x => x.StoreNumber)
+                    .ThenBy(x => x.WeekNumber)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_DeploymentStatus>> GetDeploymentStatusDivision(string division)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_DeploymentStatus
+                    .Where(x => x.Chain == context.vw_DashboardData_v2.FirstOrDefault(y => y.Division == division).StoreFlag 
+                        && (x.Division == null || x.Division == division)
+                        && x.StoreNumber == null)
+                    .OrderBy(x => x.Division)
+                    .ThenBy(x => x.Region)
+                    .ThenBy(x => x.WeekNumber)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_DeploymentStatus>> GetDeploymentStatusChain(string chain)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_DeploymentStatus
+                    .Where(x => x.Chain == chain && x.StoreNumber == null)
+                    .OrderBy(x => x.Division)
+                    .ThenBy(x => x.Region)
+                    .ThenBy(x => x.WeekNumber)
+                    .ToListAsync();
+            }
+        }
     }
 }

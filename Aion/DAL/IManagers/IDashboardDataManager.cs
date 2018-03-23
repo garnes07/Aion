@@ -27,5 +27,9 @@ namespace Aion.DAL.IManagers
         Task<List<vw_4WeekSummary>> Get4WeekSummaryRegion(string region);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryDivision(string division);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryChain(string chain);
+        Task<List<vw_DeploymentStatus>> GetDeploymentStatusStore(string store);
+        Task<List<vw_DeploymentStatus>> GetDeploymentStatusRegion(string region);
+        Task<List<vw_DeploymentStatus>> GetDeploymentStatusDivision(string division);
+        Task<List<vw_DeploymentStatus>> GetDeploymentStatusChain(string chain);
     }
 }

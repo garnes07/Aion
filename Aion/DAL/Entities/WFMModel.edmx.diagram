@@ -32,6 +32,8 @@
         <EntityTypeShape EntityType="WFMMContext.vw_HolidayPlanningStore" Width="1.5" PointX="15.375" PointY="12.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_HolidayPlanningRollup" Width="1.5" PointX="16.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_4WeekSummary" Width="1.5" PointX="16.375" PointY="4.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_StoreContractStatus" Width="1.5" PointX="15.375" PointY="16.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_DeploymentStatus" Width="1.5" PointX="3.375" PointY="17.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

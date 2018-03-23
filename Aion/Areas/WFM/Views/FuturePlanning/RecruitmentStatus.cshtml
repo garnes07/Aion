@@ -1,0 +1,107 @@
+﻿@model Aion.Areas.WFM.ViewModels.FuturePlanning.RecruitmentStatusVm
+
+@{
+    ViewBag.Title = "Recruitment Status";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>Recruitment</strong>
+        </div>
+        <div class="card-body">
+            This report is an indicative view of a regions recruitment position. Small factors and a constant fluctuation in teams will effect the actual figures but will not fundamental effect the position of the region/store or the action to be taken. For example known leavers are currently not factored in and there is a gap between an offer been made (a vacancy closed) and the applicant actually being on-boarded.
+        </div>
+        <div class="card-footer text-center">
+            <strong><u>Note</u>: This report is updated at 11 AM each day</strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" id="chtContainer">
+            <canvas id="chart" style="height:500px;"></canvas>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+<script src="~/Scripts/Chart.min.js"></script>
+<script>
+    var myChart;
+    var ctx = document.getElementById("chart");
+    var myData = {
+        labels: @Html.Raw(Model.Legend),
+        datasets: [
+        {
+            label: 'Contract Base',
+            borderColor: 'rgba(118, 0, 69, 0.7)',
+            data: @Model.ContractBases,
+            fill: false,
+            pointRadius: 0,
+            hitRadius: 4,
+            hoverBorderWidth: 0.5,
+            type: 'line',
+            tension: 0,
+            style: 'dash'
+        },
+        {
+            label: 'Current Contract Hours',
+            data: @Model.ContractHours,
+            backgroundColor: 'rgba(10, 23, 49,0.9)'
+        },
+        {
+            label: 'Live Vacancy Hours',
+            data: @Model.VacancyHours,
+            backgroundColor: 'rgba(0, 140, 168,0.9)'
+        }
+        ]
+    };
+    var myOptions = {
+        scales: {
+            xAxes: [{
+                stacked: true,
+                label: 'Region'
+                @(Model.DisplayLevel >= 3 ? "" : ",ticks:{autoSkip: false,maxRotation: 90,minRotation:90}")
+            }],
+            yAxes: [{
+                stacked: true,
+                ticks: {
+                    beginAtZero: true,
+                    callback: function(value, index, values) {
+                        return value + '%';
+                    }
+                }
+            }]
+        },
+        maintainAspectRatio: false,
+        tooltips: {
+            mode: 'index',
+            callbacks: {
+                label: function(tooltipItem, data){
+                    //return tooltipItems.yLabel + 'hrs';
+                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                    return tooltipItem.yLabel + '%';
+                }
+            }
+        }
+    };
+
+    $(function() {        
+        myChart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+            // The data for our dataset
+            data: myData,
+            // Configuration options go here
+            options: myOptions
+        });
+    });
+</script>    
+}

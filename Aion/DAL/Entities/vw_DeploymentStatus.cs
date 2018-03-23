@@ -12,15 +12,19 @@ namespace Aion.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_4WeekSummary
+    public partial class vw_DeploymentStatus
     {
         public long RowId { get; set; }
         public string Chain { get; set; }
         public string Division { get; set; }
         public Nullable<short> Region { get; set; }
         public Nullable<short> StoreNumber { get; set; }
+        public string StoreName { get; set; }
         public Nullable<int> WeekNumber { get; set; }
-        public Nullable<int> NonCompliant { get; set; }
-        public double Deployment { get; set; }
+        public Nullable<double> Budget { get; set; }
+        public Nullable<double> Actual { get; set; }
+        public Nullable<double> Holiday { get; set; }
+        public Nullable<double> ToBudget { get; set; }
+        public Nullable<double> PercHoliday { get; set; }
     }
 }

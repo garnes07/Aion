@@ -1,0 +1,122 @@
+﻿@using Aion.DAL.Entities;
+@model Aion.Areas.WFM.ViewModels.FuturePlanning.DeploymentStatusVm
+
+@{ 
+    int x = 0;
+    int y = 0;
+
+    Func<vw_DeploymentStatus, string> RAG = (a) =>
+    {
+        var rtn = "table-success";
+
+        if (Math.Abs(1 - (double)a.ToBudget) >= 0.2)
+        {
+            rtn = "table-danger";
+        }
+        else if (Math.Abs(1 - (double)a.ToBudget) >= 0.1)
+        {
+            rtn = "table-warning";
+        }
+
+        if (1 - a.ToBudget >= 0.05 && a.PercHoliday >= 0.1)
+        {
+            rtn += " toRed";
+        }
+
+        return rtn;
+    };
+}
+
+<div id="sTbl" class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th class="text-center"></th>
+                    @foreach (var item in Model.WeekList)
+                    {
+                        <th class="text-center">@string.Format("Wk {0}", item.ToString().Substring(4))</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>@Model.ChainList</strong></td>
+                    @foreach (var item in Model.ChainSummary)
+                    {
+                        <td class="text-center @(RAG(item)) tooltipHover" data-tooltip="@string.Format("#{0}_{1}", x, y)"><strong>@string.Format("{0:0.0%}", item.ToBudget)</strong></td>
+                        x++;
+                    }
+                    @{ y++;}
+                </tr>
+                <tr>
+                    @{ x = 0;}
+                    <td><strong>@Model.DivisionList.First()</strong></td>
+                    @foreach (var item in Model.DivisionSummary(Model.DivisionList.First()))
+                    {
+                        <td class="text-center @(RAG(item)) tooltipHover" data-tooltip="@string.Format("#{0}_{1}", x, y)"><strong>@string.Format("{0:0.0%}", item.ToBudget)</strong></td>
+                        x++;
+                    }
+                    @{ y++;}
+                </tr>
+                @foreach (var region in Model.RegionList)
+                {
+                    x = 0;
+                    var data = Model.collection.Where(c => c.Region == region);
+                    <tr>
+                        <td>@data.First().Region</td>
+                        @foreach(var item in data)
+                        {
+                            <td class="text-center @(RAG(item)) tooltipHover" data-tooltip="@string.Format("#{0}_{1}", x, y)">@string.Format("{0:0.0%}", item.ToBudget)</td>
+                            x++;
+                        }
+                    </tr>
+                    y++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@{ 
+    y = 0;
+    x = 0;
+}
+@foreach (var item in Model.ChainSummary)
+{
+    <div class="depl_Popup" id="@string.Format("{0}_{1}", x, y)">
+        <strong>Budget:</strong> @item.Budget<br />
+        <strong>Actual:</strong> @item.Actual<br />
+        <strong>Holiday:</strong> @item.Holiday
+    </div>
+    x++;
+}
+@{ 
+    y++;
+    x = 0;
+}
+@foreach (var item in Model.DivisionSummary(Model.DivisionList.First()))
+{
+    <div class="depl_Popup" id="@string.Format("{0}_{1}", x, y)">
+        <strong>Budget:</strong> @item.Budget<br />
+        <strong>Actual:</strong> @item.Actual<br />
+        <strong>Holiday:</strong> @item.Holiday
+    </div>
+    x++;
+}
+@{ y++;}
+@foreach (var region in Model.RegionList)
+{
+    x = 0;
+    var data = Model.collection.Where(c => c.Region == region);
+    foreach (var item in data)
+    {
+        <div class="depl_Popup" id="@string.Format("{0}_{1}", x, y)">
+            <strong>Budget:</strong> @item.Budget<br />
+            <strong>Actual:</strong> @item.Actual<br />
+            <strong>Holiday:</strong> @item.Holiday
+        </div>
+        x++;
+    }
+    y++;
+}
