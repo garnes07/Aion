@@ -104,6 +104,12 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.storeNum == b[1]);
                 if (i.Any())
                 {
+                    HttpContext.Current.Session["_ROIFlag"] = Channels.Where(channel => 
+                        channel.nodes.Any(division => division.nodes.Any(region 
+                        => region.nodes.Any(store 
+                        => store.storeNum == b[1]))))
+                        .First()
+                        .text == "ROI";
                     _menuSelection = "S_" + i.First().storeNum;
                     _menuSearch = i.First().text;
                 }
@@ -113,6 +119,11 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
                 if (i.Count > 0)
                 {
+                    HttpContext.Current.Session["_ROIFlag"] = Channels.Where(channel =>
+                        channel.nodes.Any(division => division.nodes.Any(region
+                        => region.text == b[1])))
+                        .First()
+                        .text == "ROI";
                     _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
@@ -122,6 +133,7 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
                 if (i.Count > 0)
                 {
+                    HttpContext.Current.Session["_ROIFlag"] = b[1] == "ROI";
                     _menuSelection = "D_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
@@ -131,6 +143,7 @@ namespace Aion.Models.Utils
                 var i = Channels.Where(x => x.text == b[1]).ToList();
                 if (i.Count > 0)
                 {
+                    HttpContext.Current.Session["_ROIFlag"] = b[1] == "ROI";
                     _menuSelection = "C_" + i.First().text;
                     _menuSearch = i.First().text;
                 }

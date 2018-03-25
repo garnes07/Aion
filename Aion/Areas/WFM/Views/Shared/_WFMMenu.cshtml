@@ -1,5 +1,5 @@
 ﻿@{
-    var accessLvl = HttpContext.Current.Session["_AccessLevel"] != null ? (int)HttpContext.Current.Session["_AccessLevel"] : -1;
+    var accessLvl = HttpContext.Current.Session["_AccessLevel"] != null ? (byte)HttpContext.Current.Session["_AccessLevel"] : 0;
     var roi = (bool)HttpContext.Current.Session["_ROIFlag"];
 }
 
