@@ -1,0 +1,224 @@
+﻿@model Aion.Areas.ProfitLoss.ViewModels.Home.ProfitLossVm
+
+@{
+    ViewBag.Title = "Profit Loss";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    <div class="alert alert-info">
+        <strong><u>Cash/Banking Loss:</u></strong><br />We have decided to temporarily remove the cash and banking loss lines from the controllable costs on the P&L<br />
+        This is due to cross period losses and gains which mostly self-balance but have a huge impact on each individual months P&L<br />
+        We will be relooking at how best to present actual cash loss and will update soon.
+    </div>
+    <div class="card">
+        <div class="card-header d-print-none">
+            @using (Html.BeginForm("Index", "Home", new { area = "ProfitLoss", year = Model.SelectedYear, month = Model.SelectedMonth }, FormMethod.Get, new { @class = "form-horizontal" }))
+            {
+                <div class="row">
+                    @if (ViewBag.back != null)
+                    {
+                        <a href="@Url.Action("Summary", "Home",new {area = "ProfitLoss" , a = true, selectedYear = Model.SelectedYear, selectedMonth = Model.SelectedMonth})" class="ml-1 btn btn-info float-left col-md-1 col-sm-1" role="button"><i class="icon ion-arrow-left-b"></i> Back</a>
+                    }
+                    <div class="col-sm-2"> @Html.DropDownListFor(m => m.SelectedYear, Model.PandLYears, new { @class = "form-control" })</div>
+                    <div class="col-sm-2 col-md-4">@Html.DropDownListFor(m => m.SelectedMonth, Model.PandLMonths, new { onchange = "this.form.submit();", @class = "form-control" })</div>
+                    <div class="col-md-2 ml-auto">
+                        <a href="@Url.Action("TrainingDoc","Reports", new { f = "ProfitLossBriefing.pdf"})" class="btn btn-success" role="button" target="_blank">Training Guide</a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-body">
+            @if (Model.DetailLines.Any())
+            {
+                if (ViewBag.header != null)
+                {
+                    <h3 class="text-center mt-0">@ViewBag.header</h3>
+                }
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm table-smtxtperm">
+                        <thead class="persist-header">
+                            <tr>
+                                <th colspan="2">&nbsp;</th>
+                                <th colspan="3" class="text-center">Month</th>
+                                <th colspan="3" class="text-center">QTD</th>
+                                <th colspan="3" class="text-center">YTD</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th class="text-center">Item</th>
+                                <th class="text-center" style="width:8.5%;">Detail</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.MarginLines.Any())
+                            {
+                                <tr class="table-light">
+                                    <td class="p-0" colspan="12">&emsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="12">
+                                        <strong>Sales Margin</strong>
+                                        <span class="text-center"><i tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="Margin values are calculated from gross sales bonus units, assuming an average margin by category" data-trigger="focus" style="color:black"></i></span>
+                                    </td>
+                                </tr>
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossDetail.cshtml", Model.MarginLines)
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossSubtotal.cshtml", Model.EntrySubTypeSubTotals.Where(x => x.EntryId == 1).First())
+                            }
+                            @if (Model.ReductionLines.Any())
+                            {
+                                <tr class="table-light">
+                                    <td class="p-0" colspan="12">&emsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="12">
+                                        <strong>Margin Reduction</strong>
+                                    </td>
+                                </tr>
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossDetail.cshtml", Model.ReductionLines)
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossSubtotal.cshtml", Model.EntrySubTypeSubTotals.Where(x => x.EntryId == 5).First())
+                            }
+                            <tr>
+                                <td class="p-0" colspan="12">&emsp;</td>
+                            </tr>
+                            @foreach (var item in Model.EntryTypeSubTotals.Where(x => x.EntryId == 1))
+                            {
+                                <tr class="table-light">
+                                    <td colspan="2"><strong>Margin Total</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.ActualAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.BudgetAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:0%}", item.PercToBudget)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.QtdActualAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.QtdBudgetAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:0%}", item.QtdPercToBudget)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.YtdActualAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.YtdBudgetAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:0%}", item.YtdPercToBudget)</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm table-smtxtperm">
+                        <thead class="persist-header">
+                            <tr>
+                                <th colspan="2">&nbsp;</th>
+                                <th colspan="3" class="text-center">Month</th>
+                                <th colspan="3" class="text-center">QTD</th>
+                                <th colspan="3" class="text-center">YTD</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th class="text-center">Item</th>
+                                <th class="text-center" style="width:8.5%;">Detail</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PayrollLines.Any())
+                            {
+                                <tr class="table-light">
+                                    <td class="p-0" colspan="12">&emsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="12">
+                                        <strong>Payroll Costs</strong>
+                                    </td>
+                                </tr>
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossDetail.cshtml", Model.PayrollLines)
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossSubtotal.cshtml", Model.EntrySubTypeSubTotals.Where(x => x.EntryId == 2).First())
+                            }
+                            @if (Model.CostLines.Any())
+                            {
+                                <tr class="table-light">
+                                    <td class="p-0" colspan="12">&emsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" colspan="12">
+                                        <strong>Controllable Costs</strong>
+                                    </td>
+                                </tr>
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossDetail.cshtml", Model.CostLines)
+                                @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossSubtotal.cshtml", Model.EntrySubTypeSubTotals.Where(x => x.EntryId == 3).First())
+                            }
+                            <tr>
+                                <td class="p-0" colspan="12">&emsp;</td>
+                            </tr>
+                            @foreach (var item in Model.EntryTypeSubTotals.Where(x => x.EntryId == 2))
+                            {
+                                <tr class="table-light">
+                                    <td colspan="2"><strong>Costs Total</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.ActualAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.BudgetAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:0%}", item.PercToBudget)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.QtdActualAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.QtdBudgetAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:0%}", item.QtdPercToBudget)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.YtdActualAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:c0}", item.YtdBudgetAmount)</strong></td>
+                                    <td><strong>@string.Format("{0:0%}", item.YtdPercToBudget)</strong></td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="12"></td>
+                            </tr>
+                            <tr class="table-total">
+                                <td colspan="2"><strong>Overall Contribution</strong></td>
+                                <td><strong>@string.Format("{0:c0}", Model.SheetTotal.ActualAmount)</strong></td>
+                                <td><strong>@string.Format("{0:c0}", Model.SheetTotal.BudgetAmount)</strong></td>
+                                <td><strong>@string.Format("{0:0%}", Model.SheetTotal.PercToBudget)</strong></td>
+                                <td><strong>@string.Format("{0:c0}", Model.SheetTotal.QtdActualAmount)</strong></td>
+                                <td><strong>@string.Format("{0:c0}", Model.SheetTotal.QtdBudgetAmount)</strong></td>
+                                <td><strong>@string.Format("{0:0%}", Model.SheetTotal.QtdPercToBudget)</strong></td>
+                                <td><strong>@string.Format("{0:c0}", Model.SheetTotal.YtdActualAmount)</strong></td>
+                                <td><strong>@string.Format("{0:c0}", Model.SheetTotal.YtdBudgetAmount)</strong></td>
+                                <td><strong>@string.Format("{0:0%}", Model.SheetTotal.YtdPercToBudget)</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                foreach (var item in Model.BreakdownList)
+                {
+                    @Html.Partial("~/Areas/ProfitLoss/Views/Home/Partials/_ProfitLossBreakdownModal.cshtml", Model.BreakdownLines.Where(x => x.AccountEntryDetailId == item).ToList())
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">No data found for the selected period</div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section myScripts{
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+}

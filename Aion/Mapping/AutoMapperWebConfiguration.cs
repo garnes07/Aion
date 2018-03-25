@@ -3,6 +3,7 @@ using AutoMapper;
 using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
 using Aion.Areas.Workflow.Models;
+using Aion.Areas.ProfitLoss.Models;
 
 namespace Aion.Mapping
 {
@@ -27,6 +28,7 @@ namespace Aion.Mapping
                 cfg.AddProfile(new DashboardProfile());
                 cfg.AddProfile(new MyStoreProfile());
                 cfg.AddProfile(new TicketProfile());
+                cfg.AddProfile(new ProfitLossProfile());
             });
         }
     }
@@ -57,6 +59,20 @@ namespace Aion.Mapping
         public TicketProfile()
         {
             CreateMap<TicketQ_A, TicketAnswer>();
+        }
+    }
+
+    public class ProfitLossProfile : Profile
+    {
+        public ProfitLossProfile()
+        {
+            CreateMap<sp_GetPandL_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLRegion_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLDivision_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLChannel_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLRegionSummary_Result, ProfitLossSummaryView>();
+            CreateMap<sp_GetPandLDivisionSummary_Result, ProfitLossSummaryView>();
+            CreateMap<sp_GetPandLChannelSummary_Result, ProfitLossSummaryView>();
         }
     }
 }

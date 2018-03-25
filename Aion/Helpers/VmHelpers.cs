@@ -23,24 +23,34 @@ namespace Aion.Helpers
 
         public static decimal? CalcPerc(decimal? actual, decimal? budget)
         {
-            if (actual.GetValueOrDefault() == 0 || budget.GetValueOrDefault() == 0) return 0;
-            if (budget < 0 && actual > 0)
+            if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
             {
-                return (actual / Math.Abs((decimal)budget) + 2) * 100;
+                if (budget < 0)
+                {
+                    return (actual / Math.Abs((decimal)budget) + 2);
+                }
+                else
+                {
+                    return actual / budget;
+                }
             }
-
-            return actual / budget * 100;
+            return 0;
         }
 
         public static double? CalcPerc(double? actual, double? budget)
         {
-            if (actual.GetValueOrDefault() == 0 || budget.GetValueOrDefault() == 0) return 0;
-            if (budget < 0)
+            if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
             {
-                return (actual / Math.Abs((double)budget) + 2) * 100;
+                if (budget < 0)
+                {
+                    return (actual / Math.Abs((double)budget) + 2);
+                }
+                else
+                {
+                    return actual / budget;
+                }
             }
-
-            return actual / budget * 100;
+            return 0;
         }
 
         // Populate select list for opening times

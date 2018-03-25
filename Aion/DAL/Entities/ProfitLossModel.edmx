@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProfitLossContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="fn_LatestPLRecord" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="MaxYear" Type="nvarchar" MaxLength="50" />
+                <Property Name="MaxMonth" Type="smallint" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="sp_GetPandL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StoreNumber" Type="int" Mode="In" />
+          <Parameter Name="PeriodYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodMonth" Type="smallint" Mode="In" />
+          <Parameter Name="QtdStartMonth" Type="smallint" Mode="In" />
+          <Parameter Name="YtdStartMonth" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetPandLChannel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChannelName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodMonth" Type="smallint" Mode="In" />
+          <Parameter Name="QtdStartMonth" Type="smallint" Mode="In" />
+          <Parameter Name="YtdStartMonth" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetPandLChannelSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChannelName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodMonth" Type="smallint" Mode="In" />
+          <Parameter Name="QtdStartMonth" Type="smallint" Mode="In" />
+          <Parameter Name="YtdStartMonth" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetPandLDivision" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DivisionName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodMonth" Type="smallint" Mode="In" />
+          <Parameter Name="QtdStartMonth" Type="smallint" Mode="In" />
+          <Parameter Name="YtdStartMonth" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetPandLDivisionSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DivisionName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodMonth" Type="smallint" Mode="In" />
+          <Parameter Name="QtdStartMonth" Type="smallint" Mode="In" />
+          <Parameter Name="YtdStartMonth" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetPandLRegion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RegionNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodMonth" Type="smallint" Mode="In" />
+          <Parameter Name="QtdStartMonth" Type="smallint" Mode="In" />
+          <Parameter Name="YtdStartMonth" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetPandLRegionSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RegionNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="PeriodMonth" Type="smallint" Mode="In" />
+          <Parameter Name="QtdStartMonth" Type="smallint" Mode="In" />
+          <Parameter Name="YtdStartMonth" Type="smallint" Mode="In" />
+        </Function>
+        <EntityContainer Name="ProfitLossContextStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProfitLossContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="fn_LatestPLRecord_Result">
+          <Property Name="MaxYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaxMonth" Type="Int16" />
+        </ComplexType>
+        <EntityContainer Name="ProfitLossModel" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="fn_LatestPLRecord" IsComposable="true" ReturnType="Collection(ProfitLossContext.fn_LatestPLRecord_Result)" />
+          <FunctionImport Name="sp_GetPandL" ReturnType="Collection(ProfitLossContext.sp_GetPandL_Result)">
+            <Parameter Name="StoreNumber" Mode="In" Type="Int32" />
+            <Parameter Name="PeriodYear" Mode="In" Type="String" />
+            <Parameter Name="PeriodMonth" Mode="In" Type="Int16" />
+            <Parameter Name="QtdStartMonth" Mode="In" Type="Int16" />
+            <Parameter Name="YtdStartMonth" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetPandLChannel" ReturnType="Collection(ProfitLossContext.sp_GetPandLChannel_Result)">
+            <Parameter Name="ChannelName" Mode="In" Type="String" />
+            <Parameter Name="PeriodYear" Mode="In" Type="String" />
+            <Parameter Name="PeriodMonth" Mode="In" Type="Int16" />
+            <Parameter Name="QtdStartMonth" Mode="In" Type="Int16" />
+            <Parameter Name="YtdStartMonth" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetPandLChannelSummary" ReturnType="Collection(ProfitLossContext.sp_GetPandLChannelSummary_Result)">
+            <Parameter Name="ChannelName" Mode="In" Type="String" />
+            <Parameter Name="PeriodYear" Mode="In" Type="String" />
+            <Parameter Name="PeriodMonth" Mode="In" Type="Int16" />
+            <Parameter Name="QtdStartMonth" Mode="In" Type="Int16" />
+            <Parameter Name="YtdStartMonth" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetPandLDivision" ReturnType="Collection(ProfitLossContext.sp_GetPandLDivision_Result)">
+            <Parameter Name="DivisionName" Mode="In" Type="String" />
+            <Parameter Name="PeriodYear" Mode="In" Type="String" />
+            <Parameter Name="PeriodMonth" Mode="In" Type="Int16" />
+            <Parameter Name="QtdStartMonth" Mode="In" Type="Int16" />
+            <Parameter Name="YtdStartMonth" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetPandLDivisionSummary" ReturnType="Collection(ProfitLossContext.sp_GetPandLDivisionSummary_Result)">
+            <Parameter Name="DivisionName" Mode="In" Type="String" />
+            <Parameter Name="PeriodYear" Mode="In" Type="String" />
+            <Parameter Name="PeriodMonth" Mode="In" Type="Int16" />
+            <Parameter Name="QtdStartMonth" Mode="In" Type="Int16" />
+            <Parameter Name="YtdStartMonth" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetPandLRegion" ReturnType="Collection(ProfitLossContext.sp_GetPandLRegion_Result)">
+            <Parameter Name="RegionNumber" Mode="In" Type="String" />
+            <Parameter Name="PeriodYear" Mode="In" Type="String" />
+            <Parameter Name="PeriodMonth" Mode="In" Type="Int16" />
+            <Parameter Name="QtdStartMonth" Mode="In" Type="Int16" />
+            <Parameter Name="YtdStartMonth" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetPandLRegionSummary" ReturnType="Collection(ProfitLossContext.sp_GetPandLRegionSummary_Result)">
+            <Parameter Name="RegionNumber" Mode="In" Type="String" />
+            <Parameter Name="PeriodYear" Mode="In" Type="String" />
+            <Parameter Name="PeriodMonth" Mode="In" Type="Int16" />
+            <Parameter Name="QtdStartMonth" Mode="In" Type="Int16" />
+            <Parameter Name="YtdStartMonth" Mode="In" Type="Int16" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_GetPandL_Result">
+          <Property Type="Int64" Name="AccountEntryHeaderId" Nullable="false" />
+          <Property Type="String" Name="AccountEntryHeaderText" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PeriodYear" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="PeriodMonth" Nullable="true" />
+          <Property Type="Int32" Name="StoreNumber" Nullable="true" />
+          <Property Type="String" Name="ManagerName" Nullable="true" MaxLength="500" />
+          <Property Type="Int64" Name="AccountEntryDetailId" Nullable="false" />
+          <Property Type="Int16" Name="AccountEntryTypeId" Nullable="false" />
+          <Property Type="Int32" Name="AccountEntrySubTypeId" Nullable="true" />
+          <Property Type="String" Name="AccountEntrySubTypeText" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DetailTitle" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DetailText" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="ActualAmount" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="BudgetAmount" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="QtdActualAmount" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="QtdBudgetAmount" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="YtdActualAmount" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="YtdBudgetAmount" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Int64" Name="AccountEntryDetailBreakDownId" Nullable="true" />
+          <Property Type="String" Name="BreakdownTitle" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BreakdownText" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="BreakdownActualAmount" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Decimal" Name="BreakdownBudgetAmount" Nullable="true" Precision="18" Scale="3" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPandLChannel_Result">
+          <Property Type="Int32" Name="AccountEntryHeaderId" Nullable="false" />
+          <Property Type="String" Name="AccountEntryHeaderText" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="PeriodYear" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="PeriodMonth" Nullable="true" />
+          <Property Type="Int32" Name="StoreNumber" Nullable="false" />
+          <Property Type="Int32" Name="ManagerName" Nullable="true" />
+          <Property Type="Int64" Name="AccountEntryDetailId" Nullable="true" />
+          <Property Type="Int16" Name="AccountEntryTypeId" Nullable="false" />
+          <Property Type="Int32" Name="AccountEntrySubTypeId" Nullable="true" />
+          <Property Type="String" Name="AccountEntrySubTypeText" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DetailTitle" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DetailText" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="ActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="BudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="QtdActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="QtdBudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="YtdActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="YtdBudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Int64" Name="AccountEntryDetailBreakDownId" Nullable="true" />
+          <Property Type="String" Name="BreakdownTitle" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="BreakdownText" Nullable="true" MaxLength="1" />
+          <Property Type="Decimal" Name="BreakdownActualAmount" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="BreakdownBudgetAmount" Nullable="true" Precision="38" Scale="3" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPandLChannelSummary_Result">
+          <Property Type="Int32" Name="Heirarchy" Nullable="false" />
+          <Property Type="String" Name="Year" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="Month" Nullable="true" />
+          <Property Type="String" Name="DetailName" Nullable="false" MaxLength="3" />
+          <Property Type="Decimal" Name="PeriodActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="PeriodBudget" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="QuarterActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="QuarterBudget" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="AnnualActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="AnnualBudget" Nullable="true" Precision="38" Scale="3" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPandLDivision_Result">
+          <Property Type="Int32" Name="AccountEntryHeaderId" Nullable="false" />
+          <Property Type="String" Name="AccountEntryHeaderText" Nullable="false" MaxLength="14" />
+          <Property Type="String" Name="PeriodYear" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="PeriodMonth" Nullable="true" />
+          <Property Type="Int32" Name="StoreNumber" Nullable="false" />
+          <Property Type="Int32" Name="ManagerName" Nullable="true" />
+          <Property Type="Int64" Name="AccountEntryDetailId" Nullable="true" />
+          <Property Type="Int16" Name="AccountEntryTypeId" Nullable="false" />
+          <Property Type="Int32" Name="AccountEntrySubTypeId" Nullable="true" />
+          <Property Type="String" Name="AccountEntrySubTypeText" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DetailTitle" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DetailText" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="ActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="BudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="QtdActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="QtdBudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="YtdActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="YtdBudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Int64" Name="AccountEntryDetailBreakDownId" Nullable="true" />
+          <Property Type="String" Name="BreakdownTitle" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="BreakdownText" Nullable="true" MaxLength="1" />
+          <Property Type="Decimal" Name="BreakdownActualAmount" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="BreakdownBudgetAmount" Nullable="true" Precision="38" Scale="3" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPandLDivisionSummary_Result">
+          <Property Type="Int32" Name="Heirarchy" Nullable="false" />
+          <Property Type="String" Name="Year" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="Month" Nullable="true" />
+          <Property Type="String" Name="DetailName" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="PeriodActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="PeriodBudget" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="QuarterActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="QuarterBudget" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="AnnualActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="AnnualBudget" Nullable="true" Precision="38" Scale="3" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPandLRegion_Result">
+          <Property Type="Int32" Name="AccountEntryHeaderId" Nullable="false" />
+          <Property Type="String" Name="AccountEntryHeaderText" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="PeriodYear" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="PeriodMonth" Nullable="true" />
+          <Property Type="String" Name="StoreNumber" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ManagerName" Nullable="true" />
+          <Property Type="Int64" Name="AccountEntryDetailId" Nullable="true" />
+          <Property Type="Int16" Name="AccountEntryTypeId" Nullable="false" />
+          <Property Type="Int32" Name="AccountEntrySubTypeId" Nullable="true" />
+          <Property Type="String" Name="AccountEntrySubTypeText" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DetailTitle" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DetailText" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="ActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="BudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="QtdActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="QtdBudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="YtdActualAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="YtdBudgetAmount" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Int64" Name="AccountEntryDetailBreakDownId" Nullable="true" />
+          <Property Type="String" Name="BreakdownTitle" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="BreakdownText" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="BreakdownActualAmount" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="BreakdownBudgetAmount" Nullable="true" Precision="38" Scale="3" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPandLRegionSummary_Result">
+          <Property Type="Int32" Name="Heirarchy" Nullable="false" />
+          <Property Type="String" Name="Year" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="Month" Nullable="true" />
+          <Property Type="String" Name="DetailName" Nullable="true" MaxLength="83" />
+          <Property Type="Decimal" Name="PeriodActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="PeriodBudget" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="QuarterActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="QuarterBudget" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="AnnualActual" Nullable="true" Precision="38" Scale="3" />
+          <Property Type="Decimal" Name="AnnualBudget" Nullable="true" Precision="38" Scale="3" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProfitLossContextStoreContainer" CdmEntityContainer="ProfitLossModel">
+          <FunctionImportMapping FunctionName="ProfitLossContext.Store.fn_LatestPLRecord" FunctionImportName="fn_LatestPLRecord">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.fn_LatestPLRecord_Result">
+                <ScalarProperty Name="MaxYear" ColumnName="MaxYear" />
+                <ScalarProperty Name="MaxMonth" ColumnName="MaxMonth" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPandL" FunctionName="ProfitLossContext.Store.sp_GetPandL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.sp_GetPandL_Result">
+                <ScalarProperty Name="AccountEntryHeaderId" ColumnName="AccountEntryHeaderId" />
+                <ScalarProperty Name="AccountEntryHeaderText" ColumnName="AccountEntryHeaderText" />
+                <ScalarProperty Name="PeriodYear" ColumnName="PeriodYear" />
+                <ScalarProperty Name="PeriodMonth" ColumnName="PeriodMonth" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="AccountEntryDetailId" ColumnName="AccountEntryDetailId" />
+                <ScalarProperty Name="AccountEntryTypeId" ColumnName="AccountEntryTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeId" ColumnName="AccountEntrySubTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeText" ColumnName="AccountEntrySubTypeText" />
+                <ScalarProperty Name="DetailTitle" ColumnName="DetailTitle" />
+                <ScalarProperty Name="DetailText" ColumnName="DetailText" />
+                <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+                <ScalarProperty Name="BudgetAmount" ColumnName="BudgetAmount" />
+                <ScalarProperty Name="QtdActualAmount" ColumnName="QtdActualAmount" />
+                <ScalarProperty Name="QtdBudgetAmount" ColumnName="QtdBudgetAmount" />
+                <ScalarProperty Name="YtdActualAmount" ColumnName="YtdActualAmount" />
+                <ScalarProperty Name="YtdBudgetAmount" ColumnName="YtdBudgetAmount" />
+                <ScalarProperty Name="AccountEntryDetailBreakDownId" ColumnName="AccountEntryDetailBreakDownId" />
+                <ScalarProperty Name="BreakdownTitle" ColumnName="BreakdownTitle" />
+                <ScalarProperty Name="BreakdownText" ColumnName="BreakdownText" />
+                <ScalarProperty Name="BreakdownActualAmount" ColumnName="BreakdownActualAmount" />
+                <ScalarProperty Name="BreakdownBudgetAmount" ColumnName="BreakdownBudgetAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPandLChannel" FunctionName="ProfitLossContext.Store.sp_GetPandLChannel">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.sp_GetPandLChannel_Result">
+                <ScalarProperty Name="AccountEntryHeaderId" ColumnName="AccountEntryHeaderId" />
+                <ScalarProperty Name="AccountEntryHeaderText" ColumnName="AccountEntryHeaderText" />
+                <ScalarProperty Name="PeriodYear" ColumnName="PeriodYear" />
+                <ScalarProperty Name="PeriodMonth" ColumnName="PeriodMonth" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="AccountEntryDetailId" ColumnName="AccountEntryDetailId" />
+                <ScalarProperty Name="AccountEntryTypeId" ColumnName="AccountEntryTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeId" ColumnName="AccountEntrySubTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeText" ColumnName="AccountEntrySubTypeText" />
+                <ScalarProperty Name="DetailTitle" ColumnName="DetailTitle" />
+                <ScalarProperty Name="DetailText" ColumnName="DetailText" />
+                <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+                <ScalarProperty Name="BudgetAmount" ColumnName="BudgetAmount" />
+                <ScalarProperty Name="QtdActualAmount" ColumnName="QtdActualAmount" />
+                <ScalarProperty Name="QtdBudgetAmount" ColumnName="QtdBudgetAmount" />
+                <ScalarProperty Name="YtdActualAmount" ColumnName="YtdActualAmount" />
+                <ScalarProperty Name="YtdBudgetAmount" ColumnName="YtdBudgetAmount" />
+                <ScalarProperty Name="AccountEntryDetailBreakDownId" ColumnName="AccountEntryDetailBreakDownId" />
+                <ScalarProperty Name="BreakdownTitle" ColumnName="BreakdownTitle" />
+                <ScalarProperty Name="BreakdownText" ColumnName="BreakdownText" />
+                <ScalarProperty Name="BreakdownActualAmount" ColumnName="BreakdownActualAmount" />
+                <ScalarProperty Name="BreakdownBudgetAmount" ColumnName="BreakdownBudgetAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPandLChannelSummary" FunctionName="ProfitLossContext.Store.sp_GetPandLChannelSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.sp_GetPandLChannelSummary_Result">
+                <ScalarProperty Name="Heirarchy" ColumnName="Heirarchy" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="PeriodActual" ColumnName="PeriodActual" />
+                <ScalarProperty Name="PeriodBudget" ColumnName="PeriodBudget" />
+                <ScalarProperty Name="QuarterActual" ColumnName="QuarterActual" />
+                <ScalarProperty Name="QuarterBudget" ColumnName="QuarterBudget" />
+                <ScalarProperty Name="AnnualActual" ColumnName="AnnualActual" />
+                <ScalarProperty Name="AnnualBudget" ColumnName="AnnualBudget" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPandLDivision" FunctionName="ProfitLossContext.Store.sp_GetPandLDivision">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.sp_GetPandLDivision_Result">
+                <ScalarProperty Name="AccountEntryHeaderId" ColumnName="AccountEntryHeaderId" />
+                <ScalarProperty Name="AccountEntryHeaderText" ColumnName="AccountEntryHeaderText" />
+                <ScalarProperty Name="PeriodYear" ColumnName="PeriodYear" />
+                <ScalarProperty Name="PeriodMonth" ColumnName="PeriodMonth" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="AccountEntryDetailId" ColumnName="AccountEntryDetailId" />
+                <ScalarProperty Name="AccountEntryTypeId" ColumnName="AccountEntryTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeId" ColumnName="AccountEntrySubTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeText" ColumnName="AccountEntrySubTypeText" />
+                <ScalarProperty Name="DetailTitle" ColumnName="DetailTitle" />
+                <ScalarProperty Name="DetailText" ColumnName="DetailText" />
+                <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+                <ScalarProperty Name="BudgetAmount" ColumnName="BudgetAmount" />
+                <ScalarProperty Name="QtdActualAmount" ColumnName="QtdActualAmount" />
+                <ScalarProperty Name="QtdBudgetAmount" ColumnName="QtdBudgetAmount" />
+                <ScalarProperty Name="YtdActualAmount" ColumnName="YtdActualAmount" />
+                <ScalarProperty Name="YtdBudgetAmount" ColumnName="YtdBudgetAmount" />
+                <ScalarProperty Name="AccountEntryDetailBreakDownId" ColumnName="AccountEntryDetailBreakDownId" />
+                <ScalarProperty Name="BreakdownTitle" ColumnName="BreakdownTitle" />
+                <ScalarProperty Name="BreakdownText" ColumnName="BreakdownText" />
+                <ScalarProperty Name="BreakdownActualAmount" ColumnName="BreakdownActualAmount" />
+                <ScalarProperty Name="BreakdownBudgetAmount" ColumnName="BreakdownBudgetAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPandLDivisionSummary" FunctionName="ProfitLossContext.Store.sp_GetPandLDivisionSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.sp_GetPandLDivisionSummary_Result">
+                <ScalarProperty Name="Heirarchy" ColumnName="Heirarchy" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="PeriodActual" ColumnName="PeriodActual" />
+                <ScalarProperty Name="PeriodBudget" ColumnName="PeriodBudget" />
+                <ScalarProperty Name="QuarterActual" ColumnName="QuarterActual" />
+                <ScalarProperty Name="QuarterBudget" ColumnName="QuarterBudget" />
+                <ScalarProperty Name="AnnualActual" ColumnName="AnnualActual" />
+                <ScalarProperty Name="AnnualBudget" ColumnName="AnnualBudget" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPandLRegion" FunctionName="ProfitLossContext.Store.sp_GetPandLRegion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.sp_GetPandLRegion_Result">
+                <ScalarProperty Name="AccountEntryHeaderId" ColumnName="AccountEntryHeaderId" />
+                <ScalarProperty Name="AccountEntryHeaderText" ColumnName="AccountEntryHeaderText" />
+                <ScalarProperty Name="PeriodYear" ColumnName="PeriodYear" />
+                <ScalarProperty Name="PeriodMonth" ColumnName="PeriodMonth" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="AccountEntryDetailId" ColumnName="AccountEntryDetailId" />
+                <ScalarProperty Name="AccountEntryTypeId" ColumnName="AccountEntryTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeId" ColumnName="AccountEntrySubTypeId" />
+                <ScalarProperty Name="AccountEntrySubTypeText" ColumnName="AccountEntrySubTypeText" />
+                <ScalarProperty Name="DetailTitle" ColumnName="DetailTitle" />
+                <ScalarProperty Name="DetailText" ColumnName="DetailText" />
+                <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+                <ScalarProperty Name="BudgetAmount" ColumnName="BudgetAmount" />
+                <ScalarProperty Name="QtdActualAmount" ColumnName="QtdActualAmount" />
+                <ScalarProperty Name="QtdBudgetAmount" ColumnName="QtdBudgetAmount" />
+                <ScalarProperty Name="YtdActualAmount" ColumnName="YtdActualAmount" />
+                <ScalarProperty Name="YtdBudgetAmount" ColumnName="YtdBudgetAmount" />
+                <ScalarProperty Name="AccountEntryDetailBreakDownId" ColumnName="AccountEntryDetailBreakDownId" />
+                <ScalarProperty Name="BreakdownTitle" ColumnName="BreakdownTitle" />
+                <ScalarProperty Name="BreakdownText" ColumnName="BreakdownText" />
+                <ScalarProperty Name="BreakdownActualAmount" ColumnName="BreakdownActualAmount" />
+                <ScalarProperty Name="BreakdownBudgetAmount" ColumnName="BreakdownBudgetAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPandLRegionSummary" FunctionName="ProfitLossContext.Store.sp_GetPandLRegionSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProfitLossContext.sp_GetPandLRegionSummary_Result">
+                <ScalarProperty Name="Heirarchy" ColumnName="Heirarchy" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="DetailName" ColumnName="DetailName" />
+                <ScalarProperty Name="PeriodActual" ColumnName="PeriodActual" />
+                <ScalarProperty Name="PeriodBudget" ColumnName="PeriodBudget" />
+                <ScalarProperty Name="QuarterActual" ColumnName="QuarterActual" />
+                <ScalarProperty Name="QuarterBudget" ColumnName="QuarterBudget" />
+                <ScalarProperty Name="AnnualActual" ColumnName="AnnualActual" />
+                <ScalarProperty Name="AnnualBudget" ColumnName="AnnualBudget" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

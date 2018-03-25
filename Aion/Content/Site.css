@@ -252,6 +252,11 @@ input:checked + .slider:before {
     }
 }
 
+.table-smtxtperm > tbody > tr > td,
+    .table-smtxtperm > thead > tr > th{
+        font-size: 0.8rem;
+    }
+
 select.select-center {
     text-align-last:center;
 }
@@ -350,4 +355,16 @@ select.select-center {
     background: #FFF;
     border: 1px solid;
     border-radius: 5px;
+}
+
+.table>tbody>tr.table-margin>td{
+    background-color:#d9edf7;
+}
+
+.table>tbody>tr.table-costs>td{
+    background-color:#fcf8e3;
+}
+
+.table>tbody>tr.table-total>td{
+    background-color:#dff0d8;
 }

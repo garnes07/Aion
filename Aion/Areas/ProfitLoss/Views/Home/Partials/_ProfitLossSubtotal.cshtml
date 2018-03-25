@@ -1,0 +1,26 @@
+﻿@model Aion.Areas.ProfitLoss.Models.Subtotal
+
+<tr class="table-light">
+    <td colspan="2"><strong>Subtotal</strong></td>
+    <td><strong>@string.Format("{0:c0}", Model.ActualAmount)</strong></td>
+    <td><strong>@string.Format("{0:c0}", Model.BudgetAmount)</strong></td>
+    <td><strong>@string.Format("{0:0%}", Model.PercToBudget)</strong></td>
+    <td><strong>@string.Format("{0:c0}", Model.QtdActualAmount)</strong></td>
+    <td><strong>@string.Format("{0:c0}", Model.QtdBudgetAmount)</strong></td>
+    <td><strong>@string.Format("{0:0%}", Model.QtdPercToBudget)</strong></td>
+    <td><strong>@string.Format("{0:c0}", Model.YtdActualAmount)</strong></td>
+    <td><strong>@string.Format("{0:c0}", Model.YtdBudgetAmount)</strong></td>
+    <td><strong>@string.Format("{0:0%}", Model.YtdPercToBudget)</strong></td>
+</tr>
+<tr>
+    <td colspan="2"><strong>Variance</strong></td>
+    <td></td>
+    <td></td>
+    <td><strong style="color:@(Model.ActualAmount < Model.BudgetAmount ? "#ff0000" : "#000000")">@string.Format("{0:£#,##0 ;(£#,##0);-   }", Model.ActualAmount - Model.BudgetAmount)</strong></td>
+    <td></td>
+    <td></td>
+    <td><strong style="color:@(Model.ActualAmount < Model.BudgetAmount ? "#ff0000" : "#000000")">@string.Format("{0:£#,##0 ;(£#,##0);-   }", Model.QtdActualAmount - Model.QtdBudgetAmount)</strong></td>
+    <td></td>
+    <td></td>
+    <td><strong style="color:@(Model.ActualAmount < Model.BudgetAmount ? "#ff0000" : "#000000")">@string.Format("{0:£#,##0 ;(£#,##0);-   }", Model.YtdActualAmount - Model.YtdBudgetAmount)</strong></td>
+</tr>

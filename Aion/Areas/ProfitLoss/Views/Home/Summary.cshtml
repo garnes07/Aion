@@ -1,0 +1,152 @@
+﻿@model Aion.Areas.ProfitLoss.ViewModels.Home.ProfitLossSummaryVm
+
+@{
+    var max = Model.collection.Any() ? Model.collection.Max(x => x.Heirarchy) : 0;
+    var thisSelect = Model.collection.FirstOrDefault(x => x.Heirarchy == max).selectCrit;
+    ViewBag.Title = "Profit Loss";
+}
+
+<div clss="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    <div class="card">
+        <div class="card-header d-print-none">
+            @using (Html.BeginForm("Summary", "Home", new { area = "ProfitLoss", year = Model.SelectedYear, month = Model.SelectedMonth }, FormMethod.Get, new { @class = "form-horizontal" }))
+            {
+                <div class="row">
+                    @if (ViewBag.back != null)
+                    {
+                        <a href="@Url.Action("Summary", "Home",new {area = "ProfitLoss" , a = true, selectedYear = Model.SelectedYear, selectedMonth = Model.SelectedMonth})" class="ml-1 btn btn-default float-left col-md-1 col-sm-1 text-center" role="button"><ipan class="icon ion-arrow-left-b"></ipan>Back</a>
+                    }
+                    <div class="col-sm-2"> @Html.DropDownListFor(m => m.SelectedYear, Model.PandLYears, new { @class = "form-control" })</div>
+                    <div class="col-sm-2 col-md-4">@Html.DropDownListFor(m => m.SelectedMonth, Model.PandLMonths, new { onchange = "this.form.submit();", @class = "form-control" })</div>
+                    <div class="col-md-2 ml-auto">
+                        <a href="@Url.Action("TrainingDoc","Reports", new { f = "ProfitLossBriefing.pdf"})" class="btn btn-success" role="button" target="_blank">Training Guide</a>
+                    </div>
+                </div>
+            }
+        </div>
+        @if (Model.collection.Any())
+        {
+            <div class="card-body">
+                <div class="alert alert-info text-center">
+                    The figures shown below are the overall contribution for the selected period, to view the full statements please click through on the relevant name.
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm table-sm-smtxt">
+                        <thead class="thead-blue">
+                            <tr>
+                                <th colspan="1">&nbsp;</th>
+                                <th colspan="3" class="text-center">Month</th>
+                                <th colspan="3" class="text-center">QTD</th>
+                                <th colspan="3" class="text-center">YTD</th>
+                            </tr>
+                            <tr class="text-center">
+                                <th class="text-center">Name</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                                <th class="text-center" style="width:8.5%;">Actual</th>
+                                <th class="text-center" style="width:8.5%;">Target</th>
+                                <th class="text-center" style="width:8.5%;">% To Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.collection.Where(x => x.Heirarchy == max).OrderByDescending(x => x.PercToBudgetTotal))
+                            {
+                                <tr id="row_@item.DetailName">
+                                    <td id="@item.DetailName">@item.DetailName</td>
+                                    <td class="text-center">@string.Format("{0:c0}", item.PeriodActual)</td>
+                                    <td class="text-center">@string.Format("{0:c0}", item.PeriodBudget)</td>
+                                    <td class="text-center">@string.Format("{0:0%}", item.PercToBudgetTotal)</td>
+                                    <td class="text-center">@string.Format("{0:c0}", item.QuarterActual)</td>
+                                    <td class="text-center">@string.Format("{0:c0}", item.QuarterBudget)</td>
+                                    <td class="text-center">@string.Format("{0:0%}", item.QTDPercToBudgetTotal)</td>
+                                    <td class="text-center">@string.Format("{0:c0}", item.AnnualActual)</td>
+                                    <td class="text-center">@string.Format("{0:c0}", item.AnnualBudget)</td>
+                                    <td class="text-center">@string.Format("{0:0%}", item.YTDPercToBudgetTotal)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @if (Model.DisplayLevel != 4)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm table-sm-smtxt">
+                            <thead class="thead-blue">
+                                <tr>
+                                    <th colspan="1">&nbsp;</th>
+                                    <th colspan="3" class="text-center">Month</th>
+                                    <th colspan="3" class="text-center">QTD</th>
+                                    <th colspan="3" class="text-center">YTD</th>
+                                </tr>
+                                <tr class="text-center">
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center" style="width:8.5%;">Actual</th>
+                                    <th class="text-center" style="width:8.5%;">Target</th>
+                                    <th class="text-center" style="width:8.5%;">% To Target</th>
+                                    <th class="text-center" style="width:8.5%;">Actual</th>
+                                    <th class="text-center" style="width:8.5%;">Target</th>
+                                    <th class="text-center" style="width:8.5%;">% To Target</th>
+                                    <th class="text-center" style="width:8.5%;">Actual</th>
+                                    <th class="text-center" style="width:8.5%;">Target</th>
+                                    <th class="text-center" style="width:8.5%;">% To Target</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.collection.Where(x => x.Heirarchy == max - 1).OrderByDescending(x => x.PercToBudgetTotal))
+                                {
+                                    <tr>
+                                        <td><a href="@Url.Action("Index", "Home", new { area = "ProfitLoss", selectedYear = Model.SelectedYear, selectedMonth = Model.SelectedMonth, a = true, select = item.selectCrit})">@item.DetailName</a></td>
+                                        <td class="text-center">@string.Format("{0:c0}", item.PeriodActual)</td>
+                                        <td class="text-center">@string.Format("{0:c0}", item.PeriodBudget)</td>
+                                        <td class="text-center">@string.Format("{0:0%}", item.PercToBudgetTotal)</td>
+                                        <td class="text-center">@string.Format("{0:c0}", item.QuarterActual)</td>
+                                        <td class="text-center">@string.Format("{0:c0}", item.QuarterBudget)</td>
+                                        <td class="text-center">@string.Format("{0:0%}", item.QTDPercToBudgetTotal)</td>
+                                        <td class="text-center">@string.Format("{0:c0}", item.AnnualActual)</td>
+                                        <td class="text-center">@string.Format("{0:c0}", item.AnnualBudget)</td>
+                                        <td class="text-center">@string.Format("{0:0%}", item.YTDPercToBudgetTotal)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }                
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">No data found for the selected period</div>
+        }
+    </div>
+</div>
+
+@section myScripts{
+    <script>
+        $(document).ready(function () {
+            var current = '@ViewBag.current';
+
+            if (current === 'All') {
+                $('#SAS').remove();
+                $('#row_SAS').prepend('<td id="SAS"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=C_SAS">SAS</a></td>');
+                $('#SWAS').remove();
+                $('#row_SWAS').prepend('<td id="SWAS"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=C_SWAS">SWAS</a></td>');
+            }
+            else {
+                $('#@ViewBag.current').remove();
+                $('#row_@ViewBag.current').prepend('<td id=\"@ViewBag.current\"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=@thisSelect">@ViewBag.current</a></td>');
+            };
+        });
+    </script>
+}

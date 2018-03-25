@@ -163,6 +163,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
+    <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
+    <Compile Include="Areas\ProfitLoss\Models\ProfitLossView.cs" />
+    <Compile Include="Areas\ProfitLoss\Models\Subtotal.cs" />
+    <Compile Include="Areas\ProfitLoss\ProfitLossAreaRegistration.cs" />
+    <Compile Include="Areas\ProfitLoss\ViewModels\Home\ProfitLossSummaryVm.cs" />
+    <Compile Include="Areas\ProfitLoss\ViewModels\Home\ProfitLossVm.cs" />
     <Compile Include="Areas\WFM\Controllers\DeploymentController.cs" />
     <Compile Include="Areas\WFM\Controllers\FuturePlanningController.cs" />
     <Compile Include="Areas\WFM\Controllers\MyStoreController.cs" />
@@ -222,6 +229,9 @@
     <Compile Include="DAL\Entities\EmpComplianceDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\fn_LatestPLRecord_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\Group.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
@@ -245,6 +255,21 @@
     </Compile>
     <Compile Include="DAL\Entities\PayCalendarRef.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\ProfitLossModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProfitLossModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\ProfitLossModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\ProfitLossModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProfitLossModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\RegionTPC.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -281,6 +306,27 @@
     </Compile>
     <Compile Include="DAL\Entities\sp_EscalationOptions_Result.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetPandLChannelSummary_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetPandLChannel_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetPandLDivisionSummary_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetPandLDivision_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetPandLRegionSummary_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetPandLRegion_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetPandL_Result.cs">
+      <DependentUpon>ProfitLossModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_PeriodDeploymentSummary_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -455,9 +501,11 @@
     <Compile Include="DAL\IManagers\IActivityManager.cs" />
     <Compile Include="DAL\IManagers\IContractStatusManager.cs" />
     <Compile Include="DAL\IManagers\IPayCalendarManager.cs" />
+    <Compile Include="DAL\IManagers\IProfitLossManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\PayCalendarManager.cs" />
+    <Compile Include="DAL\Managers\ProfitLossManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
     <Compile Include="DAL\Managers\ScheduleManager.cs" />
     <Compile Include="DAL\Managers\SOHBudgetsManager.cs" />
@@ -494,6 +542,8 @@
     <Content Include="App_Data\APIError\empty.txt" />
     <Content Include="App_Data\ELMAH\empty.txt" />
     <Content Include="App_Readme\Elmah.txt" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap\js\bootstrap.bundle.js" />
     <Content Include="Content\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
@@ -519,6 +569,16 @@
     <Content Include="Content\scss\custom.min.css">
       <DependentUpon>custom.css</DependentUpon>
     </Content>
+    <Content Include="DAL\Entities\ProfitLossModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ProfitLossModel.edmx</DependentUpon>
+      <LastGenOutput>ProfitLossModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DAL\Entities\ProfitLossModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ProfitLossModel.edmx</DependentUpon>
+      <LastGenOutput>ProfitLossModel.cs</LastGenOutput>
+    </Content>
     <Content Include="DAL\Entities\WebMasterModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WebMasterModel.edmx</DependentUpon>
@@ -543,6 +603,7 @@
     <Content Include="Error\503.html" />
     <Content Include="Error\Default.html" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\ionicons.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -725,6 +786,14 @@
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentStatusChain.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\ColleaguePayPortal.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_PayData.cshtml" />
+    <Content Include="Areas\ProfitLoss\Views\web.config" />
+    <Content Include="Areas\ProfitLoss\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ProfitLoss\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\ProfitLoss\Views\Home\Index.cshtml" />
+    <Content Include="Areas\ProfitLoss\Views\Home\Partials\_ProfitLossDetail.cshtml" />
+    <Content Include="Areas\ProfitLoss\Views\Home\Partials\_ProfitLossSubtotal.cshtml" />
+    <Content Include="Areas\ProfitLoss\Views\Home\Partials\_ProfitLossBreakdownModal.cshtml" />
+    <Content Include="Areas\ProfitLoss\Views\Home\Summary.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -740,6 +809,8 @@
     <Content Include="DAL\Entities\WFMModel.edmx.diagram">
       <DependentUpon>WFMModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -841,6 +912,20 @@
     <Content Include="Content\bootstrap\js\bootstrap.bundle.min.js.map" />
     <Content Include="Content\bootstrap\js\bootstrap.js.map" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <EntityDeploy Include="DAL\Entities\ProfitLossModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ProfitLossModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\Entities\ProfitLossModel.edmx.diagram">
+      <DependentUpon>ProfitLossModel.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\Gauge.js" />
     <Content Include="Scripts\Gauge.min.js">
@@ -922,7 +1007,9 @@
       <DependentUpon>WorkflowViewTicketHT.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

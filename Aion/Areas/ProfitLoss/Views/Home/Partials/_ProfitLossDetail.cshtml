@@ -1,0 +1,41 @@
+﻿@model List<Aion.Areas.ProfitLoss.Models.ProfitLossView>
+
+@{ 
+    string sectionTitle = string.Empty;
+    string cssClass = string.Empty;
+    switch (Model.First().AccountEntryTypeId)
+    {
+        case 1:
+            sectionTitle = "Margin Total";
+            cssClass = "table-margin";
+            break;
+        case 2:
+            sectionTitle = "Costs Total";
+            cssClass = "table-costs";
+            break;
+    }
+}
+
+@foreach (var item in Model)
+{
+    <tr class="@cssClass">
+        <td>@item.DetailTitle</td>
+        <td>
+            @if (item.AccountEntryDetailBreakDownId != null)
+            {
+                <a role="button" href="#" data-toggle="modal" data-target="#@item.AccountEntryDetailId">
+                    <small>View Detail</small>
+                </a>
+            }
+        </td>        
+        <td>@string.Format("{0:c0}", item.ActualAmount)</td>
+        <td>@string.Format("{0:c0}", item.BudgetAmount)</td>
+        <td>@string.Format("{0:0%}", item.PercToBudget)</td>
+        <td>@string.Format("{0:c0}", item.QtdActualAmount)</td>
+        <td>@string.Format("{0:c0}", item.QtdBudgetAmount)</td>
+        <td>@string.Format("{0:0%}", item.QtdPercToBudget)</td>
+        <td>@string.Format("{0:c0}", item.YtdActualAmount)</td>
+        <td>@string.Format("{0:c0}", item.YtdBudgetAmount)</td>
+        <td>@string.Format("{0:0%}", item.YtdPercToBudget)</td>
+    </tr>
+}

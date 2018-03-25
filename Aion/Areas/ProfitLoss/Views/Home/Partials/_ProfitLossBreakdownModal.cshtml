@@ -1,0 +1,32 @@
+﻿@model List<Aion.Areas.ProfitLoss.Models.ProfitLossView>
+
+<div class="modal fade" id="@Model.First().AccountEntryDetailId" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Breakdown</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm" style="table-layout:fixed;">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Actual</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.BreakdownTitle</td>
+                            <td>@string.Format("{0:c}", item.BreakdownText)</td>
+                            <td>@string.Format("{0:c}", item.BreakdownActualAmount)</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

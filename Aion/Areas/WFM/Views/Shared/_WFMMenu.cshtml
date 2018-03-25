@@ -22,6 +22,9 @@
         <a class="dropdown-item" href="@Url.Action("WeekendWorking", "Deployment", new { area = "WFM" })">GM Weekend Working</a>
     </div>
 </li>
+<li class="nav-item mx-1">
+    <a class="nav-link text-menu" href="@Url.Action("Index", "Home", new { area = "ProfitLoss" })"><i class="icon ion-cash"></i> Profit & Loss</a>
+</li>
 <li class="nav-item dropdown mx-1">
     <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-apps m-1"></i> My Store</a>
     <div class="dropdown-menu">
@@ -39,10 +42,10 @@
         <a class="dropdown-item" href="@Url.Action("Index", "Form", new { area = "Workflow" })">Raise a Ticket</a>
     </div>
 </li>
-<li class="nav-item dropdown mx-1">
+@*<li class="nav-item dropdown mx-1">
     <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-help-circled m-1"></i> Help &amp; Support</a>
     <div class="dropdown-menu">
         <a class="dropdown-item" href="#">Action</a>
         <a class="dropdown-item" href="#">Another Action</a>
     </div>
-</li>
+</li>*@
