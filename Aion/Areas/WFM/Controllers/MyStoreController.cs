@@ -11,6 +11,7 @@ using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.Helpers;
 using Aion.ViewModels;
+using Aion.Attributes;
 
 namespace Aion.Areas.WFM.Controllers
 {
@@ -70,6 +71,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
         
+        [Authorize]
         public async Task<ActionResult> NewOpeningTime()
         {
             NewOpeningTimeVm vm = new NewOpeningTimeVm();
@@ -97,6 +99,7 @@ namespace Aion.Areas.WFM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> SubmitChange(NewOpeningTimeVm newEntry)
         {
             if (ModelState.IsValid && newEntry.NewTime.StoreNumber.ToString() == selectCrit)
@@ -112,6 +115,7 @@ namespace Aion.Areas.WFM.Controllers
             return RedirectToAction("OpeningTimes");
         }
 
+        [Authorize]
         public async Task<ActionResult> CancelChange(int id)
         {
             if (selectArea != "S")
@@ -130,6 +134,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(result);
         }
 
+        [Authorize]
         [HttpPost, ActionName("CancelChange")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CancelConfirmed(int id)
@@ -149,6 +154,7 @@ namespace Aion.Areas.WFM.Controllers
             return RedirectToAction("OpeningTimes");
         }
 
+        [Authorize]
         public async Task<ActionResult> EditPeak(int id)
         {
             if (selectArea != "S")
@@ -170,6 +176,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [Authorize]
         [HttpPost, ActionName("EditPeak")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditConfirmed(NewOpeningTimeVm entry)
@@ -189,6 +196,7 @@ namespace Aion.Areas.WFM.Controllers
             return RedirectToAction("OpeningTimes");
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AcceptPeak(int id)
@@ -230,6 +238,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [UserFilter(MinLevel = 2)]
         public async Task<ActionResult> MyTeam()
         {
             MyTeamVm vm = new MyTeamVm();

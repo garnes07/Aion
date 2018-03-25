@@ -8,6 +8,7 @@ using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.Helpers;
 using Aion.ViewModels;
+using Aion.Attributes;
 
 namespace Aion.Areas.WFM.Controllers
 {
@@ -138,6 +139,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [UserFilter(MinLevel = 2)]
         public async Task<ActionResult> WeekendWorking()
         {
             WeekendWorkingVm vm = new WeekendWorkingVm();

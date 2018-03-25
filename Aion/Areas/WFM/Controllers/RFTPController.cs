@@ -301,6 +301,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [Authorize]
         public async Task<ActionResult> ColleaguePayPortal()
         {
             ColleaguePortalVm vm = new ColleaguePortalVm();
@@ -323,6 +324,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [Authorize]
         public async Task<PartialViewResult> _PayData(string period)
         {
             ColleaguePayDataVm vm = new ColleaguePayDataVm();

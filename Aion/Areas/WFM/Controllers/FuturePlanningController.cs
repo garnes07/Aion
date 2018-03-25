@@ -1,16 +1,14 @@
 ﻿using Aion.Areas.WFM.ViewModels.FuturePlanning;
+using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Aion.Areas.WFM.Controllers
 {
+    [UserFilter(MinLevel=2)]
     public class FuturePlanningController : BaseController
     {
         private readonly IContractStatusManager _contractStatusManager;

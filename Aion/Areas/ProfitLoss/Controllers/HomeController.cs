@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Aion.Areas.ProfitLoss.Controllers
 {
+    [Authorize]
     public class HomeController : BaseController
     {
         private readonly IProfitLossManager _profitLossManager;

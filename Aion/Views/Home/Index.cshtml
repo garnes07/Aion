@@ -47,8 +47,8 @@
     @if (Model.TopNews.Any() && !(bool)HttpContext.Current.Session["_ROIFlag"])
     {
         <div class="card">
-            <div class="card-header pt-2 pb-1">
-                <h5 class="card-title"><strong>News</strong></h5>
+            <div class="card-header text-center">
+                <strong>News</strong>
             </div>
             <div class="card-body">
                 @foreach (var item in Model.TopNews)
