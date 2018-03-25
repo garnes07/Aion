@@ -50,5 +50,10 @@ namespace Aion.Controllers
         {
             return View(await _activityManager.GetAllNews());
         }
+
+        public FileResult Documents(string f)
+        {
+            return File("/Uploads/" + f, "application/pdf");
+        }
     }
 }

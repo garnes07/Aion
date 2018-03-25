@@ -794,6 +794,8 @@
     <Content Include="Areas\ProfitLoss\Views\Home\Partials\_ProfitLossSubtotal.cshtml" />
     <Content Include="Areas\ProfitLoss\Views\Home\Partials\_ProfitLossBreakdownModal.cshtml" />
     <Content Include="Areas\ProfitLoss\Views\Home\Summary.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Guide.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Fallback.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1043,6 +1045,15 @@
     <Content Include="Views\Profile\OOS.cshtml" />
     <Content Include="Views\Home\Partials\_ScoreSummary.cshtml" />
     <Content Include="Views\Home\NewsArchive.cshtml" />
+    <Content Include="Uploads\ClockingFallback.pdf" />
+    <Content Include="Uploads\ContractBases.pdf" />
+    <Content Include="Uploads\IgniteSOHProcess.pdf" />
+    <Content Include="Uploads\ProfitLossBriefing.pdf" />
+    <Content Include="Uploads\Recruitment.pdf" />
+    <Content Include="Uploads\RFTPColleagueLetter.pdf" />
+    <Content Include="Uploads\RFTPHow.pdf" />
+    <Content Include="Uploads\RFTPWhat.pdf" />
+    <Content Include="Uploads\RFTPWhy.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Workflow\Views\Shared\" />

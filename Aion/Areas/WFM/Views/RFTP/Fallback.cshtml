@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "RFTP Fallback";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <strong>Contingency</strong>
+        </div>
+        <div class="card-body">
+            <h3>Clocking in &amp; Out</h3>
+            <p>
+                When to use the contingency process for clocking:
+                <ul>
+                    <li>If you have a power-cut and your Kronos Terminal is not powered</li>
+                    <li>If your Kronos Terminal has a fault and you are waiting for it to be repaired by IT</li>
+                    <li>If there is a problem with the biometrics pad on the Kronos Terminal</li>
+                </ul>
+            </p>
+            <p>
+                <strong>Be Prepared!</strong>
+                <ul>
+                    <li>We rarely get advance warning that things are going to stop working so make sure you print a few copies of the paper clocking sheet and keep these in your contingency box at all times.</li>
+                    <li>The paper form is available <a href="@Url.Action("Documents","Home", new { area = "", f = "ClockingFallback.pdf"})" target="_blank">here.</a></li>
+                </ul>
+            </p>
+            <p>
+                <strong>During Contingency</strong>
+                <ul>
+                    <li>Call GIS and log a ticket to have the problem looked into.  Record the IT ticket number on the paper form, along with your region number, store number and the current week number.</li>
+                    <li>Place the paper form in an easily accessible place (ideally near your Kronos Touch-ID terminal) and have your colleagues record their start and finish times on the sheet.</li>
+                    <li>Each day, manually add the clocks into the Kronos application exactly as they appear on the paper form.</li>
+                    <li>Use the same paper form for all affected days in a single week.  If the issue rolls over into additional weeks, use a new form for each new week.</li>
+                </ul>
+            </p>
+            <p>
+                <strong>When you're back up and running (or at the end of the week)</strong>
+                <ul>
+                    <li>Email a photo or scanned copy of the paper form to your TPC who will collate and archive it.</li>
+                    <li>Raise a contingency ticket on the WFM Website.  You can find this <a href="@Url.Action("NewSubmission","Form", new { area = "Workflow", FormTypeId = 7 })" target="_blank">here.</a></li>
+                    <li>The affected days will then be stripped out of your store’s clocking compliance reporting for that week.</li>
+                    <li>Be sure to raise the ticket and email the paper form before the 3pm signoff deadline on Monday</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>

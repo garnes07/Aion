@@ -20,7 +20,7 @@
             <i><u>Team Know How hours are not included in the max contract base.</u></i>
         </p>
         <div class="row justify-content-center mb-2">
-            <a class="btn btn-info" href="@Url.Action("TrainingDoc","Reports", new { f = "ContractBases.pdf" })" target="_blank">Training Guide</a>
+            <a class="btn btn-info" href="@Url.Action("Documents","Home", new { area = "", f = "ContractBases.pdf" })" target="_blank">Training Guide</a>
         </div>
         <table class="table table-bordered table-sm" style="table-layout: fixed;">
             <thead class="thead-blue">
@@ -44,7 +44,7 @@
             Great holiday management will enable you to contract to the max contract base and deliver your SOH budget each week, click through to the holiday planning page to see your current usage.<br />
         </p>
         <div class="row justify-content-center">
-            <a class="btn btn-success" href="@Url.Action("HolidayPlanning", "Reports")" role="button">Holiday Planning</a>
+            <a class="btn btn-success" href="@Url.Action("HolidayPlanning", "MyStore", new { area = "WFM" })" role="button">Holiday Planning</a>
         </div>
     </div>
 </div>

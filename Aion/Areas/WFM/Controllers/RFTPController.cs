@@ -343,5 +343,15 @@ namespace Aion.Areas.WFM.Controllers
             
             return PartialView("~/Areas/WFM/Views/RFTP/Partials/_PayData.cshtml", vm);
         }
+
+        public ActionResult Guide()
+        {
+            return View();
+        }
+
+        public ActionResult Fallback()
+        {
+            return View();
+        }
     }
 }

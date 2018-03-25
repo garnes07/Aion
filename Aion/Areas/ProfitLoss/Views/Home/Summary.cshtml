@@ -27,7 +27,7 @@
                     <div class="col-sm-2"> @Html.DropDownListFor(m => m.SelectedYear, Model.PandLYears, new { @class = "form-control" })</div>
                     <div class="col-sm-2 col-md-4">@Html.DropDownListFor(m => m.SelectedMonth, Model.PandLMonths, new { onchange = "this.form.submit();", @class = "form-control" })</div>
                     <div class="col-md-2 ml-auto">
-                        <a href="@Url.Action("TrainingDoc","Reports", new { f = "ProfitLossBriefing.pdf"})" class="btn btn-success" role="button" target="_blank">Training Guide</a>
+                        <a href="@Url.Action("Documents","Home", new { area = "", f = "ProfitLossBriefing.pdf"})" class="btn btn-success" role="button" target="_blank">Training Guide</a>
                     </div>
                 </div>
             }
