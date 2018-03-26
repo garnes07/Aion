@@ -12,7 +12,7 @@ namespace Aion.DAL.Managers
         {
             using (var context = new WebMasterModel())
             {
-                return await context.UserAccesses.Where(x => x.UserName == _userName || x.UserName == _payroll).Include("UserAccessAreas").FirstOrDefaultAsync();
+                return await context.UserAccesses.Where(x => x.UserName == _userName || x.UserName == _payroll).OrderByDescending(x => x.AccessLevel).Include("UserAccessAreas").FirstOrDefaultAsync();
             }
         }
 

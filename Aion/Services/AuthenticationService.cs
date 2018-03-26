@@ -201,8 +201,15 @@ namespace Aion.Services
 
             if (accessLevel == 1)
             {
-                menuList = await _storeManager.GetStoreMenu(Array.ConvertAll(accessArea, short.Parse));
-                _default = "S_" + accessArea[0];
+                string ip = MvcHelper.GetIPHelper();
+#if DEBUG
+                string ipBase = "10.224.240";
+                //string ipBase = "10.44.121";
+#else
+                string ipBase = ip.Substring(0, ip.LastIndexOf("."));
+#endif
+                menuList = await _storeManager.GetStoreMenu(Array.ConvertAll(accessArea, short.Parse), ipBase);
+                _default = "S_" + (accessArea.Length == 0 ? menuList.First().StoreNumber.ToString() : accessArea[0]);
             }
             else if (accessLevel == 2)
             {

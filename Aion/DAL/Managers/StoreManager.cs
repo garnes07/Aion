@@ -35,6 +35,14 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<StoreMaster>> GetStoreMenu(short[] _storeNumber, string ip)
+        {
+            using (var context = new WebMasterModel())
+            {
+                return await context.StoreMasters.Where(x => _storeNumber.Contains(x.StoreNumber) || x.IpRange == ip).ToListAsync();
+            }
+        }
+
         public async Task<List<StoreMaster>> GetRegionMenu(short[] _region)
         {
             using (var context = new WebMasterModel())

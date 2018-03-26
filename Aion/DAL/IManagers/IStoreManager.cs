@@ -9,6 +9,7 @@ namespace Aion.DAL.IManagers
         Task<List<StoreMaster>> GetStoreDetails(string ip);
         Task<string> GetKronosName(string storeNum);
         Task<List<StoreMaster>> GetStoreMenu(short[] _storeNumber);
+        Task<List<StoreMaster>> GetStoreMenu(short[] _storeNumber, string ip);
         Task<List<StoreMaster>> GetRegionMenu(short[] _region);
         Task<List<StoreMaster>> GetDivisionMenu(string[] _division);
         Task<List<StoreMaster>> GetChainMenu(string[] _chain);
