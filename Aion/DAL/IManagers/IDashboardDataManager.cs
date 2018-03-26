@@ -24,12 +24,19 @@ namespace Aion.DAL.IManagers
         Task<List<vw_DashboardData_v2>> GetRegionDetailBetween(string region, int startWeek, int endWeek);
         Task<List<vw_DashboardData_v2>> GetDivisionDetailBetween(string division, int startWeek, int endWeek);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryStore(string store);
+        Task<List<vw_4WeekSummary_Pilot>> Get4WeekSummaryStorePilot(string store);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryRegion(string region);
+        Task<List<vw_4WeekSummary_Pilot>> Get4WeekSummaryRegionPilot(string region);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryDivision(string division);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryChain(string chain);
         Task<List<vw_DeploymentStatus>> GetDeploymentStatusStore(string store);
         Task<List<vw_DeploymentStatus>> GetDeploymentStatusRegion(string region);
         Task<List<vw_DeploymentStatus>> GetDeploymentStatusDivision(string division);
         Task<List<vw_DeploymentStatus>> GetDeploymentStatusChain(string chain);
+
+        Task<List<vw_DashboardData_v2_Pilot>> GetStoreDashDataPilot(string store, int weekOfYr);
+        Task<vw_DailyDeployment_Pilot> GetDailyDeploymentStorePilot(string store, int weekOfYr);
+        Task<List<PowerHoursProfile>> GetStorePowerHours(string store, int weekOfYr);
+        Task<List<vw_DashboardData_v2_Pilot>> GetAllRegionDashDataPilot(string region, int weekOfYr);
     }
 }

@@ -166,12 +166,30 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<vw_4WeekSummary_Pilot>> Get4WeekSummaryStorePilot(string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_4WeekSummary_Pilot.Where(x => x.StoreNumber == crit).OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
         public async Task<List<vw_4WeekSummary>> Get4WeekSummaryRegion(string region)
         {
             using (var context = new WFMModel())
             {
                 short crit = short.Parse(region);
                 return await context.vw_4WeekSummary.Where(x => x.Region == crit && x.StoreNumber == null).OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_4WeekSummary_Pilot>> Get4WeekSummaryRegionPilot(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_4WeekSummary_Pilot.Where(x => x.Region == crit && x.StoreNumber == null).OrderBy(x => x.WeekNumber).ToListAsync();
             }
         }
 
@@ -242,6 +260,42 @@ namespace Aion.DAL.Managers
                     .ThenBy(x => x.Region)
                     .ThenBy(x => x.WeekNumber)
                     .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_DashboardData_v2_Pilot>> GetStoreDashDataPilot(string store, int weekOfYr)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_DashboardData_v2_Pilot.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).ToListAsync();
+            }
+        }
+
+        public async Task<vw_DailyDeployment_Pilot> GetDailyDeploymentStorePilot(string store, int weekOfYr)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_DailyDeployment_Pilot.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).FirstOrDefaultAsync();
+            }
+        }
+
+        public async Task<List<PowerHoursProfile>> GetStorePowerHours(string store, int weekOfYr)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.PowerHoursProfiles.Where(x => x.Store == crit && x.Week == weekOfYr).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_DashboardData_v2_Pilot>> GetAllRegionDashDataPilot(string region, int weekOfYr)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_DashboardData_v2_Pilot.Where(x => x.Region == crit && x.WeekNumber == weekOfYr).ToListAsync();
             }
         }
     }

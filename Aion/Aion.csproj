@@ -180,6 +180,7 @@
     <Compile Include="Areas\WFM\Models\MyStore\SOHBudgetView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailPilotVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
@@ -254,6 +255,9 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\PayCalendarRef.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\PowerHoursProfile.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\ProfitLossModel.Context.cs">
@@ -382,6 +386,9 @@
     <Compile Include="DAL\Entities\vw_4WeekSummary.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_4WeekSummary_Pilot.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_ContractBaseDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -397,7 +404,13 @@
     <Compile Include="DAL\Entities\vw_CPW_Clocking_Repeat_Stores.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_DailyDeployment_Pilot.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_DashboardData_v2.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_DashboardData_v2_Pilot.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_DeploymentStatus.cs">
@@ -797,6 +810,9 @@
     <Content Include="Areas\ProfitLoss\Views\Home\Summary.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Guide.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Fallback.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\DetailPilot.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailStorePilot.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailRegionPilot.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -926,6 +942,10 @@
       <DependentUpon>ProfitLossModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\HeatMap.js" />
+    <Content Include="Scripts\HeatMap.min.js">
+      <DependentUpon>HeatMap.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

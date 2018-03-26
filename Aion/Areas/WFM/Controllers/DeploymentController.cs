@@ -66,6 +66,11 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> Detail(string selectedDate = "Last Week")
         {
+            if (_store.Region == "118" || _store.Region == "109")
+            {
+                return RedirectToAction("DetailPilot", new { selectedDate = selectedDate });
+            }
+
             DeploymentDetailVm vm = new DeploymentDetailVm();
             int weekNum = selectedDate.GetWeekNumber();
 
@@ -90,6 +95,42 @@ namespace Aion.Areas.WFM.Controllers
                     vm.ChainData = await _dashDataManager.GetAllChainDashData(selectCrit, weekNum);
                     vm.DisplayLevel = 4;
                     break;
+            }
+
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            return View(vm);
+        }
+
+        public async Task<ActionResult> DetailPilot(string selectedDate = "Last Week")
+        {
+            if (_store.Region != "118" && _store.Region != "109")
+            {
+                return RedirectToAction("Detail", new { selectedDate = selectedDate });
+            }
+
+            DeploymentDetailPilotVm vm = new DeploymentDetailPilotVm();
+            int weekNum = selectedDate.GetWeekNumber();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.WeekData = await _dashDataManager.GetStoreDashDataPilot(selectCrit, weekNum);
+                    vm.DailyData = await _dashDataManager.GetDailyDeploymentStorePilot(selectCrit, weekNum);
+                    vm.PowerHours = await _dashDataManager.GetStorePowerHours(selectCrit, weekNum);
+                    if (vm.WeekData.Count == 0)
+                        vm.MessageType = MessageType.Warning;
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.WeekData = await _dashDataManager.GetAllRegionDashDataPilot(selectCrit, weekNum);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    return RedirectToAction("Detail", new { selectedDate = selectedDate });
+                case "C":
+                    return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }
 
             vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));

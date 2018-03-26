@@ -40,6 +40,7 @@ namespace Aion.Mapping
             CreateMap<sp_ComplianceSummary_Result, CompSummaryView>();
             CreateMap<sp_ComplianceSummaryRegion_Result, CompSummaryView>();
             CreateMap<sp_ComplianceSummaryStore_Result, CompSummaryView>();
+            CreateMap<vw_4WeekSummary_Pilot, vw_4WeekSummary>();
         }
     }
 

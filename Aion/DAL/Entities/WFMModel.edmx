@@ -149,6 +149,42 @@
           <Property Name="Period" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="PayDate" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="PowerHoursProfile">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Store" Type="smallint" />
+          <Property Name="Store Name" Type="varchar" MaxLength="255" />
+          <Property Name="Week" Type="int" />
+          <Property Name="Days" Type="smallint" />
+          <Property Name="Territory" Type="varchar" MaxLength="10" />
+          <Property Name="Week Type" Type="varchar" MaxLength="25" />
+          <Property Name="00 TP" Type="real" />
+          <Property Name="01 TP" Type="real" />
+          <Property Name="02 TP" Type="real" />
+          <Property Name="03 TP" Type="real" />
+          <Property Name="04 TP" Type="real" />
+          <Property Name="05 TP" Type="real" />
+          <Property Name="06 TP" Type="real" />
+          <Property Name="07 TP" Type="real" />
+          <Property Name="08 TP" Type="real" />
+          <Property Name="09 TP" Type="real" />
+          <Property Name="10 TP" Type="real" />
+          <Property Name="11 TP" Type="real" />
+          <Property Name="12 TP" Type="real" />
+          <Property Name="13 TP" Type="real" />
+          <Property Name="14 TP" Type="real" />
+          <Property Name="15 TP" Type="real" />
+          <Property Name="16 TP" Type="real" />
+          <Property Name="17 TP" Type="real" />
+          <Property Name="18 TP" Type="real" />
+          <Property Name="19 TP" Type="real" />
+          <Property Name="20 TP" Type="real" />
+          <Property Name="21 TP" Type="real" />
+          <Property Name="22 TP" Type="real" />
+          <Property Name="23 TP" Type="real" />
+        </EntityType>
         <EntityType Name="RFTPCaseActions">
           <Key>
             <PropertyRef Name="ActionID" />
@@ -226,6 +262,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary' does not have a pri
           <Key>
             <PropertyRef Name="RowId" />
             
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="NonCompliant" Type="int" />
+          <Property Name="Deployment" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary_Pilot' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_4WeekSummary_Pilot">
+          <Key>
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Deployment" />
           </Key>
           <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" />
@@ -386,6 +438,49 @@ warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Repeat_Stores' does 
           <Property Name="Compliance" Type="decimal" Precision="33" Scale="11" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_DailyDeployment_Pilot' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_DailyDeployment_Pilot">
+          <Key>
+            <PropertyRef Name="EntryID" />
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </Key>
+          <Property Name="EntryID" Type="int" Nullable="false" />
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="SundayReq" Type="float" />
+          <Property Name="MondayReq" Type="float" />
+          <Property Name="TuesdayReq" Type="float" />
+          <Property Name="WednesdayReq" Type="float" />
+          <Property Name="ThursdayReq" Type="float" />
+          <Property Name="FridayReq" Type="float" />
+          <Property Name="SaturdayReq" Type="float" />
+          <Property Name="SundayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="MondayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="TuesdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="WednesdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="ThursdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="FridayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SaturdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="DateTimeModified" Type="datetime" Nullable="false" />
+          <Property Name="DeployedTotal" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SundayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="MondayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="TuesdayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="WednesdayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="ThursdayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="FridayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="SaturdayMove" Type="numeric" Precision="8" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_DashboardData_v2">
           <Key>
@@ -437,6 +532,60 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Property Name="IgniteCredits" Type="float" />
           <Property Name="PunchCompliance" Type="float" />
           <Property Name="ShortShifts" Type="smallint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2_Pilot' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_DashboardData_v2_Pilot">
+          <Key>
+            <PropertyRef Name="DashBoardDataId" />
+            
+            
+            
+            
+            
+          </Key>
+          <Property Name="DashBoardDataId" Type="int" Nullable="false" />
+          <Property Name="Year" Type="nvarchar" MaxLength="10" />
+          <Property Name="Quarter" Type="tinyint" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="UkStoreNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="255" />
+          <Property Name="TotalHeadCount" Type="smallint" />
+          <Property Name="TimeCardsCompleted" Type="smallint" />
+          <Property Name="ZeroHour" Type="smallint" />
+          <Property Name="ContractHours" Type="float" />
+          <Property Name="FTContractHours" Type="float" />
+          <Property Name="PTContractHours" Type="float" />
+          <Property Name="OriginalTarget" Type="float" />
+          <Property Name="FinalTarget" Type="float" />
+          <Property Name="HolidayTaken" Type="float" />
+          <Property Name="FTLeakage" Type="float" />
+          <Property Name="LeakageCount" Type="smallint" />
+          <Property Name="AllApprovedHours" Type="float" />
+          <Property Name="SOH" Type="float" />
+          <Property Name="OverTargetFlag" Type="bit" />
+          <Property Name="OverContractFlag" Type="bit" />
+          <Property Name="ComplianceScore" Type="smallint" />
+          <Property Name="SOHUtilization" Type="int" Nullable="false" />
+          <Property Name="UtilizationZeroFlag" Type="bit" />
+          <Property Name="GSContract" Type="float" />
+          <Property Name="GSTarget" Type="float" />
+          <Property Name="GSHolidayTaken" Type="float" />
+          <Property Name="GSFTLeakage" Type="float" />
+          <Property Name="GSAllApprovedHours" Type="float" />
+          <Property Name="GSSOHSpend" Type="float" />
+          <Property Name="GSOverTargetFlag" Type="bit" />
+          <Property Name="GSOverContractFlag" Type="bit" />
+          <Property Name="StoreFlag" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="ContractBaseTarget" Type="float" />
+          <Property Name="IgniteCredits" Type="float" />
+          <Property Name="PunchCompliance" Type="float" />
+          <Property Name="PayEscalations" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_DeploymentStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -751,6 +900,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayCalendarDates" EntityType="Self.PayCalendarDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayCalendarRef" EntityType="Self.PayCalendarRef" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PowerHoursProfile" EntityType="Self.PowerHoursProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
@@ -766,6 +916,18 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_4WeekSummary].[NonCompliant] AS [NonCompliant], 
     [vw_4WeekSummary].[Deployment] AS [Deployment]
     FROM [dbo].[vw_4WeekSummary] AS [vw_4WeekSummary]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_4WeekSummary_Pilot" EntityType="Self.vw_4WeekSummary_Pilot" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_4WeekSummary_Pilot].[RowId] AS [RowId], 
+    [vw_4WeekSummary_Pilot].[Chain] AS [Chain], 
+    [vw_4WeekSummary_Pilot].[Division] AS [Division], 
+    [vw_4WeekSummary_Pilot].[Region] AS [Region], 
+    [vw_4WeekSummary_Pilot].[StoreNumber] AS [StoreNumber], 
+    [vw_4WeekSummary_Pilot].[WeekNumber] AS [WeekNumber], 
+    [vw_4WeekSummary_Pilot].[NonCompliant] AS [NonCompliant], 
+    [vw_4WeekSummary_Pilot].[Deployment] AS [Deployment]
+    FROM [dbo].[vw_4WeekSummary_Pilot] AS [vw_4WeekSummary_Pilot]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_ContractBaseDetail" EntityType="Self.vw_ContractBaseDetail" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -870,6 +1032,36 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_CPW_Clocking_Repeat_Stores].[Compliance] AS [Compliance]
     FROM [dbo].[vw_CPW_Clocking_Repeat_Stores] AS [vw_CPW_Clocking_Repeat_Stores]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_DailyDeployment_Pilot" EntityType="Self.vw_DailyDeployment_Pilot" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_DailyDeployment_Pilot].[EntryID] AS [EntryID], 
+    [vw_DailyDeployment_Pilot].[WeekNumber] AS [WeekNumber], 
+    [vw_DailyDeployment_Pilot].[StoreNumber] AS [StoreNumber], 
+    [vw_DailyDeployment_Pilot].[SundayReq] AS [SundayReq], 
+    [vw_DailyDeployment_Pilot].[MondayReq] AS [MondayReq], 
+    [vw_DailyDeployment_Pilot].[TuesdayReq] AS [TuesdayReq], 
+    [vw_DailyDeployment_Pilot].[WednesdayReq] AS [WednesdayReq], 
+    [vw_DailyDeployment_Pilot].[ThursdayReq] AS [ThursdayReq], 
+    [vw_DailyDeployment_Pilot].[FridayReq] AS [FridayReq], 
+    [vw_DailyDeployment_Pilot].[SaturdayReq] AS [SaturdayReq], 
+    [vw_DailyDeployment_Pilot].[SundayDeployed] AS [SundayDeployed], 
+    [vw_DailyDeployment_Pilot].[MondayDeployed] AS [MondayDeployed], 
+    [vw_DailyDeployment_Pilot].[TuesdayDeployed] AS [TuesdayDeployed], 
+    [vw_DailyDeployment_Pilot].[WednesdayDeployed] AS [WednesdayDeployed], 
+    [vw_DailyDeployment_Pilot].[ThursdayDeployed] AS [ThursdayDeployed], 
+    [vw_DailyDeployment_Pilot].[FridayDeployed] AS [FridayDeployed], 
+    [vw_DailyDeployment_Pilot].[SaturdayDeployed] AS [SaturdayDeployed], 
+    [vw_DailyDeployment_Pilot].[DateTimeModified] AS [DateTimeModified], 
+    [vw_DailyDeployment_Pilot].[DeployedTotal] AS [DeployedTotal], 
+    [vw_DailyDeployment_Pilot].[SundayMove] AS [SundayMove], 
+    [vw_DailyDeployment_Pilot].[MondayMove] AS [MondayMove], 
+    [vw_DailyDeployment_Pilot].[TuesdayMove] AS [TuesdayMove], 
+    [vw_DailyDeployment_Pilot].[WednesdayMove] AS [WednesdayMove], 
+    [vw_DailyDeployment_Pilot].[ThursdayMove] AS [ThursdayMove], 
+    [vw_DailyDeployment_Pilot].[FridayMove] AS [FridayMove], 
+    [vw_DailyDeployment_Pilot].[SaturdayMove] AS [SaturdayMove]
+    FROM [dbo].[vw_DailyDeployment_Pilot] AS [vw_DailyDeployment_Pilot]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_DashboardData_v2" EntityType="Self.vw_DashboardData_v2" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_DashboardData_v2].[DashBoardDataId] AS [DashBoardDataId], 
@@ -915,6 +1107,52 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_DashboardData_v2].[PunchCompliance] AS [PunchCompliance], 
     [vw_DashboardData_v2].[ShortShifts] AS [ShortShifts]
     FROM [dbo].[vw_DashboardData_v2] AS [vw_DashboardData_v2]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_DashboardData_v2_Pilot" EntityType="Self.vw_DashboardData_v2_Pilot" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_DashboardData_v2_Pilot].[DashBoardDataId] AS [DashBoardDataId], 
+    [vw_DashboardData_v2_Pilot].[Year] AS [Year], 
+    [vw_DashboardData_v2_Pilot].[Quarter] AS [Quarter], 
+    [vw_DashboardData_v2_Pilot].[Period] AS [Period], 
+    [vw_DashboardData_v2_Pilot].[WeekNumber] AS [WeekNumber], 
+    [vw_DashboardData_v2_Pilot].[StoreNumber] AS [StoreNumber], 
+    [vw_DashboardData_v2_Pilot].[UkStoreNumber] AS [UkStoreNumber], 
+    [vw_DashboardData_v2_Pilot].[StoreName] AS [StoreName], 
+    [vw_DashboardData_v2_Pilot].[Division] AS [Division], 
+    [vw_DashboardData_v2_Pilot].[Region] AS [Region], 
+    [vw_DashboardData_v2_Pilot].[RegionName] AS [RegionName], 
+    [vw_DashboardData_v2_Pilot].[TotalHeadCount] AS [TotalHeadCount], 
+    [vw_DashboardData_v2_Pilot].[TimeCardsCompleted] AS [TimeCardsCompleted], 
+    [vw_DashboardData_v2_Pilot].[ZeroHour] AS [ZeroHour], 
+    [vw_DashboardData_v2_Pilot].[ContractHours] AS [ContractHours], 
+    [vw_DashboardData_v2_Pilot].[FTContractHours] AS [FTContractHours], 
+    [vw_DashboardData_v2_Pilot].[PTContractHours] AS [PTContractHours], 
+    [vw_DashboardData_v2_Pilot].[OriginalTarget] AS [OriginalTarget], 
+    [vw_DashboardData_v2_Pilot].[FinalTarget] AS [FinalTarget], 
+    [vw_DashboardData_v2_Pilot].[HolidayTaken] AS [HolidayTaken], 
+    [vw_DashboardData_v2_Pilot].[FTLeakage] AS [FTLeakage], 
+    [vw_DashboardData_v2_Pilot].[LeakageCount] AS [LeakageCount], 
+    [vw_DashboardData_v2_Pilot].[AllApprovedHours] AS [AllApprovedHours], 
+    [vw_DashboardData_v2_Pilot].[SOH] AS [SOH], 
+    [vw_DashboardData_v2_Pilot].[OverTargetFlag] AS [OverTargetFlag], 
+    [vw_DashboardData_v2_Pilot].[OverContractFlag] AS [OverContractFlag], 
+    [vw_DashboardData_v2_Pilot].[ComplianceScore] AS [ComplianceScore], 
+    [vw_DashboardData_v2_Pilot].[SOHUtilization] AS [SOHUtilization], 
+    [vw_DashboardData_v2_Pilot].[UtilizationZeroFlag] AS [UtilizationZeroFlag], 
+    [vw_DashboardData_v2_Pilot].[GSContract] AS [GSContract], 
+    [vw_DashboardData_v2_Pilot].[GSTarget] AS [GSTarget], 
+    [vw_DashboardData_v2_Pilot].[GSHolidayTaken] AS [GSHolidayTaken], 
+    [vw_DashboardData_v2_Pilot].[GSFTLeakage] AS [GSFTLeakage], 
+    [vw_DashboardData_v2_Pilot].[GSAllApprovedHours] AS [GSAllApprovedHours], 
+    [vw_DashboardData_v2_Pilot].[GSSOHSpend] AS [GSSOHSpend], 
+    [vw_DashboardData_v2_Pilot].[GSOverTargetFlag] AS [GSOverTargetFlag], 
+    [vw_DashboardData_v2_Pilot].[GSOverContractFlag] AS [GSOverContractFlag], 
+    [vw_DashboardData_v2_Pilot].[StoreFlag] AS [StoreFlag], 
+    [vw_DashboardData_v2_Pilot].[ContractBaseTarget] AS [ContractBaseTarget], 
+    [vw_DashboardData_v2_Pilot].[IgniteCredits] AS [IgniteCredits], 
+    [vw_DashboardData_v2_Pilot].[PunchCompliance] AS [PunchCompliance], 
+    [vw_DashboardData_v2_Pilot].[PayEscalations] AS [PayEscalations]
+    FROM [dbo].[vw_DashboardData_v2_Pilot] AS [vw_DashboardData_v2_Pilot]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_DeploymentStatus" EntityType="Self.vw_DeploymentStatus" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1177,6 +1415,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             <End Role="PayCalendarRef" EntitySet="PayCalendarRefs" />
             <End Role="PayCalendarDate" EntitySet="PayCalendarDates" />
           </AssociationSet>
+          <EntitySet Name="PowerHoursProfiles" EntityType="WFMMContext.PowerHoursProfile" />
+          <EntitySet Name="vw_DailyDeployment_Pilot" EntityType="WFMMContext.vw_DailyDeployment_Pilot" />
+          <EntitySet Name="vw_DashboardData_v2_Pilot" EntityType="WFMMContext.vw_DashboardData_v2_Pilot" />
+          <EntitySet Name="vw_4WeekSummary_Pilot" EntityType="WFMMContext.vw_4WeekSummary_Pilot" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1903,6 +2145,134 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PowerHoursProfile">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Store" Type="Int16" />
+          <Property Name="Store_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Week" Type="Int32" />
+          <Property Name="Days" Type="Int16" />
+          <Property Name="Territory" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Week_Type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="C00_TP" Type="Single" />
+          <Property Name="C01_TP" Type="Single" />
+          <Property Name="C02_TP" Type="Single" />
+          <Property Name="C03_TP" Type="Single" />
+          <Property Name="C04_TP" Type="Single" />
+          <Property Name="C05_TP" Type="Single" />
+          <Property Name="C06_TP" Type="Single" />
+          <Property Name="C07_TP" Type="Single" />
+          <Property Name="C08_TP" Type="Single" />
+          <Property Name="C09_TP" Type="Single" />
+          <Property Name="C10_TP" Type="Single" />
+          <Property Name="C11_TP" Type="Single" />
+          <Property Name="C12_TP" Type="Single" />
+          <Property Name="C13_TP" Type="Single" />
+          <Property Name="C14_TP" Type="Single" />
+          <Property Name="C15_TP" Type="Single" />
+          <Property Name="C16_TP" Type="Single" />
+          <Property Name="C17_TP" Type="Single" />
+          <Property Name="C18_TP" Type="Single" />
+          <Property Name="C19_TP" Type="Single" />
+          <Property Name="C20_TP" Type="Single" />
+          <Property Name="C21_TP" Type="Single" />
+          <Property Name="C22_TP" Type="Single" />
+          <Property Name="C23_TP" Type="Single" />
+        </EntityType>
+        <EntityType Name="vw_DailyDeployment_Pilot">
+          <Key>
+            <PropertyRef Name="EntryID" />
+          </Key>
+          <Property Name="EntryID" Type="Int32" Nullable="false" />
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="SundayReq" Type="Double" />
+          <Property Name="MondayReq" Type="Double" />
+          <Property Name="TuesdayReq" Type="Double" />
+          <Property Name="WednesdayReq" Type="Double" />
+          <Property Name="ThursdayReq" Type="Double" />
+          <Property Name="FridayReq" Type="Double" />
+          <Property Name="SaturdayReq" Type="Double" />
+          <Property Name="SundayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="MondayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="TuesdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="WednesdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="ThursdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="FridayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SaturdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="DateTimeModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeployedTotal" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SundayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="MondayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="TuesdayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="WednesdayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="ThursdayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="FridayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="SaturdayMove" Type="Decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="vw_DashboardData_v2_Pilot">
+          <Key>
+            <PropertyRef Name="DashBoardDataId" />
+          </Key>
+          <Property Name="DashBoardDataId" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Quarter" Type="Byte" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="UkStoreNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="RegionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TotalHeadCount" Type="Int16" />
+          <Property Name="TimeCardsCompleted" Type="Int16" />
+          <Property Name="ZeroHour" Type="Int16" />
+          <Property Name="ContractHours" Type="Double" />
+          <Property Name="FTContractHours" Type="Double" />
+          <Property Name="PTContractHours" Type="Double" />
+          <Property Name="OriginalTarget" Type="Double" />
+          <Property Name="FinalTarget" Type="Double" />
+          <Property Name="HolidayTaken" Type="Double" />
+          <Property Name="FTLeakage" Type="Double" />
+          <Property Name="LeakageCount" Type="Int16" />
+          <Property Name="AllApprovedHours" Type="Double" />
+          <Property Name="SOH" Type="Double" />
+          <Property Name="OverTargetFlag" Type="Boolean" />
+          <Property Name="OverContractFlag" Type="Boolean" />
+          <Property Name="ComplianceScore" Type="Int16" />
+          <Property Name="SOHUtilization" Type="Int32" Nullable="false" />
+          <Property Name="UtilizationZeroFlag" Type="Boolean" />
+          <Property Name="GSContract" Type="Double" />
+          <Property Name="GSTarget" Type="Double" />
+          <Property Name="GSHolidayTaken" Type="Double" />
+          <Property Name="GSFTLeakage" Type="Double" />
+          <Property Name="GSAllApprovedHours" Type="Double" />
+          <Property Name="GSSOHSpend" Type="Double" />
+          <Property Name="GSOverTargetFlag" Type="Boolean" />
+          <Property Name="GSOverContractFlag" Type="Boolean" />
+          <Property Name="StoreFlag" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContractBaseTarget" Type="Double" />
+          <Property Name="IgniteCredits" Type="Double" />
+          <Property Name="PunchCompliance" Type="Double" />
+          <Property Name="PayEscalations" Type="Double" />
+        </EntityType>
+        <EntityType Name="vw_4WeekSummary_Pilot">
+          <Key>
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Deployment" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="NonCompliant" Type="Int32" />
+          <Property Name="Deployment" Type="Double" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2643,6 +3013,137 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
                 <ScalarProperty Name="Period" ColumnName="Period" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PowerHoursProfiles">
+            <EntityTypeMapping TypeName="WFMMContext.PowerHoursProfile">
+              <MappingFragment StoreEntitySet="PowerHoursProfile">
+                <ScalarProperty Name="C23_TP" ColumnName="23 TP" />
+                <ScalarProperty Name="C22_TP" ColumnName="22 TP" />
+                <ScalarProperty Name="C21_TP" ColumnName="21 TP" />
+                <ScalarProperty Name="C20_TP" ColumnName="20 TP" />
+                <ScalarProperty Name="C19_TP" ColumnName="19 TP" />
+                <ScalarProperty Name="C18_TP" ColumnName="18 TP" />
+                <ScalarProperty Name="C17_TP" ColumnName="17 TP" />
+                <ScalarProperty Name="C16_TP" ColumnName="16 TP" />
+                <ScalarProperty Name="C15_TP" ColumnName="15 TP" />
+                <ScalarProperty Name="C14_TP" ColumnName="14 TP" />
+                <ScalarProperty Name="C13_TP" ColumnName="13 TP" />
+                <ScalarProperty Name="C12_TP" ColumnName="12 TP" />
+                <ScalarProperty Name="C11_TP" ColumnName="11 TP" />
+                <ScalarProperty Name="C10_TP" ColumnName="10 TP" />
+                <ScalarProperty Name="C09_TP" ColumnName="09 TP" />
+                <ScalarProperty Name="C08_TP" ColumnName="08 TP" />
+                <ScalarProperty Name="C07_TP" ColumnName="07 TP" />
+                <ScalarProperty Name="C06_TP" ColumnName="06 TP" />
+                <ScalarProperty Name="C05_TP" ColumnName="05 TP" />
+                <ScalarProperty Name="C04_TP" ColumnName="04 TP" />
+                <ScalarProperty Name="C03_TP" ColumnName="03 TP" />
+                <ScalarProperty Name="C02_TP" ColumnName="02 TP" />
+                <ScalarProperty Name="C01_TP" ColumnName="01 TP" />
+                <ScalarProperty Name="C00_TP" ColumnName="00 TP" />
+                <ScalarProperty Name="Week_Type" ColumnName="Week Type" />
+                <ScalarProperty Name="Territory" ColumnName="Territory" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Week" ColumnName="Week" />
+                <ScalarProperty Name="Store_Name" ColumnName="Store Name" />
+                <ScalarProperty Name="Store" ColumnName="Store" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DailyDeployment_Pilot">
+            <EntityTypeMapping TypeName="WFMMContext.vw_DailyDeployment_Pilot">
+              <MappingFragment StoreEntitySet="vw_DailyDeployment_Pilot">
+                <ScalarProperty Name="SaturdayMove" ColumnName="SaturdayMove" />
+                <ScalarProperty Name="FridayMove" ColumnName="FridayMove" />
+                <ScalarProperty Name="ThursdayMove" ColumnName="ThursdayMove" />
+                <ScalarProperty Name="WednesdayMove" ColumnName="WednesdayMove" />
+                <ScalarProperty Name="TuesdayMove" ColumnName="TuesdayMove" />
+                <ScalarProperty Name="MondayMove" ColumnName="MondayMove" />
+                <ScalarProperty Name="SundayMove" ColumnName="SundayMove" />
+                <ScalarProperty Name="DeployedTotal" ColumnName="DeployedTotal" />
+                <ScalarProperty Name="DateTimeModified" ColumnName="DateTimeModified" />
+                <ScalarProperty Name="SaturdayDeployed" ColumnName="SaturdayDeployed" />
+                <ScalarProperty Name="FridayDeployed" ColumnName="FridayDeployed" />
+                <ScalarProperty Name="ThursdayDeployed" ColumnName="ThursdayDeployed" />
+                <ScalarProperty Name="WednesdayDeployed" ColumnName="WednesdayDeployed" />
+                <ScalarProperty Name="TuesdayDeployed" ColumnName="TuesdayDeployed" />
+                <ScalarProperty Name="MondayDeployed" ColumnName="MondayDeployed" />
+                <ScalarProperty Name="SundayDeployed" ColumnName="SundayDeployed" />
+                <ScalarProperty Name="SaturdayReq" ColumnName="SaturdayReq" />
+                <ScalarProperty Name="FridayReq" ColumnName="FridayReq" />
+                <ScalarProperty Name="ThursdayReq" ColumnName="ThursdayReq" />
+                <ScalarProperty Name="WednesdayReq" ColumnName="WednesdayReq" />
+                <ScalarProperty Name="TuesdayReq" ColumnName="TuesdayReq" />
+                <ScalarProperty Name="MondayReq" ColumnName="MondayReq" />
+                <ScalarProperty Name="SundayReq" ColumnName="SundayReq" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DashboardData_v2_Pilot">
+            <EntityTypeMapping TypeName="WFMMContext.vw_DashboardData_v2_Pilot">
+              <MappingFragment StoreEntitySet="vw_DashboardData_v2_Pilot">
+                <ScalarProperty Name="PayEscalations" ColumnName="PayEscalations" />
+                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
+                <ScalarProperty Name="IgniteCredits" ColumnName="IgniteCredits" />
+                <ScalarProperty Name="ContractBaseTarget" ColumnName="ContractBaseTarget" />
+                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
+                <ScalarProperty Name="GSOverContractFlag" ColumnName="GSOverContractFlag" />
+                <ScalarProperty Name="GSOverTargetFlag" ColumnName="GSOverTargetFlag" />
+                <ScalarProperty Name="GSSOHSpend" ColumnName="GSSOHSpend" />
+                <ScalarProperty Name="GSAllApprovedHours" ColumnName="GSAllApprovedHours" />
+                <ScalarProperty Name="GSFTLeakage" ColumnName="GSFTLeakage" />
+                <ScalarProperty Name="GSHolidayTaken" ColumnName="GSHolidayTaken" />
+                <ScalarProperty Name="GSTarget" ColumnName="GSTarget" />
+                <ScalarProperty Name="GSContract" ColumnName="GSContract" />
+                <ScalarProperty Name="UtilizationZeroFlag" ColumnName="UtilizationZeroFlag" />
+                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
+                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
+                <ScalarProperty Name="OverContractFlag" ColumnName="OverContractFlag" />
+                <ScalarProperty Name="OverTargetFlag" ColumnName="OverTargetFlag" />
+                <ScalarProperty Name="SOH" ColumnName="SOH" />
+                <ScalarProperty Name="AllApprovedHours" ColumnName="AllApprovedHours" />
+                <ScalarProperty Name="LeakageCount" ColumnName="LeakageCount" />
+                <ScalarProperty Name="FTLeakage" ColumnName="FTLeakage" />
+                <ScalarProperty Name="HolidayTaken" ColumnName="HolidayTaken" />
+                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
+                <ScalarProperty Name="OriginalTarget" ColumnName="OriginalTarget" />
+                <ScalarProperty Name="PTContractHours" ColumnName="PTContractHours" />
+                <ScalarProperty Name="FTContractHours" ColumnName="FTContractHours" />
+                <ScalarProperty Name="ContractHours" ColumnName="ContractHours" />
+                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
+                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
+                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="UkStoreNumber" ColumnName="UkStoreNumber" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="DashBoardDataId" ColumnName="DashBoardDataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_4WeekSummary_Pilot">
+            <EntityTypeMapping TypeName="WFMMContext.vw_4WeekSummary_Pilot">
+              <MappingFragment StoreEntitySet="vw_4WeekSummary_Pilot">
+                <ScalarProperty Name="Deployment" ColumnName="Deployment" />
+                <ScalarProperty Name="NonCompliant" ColumnName="NonCompliant" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

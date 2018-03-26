@@ -88,5 +88,11 @@
     "inputFiles": [
       "Scripts/site/CPayPortal.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/HeatMap.min.js",
+    "inputFiles": [
+      "Scripts/HeatMap.js"
+    ]
   }
 ]

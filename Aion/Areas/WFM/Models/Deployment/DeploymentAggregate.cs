@@ -8,5 +8,8 @@
         public double? SOHSpend { get; set; }
         public double? FinalTarget { get; set; }
         public double? DeploymentScore { get; set; }
+
+        public double? BudgetFit { get; set; }
+        public double? CustomerFit { get; set; }
     }
 }

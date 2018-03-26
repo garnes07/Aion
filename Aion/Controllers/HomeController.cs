@@ -1,6 +1,8 @@
-﻿using Aion.DAL.IManagers;
+﻿using Aion.DAL.Entities;
+using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -27,11 +29,25 @@ namespace Aion.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
+                    if (_store.Region != "118" && _store.Region != "109")
+                    {
+                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryStorePilot(selectCrit));
+                    }
+                    else
+                    {
+                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
+                    }                        
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);
+                    if (_store.Region != "118" && _store.Region != "109")
+                    {
+                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryRegionPilot(selectCrit));
+                    }
+                    else
+                    {
+                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);
+                    }
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
