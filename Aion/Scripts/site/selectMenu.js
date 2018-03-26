@@ -17,6 +17,12 @@
         $('#h-side').addClass('show');
         $('.overlay').fadeIn();
     });
+    
+    $('#input-search').keypress(function (e) {
+        if (e.which == 13) {
+            $('#btn-search').trigger('click');
+        }
+    });
 
     $('#btn-search').click(function () {
         $tree.treeview('collapseAll', { silent: true });

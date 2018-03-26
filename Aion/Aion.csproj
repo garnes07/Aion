@@ -530,6 +530,7 @@
     <Compile Include="Models\Kronos\ShiftSegment.cs" />
     <Compile Include="Models\Kronos\Timesheet.cs" />
     <Compile Include="Models\Utils\AuthenticationResult.cs" />
+    <Compile Include="Models\Utils\StoreStub.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
     <Compile Include="Models\Utils\StoreMenu.cs" />

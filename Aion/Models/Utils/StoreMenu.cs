@@ -48,6 +48,16 @@ namespace Aion.Models.Utils
                 }
             }
 
+            if (defaultSelect.Substring(0, 1) == "S" || defaultSelect.Substring(0, 1) == "R")
+            {
+                HttpContext.Current.Session["_store"] = new StoreStub
+                {
+                    Chain = data.First().Chain,
+                    Division = data.First().Division,
+                    Region = data.First().Region.ToString()
+                };
+            }
+
             this.defaultSelect = defaultSelect;
             this.accessLvl = accessLvl;
             menuSelect(defaultSelect);
@@ -104,12 +114,20 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.storeNum == b[1]);
                 if (i.Any())
                 {
-                    HttpContext.Current.Session["_ROIFlag"] = Channels.Where(channel => 
-                        channel.nodes.Any(division => division.nodes.Any(region 
-                        => region.nodes.Any(store 
+                    var selected = Channels.Where(channel =>
+                        channel.nodes.Any(division => division.nodes.Any(region
+                        => region.nodes.Any(store
                         => store.storeNum == b[1]))))
-                        .First()
-                        .text == "ROI";
+                        .First();
+
+                    HttpContext.Current.Session["_ROIFlag"] = selected.text == "ROI";
+                    HttpContext.Current.Session["_store"] = new StoreStub
+                    {
+                        Chain = selected.text,
+                        Division = selected.nodes.First().text,
+                        Region = selected.nodes.First().nodes.First().text
+                    };
+
                     _menuSelection = "S_" + i.First().storeNum;
                     _menuSearch = i.First().text;
                 }
@@ -119,11 +137,19 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
                 if (i.Count > 0)
                 {
-                    HttpContext.Current.Session["_ROIFlag"] = Channels.Where(channel =>
+                    var selected = Channels.Where(channel =>
                         channel.nodes.Any(division => division.nodes.Any(region
                         => region.text == b[1])))
-                        .First()
-                        .text == "ROI";
+                        .First();
+
+                    HttpContext.Current.Session["_ROIFlag"] = selected.text == "ROI";
+                    HttpContext.Current.Session["_store"] = new StoreStub
+                    {
+                        Chain = selected.text,
+                        Division = selected.nodes.First().text,
+                        Region = selected.nodes.First().nodes.First().text
+                    };
+
                     _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
                 }

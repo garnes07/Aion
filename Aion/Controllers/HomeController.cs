@@ -19,6 +19,7 @@ namespace Aion.Controllers
 
         public async Task<ActionResult> Index()
         {
+            var test = _store;
             HomeVm vm = new HomeVm();
 
             vm.TopNews = await _activityManager.GetTopNews();
