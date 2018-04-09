@@ -48,16 +48,6 @@ namespace Aion.Models.Utils
                 }
             }
 
-            if (defaultSelect.Substring(0, 1) == "S" || defaultSelect.Substring(0, 1) == "R")
-            {
-                HttpContext.Current.Session["_store"] = new StoreStub
-                {
-                    Chain = data.First().Chain,
-                    Division = data.First().Division,
-                    Region = data.First().Region.ToString()
-                };
-            }
-
             this.defaultSelect = defaultSelect;
             this.accessLvl = accessLvl;
             menuSelect(defaultSelect);
@@ -108,25 +98,14 @@ namespace Aion.Models.Utils
 
             string[] b = a.Split('_');
             bool result = false;
+            var selected = new StoreStub();
 
             if (b[0] == "S")
             {
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.storeNum == b[1]);
                 if (i.Any())
                 {
-                    var selected = Channels.Where(channel =>
-                        channel.nodes.Any(division => division.nodes.Any(region
-                        => region.nodes.Any(store
-                        => store.storeNum == b[1]))))
-                        .First();
-
-                    HttpContext.Current.Session["_ROIFlag"] = selected.text == "ROI";
-                    HttpContext.Current.Session["_store"] = new StoreStub
-                    {
-                        Chain = selected.text,
-                        Division = selected.nodes.First().text,
-                        Region = selected.nodes.First().nodes.First().text
-                    };
+                    selected = StoreSearch(b[1]);
 
                     _menuSelection = "S_" + i.First().storeNum;
                     _menuSearch = i.First().text;
@@ -137,18 +116,7 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
                 if (i.Count > 0)
                 {
-                    var selected = Channels.Where(channel =>
-                        channel.nodes.Any(division => division.nodes.Any(region
-                        => region.text == b[1])))
-                        .First();
-
-                    HttpContext.Current.Session["_ROIFlag"] = selected.text == "ROI";
-                    HttpContext.Current.Session["_store"] = new StoreStub
-                    {
-                        Chain = selected.text,
-                        Division = selected.nodes.First().text,
-                        Region = selected.nodes.First().nodes.First().text
-                    };
+                    selected = RegionSearch(b[1]);
 
                     _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
@@ -159,7 +127,8 @@ namespace Aion.Models.Utils
                 var i = Channels.SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
                 if (i.Count > 0)
                 {
-                    HttpContext.Current.Session["_ROIFlag"] = b[1] == "ROI";
+                    selected = DivisionSearch(b[1]);
+                    
                     _menuSelection = "D_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
@@ -169,16 +138,50 @@ namespace Aion.Models.Utils
                 var i = Channels.Where(x => x.text == b[1]).ToList();
                 if (i.Count > 0)
                 {
-                    HttpContext.Current.Session["_ROIFlag"] = b[1] == "ROI";
+                    selected = ChainSearch(b[1]);
+                    
                     _menuSelection = "C_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
             }
+            
+            HttpContext.Current.Session["_ROIFlag"] = selected.Chain == "ROI";
+            HttpContext.Current.Session["_store"] = new StoreStub
+            {
+                Chain = selected.Chain,
+                Division = selected.Division,
+                Region = selected.Region
+            };
             return result;
         }
 
         public bool menuReset()
         {
+            string[] b = defaultSelect.Split('_');
+            var selected = new StoreStub();
+            switch (b[0])
+            {
+                case "S":
+                    selected = StoreSearch(b[1]);
+                    break;
+                case "R":
+                    selected = RegionSearch(b[1]);
+                    break;
+                case "D":
+                    selected = DivisionSearch(b[1]);
+                    break;
+                case "C":
+                    selected = ChainSearch(b[1]);
+                    break;
+            }
+            HttpContext.Current.Session["_ROIFlag"] = selected.Chain == "ROI";
+            HttpContext.Current.Session["_store"] = new StoreStub
+            {
+                Chain = selected.Chain,
+                Division = selected.Division,
+                Region = selected.Region
+            };
+
             return _menuSelection == defaultSelect || menuSelect(defaultSelect);
         }
 
@@ -215,6 +218,84 @@ namespace Aion.Models.Utils
                 }
             }
             return result;
+        }
+
+        private StoreStub StoreSearch(string storeNum)
+        {
+            foreach(var channel in Channels)
+            {
+                foreach(var division in channel.nodes)
+                {
+                    foreach(var region in division.nodes)
+                    {
+                        foreach(var store in region.nodes)
+                        {
+                            if(store.storeNum == storeNum)
+                            return new StoreStub
+                            {
+                                Chain = channel.text,
+                                Division = division.text,
+                                Region = region.text
+                            };
+                        }
+                    }
+                }
+            }
+            return new StoreStub();
+        }
+
+        private StoreStub RegionSearch(string regionNum)
+        {
+            foreach (var channel in Channels)
+            {
+                foreach (var division in channel.nodes)
+                {
+                    foreach (var region in division.nodes)
+                    {
+                        if (region.text == regionNum)
+                            return new StoreStub
+                            {
+                                Chain = channel.text,
+                                Division = division.text,
+                                Region = region.text
+                            };
+                    }
+                }
+            }
+            return new StoreStub();
+        }
+
+        private StoreStub DivisionSearch(string divisionName)
+        {
+            foreach (var channel in Channels)
+            {
+                foreach (var division in channel.nodes)
+                {
+                    if (division.text == divisionName)
+                        return new StoreStub
+                        {
+                            Chain = channel.text,
+                            Division = division.text,
+                            Region = ""
+                        };
+                }
+            }
+            return new StoreStub();
+        }
+
+        private StoreStub ChainSearch(string chainName)
+        {
+            foreach (var channel in Channels)
+            {
+                if (channel.text == chainName)
+                    return new StoreStub
+                    {
+                        Chain = channel.text,
+                        Division = "",
+                        Region = ""
+                    };
+            }
+            return new StoreStub();
         }
 
         public class Channel
