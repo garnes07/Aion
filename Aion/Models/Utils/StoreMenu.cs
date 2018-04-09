@@ -90,11 +90,11 @@ namespace Aion.Models.Utils
         public string JsonString()
         {
             if(accessLvl == 0)
-                return JsonConvert.SerializeObject(Channels.First().nodes.First().nodes.First().nodes);
+                return JsonConvert.SerializeObject(Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).SelectMany(x => x.nodes));
             if (accessLvl == 1)
-                return JsonConvert.SerializeObject(Channels.First().nodes.First().nodes);
+                return JsonConvert.SerializeObject(Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes));             
             if (accessLvl == 2)
-                return JsonConvert.SerializeObject(Channels.First().nodes);
+                return JsonConvert.SerializeObject(Channels.SelectMany(x => x.nodes));
 
             return accessLvl > 2 ? JsonConvert.SerializeObject(Channels) : "";
         }
