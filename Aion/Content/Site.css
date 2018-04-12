@@ -368,3 +368,12 @@ select.select-center {
 .table>tbody>tr.table-total>td{
     background-color:#dff0d8;
 }
+
+i.info-button{
+    position:absolute;
+    right: 1rem;
+    top:0;
+    font-size:xx-large;
+    cursor:pointer;
+    color: #17a2b8;
+}

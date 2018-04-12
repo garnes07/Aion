@@ -16,5 +16,7 @@ namespace Aion.DAL.Managers
         Task<int> CancelPendingChange(int entryId, string userName);
         Task<int> EditExistingPeak(StoreOpeningTime newEntry, string userName);
         Task<int> AcceptPeak(int entryId, string store, string userName);
+        Task<List<StoreOpeningTime>> GetPendingOpeningTimes();
+        Task<List<StoreOpeningTime>> GetStoreTimesForReview(int storeNumber);
     }
 }

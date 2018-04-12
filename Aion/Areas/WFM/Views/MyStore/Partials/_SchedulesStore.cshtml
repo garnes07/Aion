@@ -8,8 +8,8 @@
 {
 <div style="width:90%;" class="table-responsive">
     <table class="table table-bordered table-sm table-smtxt text-center">
-        <thead>
-            <tr class="active">
+        <thead class="thead-light">
+            <tr>
                 <th style="width:20%"></th>
                 <th style="width:10%" colspan="2" class="text-center">Sun</th>
                 <th style="width:10%" colspan="2" class="text-center">Mon</th>
@@ -65,8 +65,8 @@ else
         </div>
     }
     <table class="table table-bordered table-sm">
-        <thead>
-        <tr class="active">
+        <thead class="thead-light">
+        <tr>
             <th class="text-center" style="width:20%">Name</th>
             <th class="text-center" style="width:10%">Sun</th>
             <th class="text-center" style="width:10%">Mon</th>
@@ -113,19 +113,19 @@ else
                         <td></td>
                     }
                 }
-                <td class="text-center active"><small><strong>@Model.Collection.First(x => x.PersonNumber == colleague).PersonWeekTotal.ToString()</strong></small></td>
+                <td class="text-center table-active"><small><strong>@Model.Collection.First(x => x.PersonNumber == colleague).PersonWeekTotal.ToString()</strong></small></td>
             </tr>
         }
         <tr>
-            <td class="active"><strong>Day Total <small>[Headcount]</small></strong></td>
-            <td class="text-center active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 1 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 1).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 1 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 2 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 2).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 2 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 3 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 3).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 3 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 4 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 4).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 4 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 5 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 5).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 5 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 6 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 6).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 6 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 7 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 7).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 7 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center active"><small><strong>@Model.SOHTotal.Select(x => x.PersonWeekTotal).Sum()</strong></small></td>
+            <td class="table-active"><strong>Day Total <small>[Headcount]</small></strong></td>
+            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 1 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 1).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 1 && x.StartTime != null)))</strong></small></td>
+            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 2 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 2).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 2 && x.StartTime != null)))</strong></small></td>
+            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 3 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 3).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 3 && x.StartTime != null)))</strong></small></td>
+            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 4 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 4).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 4 && x.StartTime != null)))</strong></small></td>
+            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 5 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 5).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 5 && x.StartTime != null)))</strong></small></td>
+            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 6 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 6).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 6 && x.StartTime != null)))</strong></small></td>
+            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 7 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 7).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 7 && x.StartTime != null)))</strong></small></td>
+            <td class="text-center table-active"><small><strong>@Model.SOHTotal.Select(x => x.PersonWeekTotal).Sum()</strong></small></td>
         </tr>
         </tbody>
     </table>
@@ -133,6 +133,6 @@ else
         <p><strong>@string.Format("Last Updated : {0:g}", Model.Collection.First().DateTimeUpdated)</strong></p>
     </div>
     <div class="row justify-content-center d-print-none">
-        <button class="btn btn-light btn-lg" onclick="window.print()">Print Schedule</button>
+        <button class="btn btn-light btn-lg border-secondary" onclick="window.print()">Print Schedule</button>
     </div>
 }

@@ -14,6 +14,12 @@ namespace Aion.DAL.Entities
     
     public partial class StoreOpeningTime
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public StoreOpeningTime()
+        {
+            this.OpeningTimesComments = new HashSet<OpeningTimesComment>();
+        }
+    
         public int EntryID { get; set; }
         public int StoreNumber { get; set; }
         public System.DateTime DateTimeSubmitted { get; set; }
@@ -39,5 +45,8 @@ namespace Aion.DAL.Entities
         public string ModifiedByUser { get; set; }
         public string SubmittedByUser { get; set; }
         public string ReasonForChange { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OpeningTimesComment> OpeningTimesComments { get; set; }
     }
 }

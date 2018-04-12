@@ -35,9 +35,13 @@ namespace Aion.Attributes
             {
                 IsAuthorised = AccessLevels.Any(x => x == CurrentUserLevel);
             }
-            else
+            else if(ExcludeLevels != null)
             {
                 IsAuthorised = CurrentUserLevel >= MinLevel && !ExcludeLevels.Contains(CurrentUserLevel);
+            }
+            else
+            {
+                IsAuthorised = CurrentUserLevel >= MinLevel;
             }
             
 

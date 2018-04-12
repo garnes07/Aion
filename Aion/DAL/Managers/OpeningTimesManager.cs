@@ -146,5 +146,21 @@ namespace Aion.DAL.Managers
                 return -5;
             }
         }
+
+        public async Task<List<StoreOpeningTime>> GetPendingOpeningTimes()
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.StoreOpeningTimes.Where(x => x.Status == "PendingApproval").OrderBy(x => x.StoreNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<StoreOpeningTime>> GetStoreTimesForReview(int storeNumber)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.StoreOpeningTimes.Where(x => x.StoreNumber == storeNumber && (x.Status == "PendingApproval" || x.Status == "Pending" || x.Status == "Live")).Include("OpeningTimesComment").ToListAsync();
+            }
+        }
     }
 }

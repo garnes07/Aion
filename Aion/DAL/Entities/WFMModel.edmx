@@ -126,6 +126,16 @@
           <Property Name="ReportingRoleFlag" Type="tinyint" />
           <Property Name="Active" Type="bit" />
         </EntityType>
+        <EntityType Name="OpeningTimesComments">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntryID" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="AddedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Datetime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="PayCalendarDates">
           <Key>
             <PropertyRef Name="Chain" />
@@ -853,6 +863,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreOpeningTimes">
+          <End Role="StoreOpeningTimes" Type="Self.StoreOpeningTimes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OpeningTimesComments" Type="Self.OpeningTimesComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreOpeningTimes">
+              <PropertyRef Name="EntryID" />
+            </Principal>
+            <Dependent Role="OpeningTimesComments">
+              <PropertyRef Name="EntryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sp_AllChainDashboardData_v2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Chain" Type="nvarchar" Mode="In" />
           <Parameter Name="BeginWeek" Type="int" Mode="In" />
@@ -898,6 +922,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySet Name="HolidayPlanningEmp" EntityType="Self.HolidayPlanningEmp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HrFeed" EntityType="Self.HrFeed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OpeningTimesComments" EntityType="Self.OpeningTimesComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayCalendarDates" EntityType="Self.PayCalendarDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayCalendarRef" EntityType="Self.PayCalendarRef" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PowerHoursProfile" EntityType="Self.PowerHoursProfile" Schema="dbo" store:Type="Tables" />
@@ -1333,6 +1358,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreOpeningTimes" Association="Self.FK_StoreOpeningTimes">
+            <End Role="StoreOpeningTimes" EntitySet="StoreOpeningTimes" />
+            <End Role="OpeningTimesComments" EntitySet="OpeningTimesComments" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1419,6 +1448,11 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySet Name="vw_DailyDeployment_Pilot" EntityType="WFMMContext.vw_DailyDeployment_Pilot" />
           <EntitySet Name="vw_DashboardData_v2_Pilot" EntityType="WFMMContext.vw_DashboardData_v2_Pilot" />
           <EntitySet Name="vw_4WeekSummary_Pilot" EntityType="WFMMContext.vw_4WeekSummary_Pilot" />
+          <EntitySet Name="OpeningTimesComments" EntityType="WFMMContext.OpeningTimesComment" />
+          <AssociationSet Name="FK_StoreOpeningTimes" Association="WFMMContext.FK_StoreOpeningTimes">
+            <End Role="StoreOpeningTime" EntitySet="StoreOpeningTimes" />
+            <End Role="OpeningTimesComment" EntitySet="OpeningTimesComments" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -1899,6 +1933,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="ModifiedByUser" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SubmittedByUser" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ReasonForChange" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OpeningTimesComments" Relationship="WFMMContext.FK_StoreOpeningTimes" FromRole="StoreOpeningTime" ToRole="OpeningTimesComment" />
         </EntityType>
         <EntityType Name="vw_PublishedBudgetsROI">
           <Key>
@@ -2273,6 +2308,31 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="NonCompliant" Type="Int32" />
           <Property Name="Deployment" Type="Double" Nullable="false" />
         </EntityType>
+        <EntityType Name="OpeningTimesComment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryID" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="StoreOpeningTime" Relationship="WFMMContext.FK_StoreOpeningTimes" FromRole="OpeningTimesComment" ToRole="StoreOpeningTime" />
+        </EntityType>
+        <Association Name="FK_StoreOpeningTimes">
+          <End Type="WFMMContext.StoreOpeningTime" Role="StoreOpeningTime" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WFMMContext.OpeningTimesComment" Role="OpeningTimesComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreOpeningTime">
+              <PropertyRef Name="EntryID" />
+            </Principal>
+            <Dependent Role="OpeningTimesComment">
+              <PropertyRef Name="EntryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3144,6 +3204,17 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpeningTimesComments">
+            <EntityTypeMapping TypeName="WFMMContext.OpeningTimesComment">
+              <MappingFragment StoreEntitySet="OpeningTimesComments">
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

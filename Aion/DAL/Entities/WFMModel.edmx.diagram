@@ -41,6 +41,8 @@
         <EntityTypeShape EntityType="WFMMContext.vw_DailyDeployment_Pilot" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_DashboardData_v2_Pilot" Width="1.5" PointX="5.375" PointY="19.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_4WeekSummary_Pilot" Width="1.5" PointX="7.375" PointY="19.75" />
+        <EntityTypeShape EntityType="WFMMContext.OpeningTimesComment" Width="1.5" PointX="9.625" PointY="20.625" />
+        <AssociationConnector Association="WFMMContext.FK_StoreOpeningTimes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

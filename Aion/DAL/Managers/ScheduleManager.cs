@@ -14,7 +14,7 @@ namespace Aion.DAL.Managers
             {
                 short crit = short.Parse(store);
                 return await context.vw_ScheduleData.Where(x =>
-                    x.WeekNumber == weekNumber && (x.StoreNumber == crit || x.TransferBranch == store))
+                    x.WeekNumber == weekNumber && (x.StoreNumber == crit || x.TransferBranch == "UK " + store))
                     .OrderBy(x => x.JobCode).ThenBy(x => x.FullName).ThenBy(x => x.DayNum)
                     .ToListAsync();
             }

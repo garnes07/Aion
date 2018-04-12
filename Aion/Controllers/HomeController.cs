@@ -1,6 +1,7 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
+using Aion.Models.Utils;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,9 +22,7 @@ namespace Aion.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var test = _store;
             HomeVm vm = new HomeVm();
-
             vm.TopNews = await _activityManager.GetTopNews();
 
             switch (selectArea)
@@ -71,6 +70,11 @@ namespace Aion.Controllers
         public FileResult Documents(string f)
         {
             return File("/Uploads/" + f, "application/pdf");
+        }
+
+        public ActionResult STARHandbook()
+        {
+            return View();
         }
     }
 }

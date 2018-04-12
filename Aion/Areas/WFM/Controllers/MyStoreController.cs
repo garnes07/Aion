@@ -271,6 +271,7 @@ namespace Aion.Areas.WFM.Controllers
             {
                 case "S":
                     vm.Collection = await _scheduleManager.GetStoreSchedule(selectCrit, weekNum);
+                    vm.HomeStore = !(bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "UK " + selectCrit : "IE " + selectCrit;
                     if (vm.Collection.Min(x => x.StartDate) < DateTime.Now.Date.FirstDayOfWeek())
                     {
                         ViewBag.historic = true;
@@ -350,6 +351,21 @@ namespace Aion.Areas.WFM.Controllers
                     break;
             }
             return View(vm);
+        }
+        
+        public ActionResult Recruitment()
+        {
+            return View();
+        }
+
+        public ActionResult NewVacancy(List<RecruitmentRequest> r, string Notes)
+        {
+            return RedirectToAction("Recruitment");
+        }
+
+        public ActionResult CancelVacancy(int vacancyId)
+        {
+            return RedirectToAction("Recruitment");
         }
     }
 }

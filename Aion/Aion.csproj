@@ -163,6 +163,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OpeningTimesController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossView.cs" />
@@ -250,6 +254,9 @@
     </Compile>
     <Compile Include="DAL\Entities\Last12MonthList.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\OpeningTimesComment.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\PayCalendarDate.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -543,6 +550,7 @@
     <Compile Include="Models\Kronos\ShiftSegment.cs" />
     <Compile Include="Models\Kronos\Timesheet.cs" />
     <Compile Include="Models\Utils\AuthenticationResult.cs" />
+    <Compile Include="Areas\WFM\Models\MyStore\RecruitmentRequest.cs" />
     <Compile Include="Models\Utils\StoreStub.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
@@ -813,6 +821,12 @@
     <Content Include="Areas\WFM\Views\Deployment\DetailPilot.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailStorePilot.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailRegionPilot.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\OpeningTimes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\OpeningTimes\ReviewTime.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1075,8 +1089,11 @@
     <Content Include="Uploads\RFTPHow.pdf" />
     <Content Include="Uploads\RFTPWhat.pdf" />
     <Content Include="Uploads\RFTPWhy.pdf" />
+    <Content Include="Areas\WFM\Views\MyStore\Recruitment.cshtml" />
+    <Content Include="Views\Home\STARHandbook.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Workflow\Views\Shared\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

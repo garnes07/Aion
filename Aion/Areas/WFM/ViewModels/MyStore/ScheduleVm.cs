@@ -9,12 +9,13 @@ namespace Aion.Areas.WFM.ViewModels.MyStore
     {
         public List<vw_ScheduleData> Collection { get; set; }
         public StoreOpeningTime OpeningTime { get; set; }
+        public string HomeStore { get; set; } 
 
         public List<int> ColleagueList => Collection.GroupBy(x => x.PersonNumber).Select(x => x.Key.Value).ToList();
 
         private List<vw_ScheduleData> _SOHTotal;
         public List<vw_ScheduleData> SOHTotal => _SOHTotal ?? (_SOHTotal = Collection
-                                                     .Where(x => x.TransferBranch == null).GroupBy(x => x.PersonNumber)
+                                                     .Where(x => x.TransferBranch == null || x.TransferBranch == HomeStore).GroupBy(x => x.PersonNumber)
                                                      .Select(x => x.FirstOrDefault()).ToList());
     }
 }
