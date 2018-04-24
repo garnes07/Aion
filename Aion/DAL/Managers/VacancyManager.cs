@@ -10,12 +10,21 @@ namespace Aion.DAL.Managers
 {
     public class VacancyManager : IVacancyManager
     {
-        public async Task<List<sp_GetRecruitmentDetail_Result>> GetVacancyDetail(string storeNum)
+        public async Task<List<sp_GetRecruitmentDetailCPW_Result>> GetVacancyDetailCPW(string storeNum)
         {
             using(var context = new VacanciesModel())
             {
                 var crit = short.Parse(storeNum);
-                return await Task.Run(() => context.sp_GetRecruitmentDetail(crit).ToList());
+                return await Task.Run(() => context.sp_GetRecruitmentDetailCPW(crit).ToList());
+            }
+        }
+
+        public async Task<List<sp_GetRecruitmentDetailDXNS_Result>> GetVacancyDetailDXNS(string storeNum)
+        {
+            using (var context = new VacanciesModel())
+            {
+                var crit = short.Parse(storeNum);
+                return await Task.Run(() => context.sp_GetRecruitmentDetailDXNS(crit).ToList());
             }
         }
 
@@ -35,7 +44,7 @@ namespace Aion.DAL.Managers
                 try
                 {
                     var _storeNum = short.Parse(storeNum);
-                    var currentAllowances = await Task.Run(() => context.sp_GetRecruitmentDetail(_storeNum).ToList());
+                    var currentAllowances = await Task.Run(() => context.sp_GetRecruitmentDetailCPW(_storeNum).ToList());
                     var roleTotals = requests.GroupBy(x => new { x.Position, x.Action }).Select(x => new { x.Key.Position, x.Key.Action, TotalHours = x.Sum(y => y.Heads) * x.Sum(y => y.ContractHours) }).ToList();
 
                     bool valid = true;

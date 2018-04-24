@@ -52,6 +52,8 @@ namespace Aion.Mapping
             CreateMap<NewOpeningTime, StoreOpeningTime>();
             CreateMap<vw_PublishedBudgetsROI, SOHBudgetView>();
             CreateMap<vw_PublishedBudgetsUK, SOHBudgetView>();
+            CreateMap<sp_GetRecruitmentDetailCPW_Result, RecruitmentRequest>();
+            CreateMap<sp_GetRecruitmentDetailDXNS_Result, RecruitmentRequest>();
         }
     }
 

@@ -361,7 +361,8 @@ namespace Aion.Areas.WFM.Controllers
             VacancyRequestVm vm = new VacancyRequestVm();
             if(selectArea == "S")
             {
-                vm.Populate(await _vacancyManger.GetVacancyDetail(selectCrit));
+                var store = selectCrit;
+                vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailDXNS(store)));
                 vm.PendingRequests = await _vacancyManger.GetPendingRequests(selectCrit);
             }
             else

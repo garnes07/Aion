@@ -181,6 +181,7 @@
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\DeploymentAggregate.cs" />
     <Compile Include="Areas\WFM\Models\MyStore\NewOpeningTime.cs" />
+    <Compile Include="Areas\WFM\Models\MyStore\RecruitmentDetail.cs" />
     <Compile Include="Areas\WFM\Models\MyStore\SOHBudgetView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
@@ -343,7 +344,10 @@
     <Compile Include="DAL\Entities\sp_GetPandL_Result.cs">
       <DependentUpon>ProfitLossModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Entities\sp_GetRecruitmentDetail_Result.cs">
+    <Compile Include="DAL\Entities\sp_GetRecruitmentDetailCPW_Result.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\sp_GetRecruitmentDetailDXNS_Result.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_PeriodDeploymentSummary_Result.cs">

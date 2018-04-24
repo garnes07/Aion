@@ -25,6 +25,7 @@
           <Property Name="SFName" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="SortOrder" Type="smallint" />
           <Property Name="RateOfPay" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="SFPositionId" Type="smallint" />
         </EntityType>
         <EntityType Name="VacancyRequests">
           <Key>
@@ -74,7 +75,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="sp_GetRecruitmentDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="sp_GetRecruitmentDetailCPW" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StoreNum" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="sp_GetRecruitmentDetailDXNS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StoreNum" Type="smallint" Mode="In" />
         </Function>
         <EntityContainer Name="VacancyModelStoreContainer">
@@ -106,7 +110,10 @@
             <End Role="VacancyPosition" EntitySet="VacancyPositions" />
             <End Role="VacancyRequest" EntitySet="VacancyRequests" />
           </AssociationSet>
-          <FunctionImport Name="sp_GetRecruitmentDetail" ReturnType="Collection(VacancyModel.sp_GetRecruitmentDetail_Result)">
+          <FunctionImport Name="sp_GetRecruitmentDetailCPW" ReturnType="Collection(VacancyModel.sp_GetRecruitmentDetailCPW_Result)">
+            <Parameter Name="StoreNum" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetRecruitmentDetailDXNS" ReturnType="Collection(VacancyModel.sp_GetRecruitmentDetailDXNS_Result)">
             <Parameter Name="StoreNum" Mode="In" Type="Int16" />
           </FunctionImport>
         </EntityContainer>
@@ -132,6 +139,7 @@
           <Property Name="SortOrder" Type="Int16" />
           <NavigationProperty Name="VacancyRequests" Relationship="VacancyModel.FK_VacancyRequests_VacancyPositions" FromRole="VacancyPosition" ToRole="VacancyRequest" />
           <Property Name="RateOfPay" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="SFPositionId" Type="Int16" />
         </EntityType>
         <EntityType Name="VacancyRequest">
           <Key>
@@ -183,7 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_GetRecruitmentDetail_Result">
+        <ComplexType Name="sp_GetRecruitmentDetailCPW_Result">
           <Property Type="Int16" Name="StoreNumber" Nullable="true" />
           <Property Type="String" Name="StoreName" Nullable="true" MaxLength="50" />
           <Property Type="Int16" Name="PositionId" Nullable="false" />
@@ -193,6 +201,21 @@
           <Property Type="Int16" Name="ContractBase" Nullable="false" />
           <Property Type="Decimal" Name="CurrentContract" Nullable="false" Precision="38" Scale="1" />
           <Property Type="Decimal" Name="AverageContract" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Int32" Name="OpenVacancies" Nullable="false" />
+          <Property Type="Decimal" Name="RateOfPay" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Decimal" Name="TotalBase" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="CurrentBase" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_GetRecruitmentDetailDXNS_Result">
+          <Property Type="Int16" Name="StoreNumber" Nullable="true" />
+          <Property Type="String" Name="StoreName" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="PositionId" Nullable="false" />
+          <Property Type="String" Name="FriendlyName" Nullable="false" MaxLength="250" />
+          <Property Type="Int16" Name="SortOrder" Nullable="true" />
+          <Property Type="Decimal" Name="Allowance" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="ContractBase" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="CurrentContract" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="AverageContract" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Int32" Name="OpenVacancies" Nullable="false" />
           <Property Type="Decimal" Name="RateOfPay" Nullable="true" Precision="5" Scale="2" />
           <Property Type="Decimal" Name="TotalBase" Nullable="true" Precision="10" Scale="2" />
@@ -219,6 +242,7 @@
           <EntitySetMapping Name="VacancyPositions">
             <EntityTypeMapping TypeName="VacancyModel.VacancyPosition">
               <MappingFragment StoreEntitySet="VacancyPositions">
+                <ScalarProperty Name="SFPositionId" ColumnName="SFPositionId" />
                 <ScalarProperty Name="RateOfPay" ColumnName="RateOfPay" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="SFName" ColumnName="SFName" />
@@ -250,9 +274,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetRecruitmentDetail" FunctionName="VacancyModel.Store.sp_GetRecruitmentDetail">
+          <FunctionImportMapping FunctionImportName="sp_GetRecruitmentDetailCPW" FunctionName="VacancyModel.Store.sp_GetRecruitmentDetailCPW">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="VacancyModel.sp_GetRecruitmentDetail_Result">
+              <ComplexTypeMapping TypeName="VacancyModel.sp_GetRecruitmentDetailCPW_Result">
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Allowance" ColumnName="Allowance" />
+                <ScalarProperty Name="ContractBase" ColumnName="ContractBase" />
+                <ScalarProperty Name="CurrentContract" ColumnName="CurrentContract" />
+                <ScalarProperty Name="AverageContract" ColumnName="AverageContract" />
+                <ScalarProperty Name="OpenVacancies" ColumnName="OpenVacancies" />
+                <ScalarProperty Name="RateOfPay" ColumnName="RateOfPay" />
+                <ScalarProperty Name="TotalBase" ColumnName="TotalBase" />
+                <ScalarProperty Name="CurrentBase" ColumnName="CurrentBase" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRecruitmentDetailDXNS" FunctionName="VacancyModel.Store.sp_GetRecruitmentDetailDXNS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VacancyModel.sp_GetRecruitmentDetailDXNS_Result">
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="PositionId" ColumnName="PositionId" />

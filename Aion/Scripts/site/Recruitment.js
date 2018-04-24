@@ -68,7 +68,9 @@ var allowSubmit = false;
 var checksValid = true;
 var hoursBuffer = $('#scrpt').data('buffer');
 var totalBase = parseFloat($('#scrpt').data('totalbase')).toFixed(2);
+var currentBase = parseFloat($('#scrpt').data('currentbase')).toFixed(2);
 var overBase = false;
+var warningBase = false;
 
 //On Start
 $(function () {
@@ -102,7 +104,11 @@ function checkTotals(position) {
 
     var approvalResult;
     if (allowance == -1) {
-        approvalResult = 'ion-checkmark-round text-success';
+        if (warningBase) {
+            approvalResult = 'ion-alert text-warning';
+        } else {
+            approvalResult = 'ion-checkmark-round text-success';
+        };        
     }
     else {
         if (positionTotal > allowance * hoursBuffer) {
@@ -153,7 +159,7 @@ function checkTotals(position) {
     $form.find('.request').each(function (x) {
         if ($(this).find('.position').val() === position) {
             $(this).find('.approvalResult').attr('class', 'approvalResult icon ' + approvalResult);
-        }
+        };
     });
 };
 
@@ -267,20 +273,33 @@ $form.on('change', ':input', function (e) {
                 for (var i = 0; i < positionList.length; i++) {
                     total += findTotal(positionList[i]) * roleAllowance.findByRoleId(positionList[i]).HourlyRate;
                 };
-                if (total > totalBase) {
-                    allowSubmit = false;
-                    $submit.addClass('disabled').attr('disabled', true);
-                    $baseAlertNum.html(total - totalBase);
-                    $baseAlert.removeClass('d-none');
-                    overBase = true;
-                }
-                else {
-                    $baseAlert.addClass('d-none');
+                if (total + currentBase < totalBase * 1.02) {
+                    $baseAlert.attr('class', 'alert alert-danger text-center d-none');
                     allowSubmit = true;
                     $submit.removeClass('disabled').attr('disabled', true);
                     $('.approvalResult').removeClass('d-none');
-                    checkTotals(position);
                     overBase = false;
+                    $notes.attr('required', false);
+                }
+                else if (total + currentBase < totalBase * hoursBuffer) {
+                    $baseAlert.attr('class', 'alert alert-warning text-center d-none');
+                    allowSubmit = true;
+                    $submit.removeClass('disabled').attr('disabled', true);
+                    $('#baseWarning').removeClass('d-none');
+                    $('.approvalResult').removeClass('d-none');
+                    $notes.attr('required', true);
+                    warningBase = true;
+                    overBase = false;
+                }
+                else {
+                    allowSubmit = false;
+                    $submit.addClass('disabled').attr('disabled', true);
+                    $baseAlertNum.html(parseFloat(total - totalBase).toFixed(2));
+                    $('#baseWarning').addClass('d-none');
+                    $baseAlert.attr('class', 'alert alert-danger text-center');
+                    $notes.attr('required', false);
+                    overBase = true;
+                    warningBase = false;
                 };
             };
             checkTotals(position);

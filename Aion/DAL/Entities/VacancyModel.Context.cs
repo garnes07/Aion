@@ -31,13 +31,22 @@ namespace Aion.DAL.Entities
         public virtual DbSet<VacancyPosition> VacancyPositions { get; set; }
         public virtual DbSet<VacancyRequest> VacancyRequests { get; set; }
     
-        public virtual ObjectResult<sp_GetRecruitmentDetail_Result> sp_GetRecruitmentDetail(Nullable<short> storeNum)
+        public virtual ObjectResult<sp_GetRecruitmentDetailCPW_Result> sp_GetRecruitmentDetailCPW(Nullable<short> storeNum)
         {
             var storeNumParameter = storeNum.HasValue ?
                 new ObjectParameter("StoreNum", storeNum) :
                 new ObjectParameter("StoreNum", typeof(short));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecruitmentDetail_Result>("sp_GetRecruitmentDetail", storeNumParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecruitmentDetailCPW_Result>("sp_GetRecruitmentDetailCPW", storeNumParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetRecruitmentDetailDXNS_Result> sp_GetRecruitmentDetailDXNS(Nullable<short> storeNum)
+        {
+            var storeNumParameter = storeNum.HasValue ?
+                new ObjectParameter("StoreNum", storeNum) :
+                new ObjectParameter("StoreNum", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecruitmentDetailDXNS_Result>("sp_GetRecruitmentDetailDXNS", storeNumParameter);
         }
     }
 }

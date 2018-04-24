@@ -11,17 +11,17 @@ namespace Aion.DAL.Entities
 {
     using System;
     
-    public partial class sp_GetRecruitmentDetail_Result
+    public partial class sp_GetRecruitmentDetailDXNS_Result
     {
         public Nullable<short> StoreNumber { get; set; }
         public string StoreName { get; set; }
         public short PositionId { get; set; }
         public string FriendlyName { get; set; }
         public Nullable<short> SortOrder { get; set; }
-        public Nullable<decimal> Allowance { get; set; }
-        public short ContractBase { get; set; }
+        public decimal Allowance { get; set; }
+        public decimal ContractBase { get; set; }
         public decimal CurrentContract { get; set; }
-        public decimal AverageContract { get; set; }
+        public Nullable<decimal> AverageContract { get; set; }
         public int OpenVacancies { get; set; }
         public Nullable<decimal> RateOfPay { get; set; }
         public Nullable<decimal> TotalBase { get; set; }

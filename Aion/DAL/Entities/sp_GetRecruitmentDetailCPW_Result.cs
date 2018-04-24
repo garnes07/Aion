@@ -10,24 +10,21 @@
 namespace Aion.DAL.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class VacancyPosition
+    public partial class sp_GetRecruitmentDetailCPW_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public VacancyPosition()
-        {
-            this.VacancyRequests = new HashSet<VacancyRequest>();
-        }
-    
+        public Nullable<short> StoreNumber { get; set; }
+        public string StoreName { get; set; }
         public short PositionId { get; set; }
         public string FriendlyName { get; set; }
-        public string SFName { get; set; }
         public Nullable<short> SortOrder { get; set; }
+        public Nullable<decimal> Allowance { get; set; }
+        public short ContractBase { get; set; }
+        public decimal CurrentContract { get; set; }
+        public decimal AverageContract { get; set; }
+        public int OpenVacancies { get; set; }
         public Nullable<decimal> RateOfPay { get; set; }
-        public Nullable<short> SFPositionId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VacancyRequest> VacancyRequests { get; set; }
+        public Nullable<decimal> TotalBase { get; set; }
+        public Nullable<decimal> CurrentBase { get; set; }
     }
 }
