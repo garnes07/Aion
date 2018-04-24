@@ -24,6 +24,7 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IWeeksManager _weeksManager;
         private readonly IHolidayPlanningManager _holidayPlanningManager;
         private readonly IDashboardDataManager _dashboardDataManager;
+        private readonly IVacancyManager _vacancyManger;
 
         public MyStoreController()
         {
@@ -34,6 +35,7 @@ namespace Aion.Areas.WFM.Controllers
             _weeksManager = new WeeksManager();
             _holidayPlanningManager = new HolidayPlanningManager();
             _dashboardDataManager = new DashboardDataManager();
+            _vacancyManger = new VacancyManager();
         }
         
         public async Task<ActionResult> OpeningTimes()
@@ -353,17 +355,43 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
         
-        public ActionResult Recruitment()
+        [Authorize]
+        public async Task<ActionResult> Recruitment()
         {
-            return View();
+            VacancyRequestVm vm = new VacancyRequestVm();
+            if(selectArea == "S")
+            {
+                vm.Populate(await _vacancyManger.GetVacancyDetail(selectCrit));
+                vm.PendingRequests = await _vacancyManger.GetPendingRequests(selectCrit);
+            }
+            else
+            {
+                vm.MessageType = MessageType.Error;
+                vm.Message = vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+            }
+
+            return View(vm);
         }
 
-        public ActionResult NewVacancy(List<RecruitmentRequest> r, string Notes)
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> NewVacancy(List<RecruitmentRequest> r, string Notes)
+        {
+            var result = await _vacancyManger.PostNewRequests(r, Notes, selectCrit, HttpContext.Session["Email"].ToString());
+
+            return RedirectToAction("Recruitment");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult CancelLive(int ReferenceId)
         {
             return RedirectToAction("Recruitment");
         }
 
-        public ActionResult CancelVacancy(int vacancyId)
+        [Authorize]
+        [HttpPost]
+        public ActionResult CancelPending(int ReferenceId)
         {
             return RedirectToAction("Recruitment");
         }

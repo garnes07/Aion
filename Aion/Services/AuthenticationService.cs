@@ -117,6 +117,8 @@ namespace Aion.Services
                 HttpContext.Current.Session["_wfUserGroup"] = _ticketManager.GetUserGroup(authResult.UserName);
             }
 
+            HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress; //Does this work for Dixons??
+
             await CheckAccessLevel(authResult);
             await _authManager.RecordLogIn(new UserLog
             {

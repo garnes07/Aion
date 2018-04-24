@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VacancyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="RequestComments">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="CommentType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="EnteredOn" Type="datetime" Nullable="false" />
+          <Property Name="EnteredBy" Type="nchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VacancyPositions">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="smallint" Nullable="false" />
+          <Property Name="FriendlyName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="SFName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="SortOrder" Type="smallint" />
+          <Property Name="RateOfPay" Type="decimal" Precision="5" Scale="2" />
+        </EntityType>
+        <EntityType Name="VacancyRequests">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SFRefNo" Type="int" />
+          <Property Name="PositionCode" Type="smallint" Nullable="false" />
+          <Property Name="Heads" Type="smallint" Nullable="false" />
+          <Property Name="ContractHrs" Type="smallint" Nullable="false" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="Rejected" Type="bit" Nullable="false" />
+          <Property Name="RaisedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RaisedDate" Type="datetime" Nullable="false" />
+          <Property Name="PostedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="PostedDate" Type="datetime" />
+          <Property Name="Replace" Type="bit" Nullable="false" />
+          <Property Name="Repost" Type="bit" Nullable="false" />
+          <Property Name="Internal" Type="bit" Nullable="false" />
+          <Property Name="Emailed" Type="bit" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="Show" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_RequestComments_VacancyRequests">
+          <End Role="VacancyRequests" Type="Self.VacancyRequests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RequestComments" Type="Self.RequestComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacancyRequests">
+              <PropertyRef Name="EntryId" />
+            </Principal>
+            <Dependent Role="RequestComments">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VacancyRequests_VacancyPositions">
+          <End Role="VacancyPositions" Type="Self.VacancyPositions" Multiplicity="1" />
+          <End Role="VacancyRequests" Type="Self.VacancyRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacancyPositions">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="VacancyRequests">
+              <PropertyRef Name="PositionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_GetRecruitmentDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StoreNum" Type="smallint" Mode="In" />
+        </Function>
+        <EntityContainer Name="VacancyModelStoreContainer">
+          <EntitySet Name="RequestComments" EntityType="Self.RequestComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VacancyPositions" EntityType="Self.VacancyPositions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VacancyRequests" EntityType="Self.VacancyRequests" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_RequestComments_VacancyRequests" Association="Self.FK_RequestComments_VacancyRequests">
+            <End Role="VacancyRequests" EntitySet="VacancyRequests" />
+            <End Role="RequestComments" EntitySet="RequestComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VacancyRequests_VacancyPositions" Association="Self.FK_VacancyRequests_VacancyPositions">
+            <End Role="VacancyPositions" EntitySet="VacancyPositions" />
+            <End Role="VacancyRequests" EntitySet="VacancyRequests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VacancyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="VacanciesModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RequestComments" EntityType="VacancyModel.RequestComment" />
+          <EntitySet Name="VacancyPositions" EntityType="VacancyModel.VacancyPosition" />
+          <EntitySet Name="VacancyRequests" EntityType="VacancyModel.VacancyRequest" />
+          <AssociationSet Name="FK_RequestComments_VacancyRequests" Association="VacancyModel.FK_RequestComments_VacancyRequests">
+            <End Role="VacancyRequest" EntitySet="VacancyRequests" />
+            <End Role="RequestComment" EntitySet="RequestComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VacancyRequests_VacancyPositions" Association="VacancyModel.FK_VacancyRequests_VacancyPositions">
+            <End Role="VacancyPosition" EntitySet="VacancyPositions" />
+            <End Role="VacancyRequest" EntitySet="VacancyRequests" />
+          </AssociationSet>
+          <FunctionImport Name="sp_GetRecruitmentDetail" ReturnType="Collection(VacancyModel.sp_GetRecruitmentDetail_Result)">
+            <Parameter Name="StoreNum" Mode="In" Type="Int16" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="RequestComment">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="Int32" Nullable="false" />
+          <Property Name="CommentType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EnteredOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EnteredBy" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="VacancyRequest" Relationship="VacancyModel.FK_RequestComments_VacancyRequests" FromRole="RequestComment" ToRole="VacancyRequest" />
+        </EntityType>
+        <EntityType Name="VacancyPosition">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="Int16" Nullable="false" />
+          <Property Name="FriendlyName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SFName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int16" />
+          <NavigationProperty Name="VacancyRequests" Relationship="VacancyModel.FK_VacancyRequests_VacancyPositions" FromRole="VacancyPosition" ToRole="VacancyRequest" />
+          <Property Name="RateOfPay" Type="Decimal" Precision="5" Scale="2" />
+        </EntityType>
+        <EntityType Name="VacancyRequest">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SFRefNo" Type="Int32" />
+          <Property Name="PositionCode" Type="Int16" Nullable="false" />
+          <Property Name="Heads" Type="Int16" Nullable="false" />
+          <Property Name="ContractHrs" Type="Int16" Nullable="false" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="Rejected" Type="Boolean" Nullable="false" />
+          <Property Name="RaisedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RaisedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PostedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PostedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RequestComments" Relationship="VacancyModel.FK_RequestComments_VacancyRequests" FromRole="VacancyRequest" ToRole="RequestComment" />
+          <NavigationProperty Name="VacancyPosition" Relationship="VacancyModel.FK_VacancyRequests_VacancyPositions" FromRole="VacancyRequest" ToRole="VacancyPosition" />
+          <Property Name="Replace" Type="Boolean" Nullable="false" />
+          <Property Name="Repost" Type="Boolean" Nullable="false" />
+          <Property Name="Internal" Type="Boolean" Nullable="false" />
+          <Property Name="Emailed" Type="Boolean" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="Show" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_RequestComments_VacancyRequests">
+          <End Type="VacancyModel.VacancyRequest" Role="VacancyRequest" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="VacancyModel.RequestComment" Role="RequestComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacancyRequest">
+              <PropertyRef Name="EntryId" />
+            </Principal>
+            <Dependent Role="RequestComment">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VacancyRequests_VacancyPositions">
+          <End Type="VacancyModel.VacancyPosition" Role="VacancyPosition" Multiplicity="1" />
+          <End Type="VacancyModel.VacancyRequest" Role="VacancyRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacancyPosition">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="VacancyRequest">
+              <PropertyRef Name="PositionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_GetRecruitmentDetail_Result">
+          <Property Type="Int16" Name="StoreNumber" Nullable="true" />
+          <Property Type="String" Name="StoreName" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="PositionId" Nullable="false" />
+          <Property Type="String" Name="FriendlyName" Nullable="false" MaxLength="250" />
+          <Property Type="Int16" Name="SortOrder" Nullable="true" />
+          <Property Type="Decimal" Name="Allowance" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Int16" Name="ContractBase" Nullable="false" />
+          <Property Type="Decimal" Name="CurrentContract" Nullable="false" Precision="38" Scale="1" />
+          <Property Type="Decimal" Name="AverageContract" Nullable="false" Precision="38" Scale="6" />
+          <Property Type="Int32" Name="OpenVacancies" Nullable="false" />
+          <Property Type="Decimal" Name="RateOfPay" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Decimal" Name="TotalBase" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="CurrentBase" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VacancyModelStoreContainer" CdmEntityContainer="VacanciesModel">
+          <EntitySetMapping Name="RequestComments">
+            <EntityTypeMapping TypeName="VacancyModel.RequestComment">
+              <MappingFragment StoreEntitySet="RequestComments">
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredOn" ColumnName="EnteredOn" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CommentType" ColumnName="CommentType" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VacancyPositions">
+            <EntityTypeMapping TypeName="VacancyModel.VacancyPosition">
+              <MappingFragment StoreEntitySet="VacancyPositions">
+                <ScalarProperty Name="RateOfPay" ColumnName="RateOfPay" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="SFName" ColumnName="SFName" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VacancyRequests">
+            <EntityTypeMapping TypeName="VacancyModel.VacancyRequest">
+              <MappingFragment StoreEntitySet="VacancyRequests">
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Emailed" ColumnName="Emailed" />
+                <ScalarProperty Name="Internal" ColumnName="Internal" />
+                <ScalarProperty Name="Repost" ColumnName="Repost" />
+                <ScalarProperty Name="Replace" ColumnName="Replace" />
+                <ScalarProperty Name="PostedDate" ColumnName="PostedDate" />
+                <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+                <ScalarProperty Name="RaisedDate" ColumnName="RaisedDate" />
+                <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
+                <ScalarProperty Name="Rejected" ColumnName="Rejected" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ContractHrs" ColumnName="ContractHrs" />
+                <ScalarProperty Name="Heads" ColumnName="Heads" />
+                <ScalarProperty Name="PositionCode" ColumnName="PositionCode" />
+                <ScalarProperty Name="SFRefNo" ColumnName="SFRefNo" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRecruitmentDetail" FunctionName="VacancyModel.Store.sp_GetRecruitmentDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VacancyModel.sp_GetRecruitmentDetail_Result">
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Allowance" ColumnName="Allowance" />
+                <ScalarProperty Name="ContractBase" ColumnName="ContractBase" />
+                <ScalarProperty Name="CurrentContract" ColumnName="CurrentContract" />
+                <ScalarProperty Name="AverageContract" ColumnName="AverageContract" />
+                <ScalarProperty Name="OpenVacancies" ColumnName="OpenVacancies" />
+                <ScalarProperty Name="RateOfPay" ColumnName="RateOfPay" />
+                <ScalarProperty Name="TotalBase" ColumnName="TotalBase" />
+                <ScalarProperty Name="CurrentBase" ColumnName="CurrentBase" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

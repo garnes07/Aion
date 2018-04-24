@@ -1,373 +1,287 @@
-﻿@{
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.VacancyRequestVm
+
+@{
     ViewBag.Title = "Recruitment";
 }
 
-<div id="checkModal" class="modal fade in" tabindex="-1" role="dialog">
-    <div class="modal-dialog vertical-align-center" role="document">
-        <div class="modal-content modal-content-center">
+<div class="modal fade" id="cp_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Please Confirm</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">Cancel Pending Vacancies</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="text-center modal-body">
-                <p class="text-left">
-                    There are existing vacancies for some of the roles you have selected, please indicate below what action you wish to take.<br />
-                    Selecting 'Repost Vacancy' will ensuring the vacancy is made live again for the full duration.
-                </p>
-                <div id="pContainer">
-                    <div id="p_0" class="pRow">
-                        <div class="text-left"><strong class="position"></strong></div>
-                        <div class="form-check form-check-inline">
-                            <input id="p[0]a" name="p[0]" class="form-check-input" type="radio" value="replace" />
-                            <label class="form-check-label" for="p[0]a">Replace existing vacancies</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input id="p[0]b" name="p[0]" class="form-check-input" type="radio" value="add" />
-                            <label class="form-check-label" for="p[0]b">Add to existing vacancies</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" name="p[0]Repost" id="p[0]Repost"/>
-                            <label class="form-check-label" for="p[0]Repost">Repost vacancy</label>
-                        </div>
-                    </div>
-                </div>
-                <p id="pError" class="text-danger d-none">
-                    <strong>Please ensure you have made a selection on every row</strong>
-                </p>
+            <div class="modal-body">
+                <p>Are you sure you wish to cancel this pending vacancy?</p>
+                <form id="cp_form" action="/WFM/Recruitment/CancelPending" method="post">
+                    <input name="ReferenceId" id="ReferenceId" hidden value="" />
+                </form>
             </div>
             <div class="modal-footer">
-                <button id="checkSubmit" type="button" class="btn btn-success">Submit</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="cp_submit" type="button" class="btn btn-success">Yes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cl_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancel Live Vacancies</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you wish to cancel this pending vacancy?</p>
+                <form id="cl_form" action="/WFM/Recruitment/CancelLive" method="post">
+                    <input name="ReferenceId" id="ReferenceId" hidden value="" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cl_submit" type="button" class="btn btn-success">Yes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
             </div>
         </div>
     </div>
 </div>
 
 <div class="container-fluid">
-    <div class="card mb-3">
-        <div class="card-header text-center">
-            <strong>Dixons Carphone Recruitment</strong>
-        </div>
-        <div class="card-body">
-            <i class="icon ion-information-circled info-button"></i>
-            <p><strong><u>Store</u></strong>: 1877 - Guildford High St</p>
-            <p>
-                <h6>Contract Base Summary</h6>
-                <ul>
-                    <li>You are xx hours under your maximum contract base</li>
-                    <li>Your average contract length is xx and the number of heads in your store is xx.</li>
-                </ul>
-            </p>
-            <p>
-                You may be able to recruit.
-            </p>
-        </div>
-    </div>
-    <div class="card mb-3">
-        <div class="card-header text-center">
-            <strong>New Vacancy Request</strong>
-        </div>
-        <div class="card-body">
-            <i class="icon ion-information-circled info-button"></i>
-            <div class="form-row">
-                <div class="col-1"></div>
-                <div class="col-4 text-center pt-3"><strong>Position</strong></div>
-                <div class="col-2 text-center pt-3"><strong>Heads</strong></div>
-                <div class="col-2 text-center"><strong>Contract<br /> Hours</strong></div>
-                <div class="col-2 text-center"><strong>Total<br /> Hours</strong></div>
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
             </div>
-            <form id="rRequest" method="post" action="/WFM/MyStore/NewVacancy">
-                <div class="form-row request" id="r_0">
-                    <input class="action" name="r[0].Action" value="new" hidden />
-                    <input class="repost" name="r[0].Repost" value="true" hidden />
-                    <div class="col-1">
-                        <div class="row pt-2">
-                            <i class="col-6 text-success icon ion-plus-circled add" style="font-size:larger; cursor:pointer;"></i>
+        </div>
+    }
+    @if (Model.MessageType == Aion.ViewModels.MessageType.Error)
+    {
+        <div class="alert alert-warning text-center">
+            <strong>@Model.Message</strong>
+        </div>
+    }
+    else
+    {
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                <strong>Dixons Carphone Recruitment</strong>
+            </div>
+            <div class="card-body">
+                <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Lorem ipsum dolor sit amet, ad qui civibus denique quaestio, ea est ridens percipitur efficiantur, nam te saepe lucilius molestiae. Vel cu munere nemore omnesque. Ius ex inimicus petentium suavitate, cu mel invenire neglegentur, oratio veniam ut vim" data-trigger="hover" class="icon ion-information-circled info-button"></i>
+                <p><strong>Store</strong>: @Model.StoreName</p>
+                @*<p><strong><u>Store</u></strong>: 1877 - Guildford High St</p>*@
+                <p>
+                    <h6>Contract Base Summary</h6>
+                    @foreach (var item in Model.RecruitmentDetail)
+                    {
+                        <u>@item.FriendlyName</u>
+                        if (item.Allowance - item.OpenVacancies > 0)
+                        {
+                            <ul>
+                                <li>You are @(item.Allowance - item.OpenVacancies) hours under your maximum contract base</li>
+                                <li>Your average contract length is currently @string.Format("{0:0.0}", item.AverageContract).</li>
+                                <li><strong>You may be able to recruit</strong></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul>
+                                <li>You are @(item.CurrentContract - item.ContractBase) hours over your maximum contract base</li>
+                                <li>Your average contract length is currently @string.Format("{0:0.0}", item.AverageContract).</li>
+                                <li><strong>You do not have allowance to recruit</strong></li>
+                            </ul>
+                        }
+                    }
+                </p>
+            </div>
+        </div>
+        <div id="formCard" class="card mb-3">
+            <div class="card-header text-center">
+                <strong>New Vacancy Request</strong>
+            </div>
+            <div class="card-body">
+                <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Lorem ipsum dolor sit amet, ad qui civibus denique quaestio, ea est ridens percipitur efficiantur, nam te saepe lucilius molestiae. Vel cu munere nemore omnesque. Ius ex inimicus petentium suavitate, cu mel invenire neglegentur, oratio veniam ut vim" data-trigger="hover" class="icon ion-information-circled info-button"></i>
+                <div class="form-row">
+                    <div class="col-1"></div>
+                    <div class="col-4 text-center px-1 pt-3"><strong>Position</strong></div>
+                    <div class="col-2 text-center px-1 pt-3"><strong>Heads</strong></div>
+                    <div class="col-2 text-center px-1"><strong>Contract<br /> Hours</strong></div>
+                    <div class="col-2 text-center px-1"><strong>Total<br /> Hours</strong></div>
+                </div>
+                <form id="rRequest" method="post" action="/WFM/MyStore/NewVacancy">
+                    <div class="form-row request" id="r_0">
+                        <input class="action" name="r[0].Action" value="new" hidden />
+                        <input class="repost" name="r[0].Repost" value="true" hidden />
+                        <div class="col-1 px-1">
+                            <div class="row pt-2">
+                                <i class="col-6 text-success icon ion-plus-circled add" style="font-size:larger; cursor:pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="form-group px-1 col-4">
+                            @Html.DropDownList("r[0].Position", Model.PositionList, new { @class = "form-control position" })
+                            @*<select name="r[0].Position" class="form-control position" required>
+                                    <option value="1">Sales Consultant</option>
+                                    <option value="2">Team KnowHow Colleague</option>
+                                    <option value="3">Team KnowHow Engineer</option>
+                                </select>*@
+                        </div>
+                        <div class="form-group px-1 col-2">
+                            <input name="r[0].Heads" class="form-control text-center heads" type="number" min="1" value="0" required />
+                        </div>
+                        <div class="form-group px-1 col-2">
+                            <input name="r[0].ContractHours" class="form-control text-center hours" type="number" value="6" min="6" max="45" required />
+                        </div>
+                        <div class="form-group px-1 col-2">
+                            <input class="form-control text-center rowTotal" type="number" value="0" required readonly />
+                        </div>
+                        <div class="pt-1 px-1 text-center mb-3 col-1">
+                            <div class="approvalResult icon" style="font-size:large;"></div>
                         </div>
                     </div>
-                    <div class="col-4 form-group">
-                        <select name="r[0].Position" class="form-control position" required>
-                            <option value="1">Sales Consultant</option>
-                            <option value="2">Team KnowHow Colleague</option>
-                            <option value="3">Team KnowHow Engineer</option>
-                        </select>
+                    <div id="baseAlert" class="alert alert-danger text-center d-none">
+                        These vacancies will take you over your maximum contract base by <strong>£<span id="baseAlertNum"></span></strong>
                     </div>
-                    <div class="col-2 form-group">
-                        <input name="r[0].Heads" class="form-control text-center heads" type="number" min="1" value="0" required />
+                    <div class="form-row">
+                        <div class="form-group w-100">
+                            <label for="notes"><strong>Notes <span id="notesError" class="text-danger ml-2 d-none">Please add notes to support this request</span></strong></label>
+                            <textarea class="form-control w-100" style="resize:vertical; min-height:50px;" placeholder="Add notes to support relevant vacancy requests..." name="Notes" rows="2" id="notes"></textarea>
+                        </div>
                     </div>
-                    <div class="col-2 form-group">
-                        <input name="r[0].ContractHours" class="form-control text-center hours" type="number" value="6" min="6" max="45" required />
+                </form>
+                <div id="checkContainer" class="d-none mb-3">
+                    <hr />
+                    <p class="text-left">
+                        There are existing vacancies for some of the roles you have selected, please indicate below what action you wish to take.<br />
+                        <u>Selecting 'Repost Vacancy' will ensuring the vacancy is made live again for the full duration.</u>
+                    </p>
+                    <div id="pContainer">
+                        <div id="p_0" class="pRow">
+                            <div class="text-left"><i class="icon ion-alert text-warning mr-1" style="font-size:larger;"></i><strong class="position"></strong></div>
+                            <div class="form-check form-check-inline">
+                                <input id="p[0]a" name="p[0]" class="form-check-input" type="radio" value="replace" />
+                                <label class="form-check-label" for="p[0]a">Replace existing vacancies</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input id="p[0]b" name="p[0]" class="form-check-input" type="radio" value="add" />
+                                <label class="form-check-label" for="p[0]b">Add to existing vacancies</label>
+                            </div>
+                            <div class="form-check-inline ml-2">
+                                <input class="form-check-input" type="checkbox" value="" name="p[0]Repost" id="p[0]Repost" />
+                                <label class="form-check-label" for="p[0]Repost">Repost vacancy</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-2 form-group">
-                        <input class="form-control text-center rowTotal" type="number" value="0" required readonly />
-                    </div>
-                    <div class="col-1 pt-1 text-center mb-3">
-                        <div class="approvalResult icon" style="font-size:large;"></div>
-                    </div>
+                    <p id="pError" class="text-danger d-none">
+                        <strong>Please ensure you have made a selection on every row</strong>
+                    </p>
+                    <hr />
                 </div>
-                <div class="form-row">
-                    <div class="form-group w-100">
-                        <label for="notes"><strong>Notes</strong></label>
-                        <textarea class="form-control w-100" style="resize:vertical;" placeholder="Add notes to support relevant vacancy requests..." name="Notes" rows="2" id="notes"></textarea>
-                    </div>
+                <div class="row justify-content-center">
+                    <button type="button" id="btnSubmit" class="btn btn-lg btn-success disabled" disabled>Submit</button>
                 </div>
-                <div class="row justify-content-center"><button id="bntSubmit" class="btn btn-lg btn-success disabled">Submit</button></div>
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-header text-center">
-            <strong>Existing Vacancies</strong>
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>Existing Vacancies</strong>
+            </div>
+            <div class="card-body">
+                <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Lorem ipsum dolor sit amet, ad qui civibus denique quaestio, ea est ridens percipitur efficiantur, nam te saepe lucilius molestiae. Vel cu munere nemore omnesque. Ius ex inimicus petentium suavitate, cu mel invenire neglegentur, oratio veniam ut vim" data-trigger="hover" class="icon ion-information-circled info-button"></i>
+                @if (Model.PendingRequests.Any())
+                {
+                    <h3>Pending</h3>
+                    <table class="table table-bordered table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th style="width:14%;">Request Id</th>
+                                <th style="width:30%;">Position</th>
+                                <th style="width:14%;">Heads</th>
+                                <th style="width:14%;">Total Hours</th>
+                                <th style="width:12%;">Status</th>
+                                <th style="width:16%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PendingRequests)
+                            {
+                                <tr>
+                                    <td>@item.EntryId</td>
+                                    <td>@item.VacancyPosition.FriendlyName</td>
+                                    <td>@item.Heads</td>
+                                    <td>@item.ContractHrs</td>
+                                    <td>
+                                        @(!item.Approved ? "Under review" : (item.SFRefNo != null ? "To Post" : "Raising"))
+                                    </td>
+                                    <td><button type="button" data-toggle="modal" data-target="#cp_modal" class="btn btn-sm btn-danger" data-refid="@item.EntryId">Cancel</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                <h3>Live</h3>
+                <table class="table table-bordered table-sm text-center">
+                    <thead>
+                        <tr>
+                            <th style="width:16%;">Vacancy No.</th>
+                            <th style="width:30%;">Position</th>
+                            <th style="width:18%;">Heads</th>
+                            <th style="width:18%;">Total Hours</th>
+                            <th style="width:18%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>Sales Consultant</td>
+                            <td>1</td>
+                            <td>30</td>
+                            <td><button type="button" data-toggle="modal" data-target="#cl_modal" class="btn btn-sm btn-danger" data-refid="1001">Cancel</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="card-body">
-            <table class="table table-bordered table-sm">
-                <thead>
-                    <tr class="text-center">
-                        <th style="width:16%;">Vacancy No.</th>
-                        <th style="width:30%;">Position</th>
-                        <th style="width:18%;">Heads</th>
-                        <th style="width:18%;">Total Hours</th>
-                        <th style="width:18%;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-center">
-                        <td>1001</td>
-                        <td>Sales Consultant</td>
-                        <td>1</td>
-                        <td>30</td>
-                        <td><a href="@Url.Action("CancelVacancy", "MyStore", new { vacancyId = 1001 })" class="btn btn-sm btn-danger">Cancel</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    }
 </div>
 
 @section myScripts{
+    <script id="scrpt" src="~/Scripts/site/Recruitment.js" data-buffer="1.3" data-roledetail="@Model.RoleAllowance" data-totalbase="-1">
+
+    </script>
     <script>
-        var $newRow;
-        var $templateRow
-        var $templateCheckRow;
-        var $newCheckRow;
-        var grpCount;
-        // [RoleId, RoleAllowance, ExistingVacancy, FriendlyName]
-        var roleAllowance = [
-            [1, 45, 1, 'Sales Consultant'],
-            [2, 20, 1, 'Team KnowHow'],
-            [3, 0, 1, 'Team KnowHow Engineer']
-        ];
-        var rowErrors = [];
-        var rowWarnings = [];
-        var $form = $('#rRequest');
-        var $submit = $('#bntSubmit');
-        var $notes = $('#notes');
-        var $pContainer = $('#pContainer');
-        var allowSubmit = false;
-
-        jQuery.fn.PreventDoubleSubmission = function(){
-            var $form = $(this);
-            if ($form.data('submitted') !== true) {
-                $form.data('submitted', true);
-                $form.submit();
-            };
-            return this;
-        }
-
-        function findAllowance(array, item) {
-            for (var i = 0; i < array.length; i++) {
-                if (array[i][0] == item) {
-                    return array[i][1];
-                };
-            };
-            return -1;
-        };
-
-        function existingVacancy(array, item) {
-            var toReturn = [];
-            for (var i = 0; i < array.length; i++) {
-                if (item.indexOf(array[i][0]) !== -1 && array[i][2] === 1) {
-                    toReturn.push(array[i]);
-                };
-            };
-            return toReturn;
-        };
-
-        function findTotal(a) {
-            var total = 0;
-            $form.find('.request').each(function (x) {
-                if ($(this).find('.position').val() === a) {
-                    total += parseInt($(this).find('.rowTotal').val());
-                }
-            });
-            return total;
-        };
-
-        function checkTotals(position, positionTotal, allowance) {
-            var approvalResult;
-            if (positionTotal > allowance * 1.1) {
-                approvalResult = 'ion-close-round text-danger';
-                if (rowErrors.indexOf(position) == -1) {
-                    rowErrors.push(position);
-                };
-                allowSubmit = false;
-                $submit.addClass('disabled');
-                $notes.attr('required', false);
-            }
-            else if (positionTotal > allowance) {
-                approvalResult = 'ion-alert text-warning';
-                if (rowErrors.indexOf(position) != -1) {
-                    rowErrors.splice(rowErrors.indexOf(position), 1);
-                };
-                if (rowErrors.length === 0) {
-                    allowSubmit = true;
-                    $submit.removeClass('disabled');
-                    $notes.attr('required', true);
-                };
-                if (rowWarnings.indexOf(position) == -1) {
-                    rowWarnings.push(position);
-                };
-            }
-            else {
-                approvalResult = 'ion-checkmark-round text-success';
-                if (rowErrors.indexOf(position) != -1) {
-                    rowErrors.splice(rowErrors.indexOf(position), 1);
-                };
-                if (rowWarnings.indexOf(position) != -1) {
-                    rowWarnings.splice(rowWarnings.indexOf(position), 1);
-                };
-                if (rowErrors.length === 0) {
-                    allowSubmit = true;
-                    $submit.removeClass('disabled');
-                };
-                if (rowWarnings.length === 0) {
-                    $notes.attr('required', false);
-                };
-            };
-
-            $form.find('.request').each(function (x) {
-                if ($(this).find('.position').val() === position) {
-                    $(this).find('.approvalResult').attr('class', 'approvalResult icon ' + approvalResult);
-                }
-            });
-        };
-
-        function AddChecks(existingPositions) {
-            $pContainer.html('');
-            for (var i = 0; i < existingPositions.length; i++) {
-                $newCheckRow = $templateCheckRow.clone();
-                $newCheckRow.attr('id', $newCheckRow.attr('id').replace('0', existingPositions[i][0]));
-                $newCheckRow.find('.position').html(existingPositions[i][3]);
-                $newCheckRow.find(':input').each(function () {
-                    $(this).attr('name', $(this).attr('name').replace('0', existingPositions[i][0]));
-                    $(this).attr('id', $(this).attr('id').replace('0', existingPositions[i][0]));
-                });
-                $newCheckRow.find('label').each(function () {
-                    $(this).attr('for', $(this).attr('for').replace('0', existingPositions[i][0]));
-                });
-                $pContainer.append($newCheckRow);
-            };
-            $('#checkModal').modal('toggle');
-        };
-
         $(function () {
-            $templateRow = $('#r_0').clone();
-            $templateRow.find('.add').after('<i class="col text-danger icon ion-minus-circled remove" style="font-size:larger; cursor:pointer;"></i>');
-            $templateCheckRow = $('#p_0').clone();
-            grpCount = 1;
-        });
+            $('#cp_modal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var refId = button.data('refid');
 
-        $submit.click(function (event) {
-            var totalHours = 0;
-            $form.find('.rowTotal').each(function () {
-                totalHours += parseInt($(this).val());
+                var modal = $(this);
+                modal.find('#ReferenceId').val(refId);
             });
 
-            if (allowSubmit && totalHours != 0) {
-                var positionList = [];
-                $form.find('.position').each(function () {
-                    positionList.push(parseInt($(this).val()));
-                });
-
-                var existingVacancies = existingVacancy(roleAllowance, positionList)
-                if (existingVacancies.length) {
-                    AddChecks(existingVacancies);
-                    event.preventDefault();
-                }
-                else {
-                    $form.PreventDoubleSubmission();
-                };
-            };
-        });
-
-        $('#checkSubmit').click(function () {
-            var allSelected = true;
-            $pContainer.find('.pRow').each(function () {
-                if ($(this).find(':input[type=radio]:checked').length == 0)
-                    allSelected = false;
+            $('#cp_submit').click(function () {
+                $('#cp_form').submit();
             });
-            if (!allSelected)
-                $('#pError').removeClass('d-none');
-            else {
-                $pContainer.find('.pRow').each(function () {
-                    var position = $(this).attr('id');
-                    position = position.replace('p_', '');
-                    var actionValue = $(this).find(':input[type=radio]:checked').val();
-                    var repostValue = $(this).find(':input[type=checkbox]').is(':checked');
-                    
-                    $form.find('.request').each(function () {
-                        if ($(this).find('.position').val() == position) {
-                            $(this).find('.action').val(actionValue);
-                            $(this).find('.repost').val(repostValue);
-                        };
-                    });
-                });
-                
-                $form.PreventDoubleSubmission();
-            };
-        });
 
-        $form.on('change blur', 'input', function (e) {
-            var $triggerRow = $('#' + e.target.parentElement.parentElement.id);
-            var total = $triggerRow.find('.heads').val() * $triggerRow.find('.hours').val();
-            if (total > 0) {
-                $triggerRow.find('.rowTotal').val(total);
-                var rowId = $triggerRow.attr('id');
-                var position = $triggerRow.find('.position').val();
-                var allowance = findAllowance(roleAllowance, position);
-                var positionTotal = findTotal(position);
+            $('#cl_modal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var refId = button.data('refid');
 
-                checkTotals(position, positionTotal, allowance);
-            }
-            else {
-                $triggerRow.find('.rowTotal').val(0);
-                $triggerRow.find('.approvalResult').attr('class', 'approvalResult icon');
-            }
-        });
-
-        $form.on('click', '.add', function (e) {
-            var $triggerRow = $('#' + e.target.parentElement.parentElement.parentElement.id);
-            $newRow = $templateRow.clone();
-            $newRow.attr('id', $newRow.attr('id').replace('0', grpCount));
-            $newRow.find(':input').each(function () {
-                if (!$(this).is('[readonly]')) {
-                    var val = $(this).attr('name');
-                    $(this).attr('name', val.replace('0', grpCount));
-                };
+                var modal = $(this);
+                modal.find('#ReferenceId').val(refId);
             });
-            $triggerRow.after($newRow);
-            grpCount++;
-        });
 
-        $form.on('click', '.remove', function (e) {
-            var $row = $('#' + e.target.parentElement.parentElement.parentElement.id);
-            $row.remove();
+            $('#cl_submit').click(function () {
+                $('#cl_form').submit();
+            });
 
-            var position = $row.find('.position').val();
-            var allowance = findAllowance(roleAllowance, position);
-            var positionTotal = findTotal(position);
-
-            checkTotals(position, positionTotal, allowance);
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            });
         });
     </script>
 }
