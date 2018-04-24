@@ -16,14 +16,15 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<bool> RecordLogIn(UserLog _entry)
+        public async Task<int> RecordLogIn(UserLog _entry)
         {
             using (var context = new WebMasterModel())
             {
                 context.UserLogs.Add(_entry);
                 int result = await context.SaveChangesAsync();
 
-                return result > 0;
+                var loginRecords = await context.UserLogs.Where(x => x.UserName == _entry.UserName).ToListAsync();
+                return loginRecords.Count;
             }
         }
 

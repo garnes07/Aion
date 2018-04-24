@@ -117,14 +117,23 @@ namespace Aion.Services
                 HttpContext.Current.Session["_wfUserGroup"] = _ticketManager.GetUserGroup(authResult.UserName);
             }
 
-            HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress; //Does this work for Dixons??
+            HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress; 
 
             await CheckAccessLevel(authResult);
-            await _authManager.RecordLogIn(new UserLog
+            var loginCount = await _authManager.RecordLogIn(new UserLog
             {
                 UserName = authResult.UserName,
                 Timestamp = DateTime.Now
             });
+
+            if(loginCount <3 && HttpContext.Current.Session["_AccessLevel"].ToString() != "0")
+            {
+                HttpContext.Current.Session["_showHelper"] = true;
+            }
+            else
+            {
+                HttpContext.Current.Session["_showHelper"] = false;
+            }
 
             return authResult;
         }
