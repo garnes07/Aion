@@ -144,7 +144,8 @@ namespace Aion.Services
             try
             {
                 string empNum = entry.Properties["employeeNumber"].Value.ToString();
-                if (!(bool)HttpContext.Current.Session["_ROIFlag"])
+                var roiFlag = HttpContext.Current.Session["_ROIFlag"] == null ? false : (bool)HttpContext.Current.Session["_ROIFlag"];
+                if (!roiFlag)
                 {
                     HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : "UK" + empNum.PadLeft(6, '0'));
                 }

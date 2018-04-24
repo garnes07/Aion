@@ -26,7 +26,7 @@ namespace Aion.Controllers
         {
             base.OnActionExecuting(filterContext);
 
-            if (_selection == null)
+            if (selectArea == "e")
                 filterContext.Result = new RedirectResult(Url.Action("UnknownStore", "Profile"));
         }
     }

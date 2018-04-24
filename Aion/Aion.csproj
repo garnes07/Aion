@@ -596,6 +596,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\APIError\empty.txt" />
+    <Content Include="App_Data\APILog\empty.txt" />
     <Content Include="App_Data\ELMAH\empty.txt" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\bootstrap.css" />
@@ -1006,6 +1007,7 @@
     <Content Include="DAL\Entities\VacancyModel.edmx.diagram">
       <DependentUpon>VacancyModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\HeatMap.js" />
     <Content Include="Scripts\HeatMap.min.js">
