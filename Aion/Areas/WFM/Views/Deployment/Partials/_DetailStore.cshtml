@@ -64,68 +64,71 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header text-center">
-        <strong>Daily Deployment - Customer Fit</strong>
-    </div>
-    <div class="card-body">
-        <div class="col-12 text-center">
-            <div><strong><u>Note:</u> Rounding in the below calculation may result in small variations in the total hours.</strong></div>
-            <div class="box-body">
-                <div class="chart">
-                    <canvas id="deployment-bar-chart" style="height:250px"></canvas>
+@if (Model.DailyData.Count > 0)
+{
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Daily Deployment - Customer Fit</strong>
+        </div>
+        <div class="card-body">
+            <div class="col-12 text-center">
+                <div><strong><u>Note:</u> Rounding in the below calculation may result in small variations in the total hours.</strong></div>
+                <div class="box-body">
+                    <div class="chart">
+                        <canvas id="deployment-bar-chart" style="height:250px"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
-        <table class="table table-bordered table-sm">
-            <thead class="thead-blue">
-            <tr>
-                <th class="text-center" style="width:30%;"></th>
-                <th class="text-center" style="width:10%;">Sun</th>
-                <th class="text-center" style="width:10%;">Mon</th>
-                <th class="text-center" style="width:10%;">Tue</th>
-                <th class="text-center" style="width:10%;">Wed</th>
-                <th class="text-center" style="width:10%;">Thu</th>
-                <th class="text-center" style="width:10%;">Fri</th>
-                <th class="text-center" style="width:10%;">Sat</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr style="background-color: #d5dbf6">
-                <td>This is where you should put your hours</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SundayReq)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.MondayReq)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.TuesdayReq)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.WednesdayReq)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.ThursdayReq)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.FridayReq)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SaturdayReq)</td>
-            </tr>
-            <tr style="background-color: #d6f3f5">
-                <td>This is where you should put your hours</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SundayDeployed)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.MondayDeployed)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.TuesdayDeployed)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.WednesdayDeployed)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.ThursdayDeployed)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.FridayDeployed)</td>
-                <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SaturdayDeployed)</td>
-            </tr>
-            <tr>
-                <td>This is what you need to do</td>
-                <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.SundayMove)</td>
-                <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.MondayMove)</td>
-                <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.TuesdayMove)</td>
-                <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.WednesdayMove)</td>
-                <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.ThursdayMove)</td>
-                <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.FridayMove)</td>
-                <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.SaturdayMove)</td>
-            </tr>
-            </tbody>
-        </table>
-        <div>
-            <p>Customer fit simply looks at how well you're deploying the hours you're using in store. So you might be using less or more than your available budget, but it will still help you understand if you're making best use of these hours.</p>
-            <p>It simply rates your scheduled/deployed hours by looking at how they're spread across the days of the week. It then compares this to the customer flow in your specific store for that specific week.</p>
+            <table class="table table-bordered table-sm">
+                <thead class="thead-blue">
+                    <tr>
+                        <th class="text-center" style="width:30%;"></th>
+                        <th class="text-center" style="width:10%;">Sun</th>
+                        <th class="text-center" style="width:10%;">Mon</th>
+                        <th class="text-center" style="width:10%;">Tue</th>
+                        <th class="text-center" style="width:10%;">Wed</th>
+                        <th class="text-center" style="width:10%;">Thu</th>
+                        <th class="text-center" style="width:10%;">Fri</th>
+                        <th class="text-center" style="width:10%;">Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color: #d5dbf6">
+                        <td>This is where you should put your hours</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SundayReq)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.MondayReq)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.TuesdayReq)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.WednesdayReq)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.ThursdayReq)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.FridayReq)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SaturdayReq)</td>
+                    </tr>
+                    <tr style="background-color: #d6f3f5">
+                        <td>This is where you should put your hours</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SundayDeployed)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.MondayDeployed)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.TuesdayDeployed)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.WednesdayDeployed)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.ThursdayDeployed)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.FridayDeployed)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SaturdayDeployed)</td>
+                    </tr>
+                    <tr>
+                        <td>This is what you need to do</td>
+                        <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.SundayMove)</td>
+                        <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.MondayMove)</td>
+                        <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.TuesdayMove)</td>
+                        <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.WednesdayMove)</td>
+                        <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.ThursdayMove)</td>
+                        <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.FridayMove)</td>
+                        <td class="text-center">@Model.GetAdvice(Model.StoreDailyData.SaturdayMove)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <p>Customer fit simply looks at how well you're deploying the hours you're using in store. So you might be using less or more than your available budget, but it will still help you understand if you're making best use of these hours.</p>
+                <p>It simply rates your scheduled/deployed hours by looking at how they're spread across the days of the week. It then compares this to the customer flow in your specific store for that specific week.</p>
+            </div>
         </div>
     </div>
-</div>
+}

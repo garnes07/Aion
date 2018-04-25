@@ -28,65 +28,67 @@ namespace Aion.Areas.ProfitLoss.ViewModels.Home
 
         public void Populate(List<ProfitLossView> collection)
         {
-            PeriodMth = collection.FirstOrDefault()?.PeriodMonth.ToString();
-            PeriodYr = collection.FirstOrDefault()?.PeriodYear;
+            if(collection.Count > 0)
+            {
+                PeriodMth = collection.FirstOrDefault()?.PeriodMonth.ToString();
+                PeriodYr = collection.FirstOrDefault()?.PeriodYear;
 
-            BreakdownLines = collection;
+                BreakdownLines = collection;
 
-            DetailLines = collection
-                    .GroupBy(x => x.AccountEntryDetailId)
-                    .Select(x => x.FirstOrDefault())
-                    .OrderBy(x => x.AccountEntrySubTypeId)
-                    .ThenBy(x => x.AccountEntryDetailId)
-                    .ThenBy(x => x.AccountEntrySubTypeText)
+                DetailLines = collection
+                        .GroupBy(x => x.AccountEntryDetailId)
+                        .Select(x => x.FirstOrDefault())
+                        .OrderBy(x => x.AccountEntrySubTypeId)
+                        .ThenBy(x => x.AccountEntryDetailId)
+                        .ThenBy(x => x.AccountEntrySubTypeText)
+                        .ToList();
+
+                EntrySubTypeSubTotals = DetailLines
+                    .GroupBy(x => x.AccountEntrySubTypeId)
+                    .Select(x => new Subtotal
+                    {
+                        EntryId = x.Key,
+                        ActualAmount = x.Sum(y => y.ActualAmount),
+                        BudgetAmount = x.Sum(y => y.BudgetAmount),
+                        QtdActualAmount = x.Sum(y => y.QtdActualAmount),
+                        QtdBudgetAmount = x.Sum(y => y.QtdBudgetAmount),
+                        YtdActualAmount = x.Sum(y => y.YtdActualAmount),
+                        YtdBudgetAmount = x.Sum(y => y.YtdBudgetAmount)
+                    })
+                    .OrderBy(x => x.EntryId)
                     .ToList();
 
-            EntrySubTypeSubTotals = DetailLines
-                .GroupBy(x => x.AccountEntrySubTypeId)
-                .Select(x => new Subtotal
-                {
-                    EntryId = x.Key,
-                    ActualAmount = x.Sum(y => y.ActualAmount),
-                    BudgetAmount = x.Sum(y => y.BudgetAmount),
-                    QtdActualAmount = x.Sum(y => y.QtdActualAmount),
-                    QtdBudgetAmount = x.Sum(y => y.QtdBudgetAmount),
-                    YtdActualAmount = x.Sum(y => y.YtdActualAmount),
-                    YtdBudgetAmount = x.Sum(y => y.YtdBudgetAmount)
-                })
-                .OrderBy(x => x.EntryId)
-                .ToList();
+                EntryTypeSubTotals = DetailLines
+                    .GroupBy(x => x.AccountEntryTypeId)
+                    .Select(x => new Subtotal
+                    {
+                        EntryId = x.Key,
+                        ActualAmount = x.Sum(y => y.ActualAmount),
+                        BudgetAmount = x.Sum(y => y.BudgetAmount),
+                        QtdActualAmount = x.Sum(y => y.QtdActualAmount),
+                        QtdBudgetAmount = x.Sum(y => y.QtdBudgetAmount),
+                        YtdActualAmount = x.Sum(y => y.YtdActualAmount),
+                        YtdBudgetAmount = x.Sum(y => y.YtdBudgetAmount)
+                    })
+                    .OrderBy(x => x.EntryId)
+                    .ToList();
 
-            EntryTypeSubTotals = DetailLines
-                .GroupBy(x => x.AccountEntryTypeId)
-                .Select(x => new Subtotal
-                {
-                    EntryId = x.Key,
-                    ActualAmount = x.Sum(y => y.ActualAmount),
-                    BudgetAmount = x.Sum(y => y.BudgetAmount),
-                    QtdActualAmount = x.Sum(y => y.QtdActualAmount),
-                    QtdBudgetAmount = x.Sum(y => y.QtdBudgetAmount),
-                    YtdActualAmount = x.Sum(y => y.YtdActualAmount),
-                    YtdBudgetAmount = x.Sum(y => y.YtdBudgetAmount)
-                })
-                .OrderBy(x => x.EntryId)
-                .ToList();
-
-            SheetTotal = DetailLines
-                .GroupBy(x => x.StoreNumber)
-                .Select(x => new Subtotal
-                {
-                    EntryId = 1,
-                    ActualAmount = x.Sum(y => y.ActualAmount),
-                    BudgetAmount = x.Sum(y => y.BudgetAmount),
-                    QtdActualAmount = x.Sum(y => y.QtdActualAmount),
-                    QtdBudgetAmount = x.Sum(y => y.QtdBudgetAmount),
-                    YtdActualAmount = x.Sum(y => y.YtdActualAmount),
-                    YtdBudgetAmount = x.Sum(y => y.YtdBudgetAmount)
-                })
-                .OrderBy(x => x.EntryId)
-                .Single();
+                SheetTotal = DetailLines
+                    .GroupBy(x => x.StoreNumber)
+                    .Select(x => new Subtotal
+                    {
+                        EntryId = 1,
+                        ActualAmount = x.Sum(y => y.ActualAmount),
+                        BudgetAmount = x.Sum(y => y.BudgetAmount),
+                        QtdActualAmount = x.Sum(y => y.QtdActualAmount),
+                        QtdBudgetAmount = x.Sum(y => y.QtdBudgetAmount),
+                        YtdActualAmount = x.Sum(y => y.YtdActualAmount),
+                        YtdBudgetAmount = x.Sum(y => y.YtdBudgetAmount)
+                    })
+                    .OrderBy(x => x.EntryId)
+                    .Single();
+            }            
         }
-
 
         public List<SelectListItem> PandLYears
         {

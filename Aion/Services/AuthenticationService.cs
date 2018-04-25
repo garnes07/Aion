@@ -198,7 +198,7 @@ namespace Aion.Services
             var UserAccess = await _authManager.GetAccessList(a.UserName, a.EmpNum);
             if (UserAccess == null)
             {
-                HttpContext.Current.Session["_AccessLevel"] = "0";
+                HttpContext.Current.Session["_AccessLevel"] = (byte)0;
                 return false;
             }
 
@@ -215,8 +215,8 @@ namespace Aion.Services
             {
                 string ip = MvcHelper.GetIPHelper();
 #if DEBUG
-                string ipBase = "10.224.240";
-                //string ipBase = "10.44.121";
+                //string ipBase = "10.224.240";
+                string ipBase = "10.226.65";
 #else
                 string ipBase = ip.Substring(0, ip.LastIndexOf("."));
 #endif

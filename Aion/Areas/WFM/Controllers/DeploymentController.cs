@@ -180,7 +180,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        [UserFilter(MinLevel = 2)]
+        [UserFilter(MinLevel = 1)]
         public async Task<ActionResult> WeekendWorking()
         {
             WeekendWorkingVm vm = new WeekendWorkingVm();

@@ -240,7 +240,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        [UserFilter(MinLevel = 2)]
+        [UserFilter(MinLevel = 1)]
         public async Task<ActionResult> MyTeam()
         {
             MyTeamVm vm = new MyTeamVm();
@@ -362,7 +362,7 @@ namespace Aion.Areas.WFM.Controllers
             if(selectArea == "S")
             {
                 var store = selectCrit;
-                vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailDXNS(store)));
+                vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailCPW(store)));
                 vm.PendingRequests = await _vacancyManger.GetPendingRequests(selectCrit);
             }
             else

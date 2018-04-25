@@ -1,5 +1,6 @@
 ﻿using Aion.Areas.ProfitLoss.Models;
 using Aion.Areas.ProfitLoss.ViewModels.Home;
+using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Managers;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace Aion.Areas.ProfitLoss.Controllers
         {
             _profitLossManager = new ProfitLossManager();
         }
-        
+
+        [UserFilter(MinLevel = 1)]
         public async Task<ActionResult> Index(string selectedYear = null, string selectedMonth = null, bool a = false, string select = null)
         {
             if(selectArea != "S" && !a)
@@ -81,13 +83,14 @@ namespace Aion.Areas.ProfitLoss.Controllers
                         break;
                 }
             }
-
-            vm.SelectedMonth = selectedMonth == null && vm.DetailLines.Any() ? vm.DetailLines[0].PeriodMonth.ToString() : selectedMonth;
-            vm.SelectedYear = selectedYear == null && vm.DetailLines.Any() ? vm.DetailLines[0].PeriodYear : selectedYear;
+            
+            vm.SelectedMonth = selectedMonth == null && vm.DetailLines != null ? vm.DetailLines[0].PeriodMonth.ToString() : selectedMonth;
+            vm.SelectedYear = selectedYear == null && vm.DetailLines != null ? vm.DetailLines[0].PeriodYear : selectedYear;
 
             return View(vm);
         }
 
+        [UserFilter(MinLevel = 2)]
         public async Task<ActionResult> Summary(string selectedYear = null, string selectedMonth = null, bool a = false)
         {
             if (!a)
@@ -123,8 +126,8 @@ namespace Aion.Areas.ProfitLoss.Controllers
             }
 
             ViewBag.current = selectArea == "C" ? "All" : selectCrit;
-            vm.SelectedMonth = selectedMonth == null && vm.collection.Any() ? vm.collection[0].Month.ToString() : selectedMonth;
-            vm.SelectedYear = selectedYear == null && vm.collection.Any() ? vm.collection[0].Year : selectedYear;
+            vm.SelectedMonth = selectedMonth == null && vm.collection != null ? vm.collection[0].Month.ToString() : selectedMonth;
+            vm.SelectedYear = selectedYear == null && vm.collection != null ? vm.collection[0].Year : selectedYear;
 
             return View(vm);
         }
