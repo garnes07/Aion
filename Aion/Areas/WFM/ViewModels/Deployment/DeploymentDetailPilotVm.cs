@@ -29,9 +29,10 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
                 DeploymentScore = x.Average(y => y.SOHUtilization + y.PayEscalations)
             }).Single());
 
-        public string GetAdvice(decimal toMove)
+        public string GetAdvice(decimal? toMove)
         {
-            decimal rounded = Math.Round(toMove * 4) / 4;
+            decimal _toMove = (decimal)toMove;
+            decimal rounded = Math.Round(_toMove * 4) / 4;
 
             if (rounded == 0)
             {

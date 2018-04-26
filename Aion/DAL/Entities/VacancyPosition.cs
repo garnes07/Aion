@@ -26,6 +26,7 @@ namespace Aion.DAL.Entities
         public Nullable<short> SortOrder { get; set; }
         public Nullable<decimal> RateOfPay { get; set; }
         public Nullable<short> SFPositionId { get; set; }
+        public string Chain { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VacancyRequest> VacancyRequests { get; set; }

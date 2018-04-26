@@ -257,6 +257,9 @@
     <Compile Include="DAL\Entities\Last12MonthList.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\LiveVacanciesToCancel.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\OpeningTimesComment.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -481,6 +484,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_ScheduleData.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_SFOpenVacancies.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_StoreContractStatus.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>

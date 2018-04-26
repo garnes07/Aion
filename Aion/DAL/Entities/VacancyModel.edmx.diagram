@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="VacancyModel.VacancyRequest" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="VacancyModel.FK_RequestComments_VacancyRequests" />
         <AssociationConnector Association="VacancyModel.FK_VacancyRequests_VacancyPositions" />
+        <EntityTypeShape EntityType="VacancyModel.vw_SFOpenVacancies" Width="1.5" PointX="9.125" PointY="1.625" />
+        <EntityTypeShape EntityType="VacancyModel.LiveVacanciesToCancel" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

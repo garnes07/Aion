@@ -361,9 +361,9 @@ namespace Aion.Areas.WFM.Controllers
             VacancyRequestVm vm = new VacancyRequestVm();
             if(selectArea == "S")
             {
-                var store = selectCrit;
-                vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailCPW(store)));
-                vm.PendingRequests = await _vacancyManger.GetPendingRequests(selectCrit);
+                vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailCPW(selectCrit)));
+                vm.PendingRequests = await _vacancyManger.GetPendingRequestsCPW(selectCrit);
+                vm.LiveRequests = await _vacancyManger.GetOpenVacanciesCPW(selectCrit);
             }
             else
             {
@@ -375,25 +375,38 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [Authorize]
+        public async Task<ActionResult> RecruitmentDixons()
+        {
+            VacancyRequestVm vm = new VacancyRequestVm();
+            vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailDXNS("2216")));
+            vm.PendingRequests = await _vacancyManger.GetPendingRequestsDXNS("2216");
+            vm.LiveRequests = await _vacancyManger.GetOpenVacanciesDXNS("2216");
+
+            return View("Recruitment", vm);
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> NewVacancy(List<RecruitmentRequest> r, string Notes)
         {
-            var result = await _vacancyManger.PostNewRequests(r, Notes, selectCrit, HttpContext.Session["Email"].ToString());
+            var result = await _vacancyManger.PostNewRequestsCPW(r, Notes, selectCrit, HttpContext.Session["Email"].ToString());
 
             return RedirectToAction("Recruitment");
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult CancelLive(int ReferenceId)
+        public async Task<ActionResult> CancelLive(int ReferenceId)
         {
+            var result = await _vacancyManger.CancelLive(selectCrit, ReferenceId, User.Identity.Name);
             return RedirectToAction("Recruitment");
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult CancelPending(int ReferenceId)
+        public async Task<ActionResult> CancelPending(int ReferenceId)
         {
+            var result = await _vacancyManger.CancelPending(selectCrit, ReferenceId);
             return RedirectToAction("Recruitment");
         }
     }

@@ -36,7 +36,7 @@ roleAllowance.findByRoleId = function (_RoleId) {
 roleAllowance.findAllowance = function (item) {
     var _entry = this.findByRoleId(item);
     if (_entry != -1) {
-        if (_entry.Action === 'replace')
+        if (_entry.Action === 'replace' && _entry.RoleAllowance != -1)
             return _entry.RoleAllowance + _entry.ExistingVacancyHours;
         else
             return _entry.RoleAllowance;
@@ -47,6 +47,15 @@ roleAllowance.existingVacancyIds = function (array) {
     for (var i = 0; i < this.length; i++) {
         if (array.indexOf(this[i].RoleId) != -1 && this[i].ExistingVacancyHours >= 1) {
             toReturn.push(this[i].RoleId);
+        };
+    };
+    return toReturn;
+};
+roleAllowance.VacancyToReplace = function () {
+    var toReturn = 0;
+    for (var i = 0; i < this.length; i++) {
+        if (this[i].Action === 'replace') {
+            toReturn += this[i].ExistingVacancyHours;
         };
     };
     return toReturn;
@@ -67,10 +76,11 @@ var $baseAlertNum = $('#baseAlertNum');
 var allowSubmit = false;
 var checksValid = true;
 var hoursBuffer = $('#scrpt').data('buffer');
-var totalBase = parseFloat($('#scrpt').data('totalbase')).toFixed(2);
-var currentBase = parseFloat($('#scrpt').data('currentbase')).toFixed(2);
+var totalBase = parseFloat($('#scrpt').data('totalbase'));
+var currentBase = parseFloat($('#scrpt').data('currentbase'));
 var overBase = false;
 var warningBase = false;
+var roleList;
 
 //On Start
 $(function () {
@@ -79,7 +89,8 @@ $(function () {
     $templateCheckRow = $('#p_0').clone();
     $pContainer.html('');
 
-    var roleList = $('#scrpt').data('roledetail');
+    roleList = $('#scrpt').data('roledetail');
+    //roleList = JSON.parse($('#testInput').html());
 
     for (var i = 0; i < roleList.length; i++) {
         roleAllowance.push(new AllowanceDetail(roleList[i]));
@@ -103,16 +114,20 @@ function checkTotals(position) {
     var positionTotal = findTotal(position);
 
     var approvalResult;
+    var approvalVal;
     if (allowance == -1) {
         if (warningBase) {
             approvalResult = 'ion-alert text-warning';
+            approvalVal = "review";
         } else {
             approvalResult = 'ion-checkmark-round text-success';
-        };        
+            approvalVal = "approved";
+        };
     }
     else {
         if (positionTotal > allowance * hoursBuffer) {
             approvalResult = 'ion-close-round text-danger';
+            approvalVal = "reject";
             if (rowErrors.indexOf(position) == -1) {
                 rowErrors.push(position);
             };
@@ -124,6 +139,7 @@ function checkTotals(position) {
         }
         else if (positionTotal > allowance) {
             approvalResult = 'ion-alert text-warning';
+            approvalVal = "review";
             if (rowErrors.indexOf(position) != -1) {
                 rowErrors.splice(rowErrors.indexOf(position), 1);
             };
@@ -138,6 +154,7 @@ function checkTotals(position) {
         }
         else {
             approvalResult = 'ion-checkmark-round text-success';
+            approvalVal = "approved";
             if (rowErrors.indexOf(position) != -1) {
                 rowErrors.splice(rowErrors.indexOf(position), 1);
             };
@@ -154,14 +171,16 @@ function checkTotals(position) {
                 $('#notes').removeClass('border-danger');
             };
         };
-    };      
+    };
 
     $form.find('.request').each(function (x) {
         if ($(this).find('.position').val() === position) {
             $(this).find('.approvalResult').attr('class', 'approvalResult icon ' + approvalResult);
+            $(this).find('.approval').val(approvalVal);
         };
     });
 };
+
 
 //Display checks for request with existing vacancies
 function AddChecks(existingPositions) {
@@ -269,38 +288,7 @@ $form.on('change', ':input', function (e) {
 
         if (checksValid) {
             if (totalBase != -1) {
-                var total = 0;
-                for (var i = 0; i < positionList.length; i++) {
-                    total += findTotal(positionList[i]) * roleAllowance.findByRoleId(positionList[i]).HourlyRate;
-                };
-                if (total + currentBase < totalBase * 1.02) {
-                    $baseAlert.attr('class', 'alert alert-danger text-center d-none');
-                    allowSubmit = true;
-                    $submit.removeClass('disabled').attr('disabled', true);
-                    $('.approvalResult').removeClass('d-none');
-                    overBase = false;
-                    $notes.attr('required', false);
-                }
-                else if (total + currentBase < totalBase * hoursBuffer) {
-                    $baseAlert.attr('class', 'alert alert-warning text-center d-none');
-                    allowSubmit = true;
-                    $submit.removeClass('disabled').attr('disabled', true);
-                    $('#baseWarning').removeClass('d-none');
-                    $('.approvalResult').removeClass('d-none');
-                    $notes.attr('required', true);
-                    warningBase = true;
-                    overBase = false;
-                }
-                else {
-                    allowSubmit = false;
-                    $submit.addClass('disabled').attr('disabled', true);
-                    $baseAlertNum.html(parseFloat(total - totalBase).toFixed(2));
-                    $('#baseWarning').addClass('d-none');
-                    $baseAlert.attr('class', 'alert alert-danger text-center');
-                    $notes.attr('required', false);
-                    overBase = true;
-                    warningBase = false;
-                };
+                CheckAgainstBase();
             };
             checkTotals(position);
             if (overBase) {
@@ -325,6 +313,9 @@ $pContainer.on('change', ':input', function (e) {
     if (checksValid) {
         $form.find('.request').each(function () {
             var position = $(this).find('.position').val();
+            if (totalBase != -1) {
+                CheckAgainstBase();
+            };            
             checkTotals(position);
         });
     };
@@ -361,6 +352,51 @@ function ValidateChecks() {
     };
 };
 
+//Check roles against max contract base
+function CheckAgainstBase() {
+    var positionList = [];
+    $form.find('.position').each(function () {
+        positionList.push(parseInt($(this).val()));
+    });
+    var total = currentBase;
+    var done = [];
+    for (var i = 0; i < positionList.length; i++) {
+        if (done.indexOf(positionList[i]) == -1) {
+            total += findTotal(positionList[i]) * roleAllowance.findByRoleId(positionList[i]).HourlyRate;
+            done.push(positionList[i]);
+        };
+    };
+    total -= roleAllowance.VacancyToReplace();
+    if (total < totalBase * 1.02) {
+        $baseAlert.attr('class', 'alert alert-danger text-center d-none');
+        allowSubmit = true;
+        $submit.removeClass('disabled').attr('disabled', false);
+        $('.approvalResult').removeClass('d-none');
+        overBase = false;
+        $notes.attr('required', false);
+    }
+    else if (total < totalBase * hoursBuffer) {
+        $baseAlert.attr('class', 'alert alert-warning text-center d-none');
+        allowSubmit = true;
+        $submit.removeClass('disabled').attr('disabled', false);
+        $('#baseWarning').removeClass('d-none');
+        $('.approvalResult').removeClass('d-none');
+        $notes.attr('required', true);
+        warningBase = true;
+        overBase = false;
+    }
+    else {
+        allowSubmit = false;
+        $submit.addClass('disabled').attr('disabled', true);
+        $baseAlertNum.html(parseFloat(total - totalBase).toFixed(2));
+        $('#baseWarning').addClass('d-none');
+        $baseAlert.attr('class', 'alert alert-danger text-center');
+        $notes.attr('required', false);
+        overBase = true;
+        warningBase = false;
+    };
+};
+
 //Add new request row
 $form.on('click', '.add', function (e) {
     var $triggerRow = $('#' + e.target.parentElement.parentElement.parentElement.id);
@@ -371,6 +407,9 @@ $form.on('click', '.add', function (e) {
             var val = $(this).attr('name');
             $(this).attr('name', val.replace('0', grpCount));
         };
+        if ($(this).attr('name') === 'RowNum') {
+            $(this).val(grpCount);
+        }        
     });
 
     var roleCheck = roleAllowance.findByRoleId($newRow.find('.position').val())

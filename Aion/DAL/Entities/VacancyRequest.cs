@@ -37,6 +37,9 @@ namespace Aion.DAL.Entities
         public Nullable<bool> Emailed { get; set; }
         public short StoreNumber { get; set; }
         public bool Show { get; set; }
+        public bool ToCancel { get; set; }
+        public bool Cancelled { get; set; }
+        public string Chain { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestComment> RequestComments { get; set; }

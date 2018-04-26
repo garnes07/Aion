@@ -30,6 +30,8 @@ namespace Aion.DAL.Entities
         public virtual DbSet<RequestComment> RequestComments { get; set; }
         public virtual DbSet<VacancyPosition> VacancyPositions { get; set; }
         public virtual DbSet<VacancyRequest> VacancyRequests { get; set; }
+        public virtual DbSet<vw_SFOpenVacancies> vw_SFOpenVacancies { get; set; }
+        public virtual DbSet<LiveVacanciesToCancel> LiveVacanciesToCancels { get; set; }
     
         public virtual ObjectResult<sp_GetRecruitmentDetailCPW_Result> sp_GetRecruitmentDetailCPW(Nullable<short> storeNum)
         {

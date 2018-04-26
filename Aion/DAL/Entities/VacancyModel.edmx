@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="VacancyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LiveVacanciesToCancel">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobReqId" Type="int" Nullable="false" />
+          <Property Name="RaisedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RaisedDate" Type="datetime" Nullable="false" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="CompletedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompletedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="RequestComments">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -26,6 +38,7 @@
           <Property Name="SortOrder" Type="smallint" />
           <Property Name="RateOfPay" Type="decimal" Precision="5" Scale="2" />
           <Property Name="SFPositionId" Type="smallint" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <EntityType Name="VacancyRequests">
           <Key>
@@ -48,6 +61,35 @@
           <Property Name="Emailed" Type="bit" />
           <Property Name="StoreNumber" Type="smallint" Nullable="false" />
           <Property Name="Show" Type="bit" Nullable="false" />
+          <Property Name="ToCancel" Type="bit" Nullable="false" />
+          <Property Name="Cancelled" Type="bit" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_SFOpenVacancies">
+          <Key>
+            <PropertyRef Name="EntryId" />
+            
+            
+            
+            
+            
+            
+            
+          </Key>
+          <Property Name="EntryId" Type="int" Nullable="false" />
+          <Property Name="JobReqId" Type="int" Nullable="false" />
+          <Property Name="PositionNumber" Type="nvarchar" MaxLength="25" />
+          <Property Name="Company" Type="nvarchar" MaxLength="50" />
+          <Property Name="BusinessUnit" Type="nvarchar" MaxLength="50" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="JobCode" Type="smallint" Nullable="false" />
+          <Property Name="FriendlyName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="DateCreated" Type="date" />
+          <Property Name="TotalVacantHours" Type="smallint" Nullable="false" />
+          <Property Name="Headcount" Type="smallint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <Association Name="FK_RequestComments_VacancyRequests">
           <End Role="VacancyRequests" Type="Self.VacancyRequests" Multiplicity="1">
@@ -82,9 +124,26 @@
           <Parameter Name="StoreNum" Type="smallint" Mode="In" />
         </Function>
         <EntityContainer Name="VacancyModelStoreContainer">
+          <EntitySet Name="LiveVacanciesToCancel" EntityType="Self.LiveVacanciesToCancel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequestComments" EntityType="Self.RequestComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VacancyPositions" EntityType="Self.VacancyPositions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VacancyRequests" EntityType="Self.VacancyRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_SFOpenVacancies" EntityType="Self.vw_SFOpenVacancies" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_SFOpenVacancies].[EntryId] AS [EntryId], 
+    [vw_SFOpenVacancies].[JobReqId] AS [JobReqId], 
+    [vw_SFOpenVacancies].[PositionNumber] AS [PositionNumber], 
+    [vw_SFOpenVacancies].[Company] AS [Company], 
+    [vw_SFOpenVacancies].[BusinessUnit] AS [BusinessUnit], 
+    [vw_SFOpenVacancies].[StoreNumber] AS [StoreNumber], 
+    [vw_SFOpenVacancies].[JobCode] AS [JobCode], 
+    [vw_SFOpenVacancies].[FriendlyName] AS [FriendlyName], 
+    [vw_SFOpenVacancies].[DateCreated] AS [DateCreated], 
+    [vw_SFOpenVacancies].[TotalVacantHours] AS [TotalVacantHours], 
+    [vw_SFOpenVacancies].[Headcount] AS [Headcount], 
+    [vw_SFOpenVacancies].[Chain] AS [Chain]
+    FROM [dbo].[vw_SFOpenVacancies] AS [vw_SFOpenVacancies]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_RequestComments_VacancyRequests" Association="Self.FK_RequestComments_VacancyRequests">
             <End Role="VacancyRequests" EntitySet="VacancyRequests" />
             <End Role="RequestComments" EntitySet="RequestComments" />
@@ -110,6 +169,8 @@
             <End Role="VacancyPosition" EntitySet="VacancyPositions" />
             <End Role="VacancyRequest" EntitySet="VacancyRequests" />
           </AssociationSet>
+          <EntitySet Name="vw_SFOpenVacancies" EntityType="VacancyModel.vw_SFOpenVacancies" />
+          <EntitySet Name="LiveVacanciesToCancels" EntityType="VacancyModel.LiveVacanciesToCancel" />
           <FunctionImport Name="sp_GetRecruitmentDetailCPW" ReturnType="Collection(VacancyModel.sp_GetRecruitmentDetailCPW_Result)">
             <Parameter Name="StoreNum" Mode="In" Type="Int16" />
           </FunctionImport>
@@ -140,6 +201,7 @@
           <NavigationProperty Name="VacancyRequests" Relationship="VacancyModel.FK_VacancyRequests_VacancyPositions" FromRole="VacancyPosition" ToRole="VacancyRequest" />
           <Property Name="RateOfPay" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="SFPositionId" Type="Int16" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="VacancyRequest">
           <Key>
@@ -164,6 +226,9 @@
           <Property Name="Emailed" Type="Boolean" />
           <Property Name="StoreNumber" Type="Int16" Nullable="false" />
           <Property Name="Show" Type="Boolean" Nullable="false" />
+          <Property Name="ToCancel" Type="Boolean" Nullable="false" />
+          <Property Name="Cancelled" Type="Boolean" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_RequestComments_VacancyRequests">
           <End Type="VacancyModel.VacancyRequest" Role="VacancyRequest" Multiplicity="1">
@@ -191,6 +256,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vw_SFOpenVacancies">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" />
+          <Property Name="JobReqId" Type="Int32" Nullable="false" />
+          <Property Name="PositionNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="JobCode" Type="Int16" Nullable="false" />
+          <Property Name="FriendlyName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="0" />
+          <Property Name="TotalVacantHours" Type="Int16" Nullable="false" />
+          <Property Name="Headcount" Type="Int16" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="LiveVacanciesToCancel">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobReqId" Type="Int32" Nullable="false" />
+          <Property Name="RaisedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RaisedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="CompletedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompletedDate" Type="DateTime" Precision="3" />
+        </EntityType>
         <ComplexType Name="sp_GetRecruitmentDetailCPW_Result">
           <Property Type="Int16" Name="StoreNumber" Nullable="true" />
           <Property Type="String" Name="StoreName" Nullable="true" MaxLength="50" />
@@ -201,7 +295,7 @@
           <Property Type="Int16" Name="ContractBase" Nullable="false" />
           <Property Type="Decimal" Name="CurrentContract" Nullable="false" Precision="38" Scale="1" />
           <Property Type="Decimal" Name="AverageContract" Nullable="false" Precision="38" Scale="6" />
-          <Property Type="Int32" Name="OpenVacancies" Nullable="false" />
+          <Property Type="Decimal" Name="OpenVacancies" Nullable="false" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="RateOfPay" Nullable="true" Precision="5" Scale="2" />
           <Property Type="Decimal" Name="TotalBase" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Decimal" Name="CurrentBase" Nullable="true" Precision="10" Scale="2" />
@@ -216,7 +310,7 @@
           <Property Type="Decimal" Name="ContractBase" Nullable="false" Precision="19" />
           <Property Type="Decimal" Name="CurrentContract" Nullable="false" Precision="19" />
           <Property Type="Decimal" Name="AverageContract" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Int32" Name="OpenVacancies" Nullable="false" />
+          <Property Type="Decimal" Name="OpenVacancies" Nullable="false" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="RateOfPay" Nullable="true" Precision="5" Scale="2" />
           <Property Type="Decimal" Name="TotalBase" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Decimal" Name="CurrentBase" Nullable="true" Precision="10" Scale="2" />
@@ -242,6 +336,7 @@
           <EntitySetMapping Name="VacancyPositions">
             <EntityTypeMapping TypeName="VacancyModel.VacancyPosition">
               <MappingFragment StoreEntitySet="VacancyPositions">
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="SFPositionId" ColumnName="SFPositionId" />
                 <ScalarProperty Name="RateOfPay" ColumnName="RateOfPay" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
@@ -254,6 +349,9 @@
           <EntitySetMapping Name="VacancyRequests">
             <EntityTypeMapping TypeName="VacancyModel.VacancyRequest">
               <MappingFragment StoreEntitySet="VacancyRequests">
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
+                <ScalarProperty Name="ToCancel" ColumnName="ToCancel" />
                 <ScalarProperty Name="Show" ColumnName="Show" />
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="Emailed" ColumnName="Emailed" />
@@ -270,6 +368,37 @@
                 <ScalarProperty Name="Heads" ColumnName="Heads" />
                 <ScalarProperty Name="PositionCode" ColumnName="PositionCode" />
                 <ScalarProperty Name="SFRefNo" ColumnName="SFRefNo" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_SFOpenVacancies">
+            <EntityTypeMapping TypeName="VacancyModel.vw_SFOpenVacancies">
+              <MappingFragment StoreEntitySet="vw_SFOpenVacancies">
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Headcount" ColumnName="Headcount" />
+                <ScalarProperty Name="TotalVacantHours" ColumnName="TotalVacantHours" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="PositionNumber" ColumnName="PositionNumber" />
+                <ScalarProperty Name="JobReqId" ColumnName="JobReqId" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LiveVacanciesToCancels">
+            <EntityTypeMapping TypeName="VacancyModel.LiveVacanciesToCancel">
+              <MappingFragment StoreEntitySet="LiveVacanciesToCancel">
+                <ScalarProperty Name="CompletedDate" ColumnName="CompletedDate" />
+                <ScalarProperty Name="CompletedBy" ColumnName="CompletedBy" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="RaisedDate" ColumnName="RaisedDate" />
+                <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
+                <ScalarProperty Name="JobReqId" ColumnName="JobReqId" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>

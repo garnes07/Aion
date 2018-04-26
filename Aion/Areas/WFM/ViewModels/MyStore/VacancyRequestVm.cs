@@ -14,6 +14,7 @@ namespace Aion.Areas.WFM.ViewModels.MyStore
         public List<SelectListItem> PositionList { get; set; }
         public string RoleAllowance { get; set; }
         public List<VacancyRequest> PendingRequests{ get; set; }
+        public List<vw_SFOpenVacancies> LiveRequests { get; set; }
         public List<RecruitmentDetail> RecruitmentDetail { get; set; }
                 
         public void Populate(List<RecruitmentDetail> collection)

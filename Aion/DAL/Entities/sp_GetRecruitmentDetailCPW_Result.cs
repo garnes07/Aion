@@ -22,7 +22,7 @@ namespace Aion.DAL.Entities
         public short ContractBase { get; set; }
         public decimal CurrentContract { get; set; }
         public decimal AverageContract { get; set; }
-        public int OpenVacancies { get; set; }
+        public decimal OpenVacancies { get; set; }
         public Nullable<decimal> RateOfPay { get; set; }
         public Nullable<decimal> TotalBase { get; set; }
         public Nullable<decimal> CurrentBase { get; set; }

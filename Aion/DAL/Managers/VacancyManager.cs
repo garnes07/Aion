@@ -28,16 +28,90 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<VacancyRequest>> GetPendingRequests(string storeNum)
+        public async Task<List<VacancyRequest>> GetPendingRequestsCPW(string storeNum)
         {
             using (var context = new VacanciesModel())
             {
                 var crit = short.Parse(storeNum);
-                return await context.VacancyRequests.Where(x => x.StoreNumber == crit && x.SFRefNo == null && !x.Rejected).Include("VacancyPosition").ToListAsync();
+                return await context.VacancyRequests.Where(x => x.StoreNumber == crit && x.Show && !x.Rejected && x.Chain == "CPW").Include("VacancyPosition").ToListAsync();
             }
         }
 
-        public async Task<bool> PostNewRequests(List<RecruitmentRequest> requests, string notes, string storeNum, string userName)
+        public async Task<List<VacancyRequest>> GetPendingRequestsDXNS(string storeNum)
+        {
+            using (var context = new VacanciesModel())
+            {
+                var crit = short.Parse(storeNum);
+                return await context.VacancyRequests.Where(x => x.StoreNumber == crit && x.Show && !x.Rejected && x.Chain == "Dixons").Include("VacancyPosition").ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_SFOpenVacancies>> GetOpenVacanciesCPW(string storeNum)
+        {
+            using(var context = new VacanciesModel())
+            {
+                var crit = short.Parse(storeNum);
+                return await context.vw_SFOpenVacancies.Where(x => x.StoreNumber == crit && x.Chain == "CPW").ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_SFOpenVacancies>> GetOpenVacanciesDXNS(string storeNum)
+        {
+            using (var context = new VacanciesModel())
+            {
+                var crit = short.Parse(storeNum);
+                return await context.vw_SFOpenVacancies.Where(x => x.StoreNumber == crit && x.Chain == "Dixons").ToListAsync();
+            }
+        }
+
+        public async Task<bool> CancelPending(string storeNum, int refId)
+        {
+            using(var context = new VacanciesModel())
+            {
+                var crit = short.Parse(storeNum);
+                var result = await context.VacancyRequests.FirstOrDefaultAsync(x => x.StoreNumber == crit && x.EntryId == refId);
+                if(result != null)
+                {
+                    result.ToCancel = true;
+                    result.Show = false;
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> CancelLive(string storeNum, int refId, string userName)
+        {
+            using(var context = new VacanciesModel())
+            {
+                var crit = short.Parse(storeNum);
+                var result = await context.vw_SFOpenVacancies.FirstOrDefaultAsync(x => x.StoreNumber == crit && x.JobReqId == refId);
+                if(result != null)
+                {
+                    var toAdd = new LiveVacanciesToCancel
+                    {
+                        JobReqId = refId,
+                        RaisedBy = userName,
+                        RaisedDate = DateTime.Now,
+                        Completed = false
+                    };
+
+                    context.LiveVacanciesToCancels.Add(toAdd);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> PostNewRequestsCPW(List<RecruitmentRequest> requests, string notes, string storeNum, string userName)
         {
             using (var context = new VacanciesModel())
             {
@@ -86,7 +160,9 @@ namespace Aion.DAL.Managers
                         RaisedBy = userName,
                         RaisedDate = DateTime.Now,
                         Repost = x.Repost,
-                        Replace = x.Action == "replace"
+                        Replace = x.Action == "replace",
+                        Chain = "CPW",
+                        Show = true
                     }).ToList();
 
                     if (notes != "")
