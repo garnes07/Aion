@@ -90,9 +90,14 @@ namespace Aion.Areas.ProfitLoss.Controllers
             return View(vm);
         }
 
-        [UserFilter(MinLevel = 2)]
+        [UserFilter(MinLevel = 1)]
         public async Task<ActionResult> Summary(string selectedYear = null, string selectedMonth = null, bool a = false)
         {
+            var CurrentUserLevel = System.Web.HttpContext.Current.Session["_AccessLevel"] == null ? 0 : int.Parse(System.Web.HttpContext.Current.Session["_AccessLevel"].ToString());
+            if(CurrentUserLevel == 1)
+            {
+                return RedirectToAction("Index", new { selectedYear = selectedYear, selectedMonth = selectedMonth, a = true, select = selectArea + "_" + selectCrit });
+            }
             if (!a)
             {
                 return RedirectToAction("Index", new { selectedYear = selectedYear, selectedMonth = selectedMonth });
