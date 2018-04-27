@@ -14,7 +14,8 @@ function AllowanceDetail(array) {
     this.RoleAllowance = parseInt(array[1]),
     this.ExistingVacancyHours = parseInt(array[2]),
     this.FriendlyName = array[3],
-    this.HourlyRate = parseFloat(array[4]).toFixed(2)
+    this.HourlyRate = parseFloat(array[4]).toFixed(2),
+    this.ContractBase = parseFloat(array[5]).toFixed(2),
     this.ChecksVisible = false,
     this.Action = 'new',
     this.Repost = 'true';
@@ -36,7 +37,7 @@ roleAllowance.findByRoleId = function (_RoleId) {
 roleAllowance.findAllowance = function (item) {
     var _entry = this.findByRoleId(item);
     if (_entry != -1) {
-        if (_entry.Action === 'replace' && _entry.RoleAllowance != -1)
+        if (_entry.Action === 'replace' && _entry.RoleAllowance != -1 && _entry.ContractBase != 0)
             return _entry.RoleAllowance + _entry.ExistingVacancyHours;
         else
             return _entry.RoleAllowance;
@@ -108,6 +109,35 @@ function findTotal(a) {
     return total;
 };
 
+function TotalsCheck(position) {
+    if (totalBase == -1) {
+        checkTotals(position);
+    }
+        //else if (overBase || warningBase) {
+        //    if (warningBase) {
+        //        approvalResult = 'ion-alert text-warning';
+        //        approvalVal = "review";
+        //    } else {
+        //        approvalResult = 'ion-checkmark-round text-success';
+        //        approvalVal = "approved";
+        //    };
+
+        //    $form.find('.request').each(function (x) {
+        //        $(this).find('.approvalResult').attr('class', 'approvalResult icon ' + approvalResult);
+        //        $(this).find('.approval').val(approvalVal);
+        //    });
+        //}
+    else {
+        var positionList = [];
+        $form.find('.position').each(function () {
+            positionList.push(parseInt($(this).val()));
+        });
+        for (var i = 0; i < positionList.length; i++) {
+            checkTotals(positionList[i]);
+        };
+    };
+};
+
 //Check totals and apply validation by roleId
 function checkTotals(position) {
     var allowance = roleAllowance.findAllowance(position);
@@ -115,7 +145,7 @@ function checkTotals(position) {
 
     var approvalResult;
     var approvalVal;
-    if (allowance == -1) {
+    if (allowance == -1 && roleAllowance.findByRoleId(position).ContractBase == 0) {
         if (warningBase) {
             approvalResult = 'ion-alert text-warning';
             approvalVal = "review";
@@ -125,7 +155,7 @@ function checkTotals(position) {
         };
     }
     else {
-        if (positionTotal > allowance * hoursBuffer) {
+        if (positionTotal > allowance * hoursBuffer || overBase) {
             approvalResult = 'ion-close-round text-danger';
             approvalVal = "reject";
             if (rowErrors.indexOf(position) == -1) {
@@ -137,7 +167,7 @@ function checkTotals(position) {
             $('#notesError').addClass('d-none');
             $('#notes').removeClass('border-danger');
         }
-        else if (positionTotal > allowance) {
+        else if (positionTotal > allowance || warningBase) {
             approvalResult = 'ion-alert text-warning';
             approvalVal = "review";
             if (rowErrors.indexOf(position) != -1) {
@@ -263,8 +293,8 @@ $form.on('change', ':input', function (e) {
         });
         var existingVacancies = roleAllowance.existingVacancyIds(positionList);
         
-        if (e.target.classList.value.includes('position') || !roleDetails.ChecksVisible) {
-            if (e.target.classList.value.includes('position')) {
+        if (e.target.classList.contains('position') || !roleDetails.ChecksVisible) {
+            if (e.target.classList.contains('position')) {
                 $triggerRow.find('.Action').val(roleDetails.Action);
                 $triggerRow.find('.Repost').val(roleDetails.Action);
                 $triggerRow.find('.approvalResult').attr('class', 'approvalResult icon');
@@ -290,7 +320,7 @@ $form.on('change', ':input', function (e) {
             if (totalBase != -1) {
                 CheckAgainstBase();
             };
-            checkTotals(position);
+            TotalsCheck(position);
             if (overBase) {
                 $('.approvalResult').addClass('d-none');
             }
@@ -316,7 +346,7 @@ $pContainer.on('change', ':input', function (e) {
             if (totalBase != -1) {
                 CheckAgainstBase();
             };            
-            checkTotals(position);
+            TotalsCheck(position);
         });
     };
 });
@@ -373,6 +403,7 @@ function CheckAgainstBase() {
         $submit.removeClass('disabled').attr('disabled', false);
         $('.approvalResult').removeClass('d-none');
         overBase = false;
+        warningBase = false;
         $notes.attr('required', false);
     }
     else if (total < totalBase * hoursBuffer) {
@@ -427,7 +458,6 @@ $form.on('click', '.remove', function (e) {
     $row.remove();
 
     var positionDetail = roleAllowance.findByRoleId($row.find('.position').val());
-    var allowance = positionDetail.RoleAllowance;
     var positionTotal = findTotal(positionDetail.RoleId);
 
     if (positionTotal == 0) {
@@ -436,5 +466,8 @@ $form.on('click', '.remove', function (e) {
         positionDetail.ChecksVisible = false;
         $('#p_' + positionDetail.RoleId).remove();
     };
-    checkTotals(positionDetail.RoleId);
+    if (totalBase != -1) {
+        CheckAgainstBase();
+    };
+    TotalsCheck(positionDetail.RoleId);
 });

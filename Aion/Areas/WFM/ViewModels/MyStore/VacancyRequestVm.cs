@@ -29,7 +29,7 @@ namespace Aion.Areas.WFM.ViewModels.MyStore
 
             StoreName = string.Format("{0} - {1}", collection.First().StoreNumber, collection.First().StoreName);
 
-            var _RoleAllowance = collection.Select(x => new string[]{ x.PositionId.ToString(), (x.Allowance - x.OpenVacancies).ToString(), x.OpenVacancies.ToString(), x.FriendlyName, x.RateOfPay.ToString() });
+            var _RoleAllowance = collection.Select(x => new string[]{ x.PositionId.ToString(), (x.Allowance - x.OpenVacancies).ToString(), x.OpenVacancies.ToString(), x.FriendlyName, x.RateOfPay.ToString(), x.ContractBase.ToString() });
             RoleAllowance = JsonConvert.SerializeObject(_RoleAllowance);
         }
     }
