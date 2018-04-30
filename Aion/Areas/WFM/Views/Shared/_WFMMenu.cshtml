@@ -34,8 +34,8 @@
             {
                 <a class="dropdown-item" href="@Url.Action("WeekendWorking", "Deployment", new { area = "WFM" })">GM Weekend Working</a>
             }
-        }
 
+        }       
     </div>
 </li>
 @if (!roi)
@@ -56,6 +56,11 @@
             <a class="dropdown-item" href="@Url.Action("HolidayPlanning", "MyStore", new {area = "WFM"})">Holiday Planning</a>
         }        
         <a class="dropdown-item" href="@Url.Action("OpeningTimes", "MyStore", new {area = "WFM"})">Opening Times</a>
+        @if (accessLvl >= 2)
+        {
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="@Url.Action("Recruitment", "MyStore", new { area = "WFM" })">Recruitment</a>
+        }       
     </div>
 </li>
 <li class="nav-item dropdown mx-1">

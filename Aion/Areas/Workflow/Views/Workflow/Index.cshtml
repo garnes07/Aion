@@ -17,8 +17,8 @@
                     <i class="icon ion-funnel"></i>
                     <span class="wf-text">Filter View:</span>
                 </div>
-                <div class="col-12 col-sm-5 wf-text">
-                    <div class="form-group row" style="margin-bottom:0;">
+                <div class="col-12 col-sm-3 wf-text">
+                    <div class="form-group row mb-0">
                         <span>Open/Closed:</span>
                         <select class="form-control" id="statusFilter" style="margin:auto 5px; max-width:100px;">
                             <option value="1" selected="selected">Open</option>
@@ -29,9 +29,9 @@
                 @if (Model._TPCMenu != null)
                 {
                     <div class="col-12 col-sm-4 wf-text">
-                        <div class="form-group row">
-                            <span>TPC View:</span>
-                            @Html.DropDownList("TPCFilter", Model._TPCMenu, new { id = "TPCFilter", @class = "form-control" })
+                        <div class="form-group form-row mb-0">
+                            <span class="col">TPC View:</span>
+                            @Html.DropDownList("TPCFilter", Model._TPCMenu, new { id = "TPCFilter", @class = "form-control col", style = "margin:auto 5px;" })
                         </div>
                     </div>
                 }

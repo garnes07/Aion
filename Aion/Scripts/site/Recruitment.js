@@ -141,11 +141,13 @@ function TotalsCheck(position) {
 //Check totals and apply validation by roleId
 function checkTotals(position) {
     var allowance = roleAllowance.findAllowance(position);
+    var positionDetail = roleAllowance.findByRoleId(position);
     var positionTotal = findTotal(position);
+    var currentBase = positionDetail.ContractBase - allowance;
 
     var approvalResult;
     var approvalVal;
-    if (allowance == -1 && roleAllowance.findByRoleId(position).ContractBase == 0) {
+    if (allowance == -1 && positionDetail.ContractBase == 0) {
         if (warningBase) {
             approvalResult = 'ion-alert text-warning';
             approvalVal = "review";
@@ -155,7 +157,7 @@ function checkTotals(position) {
         };
     }
     else {
-        if (positionTotal > allowance * hoursBuffer || overBase) {
+        if (positionTotal + currentBase > positionDetail.ContractBase * hoursBuffer || overBase) {
             approvalResult = 'ion-close-round text-danger';
             approvalVal = "reject";
             if (rowErrors.indexOf(position) == -1) {

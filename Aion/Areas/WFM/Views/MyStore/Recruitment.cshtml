@@ -66,25 +66,24 @@
         </div>
     }
     else
-    {        
+    {
         <div class="card mb-3">
             <div class="card-header text-center">
                 <strong>Dixons Carphone Recruitment</strong>
             </div>
             <div class="card-body">
-                <i 
-                   data-container="body" 
-                   data-toggle="popover" 
-                   data-placement="bottom" 
-                   data-trigger="hover" 
-                   data-content=
-                   "<p>The below summary of your contract base position is a snapshot of what has been entered into MyHub as of 8AM this morning. This informations is used as the basis for recruitment decisions. The following has been included:<ul><li>Any future dated leavers</li><li>Any future dated contract changes</li><li>Any future dated transfers</li><li>Any current vacancies including offers and on-boarding</li></ul>Please ensure future information is updated into MyHub as soon as it is known, for the below information to be accurate. Please review the above before raising a Medics query.</p>" 
+                <i data-container="body"
+                   data-toggle="popover"
+                   data-placement="bottom"
+                   data-trigger="hover"
+                   data-content="<p>The below summary of your contract base position is a snapshot of what has been entered into MyHub as of 8AM this morning. This informations is used as the basis for recruitment decisions. The following has been included:<ul><li>Any future dated leavers</li><li>Any future dated contract changes</li><li>Any future dated transfers</li><li>Any current vacancies including offers and on-boarding</li></ul>Please ensure future information is updated into MyHub as soon as it is known, for the below information to be accurate. Please review the above before raising a Medics query.</p>"
                    class="icon ion-information-circled info-button">
                 </i>
                 <p><strong>Store</strong>: @Model.StoreName</p>
                 @*<p><strong><u>Store</u></strong>: 1877 - Guildford High St</p>*@
+                <p>Info around escalations and SLAs</p>
                 <p>
-                    <h6>Contract Base Summary</h6>
+                    <h6><strong>Contract Base Summary</strong></h6>
                     @foreach (var item in Model.RecruitmentDetail)
                     {
                         <u>@item.FriendlyName</u>
@@ -113,12 +112,11 @@
                 <strong>New Vacancy Request</strong>
             </div>
             <div class="card-body">
-                <i 
-                   data-container="body" 
-                   data-toggle="popover" 
-                   data-placement="bottom" 
-                   data-trigger="hover" 
-                   data-content="<p>You are only able to raise vacancies for positions applicable to your store. If you believe this list is incorrect and need to raise a vacancy for a position not in this list please raise a Medics.</br>An instant response will be provided as you add rows to the request form:<ul><li><i class='icon ion-checkmark-round text-success'></i> - This vacancy is approved and will be raised.</li><li><i class='icon ion-alert text-warning'></i> - This vacancy will need to be reviewed by the WFM Team. You will need to add comments to the form to support the request.</li><li><i class='icon ion-close-round text-danger'></i> - This is not approved. You will not be able to submit a vacancy request without removing this from the form.</li></ul>These responses are based on your current contract base position and any specific budgets/allocation for the role being chosen.</p>" 
+                <i data-container="body"
+                   data-toggle="popover"
+                   data-placement="bottom"
+                   data-trigger="hover"
+                   data-content="<p>You are only able to raise vacancies for positions applicable to your store. If you believe this list is incorrect and need to raise a vacancy for a position not in this list please raise a Medics.</br>An instant response will be provided as you add rows to the request form:<ul><li><i class='icon ion-checkmark-round text-success'></i> - This vacancy is approved and will be raised.</li><li><i class='icon ion-alert text-warning'></i> - This vacancy will need to be reviewed by the WFM Team. You will need to add comments to the form to support the request.</li><li><i class='icon ion-close-round text-danger'></i> - This is not approved. You will not be able to submit a vacancy request without removing this from the form.</li></ul>These responses are based on your current contract base position and any specific budgets/allocation for the role being chosen.</p>"
                    class="icon ion-information-circled info-button">
                 </i>
                 <div id="baseAlert" class="alert alert-danger text-center d-none">
@@ -146,10 +144,10 @@
                         <div class="form-group px-1 col-4">
                             @Html.DropDownList("r[0].Position", Model.PositionList, new { @class = "form-control position" })
                             @*<select name="r[0].Position" class="form-control position" required>
-                        <option value="1">Sales Consultant</option>
-                        <option value="2">Team KnowHow Colleague</option>
-                        <option value="3">Team KnowHow Engineer</option>
-                    </select>*@
+                                    <option value="1">Sales Consultant</option>
+                                    <option value="2">Team KnowHow Colleague</option>
+                                    <option value="3">Team KnowHow Engineer</option>
+                                </select>*@
                         </div>
                         <div class="form-group px-1 col-2">
                             <input name="r[0].Heads" class="form-control text-center heads" type="number" min="1" value="0" required />
@@ -164,7 +162,8 @@
                             <input class="approval" name="r[0].approval" value="approved" hidden />
                             <div class="approvalResult icon" style="font-size:large;"></div>
                         </div>
-                    </div>                    
+                    </div>
+                    <div class="mb-2"><i><small>Something about adding extra lines</small></i></div>
                     <div class="form-row">
                         <div class="form-group w-100">
                             <label for="notes"><strong>Notes <span id="notesError" class="text-danger ml-2 d-none">Please add notes to support this request</span></strong></label>
@@ -185,13 +184,13 @@
                                 <input id="p[0]a" name="p[0]" class="form-check-input" type="radio" value="replace" />
                                 <label class="form-check-label" for="p[0]a">Replace existing vacancies</label>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline mr-5">
                                 <input id="p[0]b" name="p[0]" class="form-check-input" type="radio" value="add" />
                                 <label class="form-check-label" for="p[0]b">Add to existing vacancies</label>
                             </div>
-                            <div class="form-check-inline ml-2">
+                            <div class="form-check-inline ml-5">
                                 <input class="form-check-input" type="checkbox" value="" name="p[0]Repost" id="p[0]Repost" />
-                                <label class="form-check-label" for="p[0]Repost">Repost vacancy</label>
+                                <label class="form-check-label" for="p[0]Repost">Repost vacancy?</label>
                             </div>
                         </div>
                     </div>
@@ -210,17 +209,20 @@
                 <strong>Existing Vacancies</strong>
             </div>
             <div class="card-body">
-                <i 
-                   data-container="body" 
-                   data-toggle="popover" 
-                   data-placement="bottom" 
-                   data-trigger="hover" 
-                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>To Post - The WFM Team is raising this vacancy in MyHub</li><li>Raising - The vacancy has been raised, awaiting posting by HRSSC</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>" 
+                <i data-container="body"
+                   data-toggle="popover"
+                   data-placement="bottom"
+                   data-trigger="hover"
+                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>To Post - The WFM Team is raising this vacancy in MyHub</li><li>Raising - The vacancy has been raised, awaiting posting by HRSSC</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
                    class="icon ion-information-circled info-button">
                 </i>
-                @if(!Model.PendingRequests.Any() && !Model.LiveRequests.Any())
+                @if (!Model.PendingRequests.Any() && !Model.LiveRequests.Any())
                 {
                     <h5>No existing vacancies...</h5>
+                }
+                else
+                {
+                    <h5>Something about replacing vacancies</h5>
                 }
                 @if (Model.PendingRequests.Any())
                 {
@@ -268,22 +270,22 @@
                     <table class="table table-bordered table-sm text-center">
                         <thead>
                             <tr>
-                                <th style="width:16%;">Vacancy No.</th>
-                                <th style="width:30%;">Position</th>
-                                <th style="width:18%;">Heads</th>
-                                <th style="width:18%;">Total Hours</th>
-                                <th style="width:18%;">Actions</th>
+                                <th style="width:21%;">Vacancy No.</th>
+                                <th style="width:31%;">Position</th>
+                                <th style="width:24%;">Heads</th>
+                                <th style="width:24%;">Total Hours</th>
+                                @*<th style="width:18%;">Actions</th>*@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(var item in Model.LiveRequests)
+                            @foreach (var item in Model.LiveRequests)
                             {
                                 <tr>
                                     <td>@item.JobReqId</td>
                                     <td>@item.FriendlyName</td>
                                     <td>@item.Headcount</td>
                                     <td>@item.TotalVacantHours</td>
-                                    <td><button type="button" data-toggle="modal" data-target="#cl_modal" class="btn btn-sm btn-danger" data-refid="@item.JobReqId">Cancel</button></td>
+                                    @*<td><button type="button" data-toggle="modal" data-target="#cl_modal" class="btn btn-sm btn-danger" data-refid="@item.JobReqId">Cancel</button></td>*@
                                 </tr>
                             }
                         </tbody>
@@ -298,7 +300,7 @@
     @if (Model.MessageType != Aion.ViewModels.MessageType.Error)
     {
         <script id="scrpt" src="~/Scripts/site/Recruitment.js" data-buffer="1.06" data-roledetail="@Model.RoleAllowance" data-totalbase="@Model.RecruitmentDetail.First().TotalBase" data-currentbase="@Model.RecruitmentDetail.First().CurrentBase"></script>
-    }    
+    }
     <script>
         $(function () {
             $('#cp_modal').on('show.bs.modal', function (event) {

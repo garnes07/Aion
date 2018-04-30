@@ -136,6 +136,7 @@ namespace Aion.Areas.Workflow.Controllers
             if(TPC != "")
             {
                 System.Web.HttpContext.Current.Session["_TPCOverride"] = TPC;
+                _userName = TPC;
             }
 
             bool bStatus = status == "1";
