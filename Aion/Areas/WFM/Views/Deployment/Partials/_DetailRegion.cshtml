@@ -17,7 +17,7 @@
                 <td>@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</td>
                 <td class="text-center">@string.Format("{0:0.0}", item.SOH)</td>
                 <td class="text-center">@string.Format("{0:0.0}", item.FinalTarget)</td>
-                <td class="text-center">@string.Format("{0:0.0}", item.FinalTarget - item.SOH)</td>
+                <td class="text-center">@string.Format("{0:0.0}", item.SOH - item.FinalTarget)</td>
                 <td class="text-center @Model.GetColor(item.SOHUtilization)">@item.SOHUtilization</td>
             </tr>
         }
@@ -25,7 +25,7 @@
             <td><strong>Region Total</strong></td>
             <td class="text-center"><strong>@string.Format("{0:0.0}", Model.RegionTotal.SOHSpend)</strong></td>
             <td class="text-center"><strong>@string.Format("{0:0.0}", Model.RegionTotal.FinalTarget)</strong></td>
-            <td class="text-center"><strong>@string.Format("{0:0.0}", Model.RegionTotal.FinalTarget - Model.RegionTotal.SOHSpend)</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0.0}", Model.RegionTotal.SOHSpend - Model.RegionTotal.FinalTarget)</strong></td>
             <td class="text-center @Model.GetColor(Model.RegionTotal.DeploymentScore)"><strong>@string.Format("{0:0.0}", Model.RegionTotal.DeploymentScore)</strong></td>
         </tr>
     </tbody>

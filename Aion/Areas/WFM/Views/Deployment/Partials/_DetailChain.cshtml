@@ -15,7 +15,7 @@
         <td><strong>@Model.ChainSummary.StoreFlag</strong></td>
         <td class="text-center"><strong>@string.Format("{0:0}", Model.ChainSummary.SOH)</strong></td>
         <td class="text-center"><strong>@string.Format("{0:0}", Model.ChainSummary.FinalTarget)</strong></td>
-        <td class="text-center"><strong>@string.Format("{0:0}", Model.ChainSummary.FinalTarget - Model.ChainSummary.SOH)</strong></td>
+        <td class="text-center"><strong>@string.Format("{0:0}", Model.ChainSummary.SOH - Model.ChainSummary.FinalTarget)</strong></td>
         <td class="text-center"><strong>@string.Format("{0:0.0}", Model.ChainSummary.SOHUtilization)</strong></td>
     </tr>
     @foreach (var division in Model.DivisionSummary)
@@ -24,7 +24,7 @@
             <td><strong>@division.Division</strong></td>
             <td class="text-center"><strong>@string.Format("{0:0}", division.SOH)</strong></td>
             <td class="text-center"><strong>@string.Format("{0:0}", division.FinalTarget)</strong></td>
-            <td class="text-center"><strong>@string.Format("{0:0}", division.FinalTarget - division.SOH)</strong></td>
+            <td class="text-center"><strong>@string.Format("{0:0}", division.SOH - division.FinalTarget)</strong></td>
             <td class="text-center"><strong>@string.Format("{0:0.0}", division.SOHUtilization)</strong></td>
         </tr>
         foreach (var region in Model.RegionSummary.Where(x => x.Division == division.Division))
@@ -33,7 +33,7 @@
                  <td>@region.Region</td>
                  <td class="text-center">@string.Format("{0:0}", region.SOH)</td>
                  <td class="text-center">@string.Format("{0:0}", region.FinalTarget)</td>
-                 <td class="text-center">@string.Format("{0:0}", region.FinalTarget - region.SOH)</td>
+                 <td class="text-center">@string.Format("{0:0}", region.SOH - region.FinalTarget)</td>
                  <td class="text-center">@string.Format("{0:0.0}", region.SOHUtilization)</td>
              </tr>
          }

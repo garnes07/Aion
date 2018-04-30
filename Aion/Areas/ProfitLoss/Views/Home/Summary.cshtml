@@ -2,7 +2,7 @@
 
 @{
     var max = Model.collection.Any() ? Model.collection.Max(x => x.Heirarchy) : 0;
-    var thisSelect = Model.collection.FirstOrDefault(x => x.Heirarchy == max).selectCrit;
+    var thisSelect = Model.collection.Any() ? Model.collection.FirstOrDefault(x => x.Heirarchy == max).selectCrit : "e";
     ViewBag.Title = "Profit Loss";
 }
 
@@ -32,7 +32,7 @@
                 </div>
             }
         </div>
-        @if (Model.collection != null)
+        @if (Model.collection.Any())
         {
             <div class="card-body">
                 <div class="alert alert-info text-center">
@@ -127,7 +127,9 @@
         }
         else
         {
-            <div class="alert alert-info">No data found for the selected period</div>
+            <div class="card-body">
+                <div class="alert alert-info">No data found for the selected period</div>
+            </div>            
         }
     </div>
 </div>

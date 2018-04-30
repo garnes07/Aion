@@ -138,7 +138,7 @@
                 <td class="text-center">@string.Format("{0:0}", Model.DailyData.SaturdayReq)</td>
             </tr>
             <tr style="background-color: #d6f3f5">
-                <td>This is where you should put your hours</td>
+                <td>This is where you've currently put your hours</td>
                 <td class="text-center">@string.Format("{0:0}", Model.DailyData.SundayDeployed)</td>
                 <td class="text-center">@string.Format("{0:0}", Model.DailyData.MondayDeployed)</td>
                 <td class="text-center">@string.Format("{0:0}", Model.DailyData.TuesdayDeployed)</td>
@@ -148,7 +148,7 @@
                 <td class="text-center">@string.Format("{0:0}", Model.DailyData.SaturdayDeployed)</td>
             </tr>
             <tr>
-                <td>This is where you've currently put your hours</td>
+                <td>This is what you need to do</td>
                 <td class="text-center">@Model.GetAdvice(Model.DailyData.SundayMove)</td>
                 <td class="text-center">@Model.GetAdvice(Model.DailyData.MondayMove)</td>
                 <td class="text-center">@Model.GetAdvice(Model.DailyData.TuesdayMove)</td>

@@ -261,6 +261,13 @@ namespace Aion.Areas.WFM.Controllers
                     vm.DisplayLevel = 4;
                     break;
             }
+
+            if (!vm.PunchDetail.Any())
+            {
+                vm.MessageType = MessageType.Error;
+                vm.Message = "Reporting for the selected period has not yet been finalised, check back later.";
+            }
+
             return View(vm);
         }
 
