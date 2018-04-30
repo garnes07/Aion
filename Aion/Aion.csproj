@@ -878,6 +878,7 @@
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\OpeningTimes\Index.cshtml" />
     <Content Include="Areas\Admin\Views\OpeningTimes\ReviewTime.cshtml" />
+    <Content Include="Areas\Admin\Views\OpeningTimes\Partials\_comment.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

@@ -159,7 +159,47 @@ namespace Aion.DAL.Managers
         {
             using (var context = new WFMModel())
             {
-                return await context.StoreOpeningTimes.Where(x => x.StoreNumber == storeNumber && (x.Status == "PendingApproval" || x.Status == "Pending" || x.Status == "Live")).Include("OpeningTimesComment").ToListAsync();
+                return await context.StoreOpeningTimes.Where(x => x.StoreNumber == storeNumber && (x.Status == "PendingApproval" || x.Status == "Pending" || x.Status == "Live")).Include("OpeningTimesComments").ToListAsync();
+            }
+        }
+
+        public async Task<bool> ApproveRejectPendingRequest(int entryId, bool approved)
+        {
+            using (var context = new WFMModel())
+            {
+                try
+                {
+                    var result = context.StoreOpeningTimes.Find(entryId);
+                    if(result != null)
+                    {
+                        result.Status = approved ? "Pending" : "Declined";
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<OpeningTimesComment> AddNewComment(int entryId, string commentText, string userName)
+        {
+            using (var context = new WFMModel())
+            {
+                var _toAttach = new OpeningTimesComment
+                {
+                    EntryID = entryId,
+                    Comment = commentText,
+                    AddedBy = userName,
+                    Datetime = DateTime.Now
+                };
+
+                context.OpeningTimesComments.Add(_toAttach);
+                await context.SaveChangesAsync();
+                return _toAttach;
             }
         }
     }

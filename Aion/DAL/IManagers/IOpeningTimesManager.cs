@@ -18,5 +18,7 @@ namespace Aion.DAL.Managers
         Task<int> AcceptPeak(int entryId, string store, string userName);
         Task<List<StoreOpeningTime>> GetPendingOpeningTimes();
         Task<List<StoreOpeningTime>> GetStoreTimesForReview(int storeNumber);
+        Task<bool> ApproveRejectPendingRequest(int entryId, bool approved);
+        Task<OpeningTimesComment> AddNewComment(int entryId, string commentText, string userName);
     }
 }

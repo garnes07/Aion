@@ -4,19 +4,19 @@
     ViewBag.Title = "Review Time";
 }
 
-<div class="modal fade" id="addcomment" tabindex="-1" role="form">
-    <div class="modal-dialog">
+<div class="modal fade" id="addcommentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
                 <h4 class="modal-title" id="addcommentlabel">
                     Add comment Below:
                 </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal col-lg-offset-1 col-md-offset-1" role="form" method="post">
+                <form id="commentForm" class="form-horizontal" role="form" method="post">
                     <input type="hidden" name="entryID" id="entryID" value="@Model.timeForApproval.EntryID" />
                     <input type="hidden" name="storeNum" id="storeNum" value="@Model.timeForApproval.StoreNumber" />
                     <div class="form-group">
@@ -25,8 +25,8 @@
                             <input rows="3" autofocus type="text" required class="form-control text-box" name="Comment" id="Comment" />
                         </div>
                     </div>
-                    <div class="form-group col-lg-offset-10 col-md-offset-10">
-                        <button type="submit" value="submit" class="btn btn-default">Add</button>
+                    <div class="form-group row justify-content-center">
+                        <button id="addComment" type="button" class="btn btn-info">Add</button>
                     </div>
                 </form>
             </div>
@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid">  
     <h2>Review Submission for Store @Model.currentTime.StoreNumber</h2>
     <table class="table table-bordered table-sm text-center">
         <thead>
@@ -112,28 +112,28 @@
             </tr>
         </tbody>
     </table>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title text-center"><strong>Total Variance : @Model.Differences[7].TotalMinutes</strong></h3>
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>Total Variance : @Model.Differences[7].TotalMinutes</strong>
         </div>
         <div class="card-body text-center">
             Effective Date : @Model.timeForApproval.EffectiveDate.ToShortDateString()<br />
-            Temporary Change : @(Model.timeForApproval.TemporaryChange.Value ? "Yes" : "No")<br />
-            End Date : @(Model.timeForApproval.TemporaryChange.Value ? Model.timeForApproval.EndDate.ToString() : "N/A")<br />
+            Temporary Change : @(Model.timeForApproval.TemporaryChange == true ? "Yes" : "No")<br />
+            End Date : @(Model.timeForApproval.TemporaryChange == true ? Model.timeForApproval.EndDate.ToString() : "N/A")<br />
             Submitted By User : @Model.timeForApproval.SubmittedByUser<br />
             Reason For Change : @(Model.timeForApproval.ReasonForChange.IsEmpty() ? "None Given" : Html.Encode(Model.timeForApproval.ReasonForChange))<br />
             <br />
             <div>
                 <a class="btn btn-success" href="@Url.Action("ApproveOpeningTime", "OpeningTimes", new { EntryID = Model.timeForApproval.EntryID })">Approve proposed hours</a>
-                <a class="btn btn-danger" href="@Url.Action("DeclineOpeningTime", "OpeningTimes", new { EntryID = Model.timeForApproval.EntryID })">Decline proposed hours</a>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcomment">Add Comment</button>
+                <a class="btn btn-danger" href="@Url.Action("RejectOpeningTime", "OpeningTimes", new { EntryID = Model.timeForApproval.EntryID })">Decline proposed hours</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcommentModal">Add Comment</button>
             </div>
         </div>
     </div>
     @if (Model.pendingTimes.Any())
     {
-        <div class="card card-danger">
-            <div class="card-header text-center"><h2 class="card-title"><strong>Outstanding Changes</strong></h2></div>
+        <div class="card card-danger mb-3">
+            <div class="card-header text-center"><strong>Outstanding Changes</strong></div>
             <div class="card-body">
                 <table class="table table-bordered table-sm text-center">
                     <thead>
@@ -166,7 +166,7 @@
                     </thead>
                     <tbody>
                         @foreach (var item in Model.pendingTimes)
-                {
+            {
                             <tr>
                                 <td>@item.EffectiveDate.ToShortDateString()</td>
                                 <td>@(item.SundayOpen.ToString() == "00:00:00" ? "Closed" : item.SundayOpen.ToString("hh\\:mm"))</td>
@@ -190,22 +190,43 @@
             </div>
         </div>
     }
-    @if (Model.currentTime.OpeningTimesComments.Any())
-    {
-        foreach (var item in Model.currentTime.OpeningTimesComments)
+    <div id="commentContainer">
+        @if (Model.timeForApproval.OpeningTimesComments.Any())
         {
-            <div class="card card-info">
-                <div class="card-header text-center"><h4 class="card-title"><strong>@item.Datetime</strong></h4></div>
-                <div class="card-body text-center">
-                    <Strong>@item.Comment</Strong>
+            foreach (var item in Model.timeForApproval.OpeningTimesComments.OrderByDescending(x => x.Datetime))
+            {
+                <div class="card card-info mb-2">
+                    <div class="card-header text-center"><strong>@item.Datetime</strong></div>
+                    <div class="card-body text-center">
+                        <Strong>@item.Comment</Strong>
+                    </div>
+                    <div class="card-footer text-center">Added by : @item.AddedBy</div>
                 </div>
-                <div class="card-footer text-center">Added by : @item.AddedBy</div>
-            </div>
+            }
         }
-    }
+    </div>
 
     <div class="id">
         @Html.ActionLink("Back", "Index")
     </div>
 
 </div>
+
+@section myScripts{
+<script>
+    $(function () {
+        $('#addComment').click(function () {
+            var entryId = $('#entryID').val();
+            var comment = $('#Comment').val();
+
+            $.post('/Admin/OpeningTimes/_AddComment', { entryId: entryId, comment: comment }, function (result) {
+                setTimeout(function () {
+                    $('#commentContainer').prepend(result);
+                    $('#addcommentModal').modal('toggle');
+                    $('#Comment').val('');
+                }, 250);
+            });
+        });
+    });
+</script>    
+}

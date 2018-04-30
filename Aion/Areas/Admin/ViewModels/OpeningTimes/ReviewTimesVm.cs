@@ -16,7 +16,7 @@ namespace Aion.Areas.Admin.ViewModels.OpeningTimes
         {
             currentTime = collection.FirstOrDefault(x => x.Status == "Live");
             timeForApproval = collection.FirstOrDefault(x => x.EntryID == entryId);
-            pendingTimes = collection.Where(x => x.Status.Contains("Pending")).ToList();
+            pendingTimes = collection.Where(x => x.Status.Contains("Pending") && x.EntryID != entryId).ToList();
 
             Differences = new List<TimeSpan>();
             Differences.Add(timeForApproval.SundayClose.Subtract(timeForApproval.SundayOpen).Subtract(currentTime.SundayClose.Subtract(currentTime.SundayOpen)));
