@@ -43,6 +43,11 @@
                     <td class="text-center">@item.Lowest_Week</td>
                 </tr>
             }
+                <tr>
+                    <td><strong>Region Total</strong></td>
+                    <td class="text-center">@Model.ContractBaseDetailRegion.Sum(x => x.Contract_Hours)</td>
+                    <td class="text-center">@Model.ContractBaseDetailRegion.Sum(x => x.Contract_Base)</td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -1,5 +1,6 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,6 +51,75 @@ namespace Aion.DAL.Managers
                 int result = await context.SaveChangesAsync();
 
                 return result > 0;
+            }
+        }
+
+        public async Task<List<UserAccess>> GetAllUsers()
+        {
+            using(var context = new WebMasterModel())
+            {
+                return await context.UserAccesses.Where(x => !x.Krn).ToListAsync();
+            }
+        }
+        
+        public async Task<bool> AddNewUserRecord(UserAccess userDetail)
+        {
+            using(var context = new WebMasterModel())
+            {
+                try
+                {
+                    context.UserAccesses.Add(userDetail);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> DeleteUser(string username)
+        {
+            using(var context = new WebMasterModel())
+            {
+                try
+                {
+                    var toDelete = await context.UserAccesses.FindAsync(username);
+                    if(toDelete != null)
+                    {
+                        context.UserAccesses.Remove(toDelete);
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;   
+                }
+            }
+        }
+
+        public async Task<bool> EditUser(UserAccess userDetail)
+        {
+            using(var context = new WebMasterModel())
+            {
+                try
+                {
+                    var existing = await context.UserAccesses.FindAsync(userDetail.UserName);
+                    if(existing != null)
+                    {
+                        context.Entry(existing).CurrentValues.SetValues(userDetail);
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
     }

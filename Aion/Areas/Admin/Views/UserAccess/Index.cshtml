@@ -1,0 +1,32 @@
+﻿@model List<Aion.DAL.Entities.UserAccess>
+
+@{
+    ViewBag.Title = "User Access";
+}
+
+<div class="container-fluid">
+    <h2>User Access</h2>
+    <p>@Html.ActionLink("Add New", "Add")</p>
+    <table class="table table-sm text-center">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.UserName }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.UserName })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

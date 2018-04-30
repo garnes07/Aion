@@ -166,6 +166,8 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OpeningTimesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RecruitmentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
     <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
@@ -879,6 +881,10 @@
     <Content Include="Areas\Admin\Views\OpeningTimes\Index.cshtml" />
     <Content Include="Areas\Admin\Views\OpeningTimes\ReviewTime.cshtml" />
     <Content Include="Areas\Admin\Views\OpeningTimes\Partials\_comment.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAccess\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAccess\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAccess\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAccess\Add.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1156,6 +1162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Vacancies\" />
     <Folder Include="Areas\Workflow\Views\Shared\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
