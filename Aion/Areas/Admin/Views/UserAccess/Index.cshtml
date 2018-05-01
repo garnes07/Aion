@@ -4,6 +4,30 @@
     ViewBag.Title = "User Access";
 }
 
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Are you sure you wish to delete the below user?</h5>
+                <h4 id="userText"></h4>
+                <form id="deleteForm" action="/Admin/UserAccess/Delete" method="post">
+                    <input id="userInput" name="username" hidden value="" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirm" class="btn btn-success">Confirm</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>                
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
     <h2>User Access</h2>
     <p>@Html.ActionLink("Add New", "Add")</p>
@@ -22,11 +46,28 @@
                     <td>@item.UserName</td>
                     <td>@item.Description</td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.UserName }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.UserName })
+                        @Html.ActionLink("Edit", "Edit", new { username = item.UserName }) |
+                        <a href="#" class="delete" data-username="@item.UserName">Delete</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section myScripts{
+<script>
+    $(function () {
+        $('.delete').click(function () {
+            var username = $(this).data('username');
+            $('#userText').html(username);
+            $('#userInput').val(username);
+            $('#deleteModal').modal('toggle');
+        });
+
+        $('#confirm').click(function () {
+            $('#deleteForm').submit();
+        })
+    });
+</script>    
+}

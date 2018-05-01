@@ -7,20 +7,19 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
+            <h4>Add New User</h4>
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
                 <div class="form-horizontal">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group form-row">
-                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-2 col-form-label" })
+                        <label class="col-2 col-form-label">Username</label>
                         <div class="col-10">
-                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            <input name="UserName" class="form-control" required />
                         </div>
                     </div>
                     <div class="form-group form-row">
-                        <label class="col-2 col-form-label">Access Level</label>
+                        <label class="col-2 col-form-label">Access Level <i class="icon ion-help-circled" data-container="body" data-toggle="popover" data-placement="right" data-content="This defines the access level for the user and should always match their role"></i></label>
                         <select name="AccessLevel" class="col-10 form-control">
                             <option value="2">WFM Lead</option>
                             <option value="3">RM</option>
@@ -32,7 +31,7 @@
                         </select>
                     </div>
                     <div class="form-group form-row">
-                        <label class="col-2 col-form-label">Access Level</label>
+                        <label class="col-2 col-form-label">Display Level <i class="icon ion-help-circled" data-container="body" data-toggle="popover" data-placement="right" data-content="This defines the menu options shown to the user"></i></label>
                         <select name="AreaLevel" class="col-10 form-control">
                             <option value="2">Region</option>
                             <option value="3">Division</option>
@@ -41,14 +40,13 @@
                         </select>
                     </div>
                     <div class="form-group form-row">
-                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "col-2 col-form-label" })
+                        <label class="col-2 col-form-label">Description</label>
                         <div class="col-10">
-                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            <input class="form-control" name="Description" required/>
                         </div>
                     </div>
                     <hr />
-                    <h5>Access Areas</h5>
+                    <h5>Access Areas <i class="icon ion-help-circled" data-container="body" data-toggle="popover" data-placement="right" data-content="Add the names of all areas the user needs access to, in line with the display level selected above. eg. Division: DCPW01, DCPW02"></i></h5>
                     <div id="areasContainer">
                         <div class="form-group form-row">
                             <input class="form-control col-4" name="areas[0]">
@@ -66,17 +64,27 @@
 </div>
 
 @section myScripts{
-<script>
-    $(function () {
-        var template = '<div class="form-group form-row"><input class="form-control col-4" name="areas[0]"></div>'
-        var $areasContainer = $('#areasContainer');
-        var counter = 1;
+    <script>
+        $(function () {
+            var template = '<div class="form-group form-row"><input class="form-control col-4" name="areas[0]"><button id="remove" type="button" class="btn btn-danger btn-sm ml-3"><i class="icon ion-minus-circled"></i>Remove</button></div>'
+            var $areasContainer = $('#areasContainer');
+            var counter = 1;
 
-        $('#add').click(function () {
-            var toAppend = template.replace('0', counter);
-            $areasContainer.prepend(toAppend);
-            grpCount++;
+            $('#add').click(function () {
+                var toAppend = template.replace('0', counter);
+                $areasContainer.append(toAppend);
+                grpCount++;
+            });
+
+            $areasContainer.on('click', '#remove', function () {
+                $(this).parent().remove();
+            });
+
+            $(function () {
+                $('[data-toggle="popover"]').popover({
+                    trigger: 'hover'
+                });
+            })
         });
-    });
-</script>    
+    </script>
 }

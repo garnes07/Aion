@@ -33,10 +33,17 @@
             </thead>
             <tbody>
             <tr>
-                <td class="text-center">@Model.ContractBaseDetailStore.Contract_Hours</td>
-                <td class="text-center">@Model.ContractBaseDetailStore.Contract_Base</td>
-                <td class="text-center">@Model.ContractBaseDetailStore.Highest_Week</td>
-                <td class="text-center">@Model.ContractBaseDetailStore.Lowest_Week</td>
+                @if(Model.ContractBaseDetailStore == null)
+                {
+                    <td colspan="4" class="text-center"><strong>No contract base found, please raise through MEDICS</strong></td>
+                }
+                else
+                {
+                    <td class="text-center">@Model.ContractBaseDetailStore.Contract_Hours</td>
+                    <td class="text-center">@Model.ContractBaseDetailStore.Contract_Base</td>
+                    <td class="text-center">@Model.ContractBaseDetailStore.Highest_Week</td>
+                    <td class="text-center">@Model.ContractBaseDetailStore.Lowest_Week</td>
+                }                
             </tr>
             </tbody>
         </table>

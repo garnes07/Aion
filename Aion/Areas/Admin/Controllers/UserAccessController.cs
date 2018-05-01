@@ -35,7 +35,8 @@ namespace Aion.Areas.Admin.Controllers
                 {
                     userDetail.UserAccessAreas.Add(new UserAccessArea
                     {
-                        AreaName = item
+                        AreaName = item,
+                        UserName = userDetail.UserName
                     });
                 }
                 userDetail.Krn = false;

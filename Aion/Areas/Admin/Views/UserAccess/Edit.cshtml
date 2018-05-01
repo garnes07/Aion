@@ -1,7 +1,108 @@
-﻿
+﻿@model Aion.DAL.Entities.UserAccess
+
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h4>Edit User</h4>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <div class="form-group form-row">
+                        <label class="col-2 col-form-label">Username</label>
+                        <div class="col-10">
+                            <input name="UserName" class="form-control" required value="@Model.UserName" />
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        <label class="col-2 col-form-label">Access Level <i class="icon ion-help-circled" data-container="body" data-toggle="popover" data-placement="right" data-content="This defines the access level for the user and should always match their role"></i></label>
+                        <select name="AccessLevel" class="col-10 form-control">
+                            <option value="2" @(Model.AccessLevel == 2 ? "selected" : "")>WFM Lead</option>
+                            <option value="3" @(Model.AccessLevel == 3 ? "selected" : "")>RM</option>
+                            <option value="4" @(Model.AccessLevel == 4 ? "selected" : "")>DD</option>
+                            <option value="5" @(Model.AccessLevel == 5 ? "selected" : "")>RD</option>
+                            <option value="6" @(Model.AccessLevel == 6 ? "selected" : "")>TPC/HRBP</option>
+                            <option value="7" @(Model.AccessLevel == 7 ? "selected" : "")>Head Office (excl. WFM)</option>
+                            <option value="9" @(Model.AccessLevel == 9 ? "selected" : "")>WFM Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-row">
+                        <label class="col-2 col-form-label">Display Level <i class="icon ion-help-circled" data-container="body" data-toggle="popover" data-placement="right" data-content="This defines the menu options shown to the user"></i></label>
+                        <select name="AreaLevel" class="col-10 form-control">
+                            <option value="2" @(Model.AreaLevel == 2 ? "selected" : "")>Region</option>
+                            <option value="3" @(Model.AreaLevel == 3 ? "selected" : "")>Division</option>
+                            <option value="4" @(Model.AreaLevel == 4 ? "selected" : "")>Chain</option>
+                            <option value="5" @(Model.AreaLevel == 5 ? "selected" : "")>All</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-row">
+                        <label class="col-2 col-form-label">Description</label>
+                        <div class="col-10">
+                            <input class="form-control" name="Description" value="@Model.Description" required />
+                        </div>
+                    </div>
+                    <hr />
+                    <h5>Access Areas <i class="icon ion-help-circled" data-container="body" data-toggle="popover" data-placement="right" data-content="Add the names of all areas the user needs access to, in line with the display level selected above. eg. Division: DCPW01, DCPW02"></i></h5>
+                    <div id="areasContainer">
+                        @if (Model.UserAccessAreas.Count == 0)
+                        {
+                            <div class="form-group form-row">
+                                <input class="form-control col-4" name="areas[0]">
+                            </div>
+                        }
+                        else
+                        {
+                            var i = 0;
+                            foreach (var item in Model.UserAccessAreas)
+                            {
+                                <div class="form-group form-row">
+                                    <input class="form-control col-4" name="areas[@(i)]" value="@item.AreaName">
+                                    @if (i > 0)
+                                    {
+                                        <button id="remove" type="button" class="btn btn-danger btn-sm ml-3">Remove</button>
+                                    }
+                                </div>
+                                i++;
+                            }
+                        }
+                    </div>
+                    <button id="add" type="button" class="btn btn-success btn-sm"><i class="icon ion-plus-circled"></i>Add</button>
+                    <hr />
+                    <div class="form-group row justify-content-center">
+                        <button type="submit" class="btn btn-success btn-lg">Submit</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
+@section myScripts{
+    <script>
+        $(function () {
+            var template = '<div class="form-group form-row"><input class="form-control col-4" name="areas[0]"><button id="remove" type="button" class="btn btn-danger btn-sm ml-3"><i class="icon ion-minus-circled"></i>Remove</button></div>'
+            var $areasContainer = $('#areasContainer');
+            var counter = @Model.UserAccessAreas.Count();
+
+            $('#add').click(function () {
+                var toAppend = template.replace('0', counter);
+                $areasContainer.append(toAppend);
+                grpCount++;
+            });
+
+            $areasContainer.on('click', '#remove', function () {
+                $(this).parent().remove();
+            });
+
+            $(function () {
+                $('[data-toggle="popover"]').popover({
+                    trigger: 'hover'
+                });
+            })
+        });
+    </script>
+}

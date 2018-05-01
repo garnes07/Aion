@@ -107,10 +107,22 @@ namespace Aion.DAL.Managers
             {
                 try
                 {
-                    var existing = await context.UserAccesses.FindAsync(userDetail.UserName);
-                    if(existing != null)
+                    var existing = await context.UserAccesses.Where(x => x.UserName == userDetail.UserName).Include("UserAccessAreas").FirstOrDefaultAsync();
+                    if (existing != null)
                     {
                         context.Entry(existing).CurrentValues.SetValues(userDetail);
+                        
+                        foreach(var entry in existing.UserAccessAreas)
+                        {
+                            if (!userDetail.UserAccessAreas.Any(x => x.AreaName == entry.AreaName))
+                                context.UserAccessAreas.Remove(entry);
+                        }
+
+                        foreach(var entry in userDetail.UserAccessAreas)
+                        {
+                            context.UserAccessAreas.Add(entry);
+                        }
+
                         await context.SaveChangesAsync();
                         return true;
                     }
