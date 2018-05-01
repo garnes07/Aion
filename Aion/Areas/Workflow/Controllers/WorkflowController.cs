@@ -86,7 +86,7 @@ namespace Aion.Areas.Workflow.Controllers
         {
             if (TicketId == (int)System.Web.HttpContext.Current.Session["_viewTicket"])
             {
-                var result = await _ticketManager.CancelTicket(TicketId, _userName);
+                var result = await _ticketManager.CancelTicket(TicketId, User.Identity.Name);
                 if (result == -5)
                 {
                     TempData["error"] = "You cannot cancel this ticket as you are not the owner.";
@@ -104,7 +104,7 @@ namespace Aion.Areas.Workflow.Controllers
         {
             if (TicketId == (int)System.Web.HttpContext.Current.Session["_viewTicket"])
             {
-                var result = await _ticketManager.CompleteTicket(TicketId, _userName, _userGroup);
+                var result = await _ticketManager.CompleteTicket(TicketId, User.Identity.Name, _userGroup);
                 if (result == -5)
                 {
                     TempData["error"] = "You cannot alter this ticket as it is assigned to someone else..";
@@ -120,7 +120,7 @@ namespace Aion.Areas.Workflow.Controllers
 
         public async Task<ActionResult> SendTicket(int lvlAction)
         {
-            var result = await _ticketManager.SendTicket((int)System.Web.HttpContext.Current.Session["_viewTicket"], _userName, lvlAction, _userGroup);
+            var result = await _ticketManager.SendTicket((int)System.Web.HttpContext.Current.Session["_viewTicket"], User.Identity.Name, lvlAction, _userGroup);
             if (result == -5)
             {
                 TempData["error"] = "You cannot alter this ticket as it is assigned to someone else.";
@@ -160,7 +160,7 @@ namespace Aion.Areas.Workflow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<PartialViewResult> _PostNewComment(string commentText)
         {
-            var toReturn = await _ticketManager.AddNewComment(commentText, _userName, (int)System.Web.HttpContext.Current.Session["_viewTicket"]);
+            var toReturn = await _ticketManager.AddNewComment(commentText, User.Identity.Name, (int)System.Web.HttpContext.Current.Session["_viewTicket"]);
             return PartialView("~/Areas/Workflow/Views/Workflow/Partials/_NewComment.cshtml", toReturn);
         }
 

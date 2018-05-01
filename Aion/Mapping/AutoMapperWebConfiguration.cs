@@ -29,6 +29,7 @@ namespace Aion.Mapping
                 cfg.AddProfile(new MyStoreProfile());
                 cfg.AddProfile(new TicketProfile());
                 cfg.AddProfile(new ProfitLossProfile());
+                cfg.AddProfile(new AdminProfile());
             });
         }
     }
@@ -76,6 +77,15 @@ namespace Aion.Mapping
             CreateMap<sp_GetPandLRegionSummary_Result, ProfitLossSummaryView>();
             CreateMap<sp_GetPandLDivisionSummary_Result, ProfitLossSummaryView>();
             CreateMap<sp_GetPandLChannelSummary_Result, ProfitLossSummaryView>();
+        }
+    }
+
+    public class AdminProfile : Profile
+    {
+        public AdminProfile()
+        {
+            CreateMap<sp_GetRecruitmentDetailCPW_Result, RecruitmentDetail>();
+            CreateMap<sp_GetRecruitmentDetailDXNS_Result, RecruitmentDetail>();
         }
     }
 }

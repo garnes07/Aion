@@ -1,0 +1,8 @@
+﻿@model Aion.DAL.Entities.RequestComment
+
+<div class="wf-comment" style="display:none;">
+    <div class="wf-comment-body">
+        <p class="text-muted" style="font-size:small">@Html.Raw(string.Format("Added {0:g} by <strong>{1}</strong>", Model.EnteredOn, Model.EnteredBy))</p>
+        <p>@Model.Comment</p>
+    </div>
+</div>

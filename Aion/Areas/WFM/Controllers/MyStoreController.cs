@@ -354,8 +354,8 @@ namespace Aion.Areas.WFM.Controllers
             }
             return View(vm);
         }
-        
-        [Authorize]
+
+        [UserFilter(MinLevel = 1)]
         public async Task<ActionResult> Recruitment()
         {
             VacancyRequestVm vm = new VacancyRequestVm();
@@ -374,7 +374,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        [Authorize]
+        [UserFilter(MinLevel = 1)]
         public async Task<ActionResult> RecruitmentDixons()
         {
             VacancyRequestVm vm = new VacancyRequestVm();
@@ -385,7 +385,7 @@ namespace Aion.Areas.WFM.Controllers
             return View("Recruitment", vm);
         }
 
-        [Authorize]
+        [UserFilter(MinLevel = 1)]
         [HttpPost]
         public async Task<ActionResult> NewVacancy(List<RecruitmentRequest> r, string Notes)
         {
@@ -394,7 +394,7 @@ namespace Aion.Areas.WFM.Controllers
             return RedirectToAction("Recruitment");
         }
 
-        [Authorize]
+        [UserFilter(MinLevel = 1)]
         [HttpPost]
         public async Task<ActionResult> CancelLive(int ReferenceId)
         {
@@ -402,7 +402,7 @@ namespace Aion.Areas.WFM.Controllers
             return RedirectToAction("Recruitment");
         }
 
-        [Authorize]
+        [UserFilter(MinLevel = 1)]
         [HttpPost]
         public async Task<ActionResult> CancelPending(int ReferenceId)
         {

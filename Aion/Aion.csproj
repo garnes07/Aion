@@ -168,7 +168,10 @@
     <Compile Include="Areas\Admin\Controllers\OpeningTimesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RecruitmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
+    <Compile Include="Areas\Admin\Models\RecruitmentDetail.cs" />
     <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Recruitment\RecruitmentSummaryVm.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewPendingVm.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossView.cs" />
@@ -250,6 +253,9 @@
     <Compile Include="DAL\Entities\HrFeed.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\IncorrectVacancy.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\IpRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
@@ -260,6 +266,9 @@
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\LiveVacanciesToCancel.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\OfferApproval.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\OpeningTimesComment.cs">
@@ -475,8 +484,14 @@
     <Compile Include="DAL\Entities\vw_HolidayPlanningStore.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_IncorrectVacancies.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_Last12MonthRFTPCases.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_OfferApprovals.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_PublishedBudgetsROI.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -885,6 +900,9 @@
     <Content Include="Areas\Admin\Views\UserAccess\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\UserAccess\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\UserAccess\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\ReviewPending.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\Partials\_NewComment.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1161,8 +1179,6 @@
     <Content Include="Uploads\NewWebsiteNavigation.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Vacancies\" />
     <Folder Include="Areas\Workflow\Views\Shared\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

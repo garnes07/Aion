@@ -5,6 +5,37 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="VacancyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="IncorrectVacancies">
+          <Key>
+            <PropertyRef Name="Job Req ID" />
+          </Key>
+          <Property Name="Job Req ID" Type="int" Nullable="false" />
+          <Property Name="Position Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Colleague Classification" Type="nvarchar" MaxLength="255" />
+          <Property Name="Reason for Vacancy" Type="nvarchar" MaxLength="255" />
+          <Property Name="Company" Type="nvarchar" MaxLength="255" />
+          <Property Name="Business Unit" Type="nvarchar" MaxLength="255" />
+          <Property Name="Area" Type="nvarchar" MaxLength="255" />
+          <Property Name="Division" Type="nvarchar" MaxLength="255" />
+          <Property Name="Department" Type="nvarchar" MaxLength="255" />
+          <Property Name="Store Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+          <Property Name="Cost Centre" Type="nvarchar" MaxLength="255" />
+          <Property Name="Job Code" Type="smallint" />
+          <Property Name="Job Role" Type="nvarchar" MaxLength="255" />
+          <Property Name="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" Type="nvarchar" MaxLength="255" />
+          <Property Name="Hiring Manager" Type="nvarchar" MaxLength="255" />
+          <Property Name="Date Created" Type="datetime" />
+          <Property Name="Created by" Type="nvarchar" MaxLength="255" />
+          <Property Name="Approved Date" Type="nvarchar" MaxLength="255" />
+          <Property Name="Total Vacant Hours" Type="nvarchar" MaxLength="255" />
+          <Property Name="Hours to Display on Advert" Type="nvarchar" MaxLength="255" />
+          <Property Name="Headcount to Recruit" Type="float" />
+          <Property Name="Last Modified" Type="datetime" />
+          <Property Name="Cancelled" Type="bit" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateTimeUpdated" Type="datetime" />
+        </EntityType>
         <EntityType Name="LiveVacanciesToCancel">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -16,6 +47,37 @@
           <Property Name="Completed" Type="bit" Nullable="false" />
           <Property Name="CompletedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="CompletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OfferApprovals">
+          <Key>
+            <PropertyRef Name="Job Req Id" />
+          </Key>
+          <Property Name="Job Req Id" Type="int" Nullable="false" />
+          <Property Name="Position Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Colleague Classification" Type="nvarchar" MaxLength="255" />
+          <Property Name="Reason for Vacancy" Type="nvarchar" MaxLength="255" />
+          <Property Name="Company" Type="nvarchar" MaxLength="255" />
+          <Property Name="Business Unit" Type="nvarchar" MaxLength="255" />
+          <Property Name="Area" Type="nvarchar" MaxLength="255" />
+          <Property Name="Division" Type="nvarchar" MaxLength="255" />
+          <Property Name="Region" Type="nvarchar" MaxLength="255" />
+          <Property Name="Department" Type="nvarchar" MaxLength="255" />
+          <Property Name="Store Number" Type="smallint" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+          <Property Name="Cost Centre" Type="nvarchar" MaxLength="255" />
+          <Property Name="Job Code" Type="smallint" />
+          <Property Name="Job Role" Type="nvarchar" MaxLength="255" />
+          <Property Name="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" Type="nvarchar" MaxLength="255" />
+          <Property Name="Hiring Manager" Type="nvarchar" MaxLength="255" />
+          <Property Name="Date Created" Type="datetime" />
+          <Property Name="Approved Date" Type="nvarchar" MaxLength="255" />
+          <Property Name="Application ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="Contracted Hours" Type="smallint" />
+          <Property Name="Contract End Date(FTC)" Type="nvarchar" MaxLength="255" />
+          <Property Name="Last Modified" Type="datetime" />
+          <Property Name="Approved" Type="bit" />
+          <Property Name="ApprovedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApprovedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="RequestComments">
           <Key>
@@ -64,6 +126,73 @@
           <Property Name="ToCancel" Type="bit" Nullable="false" />
           <Property Name="Cancelled" Type="bit" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '01002_People.dbo.vw_IncorrectVacancies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_IncorrectVacancies">
+          <Key>
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Job Req ID" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Job Req ID" Type="int" Nullable="false" />
+          <Property Name="Position Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Colleague Classification" Type="nvarchar" MaxLength="255" />
+          <Property Name="Reason for Vacancy" Type="nvarchar" MaxLength="255" />
+          <Property Name="Company" Type="nvarchar" MaxLength="255" />
+          <Property Name="Business Unit" Type="nvarchar" MaxLength="255" />
+          <Property Name="Area" Type="nvarchar" MaxLength="255" />
+          <Property Name="Division" Type="nvarchar" MaxLength="255" />
+          <Property Name="Department" Type="nvarchar" MaxLength="255" />
+          <Property Name="Store Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+          <Property Name="Cost Centre" Type="nvarchar" MaxLength="255" />
+          <Property Name="Job Code" Type="smallint" />
+          <Property Name="Job Role" Type="nvarchar" MaxLength="255" />
+          <Property Name="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" Type="nvarchar" MaxLength="255" />
+          <Property Name="Hiring Manager" Type="nvarchar" MaxLength="255" />
+          <Property Name="Date Created" Type="datetime" />
+          <Property Name="Created by" Type="nvarchar" MaxLength="255" />
+          <Property Name="Approved Date" Type="nvarchar" MaxLength="255" />
+          <Property Name="Total Vacant Hours" Type="nvarchar" MaxLength="255" />
+          <Property Name="Hours to Display on Advert" Type="nvarchar" MaxLength="255" />
+          <Property Name="Headcount to Recruit" Type="float" />
+          <Property Name="Last Modified" Type="datetime" />
+          <Property Name="Cancelled" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '01002_People.dbo.vw_OfferApprovals' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_OfferApprovals">
+          <Key>
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Job Req Id" />
+            <PropertyRef Name="Approved" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Job Req Id" Type="int" Nullable="false" />
+          <Property Name="Position Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Colleague Classification" Type="nvarchar" MaxLength="255" />
+          <Property Name="Reason for Vacancy" Type="nvarchar" MaxLength="255" />
+          <Property Name="Company" Type="nvarchar" MaxLength="255" />
+          <Property Name="Business Unit" Type="nvarchar" MaxLength="255" />
+          <Property Name="Area" Type="nvarchar" MaxLength="255" />
+          <Property Name="Division" Type="nvarchar" MaxLength="255" />
+          <Property Name="Region" Type="nvarchar" MaxLength="255" />
+          <Property Name="Department" Type="nvarchar" MaxLength="255" />
+          <Property Name="Store Number" Type="smallint" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+          <Property Name="Cost Centre" Type="nvarchar" MaxLength="255" />
+          <Property Name="Job Code" Type="smallint" />
+          <Property Name="Job Role" Type="nvarchar" MaxLength="255" />
+          <Property Name="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" Type="nvarchar" MaxLength="255" />
+          <Property Name="Hiring Manager" Type="nvarchar" MaxLength="255" />
+          <Property Name="Date Created" Type="datetime" />
+          <Property Name="Approved Date" Type="nvarchar" MaxLength="255" />
+          <Property Name="Application ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="Contracted Hours" Type="smallint" />
+          <Property Name="Contract End Date(FTC)" Type="nvarchar" MaxLength="255" />
+          <Property Name="Last Modified" Type="datetime" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -124,10 +253,70 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <Parameter Name="StoreNum" Type="smallint" Mode="In" />
         </Function>
         <EntityContainer Name="VacancyModelStoreContainer">
+          <EntitySet Name="IncorrectVacancies" EntityType="Self.IncorrectVacancies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LiveVacanciesToCancel" EntityType="Self.LiveVacanciesToCancel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OfferApprovals" EntityType="Self.OfferApprovals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequestComments" EntityType="Self.RequestComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VacancyPositions" EntityType="Self.VacancyPositions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VacancyRequests" EntityType="Self.VacancyRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_IncorrectVacancies" EntityType="Self.vw_IncorrectVacancies" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_IncorrectVacancies].[RowId] AS [RowId], 
+    [vw_IncorrectVacancies].[Job Req ID] AS [Job Req ID], 
+    [vw_IncorrectVacancies].[Position Number] AS [Position Number], 
+    [vw_IncorrectVacancies].[Colleague Classification] AS [Colleague Classification], 
+    [vw_IncorrectVacancies].[Reason for Vacancy] AS [Reason for Vacancy], 
+    [vw_IncorrectVacancies].[Company] AS [Company], 
+    [vw_IncorrectVacancies].[Business Unit] AS [Business Unit], 
+    [vw_IncorrectVacancies].[Area] AS [Area], 
+    [vw_IncorrectVacancies].[Division] AS [Division], 
+    [vw_IncorrectVacancies].[Department] AS [Department], 
+    [vw_IncorrectVacancies].[Store Number] AS [Store Number], 
+    [vw_IncorrectVacancies].[Location] AS [Location], 
+    [vw_IncorrectVacancies].[Cost Centre] AS [Cost Centre], 
+    [vw_IncorrectVacancies].[Job Code] AS [Job Code], 
+    [vw_IncorrectVacancies].[Job Role] AS [Job Role], 
+    [vw_IncorrectVacancies].[recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE] AS [recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE], 
+    [vw_IncorrectVacancies].[Hiring Manager] AS [Hiring Manager], 
+    [vw_IncorrectVacancies].[Date Created] AS [Date Created], 
+    [vw_IncorrectVacancies].[Created by] AS [Created by], 
+    [vw_IncorrectVacancies].[Approved Date] AS [Approved Date], 
+    [vw_IncorrectVacancies].[Total Vacant Hours] AS [Total Vacant Hours], 
+    [vw_IncorrectVacancies].[Hours to Display on Advert] AS [Hours to Display on Advert], 
+    [vw_IncorrectVacancies].[Headcount to Recruit] AS [Headcount to Recruit], 
+    [vw_IncorrectVacancies].[Last Modified] AS [Last Modified], 
+    [vw_IncorrectVacancies].[Cancelled] AS [Cancelled]
+    FROM [dbo].[vw_IncorrectVacancies] AS [vw_IncorrectVacancies]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_OfferApprovals" EntityType="Self.vw_OfferApprovals" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_OfferApprovals].[RowId] AS [RowId], 
+    [vw_OfferApprovals].[Job Req Id] AS [Job Req Id], 
+    [vw_OfferApprovals].[Position Number] AS [Position Number], 
+    [vw_OfferApprovals].[Colleague Classification] AS [Colleague Classification], 
+    [vw_OfferApprovals].[Reason for Vacancy] AS [Reason for Vacancy], 
+    [vw_OfferApprovals].[Company] AS [Company], 
+    [vw_OfferApprovals].[Business Unit] AS [Business Unit], 
+    [vw_OfferApprovals].[Area] AS [Area], 
+    [vw_OfferApprovals].[Division] AS [Division], 
+    [vw_OfferApprovals].[Region] AS [Region], 
+    [vw_OfferApprovals].[Department] AS [Department], 
+    [vw_OfferApprovals].[Store Number] AS [Store Number], 
+    [vw_OfferApprovals].[Location] AS [Location], 
+    [vw_OfferApprovals].[Cost Centre] AS [Cost Centre], 
+    [vw_OfferApprovals].[Job Code] AS [Job Code], 
+    [vw_OfferApprovals].[Job Role] AS [Job Role], 
+    [vw_OfferApprovals].[recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE] AS [recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE], 
+    [vw_OfferApprovals].[Hiring Manager] AS [Hiring Manager], 
+    [vw_OfferApprovals].[Date Created] AS [Date Created], 
+    [vw_OfferApprovals].[Approved Date] AS [Approved Date], 
+    [vw_OfferApprovals].[Application ID] AS [Application ID], 
+    [vw_OfferApprovals].[Contracted Hours] AS [Contracted Hours], 
+    [vw_OfferApprovals].[Contract End Date(FTC)] AS [Contract End Date(FTC)], 
+    [vw_OfferApprovals].[Last Modified] AS [Last Modified], 
+    [vw_OfferApprovals].[Approved] AS [Approved]
+    FROM [dbo].[vw_OfferApprovals] AS [vw_OfferApprovals]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_SFOpenVacancies" EntityType="Self.vw_SFOpenVacancies" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_SFOpenVacancies].[EntryId] AS [EntryId], 
@@ -172,11 +361,15 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <EntitySet Name="vw_SFOpenVacancies" EntityType="VacancyModel.vw_SFOpenVacancies" />
           <EntitySet Name="LiveVacanciesToCancels" EntityType="VacancyModel.LiveVacanciesToCancel" />
           <FunctionImport Name="sp_GetRecruitmentDetailCPW" ReturnType="Collection(VacancyModel.sp_GetRecruitmentDetailCPW_Result)">
-            <Parameter Name="StoreNum" Mode="In" Type="Int16" />
+          <Parameter Name="StoreNum" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="sp_GetRecruitmentDetailDXNS" ReturnType="Collection(VacancyModel.sp_GetRecruitmentDetailDXNS_Result)">
-            <Parameter Name="StoreNum" Mode="In" Type="Int16" />
+          <Parameter Name="StoreNum" Mode="In" Type="Int16" />
           </FunctionImport>
+          <EntitySet Name="vw_IncorrectVacancies" EntityType="VacancyModel.vw_IncorrectVacancies" />
+          <EntitySet Name="vw_OfferApprovals" EntityType="VacancyModel.vw_OfferApprovals" />
+          <EntitySet Name="IncorrectVacancies" EntityType="VacancyModel.IncorrectVacancy" />
+          <EntitySet Name="OfferApprovals" EntityType="VacancyModel.OfferApproval" />
         </EntityContainer>
         <EntityType Name="RequestComment">
           <Key>
@@ -315,6 +508,131 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <Property Type="Decimal" Name="TotalBase" Nullable="true" Precision="10" Scale="2" />
           <Property Type="Decimal" Name="CurrentBase" Nullable="true" Precision="10" Scale="2" />
         </ComplexType>
+        <EntityType Name="vw_IncorrectVacancies">
+          <Key>
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Job_Req_ID" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Job_Req_ID" Type="Int32" Nullable="false" />
+          <Property Name="Position_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Colleague_Classification" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reason_for_Vacancy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Business_Unit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Cost_Centre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Job_Code" Type="Int16" />
+          <Property Name="Job_Role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Hiring_Manager" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Date_Created" Type="DateTime" Precision="3" />
+          <Property Name="Created_by" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Approved_Date" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Total_Vacant_Hours" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Hours_to_Display_on_Advert" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Headcount_to_Recruit" Type="Double" />
+          <Property Name="Last_Modified" Type="DateTime" Precision="3" />
+          <Property Name="Cancelled" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="vw_OfferApprovals">
+          <Key>
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Job_Req_Id" />
+            <PropertyRef Name="Approved" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Job_Req_Id" Type="Int32" Nullable="false" />
+          <Property Name="Position_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Colleague_Classification" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reason_for_Vacancy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Business_Unit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Number" Type="Int16" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Cost_Centre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Job_Code" Type="Int16" />
+          <Property Name="Job_Role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Hiring_Manager" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Date_Created" Type="DateTime" Precision="3" />
+          <Property Name="Approved_Date" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Application_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Contracted_Hours" Type="Int16" />
+          <Property Name="Contract_End_Date_FTC_" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Modified" Type="DateTime" Precision="3" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IncorrectVacancy">
+          <Key>
+            <PropertyRef Name="Job_Req_ID" />
+          </Key>
+          <Property Name="Job_Req_ID" Type="Int32" Nullable="false" />
+          <Property Name="Position_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Colleague_Classification" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reason_for_Vacancy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Business_Unit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Cost_Centre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Job_Code" Type="Int16" />
+          <Property Name="Job_Role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Hiring_Manager" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Date_Created" Type="DateTime" Precision="3" />
+          <Property Name="Created_by" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Approved_Date" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Total_Vacant_Hours" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Hours_to_Display_on_Advert" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Headcount_to_Recruit" Type="Double" />
+          <Property Name="Last_Modified" Type="DateTime" Precision="3" />
+          <Property Name="Cancelled" Type="Boolean" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateTimeUpdated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OfferApproval">
+          <Key>
+            <PropertyRef Name="Job_Req_Id" />
+          </Key>
+          <Property Name="Job_Req_Id" Type="Int32" Nullable="false" />
+          <Property Name="Position_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Colleague_Classification" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reason_for_Vacancy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Company" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Business_Unit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Store_Number" Type="Int16" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Cost_Centre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Job_Code" Type="Int16" />
+          <Property Name="Job_Role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Hiring_Manager" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Date_Created" Type="DateTime" Precision="3" />
+          <Property Name="Approved_Date" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Application_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Contracted_Hours" Type="Int16" />
+          <Property Name="Contract_End_Date_FTC_" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Modified" Type="DateTime" Precision="3" />
+          <Property Name="Approved" Type="Boolean" />
+          <Property Name="ApprovedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -441,6 +759,132 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="vw_IncorrectVacancies">
+            <EntityTypeMapping TypeName="VacancyModel.vw_IncorrectVacancies">
+              <MappingFragment StoreEntitySet="vw_IncorrectVacancies">
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
+                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
+                <ScalarProperty Name="Headcount_to_Recruit" ColumnName="Headcount to Recruit" />
+                <ScalarProperty Name="Hours_to_Display_on_Advert" ColumnName="Hours to Display on Advert" />
+                <ScalarProperty Name="Total_Vacant_Hours" ColumnName="Total Vacant Hours" />
+                <ScalarProperty Name="Approved_Date" ColumnName="Approved Date" />
+                <ScalarProperty Name="Created_by" ColumnName="Created by" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
+                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
+                <ScalarProperty Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" ColumnName="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" />
+                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
+                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
+                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
+                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
+                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
+                <ScalarProperty Name="Job_Req_ID" ColumnName="Job Req ID" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_OfferApprovals">
+            <EntityTypeMapping TypeName="VacancyModel.vw_OfferApprovals">
+              <MappingFragment StoreEntitySet="vw_OfferApprovals">
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
+                <ScalarProperty Name="Contract_End_Date_FTC_" ColumnName="Contract End Date(FTC)" />
+                <ScalarProperty Name="Contracted_Hours" ColumnName="Contracted Hours" />
+                <ScalarProperty Name="Application_ID" ColumnName="Application ID" />
+                <ScalarProperty Name="Approved_Date" ColumnName="Approved Date" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
+                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
+                <ScalarProperty Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" ColumnName="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" />
+                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
+                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
+                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
+                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
+                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
+                <ScalarProperty Name="Job_Req_Id" ColumnName="Job Req Id" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IncorrectVacancies">
+            <EntityTypeMapping TypeName="VacancyModel.IncorrectVacancy">
+              <MappingFragment StoreEntitySet="IncorrectVacancies">
+                <ScalarProperty Name="DateTimeUpdated" ColumnName="DateTimeUpdated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
+                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
+                <ScalarProperty Name="Headcount_to_Recruit" ColumnName="Headcount to Recruit" />
+                <ScalarProperty Name="Hours_to_Display_on_Advert" ColumnName="Hours to Display on Advert" />
+                <ScalarProperty Name="Total_Vacant_Hours" ColumnName="Total Vacant Hours" />
+                <ScalarProperty Name="Approved_Date" ColumnName="Approved Date" />
+                <ScalarProperty Name="Created_by" ColumnName="Created by" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
+                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
+                <ScalarProperty Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" ColumnName="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" />
+                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
+                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
+                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
+                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
+                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
+                <ScalarProperty Name="Job_Req_ID" ColumnName="Job Req ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OfferApprovals">
+            <EntityTypeMapping TypeName="VacancyModel.OfferApproval">
+              <MappingFragment StoreEntitySet="OfferApprovals">
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
+                <ScalarProperty Name="Contract_End_Date_FTC_" ColumnName="Contract End Date(FTC)" />
+                <ScalarProperty Name="Contracted_Hours" ColumnName="Contracted Hours" />
+                <ScalarProperty Name="Application_ID" ColumnName="Application ID" />
+                <ScalarProperty Name="Approved_Date" ColumnName="Approved Date" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
+                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
+                <ScalarProperty Name="recruitingV2_RCM_JOB_REQ_CLASSIFICATION_TYPE" ColumnName="recruitingV2#RCM_JOB_REQ#CLASSIFICATION_TYPE" />
+                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
+                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
+                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
+                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
+                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
+                <ScalarProperty Name="Job_Req_Id" ColumnName="Job Req Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

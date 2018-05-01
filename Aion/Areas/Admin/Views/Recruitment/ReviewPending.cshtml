@@ -1,0 +1,197 @@
+﻿@model Aion.Areas.Admin.ViewModels.Recruitment.ReviewPendingVm
+
+@{
+    ViewBag.Title = "Review Pending";
+}
+
+
+<div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>Current Position</strong>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-sm table-smtxtperm text-center">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        @if (Model.PositionDetail.ContractBase == 0)
+                        {
+                            <th>Total Base</th>
+                            <th>Current Base</th>
+                        }
+                        else
+                        {
+                            <th>Contract Base</th>
+                            <th>Current Contract</th>
+                        }
+                        <th>Average Contract</th>
+                        <th>Open Vacancies</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.PositionDetail.FriendlyName</td>
+                        @if (Model.PositionDetail.ContractBase == 0)
+                        {
+                            <td>@string.Format("{0:C}", Model.PositionDetail.TotalBase)</td>
+                            <td>@string.Format("{0:C}", Model.PositionDetail.CurrentBase)</td>
+                        }
+                        else
+                        {
+                            <td>@Model.PositionDetail.ContractBase</td>
+                            <td>@Model.PositionDetail.CurrentContract</td>
+                        }
+                        <td>@string.Format("{0:0.0}", Model.PositionDetail.AverageContract)</td>
+                        @if (Model.PositionDetail.ContractBase == 0)
+                        {
+                            <td>@string.Format("{0:C}", Model.PositionDetail.OpenVacancies)</td>
+                        }
+                        else
+                        {
+                            <td>@Model.PositionDetail.OpenVacancies</td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>Requests</strong>
+        </div>
+        <div class="card-body">
+            <h5>@string.Format("{0} - {1}", Model.RecruitmentDetail.First().StoreNumber, Model.RecruitmentDetail.First().StoreName)</h5>
+            <table class="table table-bordered table-sm table-smtxtperm text-center mb-2">
+                <thead>
+                    <tr>
+                        <th>Ref#</th>
+                        <th>Position</th>
+                        <th>Heads</th>
+                        <th>ContractHrs</th>
+                        <th>Total</th>
+                        <th>Replace</th>
+                        <th>Raised By</th>
+                        <th>Raised Date</th>
+                        <th>Approve</th>
+                        <th>Reject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.VacancyRequests)
+                    {
+                        <tr>
+                            <td>@item.EntryId</td>
+                            <td>@item.VacancyPosition.FriendlyName</td>
+                            <td>@item.Heads</td>
+                            <td>@item.ContractHrs</td>
+                                @if (Model.PositionDetail.ContractBase == 0)
+                                {
+                                    <td>@string.Format("{0:C}",item.Heads * item.ContractHrs)</td>
+                                }
+                                else
+                                {
+                                    <td>@(item.Heads * item.ContractHrs)</td>
+                                }   
+                            <td>@(item.Replace ? "Yes" : "No")</td>
+                            <td>@item.RaisedBy</td>
+                            <td>@item.RaisedDate.ToShortDateString()</td>
+                            <td>
+                                <input class="approve checkbox" type="checkbox" value="" />
+                            </td>
+                            <td>
+                                <input class="reject checkbox" type="checkbox" value="" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.UniqueComments.Any())
+            {
+                <strong>Supporting Comments:</strong>
+                <p class="border border-left p-2 mt-1 rounded">
+                @foreach (var item in Model.UniqueComments)
+                {
+                    <span>@item</span>
+                }
+                </p>
+            }
+            <hr />
+            <div class="row">
+                <div class="col-12">
+                    <div class="wf-comment-container">
+                        <div class="text-center mb-2"><button class="btn btn-info" id="addComment">Add Comment</button></div>
+                        <div class="text-center mb-1"><strong class="wf-btn"><u>Comments</u></strong></div>
+                        <div style="display:none; width:100%;" id="newCommentContainer">
+                            <div class="form-group">
+                                <textarea class="w-100" type="text" id="newComment"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button id="submitComment" class="btn btn-primary btn-sm">Submit</button>
+                            </div>
+                            <hr />
+                        </div>
+                        @if (Model.HOComments.Count > 0)
+                        {
+                            foreach (var item in Model.HOComments.OrderByDescending(x => x.EnteredOn))
+                            {
+                                <div class="wf-comment">
+                                    <div class="wf-comment-body">
+                                        <p class="text-muted" style="font-size:small">@Html.Raw(string.Format("Added {0:g} by <strong>{1}</strong>", item.EnteredOn, item.EnteredBy))</p>
+                                        <p>@item.Comment</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="wf-comment" id="noComments">
+                                <div class="wf-comment-body">
+                                    <p class="text-muted" style="font-size:small">No comments yet...</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+<script>
+    $(function () {
+        var $comCont = $('#newCommentContainer');
+        var $comVal = $('#newComment');
+
+        $('#addComment').click(function () {
+            $comCont.slideToggle(400);
+        });
+
+        $('#submitComment').click(function () {
+            if ($comVal.val()) {
+                $.post('/Admin/Recruitment/_PostNewComment', { commentText: $comVal.val()}, function (result) {
+                    $comCont.after(result);
+                    $('#noComments').remove();
+                    $comCont.next().slideToggle(400);
+                });
+                $comCont.slideToggle(400);
+                $comVal.val('');
+            }
+        });
+
+        $('.approve').click(function () {
+            if ($(this).is(":checked")) {
+                $(this).parent().parent().find('.reject').prop('checked', false);
+            };
+        });
+
+        $('.reject').click(function () {
+            if ($(this).is(":checked")) {
+                $(this).parent().parent().find('.approve').prop('checked', false);
+            };
+        });
+    });    
+</script>    
+}

@@ -32,6 +32,10 @@ namespace Aion.DAL.Entities
         public virtual DbSet<VacancyRequest> VacancyRequests { get; set; }
         public virtual DbSet<vw_SFOpenVacancies> vw_SFOpenVacancies { get; set; }
         public virtual DbSet<LiveVacanciesToCancel> LiveVacanciesToCancels { get; set; }
+        public virtual DbSet<vw_IncorrectVacancies> vw_IncorrectVacancies { get; set; }
+        public virtual DbSet<vw_OfferApprovals> vw_OfferApprovals { get; set; }
+        public virtual DbSet<IncorrectVacancy> IncorrectVacancies { get; set; }
+        public virtual DbSet<OfferApproval> OfferApprovals { get; set; }
     
         public virtual ObjectResult<sp_GetRecruitmentDetailCPW_Result> sp_GetRecruitmentDetailCPW(Nullable<short> storeNum)
         {

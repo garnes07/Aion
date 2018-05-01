@@ -1,17 +1,14 @@
 ﻿using Aion.Areas.Admin.ViewModels.OpeningTimes;
 using Aion.Attributes;
+using Aion.Controllers;
 using Aion.DAL.Managers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Aion.Areas.Admin.Controllers
 {
-    //[UserFilter(MinLevel = 9)]
-    public class OpeningTimesController : Controller
+    [UserFilter(MinLevel = 9)]
+    public class OpeningTimesController : BaseController
     {
         private IOpeningTimesManager _openingTimesManager;
 

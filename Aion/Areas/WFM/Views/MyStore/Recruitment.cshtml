@@ -79,9 +79,14 @@
                    data-content="<p>The below summary of your contract base position is a snapshot of what has been entered into MyHub as of 8AM this morning. This informations is used as the basis for recruitment decisions. The following has been included:<ul><li>Any future dated leavers</li><li>Any future dated contract changes</li><li>Any future dated transfers</li><li>Any current vacancies including offers and on-boarding</li></ul>Please ensure future information is updated into MyHub as soon as it is known, for the below information to be accurate. Please review the above before raising a Medics query.</p>"
                    class="icon ion-information-circled info-button">
                 </i>
+                <p>
+                    Use the form and information provided below to submit vacancy requests for your store. The SLA from requesting the vacancy below and if approved, having it posted and available in MyHUB is 2 days. Hover over the <i class="icon ion-information-circled text-info"></i> icons to view further information about that section of the form.
+                </p>
+                <p>
+                    For any queries regarding the information displayed on this form, queries about using the form or queries about vacancy approvals please raise this via The Medics.
+                </p>
+                <hr />
                 <p><strong>Store</strong>: @Model.StoreName</p>
-                @*<p><strong><u>Store</u></strong>: 1877 - Guildford High St</p>*@
-                <p>Info around escalations and SLAs</p>
                 <p>
                     <h6><strong>Contract Base Summary</strong></h6>
                     @foreach (var item in Model.RecruitmentDetail)
@@ -116,7 +121,7 @@
                    data-toggle="popover"
                    data-placement="bottom"
                    data-trigger="hover"
-                   data-content="<p>You are only able to raise vacancies for positions applicable to your store. If you believe this list is incorrect and need to raise a vacancy for a position not in this list please raise a Medics.</br>An instant response will be provided as you add rows to the request form:<ul><li><i class='icon ion-checkmark-round text-success'></i> - This vacancy is approved and will be raised.</li><li><i class='icon ion-alert text-warning'></i> - This vacancy will need to be reviewed by the WFM Team. You will need to add comments to the form to support the request.</li><li><i class='icon ion-close-round text-danger'></i> - This is not approved. You will not be able to submit a vacancy request without removing this from the form.</li></ul>These responses are based on your current contract base position and any specific budgets/allocation for the role being chosen.</p>"
+                   data-content="<div style='font-size:small;'><p>You are only able to raise vacancies for positions applicable to your store. If you believe this list is incorrect and need to raise a vacancy for a position not in this list please raise a Medics.<p>An instant response will be provided as you add rows to the request form:</br><i class='icon ion-checkmark-round text-success'></i> - This vacancy is approved and will be raised.</br><i class='icon ion-alert text-warning'></i> - This vacancy will need to be reviewed by the WFM Team. You will need to add comments to the form to support the request.</br><i class='icon ion-close-round text-danger'></i> - This is not approved. You will not be able to submit a vacancy request without removing this from the form.</p>These responses are based on your current contract base position and any specific budgets/allocation for the role being chosen.</p></div>" 
                    class="icon ion-information-circled info-button">
                 </i>
                 <div id="baseAlert" class="alert alert-danger text-center d-none">
@@ -163,7 +168,7 @@
                             <div class="approvalResult icon" style="font-size:large;"></div>
                         </div>
                     </div>
-                    <div class="mb-2"><i><small>Something about adding extra lines</small></i></div>
+                    <div class="mb-2"><small>Use the <i class="icon ion-plus-circled text-success"></i> button to add additional rows to the request form if you want to add multiple positions or the same position with different heads or contracted hours.</small></div>
                     <div class="form-row">
                         <div class="form-group w-100">
                             <label for="notes"><strong>Notes <span id="notesError" class="text-danger ml-2 d-none">Please add notes to support this request</span></strong></label>
@@ -222,7 +227,9 @@
                 }
                 else
                 {
-                    <h5>Something about replacing vacancies</h5>
+                    <p>To edit a vacancy, complete the “Request” form above. When you select a position that already has a “Live” or “Pending” vacancy you will be asked whether you wish to “Replace” or “Add To” the vacancy.</p>
+                    <p>To cancel a “Live” vacancy please contact HRSSC, HRSharedServices@dixonscarphone.com</p>
+                    <hr />
                 }
                 @if (Model.PendingRequests.Any())
                 {

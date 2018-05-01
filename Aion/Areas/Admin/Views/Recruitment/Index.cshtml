@@ -1,0 +1,175 @@
+﻿@model Aion.Areas.Admin.ViewModels.Recruitment.RecruitmentSummaryVm
+
+@{
+    ViewBag.Title = "Recruitment";
+    int previousStore = 0;
+    string previousChain = "";
+    int previousRole = 0;
+}
+
+<div class="container-fluid">
+    <div id="accordion" class="card-accordion">
+        <div class="card">
+            <div class="card-header" id="headerOne">
+                <button class="btn btn-link" data-toggle="collapse" data-target="@(Model.IncorrectCount > 0 ? "#collapseOne" : "")">Incorrect Requests to Delete - <strong>(@Model.IncorrectCount)</strong></button>
+            </div>
+            <div id="collapseOne" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="table-responsive" style="max-height:500px;">
+                        <table class="table table-sm text-center">
+                            <thead>
+                                <tr>
+                                    <th>Req#</th>
+                                    <th>Company</th>
+                                    <th>Store#</th>
+                                    <th>Location</th>
+                                    <th>Job Role</th>
+                                    <th>Confirm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.IncorrectVacancies)
+                                {
+                                    <tr>
+                                        <td><small>@item.Job_Req_ID</small></td>
+                                        <td><small>@item.Company</small></td>
+                                        <td><small>@item.Store_Number</small></td>
+                                        <td><small>@item.Location</small></td>
+                                        <td><small>@item.Job_Role</small></td>
+                                    <td><button class="btn btn-sm btn-success incorrect-delete" data-jobreqid="@item.Job_Req_ID">Confirm</button></td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headerTwo">
+                <button class="btn btn-link" data-toggle="collapse" data-target="@(Model.ReviewCount > 0 ? "#collapseTwo" : "")">Requests To Review - <strong>(@Model.ReviewCount)</strong></button>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="table-responsive" style="max-height:500px;">
+                        <table class="table table-sm text-center">
+                            <thead>
+                                <tr>
+                                    <th>Ref#</th>
+                                    <th>Chain</th>
+                                    <th>Store#</th>
+                                    <th>Position</th>
+                                    <th>Review</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ToReview)
+                                {
+                                    <tr>
+                                        <td><small>@item.EntryId</small></td>
+                                        <td><small>@item.Chain</small></td>
+                                        <td><small>@item.StoreNumber</small></td>
+                                        <td><small>@item.VacancyPosition.FriendlyName</small></td>
+                                        @if (!(previousStore == item.StoreNumber && previousChain == item.Chain && previousRole == item.PositionCode))
+                                        {
+                                            <td rowspan="@Model.ToReview.Count(x => x.Chain == item.Chain && x.StoreNumber == item.StoreNumber && x.PositionCode == item.PositionCode)"><a href="@Url.Action("ReviewPending", "Recruitment", new { Chain = item.Chain, StoreNumber = item.StoreNumber, PositionCode = item.PositionCode})" class="btn btn-sm btn-success">Go</a></td>
+                                        }
+                                    </tr>
+                                    previousStore = item.StoreNumber;
+                                    previousChain = item.Chain;
+                                    previousRole = item.PositionCode;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headerThree">
+                <button class="btn btn-link" data-toggle="collapse" data-target="@(Model.RaiseCount > 0 ? "#collapseThree" : "")">To be Raised - <strong>(@Model.RaiseCount)</strong></button>
+            </div>
+            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="table-responsive" style="max-height:500px;">
+                        <table class="table table-sm text-center">
+                            <thead>
+                                <tr>
+                                    <th>Ref#</th>
+                                    <th>Chain</th>
+                                    <th>Store#</th>
+                                    <th>Position</th>
+                                    <th>Review</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ToRaise)
+                                {
+                                    <tr>
+                                        <td><small>@item.EntryId</small></td>
+                                        <td><small>@item.Chain</small></td>
+                                        <td><small>@item.StoreNumber</small></td>
+                                        <td><small>@item.VacancyPosition.FriendlyName</small></td>
+                                        <td><a href="#" class="btn btn-sm btn-success">Go</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headerFour">
+                <button class="btn btn-link" data-toggle="collapse" data-target="@(Model.OfferCount > 0 ? "#collapseFour" : "")">Offers to Review - <strong>(@Model.OfferCount)</strong></button>
+            </div>
+            <div id="collapseFour" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="table-responsive" style="max-height:500px;">
+                        <table class="table table-sm text-center">
+                            <thead>
+                                <tr>
+                                    <th>Ref#</th>
+                                    <th>Company</th>
+                                    <th>Store#</th>
+                                    <th>Position</th>
+                                    <th>Review</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OfferApprovals)
+                                {
+                                    <tr>
+                                        <td><small>@item.Application_ID</small></td>
+                                        <td><small>@item.Company</small></td>
+                                        <td><small>@item.Store_Number</small></td>
+                                        <td><small>@item.Job_Role</small></td>
+                                        <td><a href="#" class="btn btn-sm btn-success">Go</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script>
+        $(function () {
+            $('.incorrect-delete').click(function () {
+                var reqId = $(this).data('jobreqid');
+                var $tRow = $(this).parent().parent();
+                $.post('/Admin/Recruitment/_MarkIncorrectDone', { jobReqId: reqId}, function (result) {
+                    setTimeout(function () {
+                        if (result) {
+                            $tRow.html('<td colspan="6" class="text-center"><strong>Done</strong></td>');
+                        };
+                    }, 250);
+                });                
+            });
+        });
+    </script>
+}

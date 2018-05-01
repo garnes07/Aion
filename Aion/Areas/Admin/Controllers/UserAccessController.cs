@@ -1,4 +1,6 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Attributes;
+using Aion.Controllers;
+using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using System.Threading.Tasks;
@@ -6,7 +8,8 @@ using System.Web.Mvc;
 
 namespace Aion.Areas.Admin.Controllers
 {
-    public class UserAccessController : Controller
+    [UserFilter(MinLevel = 9)]
+    public class UserAccessController : BaseController
     {
         private readonly IAuthManager _authManager;
 

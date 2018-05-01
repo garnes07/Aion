@@ -124,14 +124,15 @@ namespace Aion.DAL.Managers
                     bool valid = true;
                     foreach (var item in roleTotals)
                     {
+                        var currentRole = currentAllowances.FirstOrDefault(x => x.PositionId == item.Position);
                         double percToAllowance;
                         if (item.Action == "replace")
                         {
-                            percToAllowance = item.TotalHours / (double)(currentAllowances.FirstOrDefault(x => x.PositionId == item.Position).Allowance + currentAllowances.FirstOrDefault(x => x.PositionId == item.Position).OpenVacancies);
+                            percToAllowance = (double)(item.TotalHours + currentRole.ContractBase - currentRole.Allowance + currentRole.OpenVacancies)/ (currentRole.ContractBase);
                         }
                         else
                         {
-                            percToAllowance = item.TotalHours / (double)(currentAllowances.FirstOrDefault(x => x.PositionId == item.Position).Allowance + currentAllowances.FirstOrDefault(x => x.PositionId == item.Position).OpenVacancies);
+                            percToAllowance = (double)(item.TotalHours + currentRole.ContractBase - currentRole.Allowance) / (currentRole.ContractBase);
                         }
 
                         if (percToAllowance <= 1)
@@ -186,6 +187,115 @@ namespace Aion.DAL.Managers
                 {
                     return false;
                 }
+            }
+        }
+
+        public async Task<List<vw_IncorrectVacancies>> GetIncorrectVacancies()
+        {
+            using(var context = new VacanciesModel())
+            {
+                return await context.vw_IncorrectVacancies.OrderBy(x => x.Company).ThenBy(x => x.Store_Number).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_OfferApprovals>> GetOfferApprovals()
+        {
+            using (var context = new VacanciesModel())
+            {
+                return await context.vw_OfferApprovals.OrderBy(x => x.Company).ThenBy(x => x.Store_Number).ToListAsync();
+            }
+        }
+
+        public async Task<List<VacancyRequest>> GetPendingForAdmin()
+        {
+            using(var context = new VacanciesModel())
+            {
+                return await context.VacancyRequests.Where(x => x.Show && x.SFRefNo == null).OrderBy(x => x.Chain).ThenBy(x => x.StoreNumber).ThenBy(x => x.PositionCode).Include("VacancyPosition").ToListAsync();
+            }
+        }
+
+        public async Task<List<VacancyRequest>> GetPendingForAdmin(string Chain, int StoreNumber, int PositionCode)
+        {
+            using (var context = new VacanciesModel())
+            {
+                return await context.VacancyRequests
+                    .Where(x => x.Show && x.SFRefNo == null && x.Chain == Chain && x.StoreNumber == StoreNumber && x.PositionCode == PositionCode)
+                    .OrderBy(x => x.Chain)
+                    .ThenBy(x => x.StoreNumber)
+                    .ThenBy(x => x.PositionCode)
+                    .Include("VacancyPosition")
+                    .Include("RequestComments")
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<bool> MarkIncorrectDone(int reqId, string username)
+        {
+            using(var context = new VacanciesModel())
+            {
+                try
+                {
+                    var toEdit = await context.IncorrectVacancies.FindAsync(reqId);
+                    if(toEdit != null)
+                    {
+                        toEdit.Cancelled = true;
+                        toEdit.UpdatedBy = username;
+                        toEdit.DateTimeUpdated = DateTime.Now;
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> MarkOfferApproved(int reqId, bool approved, string username)
+        {
+            using(var context = new VacanciesModel())
+            {
+                try
+                {
+                    var toEdit = await context.OfferApprovals.Where(x => x.Job_Req_Id == reqId && x.Approved == null).FirstOrDefaultAsync();
+                    if(toEdit != null)
+                    {
+                        toEdit.Approved = approved;
+                        toEdit.ApprovedBy = username;
+                        toEdit.ApprovedDate = DateTime.Now;
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<RequestComment> AddNewComment(int[] reqId, string username, string commentText, string type)
+        {
+            using(var context = new VacanciesModel())
+            {
+                var now = DateTime.Now;
+                foreach(var item in reqId)
+                {
+                    context.RequestComments.Add(new RequestComment
+                    {
+                        RequestId = item,
+                        CommentType = type,
+                        Comment = commentText,
+                        EnteredOn = now,
+                        EnteredBy = username
+                    });
+                }
+
+                await context.SaveChangesAsync();
+                return new RequestComment { RequestId = reqId[0], Comment = commentText, EnteredBy = username, EnteredOn = now, CommentType = type };
             }
         }
     }
