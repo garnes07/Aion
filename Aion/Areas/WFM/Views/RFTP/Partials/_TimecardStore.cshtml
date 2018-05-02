@@ -47,7 +47,7 @@
                     </tr>                    
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.hf.Where(x => x.PersonData.Person.SignOffDate.Year != 1901).OrderBy(x => x.FullName))
+                    @foreach (var item in Model.hf.OrderBy(x => x.FullName))
                     {
                         var ss = Model.ss.Count(x => x.PersonNum == item.PersonNumber);
                         var help = Model.HelpTcks.FirstOrDefault(x => x.EmpNum == item.parsedPerson);

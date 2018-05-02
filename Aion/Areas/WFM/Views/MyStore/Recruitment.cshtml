@@ -92,10 +92,10 @@
                     @foreach (var item in Model.RecruitmentDetail)
                     {
                         <u>@item.FriendlyName</u>
-                        if (item.Allowance - item.OpenVacancies > 0)
+                        if (item.Allowance > 0)
                         {
                             <ul>
-                                <li>You are @(item.Allowance - item.OpenVacancies) hours under your maximum contract base <strong>(@item.ContractBase)</strong></li>
+                                <li>You are @(item.Allowance) hours under your maximum contract base <strong>(@item.ContractBase)</strong></li>
                                 <li>Your average contract length is currently @string.Format("{0:0.0}", item.AverageContract)</li>
                                 <li><strong>You may be able to recruit</strong></li>
                             </ul>
@@ -218,7 +218,7 @@
                    data-toggle="popover"
                    data-placement="bottom"
                    data-trigger="hover"
-                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>To Post - The WFM Team is raising this vacancy in MyHub</li><li>Raising - The vacancy has been raised, awaiting posting by HRSSC</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
+                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>To Post - The WFM Team is raising this vacancy in MyHub</li><li>Raising - The vacancy has been raised, awaiting posting by HR Shared Services</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
                    class="icon ion-information-circled info-button">
                 </i>
                 @if (!Model.PendingRequests.Any() && !Model.LiveRequests.Any())
@@ -228,7 +228,7 @@
                 else
                 {
                     <p>To edit a vacancy, complete the “Request” form above. When you select a position that already has a “Live” or “Pending” vacancy you will be asked whether you wish to “Replace” or “Add To” the vacancy.</p>
-                    <p>To cancel a “Live” vacancy please contact HRSSC, HRSharedServices@dixonscarphone.com</p>
+                    <p>To cancel a “Live” vacancy please contact HR Shared Services, HRSharedServices@dixonscarphone.com</p>
                     <hr />
                 }
                 @if (Model.PendingRequests.Any())
@@ -252,7 +252,7 @@
                                     <td>@item.EntryId</td>
                                     <td>@item.VacancyPosition.FriendlyName</td>
                                     <td>@item.Heads</td>
-                                    <td>@item.ContractHrs</td>
+                                    <td>@(item.ContractHrs * item.Heads)</td>
                                     <td>
                                         @(!item.Approved ? "Under review" : (item.SFRefNo != null ? "To Post" : "Raising"))
                                     </td>
@@ -306,7 +306,7 @@
 @section myScripts{
     @if (Model.MessageType != Aion.ViewModels.MessageType.Error)
     {
-        <script id="scrpt" src="~/Scripts/site/Recruitment.js" data-buffer="1.06" data-roledetail="@Model.RoleAllowance" data-totalbase="@Model.RecruitmentDetail.First().TotalBase" data-currentbase="@Model.RecruitmentDetail.First().CurrentBase"></script>
+        <script id="scrpt" src="~/Scripts/site/Recruitment.js" data-buffer="1.30" data-roledetail="@Model.RoleAllowance" data-totalbase="@Model.RecruitmentDetail.First().TotalBase" data-currentbase="@Model.RecruitmentDetail.First().CurrentBase"></script>
     }
     <script>
         $(function () {

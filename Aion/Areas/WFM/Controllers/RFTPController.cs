@@ -155,7 +155,7 @@ namespace Aion.Areas.WFM.Controllers
                 case "R":
                     string hfQuery = selectCrit.Length == 1 ? "IE Region " : "UK - Region CPW";
                     vm.hf = mapper.Map<List<HyperFindResult>>(await _kronosManager.GetKronosHyperFind(hfQuery + selectCrit, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID));
-                    var empList = await _empSummaryManager.GetActiveByRegion(selectCrit);
+                    var empList = await _empSummaryManager.GetAllByRegion(selectCrit);
                     var combined = vm.hf.Where(x => x.PersonData.Person.SignOffDate.Year != 1901).Join(empList, kronos => kronos.PersonNumber, db => db.PersonNumber, (kronos, db) => new {kronos.PersonNumber, BranchNumber = db.HomeBranch, db.BranchName, signedOff = kronos.PersonData.Person.SignOffDate, db.PersonName }).ToList();
                     var punched = await _kronosManager.GetPunchStatus(empList.Where(x => x.KronosUser).Select(x => x.PersonNumber).ToList(), System.Web.HttpContext.Current.Session.SessionID);
                     var punchCombined = empList.Where(x => x.KronosUser).Join(punched, db => db.PersonNumber, kronos => kronos.Employee.PersonIdentity.PersonNumber, (db, kronos) => new { PersonNumer = db.PersonNumber, BranchNumber = db.HomeBranch, punched = kronos.Status }).ToList();

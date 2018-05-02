@@ -14,8 +14,8 @@ function AllowanceDetail(array) {
     this.RoleAllowance = parseInt(array[1]),
     this.ExistingVacancyHours = parseInt(array[2]),
     this.FriendlyName = array[3],
-    this.HourlyRate = parseFloat(array[4]).toFixed(2),
-    this.ContractBase = parseFloat(array[5]).toFixed(2),
+    this.HourlyRate = parseFloat(array[4]),
+    this.ContractBase = parseFloat(array[5]),
     this.ChecksVisible = false,
     this.Action = 'new',
     this.Repost = 'true';
@@ -266,7 +266,7 @@ $submit.click(function (event) {
         totalHours += parseInt($(this).val());
     });
 
-    if ($('#notes').attr('required') && $('#notes').val() === '') {
+    if ($('#notes').attr('required') && $('#notes').val() === '' && $('#notes').val().length < 10) {
         $('#notesError').removeClass('d-none');
         $('#notes').addClass('border-danger');
     }
@@ -276,8 +276,7 @@ $submit.click(function (event) {
         if (allowSubmit && totalHours != 0) {
             $form.PreventDoubleSubmission();
         };
-    };
-    
+    };    
 });
 
 //Validate row on change

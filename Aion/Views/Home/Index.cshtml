@@ -93,7 +93,7 @@
                         <hr />
                     }
                     <h4 style="color:#279399"><u><strong>@string.Format("{0} - {1:d}", item.ActivityName, item.ActivityDate)</strong></u></h4>
-                    @item.Detail
+                    @Html.Raw(item.Detail)
                     firstNews = false;
                 }
                 <a href="@Url.Action("NewsArchive", "Home", new { area = "" })" class="btn btn-info btn-lg float-right mt-2" role="button">View Archive</a>

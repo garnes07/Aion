@@ -17,6 +17,15 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<KronosEmployeeSummary>> GetAllByRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.KronosEmployeeSummaries.Where(x => x.Region == crit).ToListAsync();
+            }
+        }
+
         public async Task<List<KronosEmployeeSummary>> GetActiveManagersRegion(string region)
         {
             using (var context = new WFMModel())
