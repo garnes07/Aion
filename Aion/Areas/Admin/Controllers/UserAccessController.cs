@@ -36,11 +36,12 @@ namespace Aion.Areas.Admin.Controllers
             {
                 foreach (var item in areas)
                 {
-                    userDetail.UserAccessAreas.Add(new UserAccessArea
-                    {
-                        AreaName = item,
-                        UserName = userDetail.UserName
-                    });
+                    if(item != "")
+                        userDetail.UserAccessAreas.Add(new UserAccessArea
+                        {
+                            AreaName = item,
+                            UserName = userDetail.UserName
+                        });
                 }
                 userDetail.Krn = false;
                 await _authManager.EditUser(userDetail);

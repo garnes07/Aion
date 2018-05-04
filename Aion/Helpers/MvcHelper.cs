@@ -43,7 +43,7 @@ namespace Aion.Helpers
             string ip = GetIPHelper();
 #if DEBUG
             //string ipBase = "10.224.240";
-            string ipBase = "1.2.3";
+            string ipBase = "10.225.56";
 #else
             string ipBase = ip.Substring(0, ip.LastIndexOf("."));
 #endif

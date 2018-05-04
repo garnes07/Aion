@@ -1,0 +1,76 @@
+﻿@model List<Aion.DAL.Entities.vw_VacancyRequestsAdmin>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-info text-center"><strong>This request has already been completed</strong></div>
+}
+else
+{
+    <table class="table table-bordered table-sm table-smtxtperm text-center">
+        <thead>
+            <tr>
+                <th>Chain</th>
+                <th>Store#</th>
+                <th>JobCode</th>
+                <th>Position</th>
+                <th>Heads</th>
+                <th>Contract</th>
+                <th>Total Hours</th>
+                <th>Replace</th>
+                <th>Repost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Chain</td>
+                    <td>@item.StoreNumber</td>
+                    <td>@item.VacancyPosition.SFPositionId</td>
+                    <td>@item.VacancyPosition.SFName</td>
+                    <td>@item.Heads</td>
+                    <td>@item.ContractHrs</td>
+                    <td>@(item.Heads * item.ContractHrs)</td>
+                    <td>@(item.Replace ? "Yes" : "No")</td>
+                    <td>@(item.Repost ? "Yes" : "No")</td>
+                </tr>
+            }
+            @if (Model.Count > 1)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>@Model.Sum(x => x.Heads)</strong></td>
+                    <td><strong>@string.Format("{0}-{1}", Model.Min(x => x.ContractHrs), Model.Max(x => x.ContractHrs))</strong></td>
+                    <td><strong>@Model.Sum(x => x.Heads * x.ContractHrs)</strong></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <strong>
+        Raised by: @Model.FirstOrDefault().RaisedBy
+    </strong>
+    <hr />
+    <form id="frm">
+        <input id="mChain" value="@Model.FirstOrDefault().Chain" hidden/>
+        <input id="mStore" value="@Model.FirstOrDefault().StoreNumber" hidden/>
+        <input id="mJobCode" value="@Model.FirstOrDefault().PositionCode" hidden/>
+        <div class="form-group">
+            <label>SF Reference #</label>
+            <input id="mRef"/>
+        </div>
+        <div class="form-group">
+            <label>Contract Type</label>
+            <select id="mType" class="form-control">
+                <option value="Permanent">Permanent</option>
+                <option value="Fixed Term Contract">Fixed Term Contract</option>
+                <option value="Apprenticeship">Apprenticeship</option>
+                <option value="Fixed Term Contract - Peak">Fixed Term Contract - Peak</option>
+            </select>
+        </div>
+    </form>
+}

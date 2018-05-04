@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<small style="position:absolute; bottom:0; right:0">@HttpContext.Current.Session["_EmpNum"]</small>
+<small style="position:fixed; bottom:0; right:0">@(HttpContext.Current.Session["_EmpNum"] != null ? HttpContext.Current.Session["_EmpNum"].ToString() : "BLANK")</small>
 
 @section myScripts{
     <script src="~/Scripts/site/CPayPortal.min.js"></script>

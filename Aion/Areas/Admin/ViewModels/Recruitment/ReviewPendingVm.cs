@@ -9,7 +9,7 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
 {
     public class ReviewPendingVm
     {
-        public List<VacancyRequest> VacancyRequests { get; set; }
+        public List<vw_VacancyRequestsAdmin> VacancyRequests { get; set; }
         public List<RecruitmentDetail> RecruitmentDetail { get; set; }
 
         private RecruitmentDetail _PositionDetail;

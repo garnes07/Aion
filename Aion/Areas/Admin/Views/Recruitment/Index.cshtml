@@ -7,6 +7,26 @@
     int previousRole = 0;
 }
 
+<div class="modal fade" id="toRaiseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">To Be Raised</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="mBody" class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="mSubmit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
     <div id="accordion" class="card-accordion">
         <div class="card">
@@ -24,6 +44,7 @@
                                     <th>Store#</th>
                                     <th>Location</th>
                                     <th>Job Role</th>
+                                    <th>Raising Name</th>
                                     <th>Confirm</th>
                                 </tr>
                             </thead>
@@ -35,8 +56,10 @@
                                         <td><small>@item.Company</small></td>
                                         <td><small>@item.Store_Number</small></td>
                                         <td><small>@item.Location</small></td>
+                                        <td><small>@item.Created_by</small></td>
                                         <td><small>@item.Job_Role</small></td>
-                                    <td><button class="btn btn-sm btn-success incorrect-delete" data-jobreqid="@item.Job_Req_ID">Confirm</button></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-success incorrect-delete" data-raisedby="@item.Created_by" data-jobreqid="@item.Job_Req_ID">Confirm</button>
                                 </tr>
                                 }
                             </tbody>
@@ -55,6 +78,7 @@
                         <table class="table table-sm text-center">
                             <thead>
                                 <tr>
+                                    <th>Raised</th>
                                     <th>Ref#</th>
                                     <th>Chain</th>
                                     <th>Store#</th>
@@ -66,6 +90,7 @@
                                 @foreach (var item in Model.ToReview)
                                 {
                                     <tr>
+                                        <td><small>@item.RaisedDate.ToShortDateString()</small></td>
                                         <td><small>@item.EntryId</small></td>
                                         <td><small>@item.Chain</small></td>
                                         <td><small>@item.StoreNumber</small></td>
@@ -95,7 +120,6 @@
                         <table class="table table-sm text-center">
                             <thead>
                                 <tr>
-                                    <th>Ref#</th>
                                     <th>Chain</th>
                                     <th>Store#</th>
                                     <th>Position</th>
@@ -105,12 +129,19 @@
                             <tbody>
                                 @foreach (var item in Model.ToRaise)
                                 {
-                                    <tr>
-                                        <td><small>@item.EntryId</small></td>
+                                    <tr id="@string.Format("{0}_{1}_{2}", item.Chain, item.Store, item.JobCode)">
                                         <td><small>@item.Chain</small></td>
-                                        <td><small>@item.StoreNumber</small></td>
-                                        <td><small>@item.VacancyPosition.FriendlyName</small></td>
-                                        <td><a href="#" class="btn btn-sm btn-success">Go</a></td>
+                                        <td><small>@item.Store</small></td>
+                                        <td><small>@item.FriendlyName</small></td>
+                                        <td>
+                                            <button 
+                                                    class="btn btn-sm btn-info raiseDetail"
+                                                    data-chain="@item.Chain"
+                                                    data-store="@item.Store"
+                                                    data-jobcode="@item.JobCode">
+                                                Show Detail
+                                            </button>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -159,7 +190,10 @@
 @section myScripts{
     <script>
         $(function () {
+            var $mBody = $('#mBody');
+
             $('.incorrect-delete').click(function () {
+                window.location.href = "mailto:" + $(this).data('raisedby') + "?subject=Vacancy%20Cancelled%20-%20#" + $(this).data('jobreqid');
                 var reqId = $(this).data('jobreqid');
                 var $tRow = $(this).parent().parent();
                 $.post('/Admin/Recruitment/_MarkIncorrectDone', { jobReqId: reqId}, function (result) {
@@ -169,6 +203,45 @@
                         };
                     }, 250);
                 });                
+            });
+
+            $('.raiseDetail').click(function () {
+                var $trigger = $(this);
+                $trigger.html('Loading...');
+                var chain = $(this).data('chain');
+                var store = $(this).data('store');
+                var jobcode = $(this).data('jobcode');
+                $.get('/Admin/Recruitment/_GetToPost', { chain: chain, store: store, jobcode: jobcode }, function (result) {
+                    setTimeout(function () {
+                        if (result) {
+                            $('#mBody').html(result);
+                            $('#toRaiseModal').modal('toggle');
+                            $trigger.html('Show Detail');
+                        } else {
+                            $trigger.html('<i class="icon ion-sad-outline"></i>');
+                        };
+                    }, 250);
+                });
+            });
+
+            $('#mSubmit').click(function () {
+                var ref = $mBody.find('#mRef').val();
+                var type = $mBody.find('#mType').val();
+                if (ref.length && type.length) {
+                    var chain = $mBody.find('#mChain').val();
+                    var store = $mBody.find('#mStore').val();
+                    var jobcode = $mBody.find('#mJobCode').val();
+
+                    $.post('/Admin/Recruitment/_UpdateToPost', { chain: chain, store: store, jobcode: jobcode, SFRef: ref, contract: type }, function (result) {
+                        setTimeout(function () {
+                            if (result) {
+                                $('#' + chain + '_' + store + '_' + jobcode).html('<td colspan="6" class="text-center"><strong>Done</strong></td>');
+                                $('#toRaiseModal').modal('toggle');
+                                $mBody.html('');
+                            };
+                        }, 250);
+                    });
+                };                
             });
         });
     </script>

@@ -126,6 +126,7 @@
           <Property Name="ToCancel" Type="bit" Nullable="false" />
           <Property Name="Cancelled" Type="bit" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="ContractType" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '01002_People.dbo.vw_IncorrectVacancies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -219,6 +220,34 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <Property Name="TotalVacantHours" Type="smallint" Nullable="false" />
           <Property Name="Headcount" Type="smallint" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_VacancyRequestsAdmin">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" Nullable="false" />
+          <Property Name="SFRefNo" Type="int" />
+          <Property Name="PositionCode" Type="smallint" Nullable="false" />
+          <Property Name="Heads" Type="smallint" Nullable="false" />
+          <Property Name="ContractHrs" Type="smallint" Nullable="false" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="Rejected" Type="bit" Nullable="false" />
+          <Property Name="RaisedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RaisedDate" Type="datetime" Nullable="false" />
+          <Property Name="PostedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="PostedDate" Type="datetime" />
+          <Property Name="Replace" Type="bit" Nullable="false" />
+          <Property Name="Repost" Type="bit" Nullable="false" />
+          <Property Name="Internal" Type="bit" Nullable="false" />
+          <Property Name="Emailed" Type="bit" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="Show" Type="bit" Nullable="false" />
+          <Property Name="ToCancel" Type="bit" Nullable="false" />
+          <Property Name="Cancelled" Type="bit" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="ContractType" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_RequestComments_VacancyRequests">
           <End Role="VacancyRequests" Type="Self.VacancyRequests" Multiplicity="1">
@@ -333,6 +362,31 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
     [vw_SFOpenVacancies].[Chain] AS [Chain]
     FROM [dbo].[vw_SFOpenVacancies] AS [vw_SFOpenVacancies]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_VacancyRequestsAdmin" EntityType="Self.vw_VacancyRequestsAdmin" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_VacancyRequestsAdmin].[EntryId] AS [EntryId], 
+    [vw_VacancyRequestsAdmin].[SFRefNo] AS [SFRefNo], 
+    [vw_VacancyRequestsAdmin].[PositionCode] AS [PositionCode], 
+    [vw_VacancyRequestsAdmin].[Heads] AS [Heads], 
+    [vw_VacancyRequestsAdmin].[ContractHrs] AS [ContractHrs], 
+    [vw_VacancyRequestsAdmin].[Approved] AS [Approved], 
+    [vw_VacancyRequestsAdmin].[Rejected] AS [Rejected], 
+    [vw_VacancyRequestsAdmin].[RaisedBy] AS [RaisedBy], 
+    [vw_VacancyRequestsAdmin].[RaisedDate] AS [RaisedDate], 
+    [vw_VacancyRequestsAdmin].[PostedBy] AS [PostedBy], 
+    [vw_VacancyRequestsAdmin].[PostedDate] AS [PostedDate], 
+    [vw_VacancyRequestsAdmin].[Replace] AS [Replace], 
+    [vw_VacancyRequestsAdmin].[Repost] AS [Repost], 
+    [vw_VacancyRequestsAdmin].[Internal] AS [Internal], 
+    [vw_VacancyRequestsAdmin].[Emailed] AS [Emailed], 
+    [vw_VacancyRequestsAdmin].[StoreNumber] AS [StoreNumber], 
+    [vw_VacancyRequestsAdmin].[Show] AS [Show], 
+    [vw_VacancyRequestsAdmin].[ToCancel] AS [ToCancel], 
+    [vw_VacancyRequestsAdmin].[Cancelled] AS [Cancelled], 
+    [vw_VacancyRequestsAdmin].[Chain] AS [Chain], 
+    [vw_VacancyRequestsAdmin].[ContractType] AS [ContractType]
+    FROM [dbo].[vw_VacancyRequestsAdmin] AS [vw_VacancyRequestsAdmin]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_RequestComments_VacancyRequests" Association="Self.FK_RequestComments_VacancyRequests">
             <End Role="VacancyRequests" EntitySet="VacancyRequests" />
             <End Role="RequestComments" EntitySet="RequestComments" />
@@ -370,6 +424,15 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <EntitySet Name="vw_OfferApprovals" EntityType="VacancyModel.vw_OfferApprovals" />
           <EntitySet Name="IncorrectVacancies" EntityType="VacancyModel.IncorrectVacancy" />
           <EntitySet Name="OfferApprovals" EntityType="VacancyModel.OfferApproval" />
+          <EntitySet Name="vw_VacancyRequestsAdmin" EntityType="VacancyModel.vw_VacancyRequestsAdmin" />
+          <AssociationSet Name="vw_VacancyRequestsAdminRequestComment" Association="VacancyModel.vw_VacancyRequestsAdminRequestComment">
+            <End Role="vw_VacancyRequestsAdmin" EntitySet="vw_VacancyRequestsAdmin" />
+            <End Role="RequestComment" EntitySet="RequestComments" />
+          </AssociationSet>
+          <AssociationSet Name="VacancyPositionvw_VacancyRequestsAdmin" Association="VacancyModel.VacancyPositionvw_VacancyRequestsAdmin">
+            <End Role="VacancyPosition" EntitySet="VacancyPositions" />
+            <End Role="vw_VacancyRequestsAdmin" EntitySet="vw_VacancyRequestsAdmin" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="RequestComment">
           <Key>
@@ -382,6 +445,7 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <Property Name="EnteredOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EnteredBy" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="VacancyRequest" Relationship="VacancyModel.FK_RequestComments_VacancyRequests" FromRole="RequestComment" ToRole="VacancyRequest" />
+          <NavigationProperty Name="vw_VacancyRequestsAdmin" Relationship="VacancyModel.vw_VacancyRequestsAdminRequestComment" FromRole="RequestComment" ToRole="vw_VacancyRequestsAdmin" />
         </EntityType>
         <EntityType Name="VacancyPosition">
           <Key>
@@ -395,6 +459,7 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <Property Name="RateOfPay" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="SFPositionId" Type="Int16" />
           <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="vw_VacancyRequestsAdmin" Relationship="VacancyModel.VacancyPositionvw_VacancyRequestsAdmin" FromRole="VacancyPosition" ToRole="vw_VacancyRequestsAdmin" />
         </EntityType>
         <EntityType Name="VacancyRequest">
           <Key>
@@ -422,6 +487,7 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <Property Name="ToCancel" Type="Boolean" Nullable="false" />
           <Property Name="Cancelled" Type="Boolean" Nullable="false" />
           <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContractType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_RequestComments_VacancyRequests">
           <End Type="VacancyModel.VacancyRequest" Role="VacancyRequest" Multiplicity="1">
@@ -633,6 +699,58 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <Property Name="ApprovedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="vw_VacancyRequestsAdmin">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" />
+          <Property Name="SFRefNo" Type="Int32" />
+          <Property Name="PositionCode" Type="Int16" Nullable="false" />
+          <Property Name="Heads" Type="Int16" Nullable="false" />
+          <Property Name="ContractHrs" Type="Int16" Nullable="false" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="Rejected" Type="Boolean" Nullable="false" />
+          <Property Name="RaisedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RaisedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PostedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PostedDate" Type="DateTime" Precision="3" />
+          <Property Name="Replace" Type="Boolean" Nullable="false" />
+          <Property Name="Repost" Type="Boolean" Nullable="false" />
+          <Property Name="Internal" Type="Boolean" Nullable="false" />
+          <Property Name="Emailed" Type="Boolean" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="Show" Type="Boolean" Nullable="false" />
+          <Property Name="ToCancel" Type="Boolean" Nullable="false" />
+          <Property Name="Cancelled" Type="Boolean" Nullable="false" />
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContractType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RequestComments" Relationship="VacancyModel.vw_VacancyRequestsAdminRequestComment" FromRole="vw_VacancyRequestsAdmin" ToRole="RequestComment" />
+          <NavigationProperty Name="VacancyPosition" Relationship="VacancyModel.VacancyPositionvw_VacancyRequestsAdmin" FromRole="vw_VacancyRequestsAdmin" ToRole="VacancyPosition" />
+        </EntityType>
+        <Association Name="vw_VacancyRequestsAdminRequestComment">
+          <End Type="VacancyModel.vw_VacancyRequestsAdmin" Role="vw_VacancyRequestsAdmin" Multiplicity="1" />
+          <End Type="VacancyModel.RequestComment" Role="RequestComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vw_VacancyRequestsAdmin">
+              <PropertyRef Name="EntryId" />
+            </Principal>
+            <Dependent Role="RequestComment">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VacancyPositionvw_VacancyRequestsAdmin">
+          <End Type="VacancyModel.VacancyPosition" Role="VacancyPosition" Multiplicity="1" />
+          <End Type="VacancyModel.vw_VacancyRequestsAdmin" Role="vw_VacancyRequestsAdmin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacancyPosition">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="vw_VacancyRequestsAdmin">
+              <PropertyRef Name="PositionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -667,6 +785,7 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
           <EntitySetMapping Name="VacancyRequests">
             <EntityTypeMapping TypeName="VacancyModel.VacancyRequest">
               <MappingFragment StoreEntitySet="VacancyRequests">
+                <ScalarProperty Name="ContractType" ColumnName="ContractType" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
                 <ScalarProperty Name="ToCancel" ColumnName="ToCancel" />
@@ -882,6 +1001,33 @@ warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have
                 <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
                 <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
                 <ScalarProperty Name="Job_Req_Id" ColumnName="Job Req Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_VacancyRequestsAdmin">
+            <EntityTypeMapping TypeName="VacancyModel.vw_VacancyRequestsAdmin">
+              <MappingFragment StoreEntitySet="vw_VacancyRequestsAdmin">
+                <ScalarProperty Name="ContractType" ColumnName="ContractType" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
+                <ScalarProperty Name="ToCancel" ColumnName="ToCancel" />
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Emailed" ColumnName="Emailed" />
+                <ScalarProperty Name="Internal" ColumnName="Internal" />
+                <ScalarProperty Name="Repost" ColumnName="Repost" />
+                <ScalarProperty Name="Replace" ColumnName="Replace" />
+                <ScalarProperty Name="PostedDate" ColumnName="PostedDate" />
+                <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+                <ScalarProperty Name="RaisedDate" ColumnName="RaisedDate" />
+                <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
+                <ScalarProperty Name="Rejected" ColumnName="Rejected" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ContractHrs" ColumnName="ContractHrs" />
+                <ScalarProperty Name="Heads" ColumnName="Heads" />
+                <ScalarProperty Name="PositionCode" ColumnName="PositionCode" />
+                <ScalarProperty Name="SFRefNo" ColumnName="SFRefNo" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

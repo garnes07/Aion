@@ -1,4 +1,5 @@
-﻿using Aion.Areas.WFM.Models.MyStore;
+﻿using Aion.Areas.Admin.Models;
+using Aion.Areas.WFM.Models.MyStore;
 using Aion.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -206,20 +207,35 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<VacancyRequest>> GetPendingForAdmin()
-        {
-            using(var context = new VacanciesModel())
-            {
-                return await context.VacancyRequests.Where(x => x.Show && x.SFRefNo == null).OrderBy(x => x.Chain).ThenBy(x => x.StoreNumber).ThenBy(x => x.PositionCode).Include("VacancyPosition").ToListAsync();
-            }
-        }
-
-        public async Task<List<VacancyRequest>> GetPendingForAdmin(string Chain, int StoreNumber, int PositionCode)
+        public async Task<List<vw_VacancyRequestsAdmin>> GetPendingForAdmin()
         {
             using (var context = new VacanciesModel())
             {
-                return await context.VacancyRequests
-                    .Where(x => x.Show && x.SFRefNo == null && x.Chain == Chain && x.StoreNumber == StoreNumber && x.PositionCode == PositionCode)
+                return await context.vw_VacancyRequestsAdmin.Where(x => x.Show && x.SFRefNo == null).OrderBy(x => x.Chain).ThenBy(x => x.StoreNumber).ThenBy(x => x.PositionCode).Include("VacancyPosition").ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_VacancyRequestsAdmin>> GetPendingForAdmin(string Chain, int StoreNumber, int PositionCode)
+        {
+            using (var context = new VacanciesModel())
+            {
+                return await context.vw_VacancyRequestsAdmin
+                    .Where(x => x.Show && x.SFRefNo == null && !x.Approved && x.Chain == Chain && x.StoreNumber == StoreNumber && x.PositionCode == PositionCode)
+                    .OrderBy(x => x.Chain)
+                    .ThenBy(x => x.StoreNumber)
+                    .ThenBy(x => x.PositionCode)
+                    .Include("VacancyPosition")
+                    .Include("RequestComments")
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_VacancyRequestsAdmin>> GetToPostForAdmin(string Chain, int StoreNumber, int PositionCode)
+        {
+            using (var context = new VacanciesModel())
+            {
+                return await context.vw_VacancyRequestsAdmin
+                    .Where(x => x.Show && x.SFRefNo == null && x.Approved && x.Chain == Chain && x.StoreNumber == StoreNumber && x.PositionCode == PositionCode)
                     .OrderBy(x => x.Chain)
                     .ThenBy(x => x.StoreNumber)
                     .ThenBy(x => x.PositionCode)
@@ -296,6 +312,76 @@ namespace Aion.DAL.Managers
 
                 await context.SaveChangesAsync();
                 return new RequestComment { RequestId = reqId[0], Comment = commentText, EnteredBy = username, EnteredOn = now, CommentType = type };
+            }
+        }
+
+        public async Task<bool> AddReviewOutcome(List<ReviewOutcome> outcomes, string username)
+        {
+            using(var context = new VacanciesModel())
+            {
+                try
+                {
+                    var entryIdList = outcomes.Select(y => y.EntryId).ToList();
+                    var existing = await context.VacancyRequests.Where(x => entryIdList.Contains(x.EntryId) && !x.Approved && !x.Rejected).Include("RequestComments").ToListAsync();
+
+                    foreach (var item in outcomes)
+                    {
+                        var thisExisting = existing.FirstOrDefault(x => x.EntryId == item.EntryId);
+                        if (item.ApprovalStatus == "a")
+                        {
+                            thisExisting.Approved = true;
+                        }
+                        else if (item.ApprovalStatus == "r")
+                        {
+
+                            thisExisting.Rejected = true;
+                            thisExisting.Show = false;
+                            thisExisting.RequestComments.Add(new RequestComment
+                            {
+                                CommentType = "Reject",
+                                Comment = item.Note,
+                                EnteredOn = DateTime.Now,
+                                EnteredBy = username
+                            });
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> MarkAsPosted(string chain, int storenumber, int jobcode, int SFRef, string contract, string username)
+        {
+            using(var context = new VacanciesModel())
+            {
+                try
+                {
+                    var _chain = chain == "Travel" ? "Dixons" : chain;
+                    var existing = await context.VacancyRequests.Where(x => x.Approved && x.SFRefNo == null && x.Chain == _chain && x.StoreNumber == storenumber && x.PositionCode == jobcode).ToListAsync();
+                    if (existing != null)
+                    {
+                        foreach(var item in existing)
+                        {
+                            item.SFRefNo = SFRef;
+                            item.PostedDate = DateTime.Now;
+                            item.PostedBy = username;
+                            item.ContractType = contract;
+                        }
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
     }

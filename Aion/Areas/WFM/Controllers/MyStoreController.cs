@@ -361,14 +361,24 @@ namespace Aion.Areas.WFM.Controllers
             VacancyRequestVm vm = new VacancyRequestVm();
             if(selectArea == "S")
             {
-                vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailCPW(selectCrit)));
-                vm.PendingRequests = await _vacancyManger.GetPendingRequestsCPW(selectCrit);
-                vm.LiveRequests = await _vacancyManger.GetOpenVacanciesCPW(selectCrit);
+                var detail = await _vacancyManger.GetVacancyDetailCPW(selectCrit);
+                if (detail.Any())
+                {
+                    vm.Populate(mapper.Map<List<RecruitmentDetail>>(detail));
+                    vm.PendingRequests = await _vacancyManger.GetPendingRequestsCPW(selectCrit);
+                    vm.LiveRequests = await _vacancyManger.GetOpenVacanciesCPW(selectCrit);
+                }
+                else
+                {
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "Your store is not currently set up to use this process, please raise this with The Medics";
+                }
+                
             }
             else
             {
                 vm.MessageType = MessageType.Error;
-                vm.Message = vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
             }
 
             return View(vm);

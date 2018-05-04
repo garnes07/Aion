@@ -22,5 +22,6 @@ namespace Aion.DAL.Entities
         public string EnteredBy { get; set; }
     
         public virtual VacancyRequest VacancyRequest { get; set; }
+        public virtual vw_VacancyRequestsAdmin vw_VacancyRequestsAdmin { get; set; }
     }
 }

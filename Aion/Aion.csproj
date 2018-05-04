@@ -169,6 +169,7 @@
     <Compile Include="Areas\Admin\Controllers\RecruitmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
     <Compile Include="Areas\Admin\Models\RecruitmentDetail.cs" />
+    <Compile Include="Areas\Admin\Models\ReviewOutcome.cs" />
     <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\RecruitmentSummaryVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewPendingVm.cs" />
@@ -510,6 +511,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_TicketStubRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_VacancyRequestsAdmin.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\WebMasterModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -903,6 +907,7 @@
     <Content Include="Areas\Admin\Views\Recruitment\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\ReviewPending.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_NewComment.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\Partials\_ToPost.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

@@ -47,6 +47,14 @@ namespace Aion.Areas.Admin.Controllers
             return View(vm);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> ReviewPending(List<ReviewOutcome> r)
+        {
+            var result = await _vacancyManager.AddReviewOutcome(r.Where(x => x.ApprovalStatus != null).ToList(), User.Identity.Name);
+
+            return RedirectToAction("Index");
+        }
+
         public async Task<bool> _MarkIncorrectDone(int jobReqId)
         {
             var result = await _vacancyManager.MarkIncorrectDone(jobReqId, User.Identity.Name);
@@ -68,6 +76,20 @@ namespace Aion.Areas.Admin.Controllers
             var result = await _vacancyManager.AddNewComment(RefIds, User.Identity.Name, commentText, "HeadOffice");
 
             return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_NewComment.cshtml", result);
+        }
+
+        public async Task<PartialViewResult> _GetToPost(string chain, int store, int jobcode)
+        {
+            var result = await _vacancyManager.GetToPostForAdmin(chain, store, jobcode);
+
+            return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_ToPost.cshtml", result);
+        }
+
+        [HttpPost]
+        public async Task<bool> _UpdateToPost(string chain, int store, int jobcode, int SFRef, string contract)
+        {
+            var result = await _vacancyManager.MarkAsPosted(chain, store, jobcode, SFRef, contract, User.Identity.Name);
+            return result;
         }
     }
 }

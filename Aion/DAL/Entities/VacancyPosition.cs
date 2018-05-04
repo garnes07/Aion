@@ -18,6 +18,7 @@ namespace Aion.DAL.Entities
         public VacancyPosition()
         {
             this.VacancyRequests = new HashSet<VacancyRequest>();
+            this.vw_VacancyRequestsAdmin = new HashSet<vw_VacancyRequestsAdmin>();
         }
     
         public short PositionId { get; set; }
@@ -30,5 +31,7 @@ namespace Aion.DAL.Entities
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VacancyRequest> VacancyRequests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<vw_VacancyRequestsAdmin> vw_VacancyRequestsAdmin { get; set; }
     }
 }

@@ -4,6 +4,25 @@
     ViewBag.Title = "Review Pending";
 }
 
+<div class="modal fade" id="commentsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rejection comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="commentsModalBody">
+                             
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="modalSubmit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container-fluid">
     <div class="card mb-3">
@@ -26,7 +45,11 @@
                             <th>Current Contract</th>
                         }
                         <th>Average Contract</th>
-                        <th>Open Vacancies</th>
+                        <th>
+                            Open Vacancies<br />
+                            <small>Including this one</small>
+                        </th>
+                        <th>New Total</th>
                     </tr>
 
                 </thead>
@@ -52,6 +75,14 @@
                         {
                             <td>@Model.PositionDetail.OpenVacancies</td>
                         }
+                        @if (Model.PositionDetail.ContractBase == 0)
+                        {
+                            <td>@string.Format("{0:C}", Model.PositionDetail.CurrentContract + Model.PositionDetail.OpenVacancies)</td>
+                        }
+                        else
+                        {
+                            <td>@(Model.PositionDetail.CurrentContract + Model.PositionDetail.OpenVacancies)</td>
+                        }
                     </tr>
                 </tbody>
             </table>
@@ -63,7 +94,7 @@
         </div>
         <div class="card-body">
             <h5>@string.Format("{0} - {1}", Model.RecruitmentDetail.First().StoreNumber, Model.RecruitmentDetail.First().StoreName)</h5>
-            <table class="table table-bordered table-sm table-smtxtperm text-center mb-2">
+            <table id="requestTbl" class="table table-bordered table-sm table-smtxtperm text-center mb-2">
                 <thead>
                     <tr>
                         <th>Ref#</th>
@@ -88,7 +119,7 @@
                             <td>@item.ContractHrs</td>
                                 @if (Model.PositionDetail.ContractBase == 0)
                                 {
-                                    <td>@string.Format("{0:C}",item.Heads * item.ContractHrs)</td>
+                                    <td>@string.Format("{0:C}",item.Heads * item.ContractHrs * item.VacancyPosition.RateOfPay)</td>
                                 }
                                 else
                                 {
@@ -98,15 +129,28 @@
                             <td>@item.RaisedBy</td>
                             <td>@item.RaisedDate.ToShortDateString()</td>
                             <td>
-                                <input class="approve checkbox" type="checkbox" value="" />
+                                <input class="approve checkbox" type="checkbox" value="" data-entryid="@item.EntryId"/>
                             </td>
                             <td>
-                                <input class="reject checkbox" type="checkbox" value="" />
+                                <input class="reject checkbox" type="checkbox" value="" data-entryid="@item.EntryId"/>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
+            <form id="frm" method="post" class="d-none">
+                @for (int i = 0; i < Model.VacancyRequests.Count; i++)
+                {
+                    <div id="r@(Model.VacancyRequests[i].EntryId)" class="approvalRow">
+                        <input class="entryid" name="r[@(i)].EntryId" value="@(Model.VacancyRequests[i].EntryId)" hidden />
+                        <input class="approvalstatus" name="r[@(i)].ApprovalStatus" value="" hidden />
+                        <input class="notes" name="r[@(i)].Note" value="" hidden />
+                    </div>
+                }
+            </form>
+            <div class="row justify-content-center">
+                <button id="frmSubmit" type="button" role="button" class="btn btn-success">Update</button>
+            </div>
             @if (Model.UniqueComments.Any())
             {
                 <strong>Supporting Comments:</strong>
@@ -122,7 +166,6 @@
                 <div class="col-12">
                     <div class="wf-comment-container">
                         <div class="text-center mb-2"><button class="btn btn-info" id="addComment">Add Comment</button></div>
-                        <div class="text-center mb-1"><strong class="wf-btn"><u>Comments</u></strong></div>
                         <div style="display:none; width:100%;" id="newCommentContainer">
                             <div class="form-group">
                                 <textarea class="w-100" type="text" id="newComment"></textarea>
@@ -184,12 +227,59 @@
         $('.approve').click(function () {
             if ($(this).is(":checked")) {
                 $(this).parent().parent().find('.reject').prop('checked', false);
+                $('#r' + $(this).data('entryid')).find('.approvalstatus').val('a');
+            }
+            else {
+                $('#r' + $(this).data('entryid')).find('.approvalstatus').val('');
             };
         });
 
         $('.reject').click(function () {
             if ($(this).is(":checked")) {
                 $(this).parent().parent().find('.approve').prop('checked', false);
+                $('#r' + $(this).data('entryid')).find('.approvalstatus').val('r');
+            }
+            else {
+                $('#r' + $(this).data('entryid')).find('.approvalstatus').val('');
+            };
+        })
+
+        $('#frmSubmit').click(function () {
+            if ($('#requestTbl input[type="checkbox"]:checked').length) {
+                var comments = false;
+                $('#commentsModalBody').html('');
+                $('#frm').find('.approvalRow').each(function () {
+                    var approvalState = $(this).find('.approvalstatus').val();
+                    if (approvalState === 'r') {
+                        var entryId = $(this).find('.entryid').val();
+                        $('#commentsModalBody').append('<div class="cRow"><label data-ref="' + entryId + '">Reference# ' + entryId + '</label><textarea class="form-control" id="c' + entryId + '"></textarea></div>');
+                        comments = true;
+                    };                    
+                });
+
+                if (comments) {
+                    $('#commentsModal').modal('toggle');
+                } else {
+                    $('#frm').submit();
+                }
+            };
+        });
+
+        $('#modalSubmit').click(function () {
+            var valid = true;
+            $('#commentsModalBody').find('.cRow').each(function () {
+                if ($(this).find('textarea').val().length) {
+                    console.log('#r' + $(this).find('label').data('ref'));
+                    $('#r' + $(this).find('label').data('ref')).find('.notes').val($(this).find('textarea').val());
+                    $(this).find('textarea').removeClass('border-danger');
+                } else {
+                    $(this).find('textarea').addClass('border-danger');
+                    valid = false;
+                };
+            });
+
+            if (valid) {
+                $('#frm').submit();
             };
         });
     });    

@@ -36,6 +36,7 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_OfferApprovals> vw_OfferApprovals { get; set; }
         public virtual DbSet<IncorrectVacancy> IncorrectVacancies { get; set; }
         public virtual DbSet<OfferApproval> OfferApprovals { get; set; }
+        public virtual DbSet<vw_VacancyRequestsAdmin> vw_VacancyRequestsAdmin { get; set; }
     
         public virtual ObjectResult<sp_GetRecruitmentDetailCPW_Result> sp_GetRecruitmentDetailCPW(Nullable<short> storeNum)
         {

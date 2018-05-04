@@ -1,5 +1,6 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -111,8 +112,9 @@ namespace Aion.DAL.Managers
                     if (existing != null)
                     {
                         context.Entry(existing).CurrentValues.SetValues(userDetail);
-                        
-                        foreach(var entry in existing.UserAccessAreas)
+
+                        var existingAreas = existing.UserAccessAreas.ToList();
+                        foreach(var entry in existingAreas)
                         {
                             if (!userDetail.UserAccessAreas.Any(x => x.AreaName == entry.AreaName))
                                 context.UserAccessAreas.Remove(entry);
@@ -120,7 +122,8 @@ namespace Aion.DAL.Managers
 
                         foreach(var entry in userDetail.UserAccessAreas)
                         {
-                            context.UserAccessAreas.Add(entry);
+                            if(!existingAreas.Any(x => x.AreaName == entry.AreaName))
+                                context.UserAccessAreas.Add(entry);
                         }
 
                         await context.SaveChangesAsync();
@@ -128,7 +131,7 @@ namespace Aion.DAL.Managers
                     }
                     return false;
                 }
-                catch
+                catch(Exception e)
                 {
                     return false;
                 }

@@ -12,10 +12,10 @@ namespace Aion.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class VacancyRequest
+    public partial class vw_VacancyRequestsAdmin
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public VacancyRequest()
+        public vw_VacancyRequestsAdmin()
         {
             this.RequestComments = new HashSet<RequestComment>();
         }
