@@ -103,7 +103,7 @@
                         else
                         {
                             <ul>
-                                <li>You are @(item.ContractBase - item.CurrentContract) hours over your maximum contract base <strong>(@item.ContractBase)</strong></li>
+                                <li>You are @(Math.Abs(item.ContractBase - item.OpenVacancies - item.CurrentContract)) hours over your maximum contract base <strong>(@item.ContractBase)</strong></li>
                                 <li>Your average contract length is currently @string.Format("{0:0.0}", item.AverageContract)</li>
                                 <li><strong>You do not have allowance to recruit</strong></li>
                             </ul>
@@ -218,7 +218,7 @@
                    data-toggle="popover"
                    data-placement="bottom"
                    data-trigger="hover"
-                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>To Post - The WFM Team is raising this vacancy in MyHub</li><li>Raising - The vacancy has been raised, awaiting posting by HR Shared Services</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
+                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>Raising - The WFM Team is raising this vacancy in MyHub</li><li>To Post - The vacancy has been raised, awaiting posting by HR Shared Services</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
                    class="icon ion-information-circled info-button">
                 </i>
                 @if (!Model.PendingRequests.Any() && !Model.LiveRequests.Any())
@@ -254,7 +254,7 @@
                                     <td>@item.Heads</td>
                                     <td>@(item.ContractHrs * item.Heads)</td>
                                     <td>
-                                        @(!item.Approved ? "Under review" : (item.SFRefNo != null ? "To Post" : "Raising"))
+                                        @(!item.Approved ? "Under review" : (item.SFRefNo != null ? "Raising" : "To Post"))
                                     </td>
                                     <td>
                                         @if (item.SFRefNo == null)

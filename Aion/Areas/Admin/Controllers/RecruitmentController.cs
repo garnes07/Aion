@@ -27,7 +27,7 @@ namespace Aion.Areas.Admin.Controllers
             RecruitmentSummaryVm vm = new RecruitmentSummaryVm();
 
             vm.IncorrectVacancies = await _vacancyManager.GetIncorrectVacancies();
-            vm.OfferApprovals = await _vacancyManager.GetOfferApprovals();
+            //vm.OfferApprovals = await _vacancyManager.GetOfferApprovals();
             vm.AllPending = await _vacancyManager.GetPendingForAdmin();
 
             return View(vm);
@@ -41,7 +41,9 @@ namespace Aion.Areas.Admin.Controllers
             vm.RecruitmentDetail = Chain == "CPW" ? 
                 mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(StoreNumber.ToString())) : 
                 mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(StoreNumber.ToString()));
-
+            vm.HRCurrent = await _vacancyManager.GetHrCurrent(Chain, StoreNumber);
+            vm.HRChanges = await _vacancyManager.GetHrChanges(Chain, StoreNumber);
+            
             System.Web.HttpContext.Current.Session["RefIds"] = vm.VacancyRequests.Select(x => x.EntryId).ToArray();
 
             return View(vm);
@@ -55,6 +57,14 @@ namespace Aion.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> HoldPending(string Chain, int StoreNumber, int PositionCode)
+        {
+            var result = await _vacancyManager.ReviewOnHold(Chain, StoreNumber, PositionCode);
+
+            return RedirectToAction("Index");
+        }
+
         public async Task<bool> _MarkIncorrectDone(int jobReqId)
         {
             var result = await _vacancyManager.MarkIncorrectDone(jobReqId, User.Identity.Name);
@@ -62,12 +72,12 @@ namespace Aion.Areas.Admin.Controllers
             return result;
         }
 
-        public async Task<bool> _OfferOutcome(int jobReqId, bool approved)
-        {
-            var result = await _vacancyManager.MarkOfferApproved(jobReqId, approved, User.Identity.Name);
+        //public async Task<bool> _OfferOutcome(int jobReqId, bool approved)
+        //{
+        //    var result = await _vacancyManager.MarkOfferApproved(jobReqId, approved, User.Identity.Name);
 
-            return result;
-        }
+        //    return result;
+        //}
 
         [HttpPost]
         public async Task<PartialViewResult> _PostNewComment(string commentText)
@@ -89,6 +99,13 @@ namespace Aion.Areas.Admin.Controllers
         public async Task<bool> _UpdateToPost(string chain, int store, int jobcode, int SFRef, string contract)
         {
             var result = await _vacancyManager.MarkAsPosted(chain, store, jobcode, SFRef, contract, User.Identity.Name);
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<bool> _HoldToPost(string chain, int store, int jobcode)
+        {
+            var result = await _vacancyManager.HoldToPost(chain, store, jobcode);
             return result;
         }
     }

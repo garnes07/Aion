@@ -13,12 +13,12 @@
         <EntityTypeShape EntityType="VacancyModel.vw_SFOpenVacancies" Width="1.5" PointX="10.75" PointY="0.875" />
         <EntityTypeShape EntityType="VacancyModel.LiveVacanciesToCancel" Width="1.5" PointX="5.375" PointY="4.75" />
         <EntityTypeShape EntityType="VacancyModel.vw_IncorrectVacancies" Width="1.5" PointX="10.75" PointY="5.75" />
-        <EntityTypeShape EntityType="VacancyModel.vw_OfferApprovals" Width="1.5" PointX="2.75" PointY="7.75" />
         <EntityTypeShape EntityType="VacancyModel.IncorrectVacancy" Width="1.5" PointX="5.375" PointY="8.75" />
-        <EntityTypeShape EntityType="VacancyModel.OfferApproval" Width="1.5" PointX="12.75" PointY="0.75" />
         <EntityTypeShape EntityType="VacancyModel.vw_VacancyRequestsAdmin" Width="1.5" PointX="7.5" PointY="0.75" />
         <AssociationConnector Association="VacancyModel.vw_VacancyRequestsAdminRequestComment" />
         <AssociationConnector Association="VacancyModel.VacancyPositionvw_VacancyRequestsAdmin" />
+        <EntityTypeShape EntityType="VacancyModel.WFM_EMPLOYEE_INFO_UNEDITED" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="VacancyModel.WFM_FUTURE_DATED" Width="1.5" PointX="9.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

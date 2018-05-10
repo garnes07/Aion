@@ -377,3 +377,7 @@ i.info-button{
     cursor:pointer;
     color: #17a2b8;
 }
+
+.no-border td{
+    border-top: 0px;
+}

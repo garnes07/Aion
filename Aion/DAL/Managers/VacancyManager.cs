@@ -199,13 +199,13 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<vw_OfferApprovals>> GetOfferApprovals()
-        {
-            using (var context = new VacanciesModel())
-            {
-                return await context.vw_OfferApprovals.OrderBy(x => x.Company).ThenBy(x => x.Store_Number).ToListAsync();
-            }
-        }
+        //public async Task<List<vw_OfferApprovals>> GetOfferApprovals()
+        //{
+        //    using (var context = new VacanciesModel())
+        //    {
+        //        return await context.vw_OfferApprovals.OrderBy(x => x.Company).ThenBy(x => x.Store_Number).ToListAsync();
+        //    }
+        //}
 
         public async Task<List<vw_VacancyRequestsAdmin>> GetPendingForAdmin()
         {
@@ -269,29 +269,29 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<bool> MarkOfferApproved(int reqId, bool approved, string username)
-        {
-            using(var context = new VacanciesModel())
-            {
-                try
-                {
-                    var toEdit = await context.OfferApprovals.Where(x => x.Job_Req_Id == reqId && x.Approved == null).FirstOrDefaultAsync();
-                    if(toEdit != null)
-                    {
-                        toEdit.Approved = approved;
-                        toEdit.ApprovedBy = username;
-                        toEdit.ApprovedDate = DateTime.Now;
-                        await context.SaveChangesAsync();
-                        return true;
-                    }
-                    return false;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
+        //public async Task<bool> MarkOfferApproved(int reqId, bool approved, string username)
+        //{
+        //    using(var context = new VacanciesModel())
+        //    {
+        //        try
+        //        {
+        //            var toEdit = await context.OfferApprovals.FirstOrDefaultAsync(x => x.Job_Req_Id == reqId && x.Approved == null);
+        //            if(toEdit != null)
+        //            {
+        //                toEdit.Approved = approved;
+        //                toEdit.ApprovedBy = username;
+        //                toEdit.ApprovedDate = DateTime.Now;
+        //                await context.SaveChangesAsync();
+        //                return true;
+        //            }
+        //            return false;
+        //        }
+        //        catch
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
 
         public async Task<RequestComment> AddNewComment(int[] reqId, string username, string commentText, string type)
         {
@@ -327,22 +327,26 @@ namespace Aion.DAL.Managers
                     foreach (var item in outcomes)
                     {
                         var thisExisting = existing.FirstOrDefault(x => x.EntryId == item.EntryId);
+                        thisExisting.PostedBy = null;
+                        thisExisting.PostedDate = null;
                         if (item.ApprovalStatus == "a")
                         {
                             thisExisting.Approved = true;
                         }
                         else if (item.ApprovalStatus == "r")
                         {
-
-                            thisExisting.Rejected = true;
-                            thisExisting.Show = false;
-                            thisExisting.RequestComments.Add(new RequestComment
+                            context.RequestComments.Add(new RequestComment
                             {
+                                RequestId = thisExisting.EntryId,
                                 CommentType = "Reject",
                                 Comment = item.Note,
                                 EnteredOn = DateTime.Now,
                                 EnteredBy = username
                             });
+                            await context.SaveChangesAsync();
+
+                            thisExisting.Rejected = true;
+                            thisExisting.Show = false;                            
                         }
                     }
 
@@ -350,6 +354,38 @@ namespace Aion.DAL.Managers
                     return true;
                 }
                 catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> ReviewOnHold(string Chain, int StoreNumber, int PositionCode)
+        {
+            using (var context = new VacanciesModel())
+            {
+                try
+                {
+                    var existing = await context.vw_VacancyRequestsAdmin
+                    .Where(x => x.Show && x.SFRefNo == null && !x.Approved && x.Chain == Chain && x.StoreNumber == StoreNumber && x.PositionCode == PositionCode)
+                    .OrderBy(x => x.Chain)
+                    .ThenBy(x => x.StoreNumber)
+                    .ThenBy(x => x.PositionCode)
+                    .ToListAsync();
+
+                    if (existing.Count() > 0)
+                    {
+                        foreach(var item in existing)
+                        {
+                            item.PostedBy = "On Hold";
+                            item.PostedDate = DateTime.Now;
+                        }
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
                 {
                     return false;
                 }
@@ -364,7 +400,7 @@ namespace Aion.DAL.Managers
                 {
                     var _chain = chain == "Travel" ? "Dixons" : chain;
                     var existing = await context.VacancyRequests.Where(x => x.Approved && x.SFRefNo == null && x.Chain == _chain && x.StoreNumber == storenumber && x.PositionCode == jobcode).ToListAsync();
-                    if (existing != null)
+                    if (existing.Count > 0)
                     {
                         foreach(var item in existing)
                         {
@@ -382,6 +418,51 @@ namespace Aion.DAL.Managers
                 {
                     return false;
                 }
+            }
+        }
+
+        public async Task<bool> HoldToPost(string chain, int storenumber, int jobcode)
+        {
+            using (var context = new VacanciesModel())
+            {
+                try
+                {
+                    var _chain = chain == "Travel" ? "Dixons" : chain;
+                    var existing = await context.VacancyRequests.Where(x => x.Approved && x.SFRefNo == null && x.Chain == _chain && x.StoreNumber == storenumber && x.PositionCode == jobcode).ToListAsync();
+                    if (existing.Count > 0)
+                    {
+                        foreach (var item in existing)
+                        {
+                            item.PostedBy = "On Hold";
+                            item.PostedDate = DateTime.Now;
+                        }
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<List<WFM_EMPLOYEE_INFO_UNEDITED>> GetHrCurrent(string chain, int storenumber)
+        {
+            using(var context = new VacanciesModel())
+            {
+                var _chain = chain == "CPW" ? "CPW" : "Currys PC World";
+                return await context.WFM_EMPLOYEE_INFO_UNEDITED.Where(x => x.Chain == _chain && x.NewDeptID == storenumber).OrderByDescending(x => x.Grade).ThenBy(x => x.Std_Hrs_Wk).ToListAsync();
+            }
+        }
+
+        public async Task<List<WFM_FUTURE_DATED>> GetHrChanges(string chain, int storenumber)
+        {
+            using (var context = new VacanciesModel())
+            {
+                var _chain = chain == "CPW" ? "CPW" : "Currys PC World";
+                return await context.WFM_FUTURE_DATED.Where(x => x.Chain == _chain && x.NewDeptID == storenumber).OrderBy(x => x.Alternate_ID).ThenBy(x => x.Effective_Date_of_Change).ToListAsync();
             }
         }
     }

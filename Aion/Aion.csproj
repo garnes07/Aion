@@ -269,9 +269,6 @@
     <Compile Include="DAL\Entities\LiveVacanciesToCancel.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Entities\OfferApproval.cs">
-      <DependentUpon>VacancyModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL\Entities\OpeningTimesComment.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -491,9 +488,6 @@
     <Compile Include="DAL\Entities\vw_Last12MonthRFTPCases.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Entities\vw_OfferApprovals.cs">
-      <DependentUpon>VacancyModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAL\Entities\vw_PublishedBudgetsROI.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -547,6 +541,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>WFMModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\WFM_EMPLOYEE_INFO_UNEDITED.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\WFM_FUTURE_DATED.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\IManagers\IAuthManager.cs" />
     <Compile Include="DAL\IManagers\IDashboardDataManager.cs" />

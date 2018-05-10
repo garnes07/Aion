@@ -4,52 +4,58 @@
     bool firstTKH = true;
 }
 
+<div class="row justify-content-center d-none d-print-flex">
+    <div class="col-6 text-center">
+        <h4>@Model.WeeksOfYear.FirstOrDefault(x => x.Selected).Text</h4>
+    </div>
+</div>
+
 @if (Model.OpeningTime != null)
 {
-<div style="width:90%;" class="table-responsive">
-    <table class="table table-bordered table-sm table-smtxt text-center">
-        <thead class="thead-light">
-            <tr>
-                <th style="width:20%"></th>
-                <th style="width:10%" colspan="2" class="text-center">Sun</th>
-                <th style="width:10%" colspan="2" class="text-center">Mon</th>
-                <th style="width:10%" colspan="2" class="text-center">Tue</th>
-                <th style="width:10%" colspan="2" class="text-center">Wed</th>
-                <th style="width:10%" colspan="2" class="text-center">Thu</th>
-                <th style="width:10%" colspan="2" class="text-center">Fri</th>
-                <th style="width:10%" colspan="2" class="text-center">Sat</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <strong>Opening Hours</strong>
-                </td>
-                <td colspan="2">
-                    <small>@(Model.OpeningTime.SundayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.SundayOpen, Model.OpeningTime.SundayClose))</small>
-                </td>
-                <td colspan="2">
-                    <small>@(Model.OpeningTime.MondayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.MondayOpen, Model.OpeningTime.MondayClose))</small>
-                </td>
-                <td colspan="2">
-                    <small>@(Model.OpeningTime.TuesdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.TuesdayOpen, Model.OpeningTime.TuesdayClose))</small>
-                </td>
-                <td colspan="2">
-                    <small>@(Model.OpeningTime.WednesdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.WednesdayOpen, Model.OpeningTime.WednesdayClose))</small>
-                </td>
-                <td colspan="2">
-                    <small>@(Model.OpeningTime.ThursdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.ThursdayOpen, Model.OpeningTime.ThursdayClose))</small>
-                </td>
-                <td colspan="2">
-                    <small>@(Model.OpeningTime.FridayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.FridayOpen, Model.OpeningTime.FridayClose))</small>
-                </td>
-                <td colspan="2">
-                    <small>@(Model.OpeningTime.SaturdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.SaturdayOpen, Model.OpeningTime.SaturdayClose))</small>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div style="width:90%;" class="table-responsive">
+        <table class="table table-bordered table-sm table-smtxt text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th style="width:20%"></th>
+                    <th style="width:10%" colspan="2" class="text-center">Sun</th>
+                    <th style="width:10%" colspan="2" class="text-center">Mon</th>
+                    <th style="width:10%" colspan="2" class="text-center">Tue</th>
+                    <th style="width:10%" colspan="2" class="text-center">Wed</th>
+                    <th style="width:10%" colspan="2" class="text-center">Thu</th>
+                    <th style="width:10%" colspan="2" class="text-center">Fri</th>
+                    <th style="width:10%" colspan="2" class="text-center">Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>Opening Hours</strong>
+                    </td>
+                    <td colspan="2">
+                        <small>@(Model.OpeningTime.SundayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.SundayOpen, Model.OpeningTime.SundayClose))</small>
+                    </td>
+                    <td colspan="2">
+                        <small>@(Model.OpeningTime.MondayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.MondayOpen, Model.OpeningTime.MondayClose))</small>
+                    </td>
+                    <td colspan="2">
+                        <small>@(Model.OpeningTime.TuesdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.TuesdayOpen, Model.OpeningTime.TuesdayClose))</small>
+                    </td>
+                    <td colspan="2">
+                        <small>@(Model.OpeningTime.WednesdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.WednesdayOpen, Model.OpeningTime.WednesdayClose))</small>
+                    </td>
+                    <td colspan="2">
+                        <small>@(Model.OpeningTime.ThursdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.ThursdayOpen, Model.OpeningTime.ThursdayClose))</small>
+                    </td>
+                    <td colspan="2">
+                        <small>@(Model.OpeningTime.FridayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.FridayOpen, Model.OpeningTime.FridayClose))</small>
+                    </td>
+                    <td colspan="2">
+                        <small>@(Model.OpeningTime.SaturdayOpen.ToString() == "00:00:00" ? "Closed" : string.Format("{0:hh\\:mm} - {1:hh\\:mm}", Model.OpeningTime.SaturdayOpen, Model.OpeningTime.SaturdayClose))</small>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 }
 
 @if (!Model.Collection.Any())
@@ -66,67 +72,67 @@ else
     }
     <table class="table table-bordered table-sm">
         <thead class="thead-light">
-        <tr>
-            <th class="text-center" style="width:20%">Name</th>
-            <th class="text-center" style="width:10%">Sun</th>
-            <th class="text-center" style="width:10%">Mon</th>
-            <th class="text-center" style="width:10%">Tue</th>
-            <th class="text-center" style="width:10%">Wed</th>
-            <th class="text-center" style="width:10%">Thu</th>
-            <th class="text-center" style="width:10%">Fri</th>
-            <th class="text-center" style="width:10%">Sat</th>
-            <th class="text-center" style="width:10%">Emp Total</th>
-        </tr>
+            <tr>
+                <th class="text-center" style="width:20%">Name</th>
+                <th class="text-center" style="width:10%">Sun</th>
+                <th class="text-center" style="width:10%">Mon</th>
+                <th class="text-center" style="width:10%">Tue</th>
+                <th class="text-center" style="width:10%">Wed</th>
+                <th class="text-center" style="width:10%">Thu</th>
+                <th class="text-center" style="width:10%">Fri</th>
+                <th class="text-center" style="width:10%">Sat</th>
+                <th class="text-center" style="width:10%">Emp Total</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var colleague in Model.ColleagueList)
-        {
-            if (Model.Collection.First(x => x.PersonNumber == colleague).JobCode == 7 && firstTKH)
+            @foreach (var colleague in Model.ColleagueList)
             {
+                if (Model.Collection.First(x => x.PersonNumber == colleague).JobCode == 7 && firstTKH)
+                {
+                    <tr>
+                        <td colspan="9" class="text-center"><strong>Team Knowhow</strong></td>
+                    </tr>
+                    firstTKH = false;
+                }
                 <tr>
-                    <td colspan="9" class="text-center"><strong>Team Knowhow</strong></td>
+                    <td><small>@string.Format("{0} ({1})", Model.Collection.First(x => x.PersonNumber == colleague).FullName, Model.Collection.First(x => x.PersonNumber == colleague).ContractHours)</small></td>
+                    @for (int j = 1; j <= 7; j++)
+                    {
+                        var selected = Model.Collection.FirstOrDefault(x => x.PersonNumber == colleague && x.DayNum == j);
+                        if (selected?.StartTime != null)
+                        {
+                            if (selected.ShiftType == "Regular" && selected.TransferBranch != null)
+                            {
+                                <td class="text-center"><small>@string.Format("{0:hh\\:mm} - {1:hh\\:mm} : {2}", selected.StartTime, selected.EndTime, selected.TransferBranch)</small></td>
+                            }
+                            else if (selected.ShiftType == "Regular")
+                            {
+                                <td class="text-center"><small>@string.Format("{0:hh\\:mm} - {1:hh\\:mm}", selected.StartTime, selected.EndTime)</small></td>
+                            }
+                        }
+                        else if (selected != null && selected.ShiftType != "Regular")
+                        {
+                            <td class="text-center">@selected.ShiftType</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                    <td class="text-center table-active"><small><strong>@Model.Collection.First(x => x.PersonNumber == colleague).PersonWeekTotal.ToString()</strong></small></td>
                 </tr>
-                firstTKH = false;
             }
             <tr>
-                <td><small>@string.Format("{0} ({1})", Model.Collection.First(x => x.PersonNumber == colleague).FullName, Model.Collection.First(x => x.PersonNumber == colleague).ContractHours)</small></td>
-                @for (int j = 1; j <= 7; j++)
-                {
-                    var selected = Model.Collection.FirstOrDefault(x => x.PersonNumber == colleague && x.DayNum == j);
-                    if (selected?.StartTime != null)
-                    {
-                        if (selected.ShiftType == "Regular" && selected.TransferBranch != null)
-                        {
-                            <td class="text-center"><small>@string.Format("{0:hh\\:mm} - {1:hh\\:mm} : {2}", selected.StartTime, selected.EndTime, selected.TransferBranch)</small></td>
-                        }
-                        else if (selected.ShiftType == "Regular")
-                        {
-                            <td class="text-center"><small>@string.Format("{0:hh\\:mm} - {1:hh\\:mm}", selected.StartTime, selected.EndTime)</small></td>
-                        }
-                    }
-                    else if (selected != null && selected.ShiftType != "Regular")
-                    {
-                        <td class="text-center">@selected.ShiftType</td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
-                }
-                <td class="text-center table-active"><small><strong>@Model.Collection.First(x => x.PersonNumber == colleague).PersonWeekTotal.ToString()</strong></small></td>
+                <td class="table-active"><strong>Day Total <small>[Headcount]</small></strong></td>
+                <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 1 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 1).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 1 && x.StartTime != null)))</strong></small></td>
+                <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 2 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 2).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 2 && x.StartTime != null)))</strong></small></td>
+                <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 3 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 3).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 3 && x.StartTime != null)))</strong></small></td>
+                <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 4 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 4).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 4 && x.StartTime != null)))</strong></small></td>
+                <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 5 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 5).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 5 && x.StartTime != null)))</strong></small></td>
+                <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 6 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 6).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 6 && x.StartTime != null)))</strong></small></td>
+                <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 7 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 7).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 7 && x.StartTime != null)))</strong></small></td>
+                <td class="text-center table-active"><small><strong>@Model.SOHTotal.Select(x => x.PersonWeekTotal).Sum()</strong></small></td>
             </tr>
-        }
-        <tr>
-            <td class="table-active"><strong>Day Total <small>[Headcount]</small></strong></td>
-            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 1 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 1).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 1 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 2 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 2).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 2 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 3 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 3).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 3 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 4 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 4).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 4 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 5 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 5).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 5 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 6 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 6).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 6 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center table-active"><small><strong>@(!Model.Collection.Any(x => x.DayNum == 7 && x.StartTime != null) ? "0" : string.Format("{0:0.00} [{1}]", Model.Collection.FirstOrDefault(x => x.DayNum == 7).DayWeekTotal, Model.Collection.Count(x => x.DayNum == 7 && x.StartTime != null)))</strong></small></td>
-            <td class="text-center table-active"><small><strong>@Model.SOHTotal.Select(x => x.PersonWeekTotal).Sum()</strong></small></td>
-        </tr>
         </tbody>
     </table>
     <div class="row justify-content-center">
