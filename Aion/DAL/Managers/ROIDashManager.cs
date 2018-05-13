@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Aion.DAL.Managers
 {
-    public class UKDashManager : IAdminDashManager
+    public class ROIDashManager : IAdminDashManager
     {
         public async Task<DashboardErrors> GetErrors()
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 DashboardErrors toReturn = new DashboardErrors();
                 toReturn.StoreErrors = await context.fn_UnmatchedStores().ToListAsync();
@@ -23,7 +23,7 @@ namespace Aion.DAL.Managers
         //Run sp to build dashboard with existing timecard data file
         public bool RunBuild()
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 context.Database.ExecuteSqlCommand("reBuildDashboard");
                 return true;
@@ -33,7 +33,7 @@ namespace Aion.DAL.Managers
         //Run sp to build dashboard with new timecard data file
         public bool RunBuildNewData()
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 context.Database.ExecuteSqlCommand("reBuildDashboardNewData");
                 return true;
@@ -43,7 +43,7 @@ namespace Aion.DAL.Managers
         //Run sp to import and update budgets from file
         public bool RunBudgets()
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 context.Database.ExecuteSqlCommand("sp_LoadBudgets");
                 return true;
@@ -53,7 +53,7 @@ namespace Aion.DAL.Managers
         //Run sp to import and update budgets from file
         public bool PushData()
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 context.Database.ExecuteSqlCommand("sp_PushLWDataToSite");
                 return true;
@@ -63,7 +63,7 @@ namespace Aion.DAL.Managers
         //Get all store reference records
         public async Task<List<StoreReference>> StoreReferenceList()
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 return await context.StoreReferences.OrderBy(x => x.Br_).ToListAsync();
             }
@@ -72,7 +72,7 @@ namespace Aion.DAL.Managers
         //Get single store reference record by id
         public async Task<StoreReference> StoreReferenceSingle(int? id)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 return await context.StoreReferences.FindAsync(id);
             }
@@ -81,7 +81,7 @@ namespace Aion.DAL.Managers
         //Get matching store reference record by branch number
         public StoreReference StoreReferenceSearch(string keyword)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 var criteria = 0;
                 var numberSearch = int.TryParse(keyword, out criteria);
@@ -96,7 +96,7 @@ namespace Aion.DAL.Managers
         //Submit new store reference record
         public async Task<bool> SubmitNewStoreReference(StoreReference model)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 try
                 {
@@ -114,7 +114,7 @@ namespace Aion.DAL.Managers
         //Submit change to store reference record
         public async Task<bool> SubmitStoreReferenceChange(StoreReference model)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 try
                 {
@@ -137,7 +137,7 @@ namespace Aion.DAL.Managers
         //Delete store reference record on confirm
         public async Task<bool> DeleteStoreReferenceRecord(int id)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 try
                 {
@@ -160,7 +160,7 @@ namespace Aion.DAL.Managers
         //Get all role reference records
         public async Task<List<RoleReference>> RoleReferenceList()
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 return await context.RoleReferences.OrderBy(x => x.Role).ToListAsync();
             }
@@ -169,7 +169,7 @@ namespace Aion.DAL.Managers
         //Get single role reference record by id
         public async Task<RoleReference> RoleReferenceSingle(string id)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 return await context.RoleReferences.FindAsync(id);
             }
@@ -178,7 +178,7 @@ namespace Aion.DAL.Managers
         //Submit new role reference record
         public async Task<bool> SubmitNewRoleReference(RoleReference model)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 try
                 {
@@ -195,7 +195,7 @@ namespace Aion.DAL.Managers
         //Submit change to role reference record
         public async Task<bool> SubmitRoleReferenceChange(RoleReference model)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 try
                 {
@@ -218,7 +218,7 @@ namespace Aion.DAL.Managers
         //Delete role reference record on confirm
         public async Task<bool> DeleteRoleReferenceRecord(string id)
         {
-            using (var context = new UKDashModel())
+            using (var context = new ROIDashModel())
             {
                 try
                 {

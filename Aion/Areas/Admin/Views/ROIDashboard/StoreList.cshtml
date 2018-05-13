@@ -1,0 +1,58 @@
+﻿@model PagedList.IPagedList<Aion.DAL.Entities.StoreReference>
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Store List";
+}
+
+<h2>Store Reference List</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by store number: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<p>@Html.ActionLink("Create New", "AddStore")</p>
+
+<table class="table table-sm text-center">
+    <thead>
+        <tr>
+            <th>Store Number</th>
+            <th>UK BR</th>
+            <th>Store Name</th>
+            <th>Division</th>
+            <th>Region</th>
+            <th>Region Name</th>
+            <th>Channel</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Br_</td>
+                <td>@item.UK_BR</td>
+                <td>@item.Store_Name</td>
+                <td>@item.Division</td>
+                <td>@item.Region</td>
+                <td>@item.Region_name</td>
+                <td>@item.Channel</td>
+                <td>
+                    @Html.ActionLink("Edit", "EditStore", new { id = item.Br_ }) |
+                    @Html.ActionLink("Delete", "DeleteStore", new { id = item.Br_ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("StoreList", new { page }))
+
+@Html.ActionLink("Back", "Index", "UKDashManager")

@@ -10,13 +10,13 @@ using System.Web.Mvc;
 namespace Aion.Areas.Admin.Controllers
 {
     [UserFilter(MinLevel = 9)]
-    public class UKDashboardController : Controller
+    public class ROIDashboardController : Controller
     {
         private readonly IAdminDashManager _dashManager;
 
-        public UKDashboardController()
+        public ROIDashboardController()
         {
-            _dashManager = new UKDashManager();
+            _dashManager = new ROIDashManager();
         }
 
         public async Task<ActionResult> Index()
@@ -89,7 +89,7 @@ namespace Aion.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _dashManager.SubmitNewStoreReference(model);
-            }            
+            }
             return RedirectToAction("StoreList");
         }
 
@@ -101,7 +101,7 @@ namespace Aion.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StoreReference storeReference =await _dashManager.StoreReferenceSingle(id);
+            StoreReference storeReference = await _dashManager.StoreReferenceSingle(id);
             if (storeReference == null)
             {
                 return HttpNotFound();
@@ -118,7 +118,7 @@ namespace Aion.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _dashManager.SubmitStoreReferenceChange(model);
-            }            
+            }
             return RedirectToAction("Index");
         }
 
@@ -169,7 +169,7 @@ namespace Aion.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _dashManager.SubmitNewRoleReference(model);
-            }            
+            }
             return RedirectToAction("RoleList");
         }
 
@@ -181,7 +181,7 @@ namespace Aion.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            RoleReference roleReference =await _dashManager.RoleReferenceSingle(id);
+            RoleReference roleReference = await _dashManager.RoleReferenceSingle(id);
             if (roleReference == null)
             {
                 return HttpNotFound();

@@ -5,7 +5,7 @@ using Aion.DAL.Entities;
 
 namespace Aion.DAL.Managers
 {
-    public interface IUKDashManager
+    public interface IAdminDashManager
     {
         Task<bool> DeleteRoleReferenceRecord(string id);
         Task<bool> DeleteStoreReferenceRecord(int id);

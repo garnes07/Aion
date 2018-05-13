@@ -175,6 +175,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OpeningTimesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RecruitmentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ROIDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UKDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
     <Compile Include="Areas\Admin\Models\RecruitmentDetail.cs" />
@@ -256,10 +257,10 @@
       <DependentUpon>ProfitLossModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\fn_UnmatchedRoles_Result.cs">
-      <DependentUpon>UKDashModel.tt</DependentUpon>
+      <DependentUpon>ROIDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\fn_UnmatchedStores_Result.cs">
-      <DependentUpon>UKDashModel.tt</DependentUpon>
+      <DependentUpon>ROIDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\Group.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -327,8 +328,23 @@
     <Compile Include="DAL\Entities\RFTPCaseStub.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\ROIDashModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ROIDashModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\ROIDashModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ROIDashModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\ROIDashModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ROIDashModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\RoleReference.cs">
-      <DependentUpon>UKDashModel.tt</DependentUpon>
+      <DependentUpon>ROIDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_AllChainDashboardData_v2_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -391,7 +407,7 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\StoreReference.cs">
-      <DependentUpon>UKDashModel.tt</DependentUpon>
+      <DependentUpon>ROIDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\tempRegionLookup.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -619,7 +635,7 @@
     <Compile Include="DAL\IManagers\IPayCalendarManager.cs" />
     <Compile Include="DAL\IManagers\IProfitLossManager.cs" />
     <Compile Include="DAL\IManagers\IVacancyManager.cs" />
-    <Compile Include="DAL\IManagers\IUKDashManager.cs" />
+    <Compile Include="DAL\IManagers\IAdminDashManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\PayCalendarManager.cs" />
@@ -629,6 +645,7 @@
     <Compile Include="DAL\Managers\SOHBudgetsManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />
+    <Compile Include="DAL\Managers\ROIDashManager.cs" />
     <Compile Include="DAL\Managers\UKDashManager.cs" />
     <Compile Include="DAL\Managers\VacancyManager.cs" />
     <Compile Include="DAL\Managers\WeeksManager.cs" />
@@ -702,6 +719,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ProfitLossModel.edmx</DependentUpon>
       <LastGenOutput>ProfitLossModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="DAL\Entities\ROIDashModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ROIDashModel.edmx</DependentUpon>
+      <LastGenOutput>ROIDashModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DAL\Entities\ROIDashModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ROIDashModel.edmx</DependentUpon>
+      <LastGenOutput>ROIDashModel.cs</LastGenOutput>
     </Content>
     <Content Include="DAL\Entities\UKDashModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -967,6 +994,15 @@
     <Content Include="Areas\Admin\Views\UKDashboard\AddRole.cshtml" />
     <Content Include="Areas\Admin\Views\UKDashboard\EditRole.cshtml" />
     <Content Include="Areas\Admin\Views\UKDashboard\DeleteRole.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\AddRole.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\AddStore.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\DeleteRole.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\DeleteStore.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\EditRole.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\EditStore.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\RoleList.cshtml" />
+    <Content Include="Areas\Admin\Views\ROIDashboard\StoreList.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1108,6 +1144,13 @@
     </EntityDeploy>
     <Content Include="DAL\Entities\UKDashModel.edmx.diagram">
       <DependentUpon>UKDashModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="DAL\Entities\ROIDashModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ROIDashModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\Entities\ROIDashModel.edmx.diagram">
+      <DependentUpon>ROIDashModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
