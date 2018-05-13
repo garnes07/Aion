@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UKDashContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="RoleReference">
+          <Key>
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Reporting Role Flag" Type="smallint" Nullable="false" />
+          <Property Name="Sales Role Flag" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreReference">
+          <Key>
+            <PropertyRef Name="Br " />
+          </Key>
+          <Property Name="Br " Type="smallint" Nullable="false" />
+          <Property Name="UK BR" Type="varchar" MaxLength="10" />
+          <Property Name="Store Name" Type="varchar" MaxLength="100" />
+          <Property Name="Division" Type="varchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="Region name" Type="varchar" MaxLength="100" />
+          <Property Name="Channel" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <Function Name="fn_UnmatchedRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="JobRole" Type="nvarchar" MaxLength="50" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="fn_UnmatchedStores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="LABORLEVELNAME5" Type="varchar" MaxLength="10" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <EntityContainer Name="UKDashContextStoreContainer">
+          <EntitySet Name="RoleReference" EntityType="Self.RoleReference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreReference" EntityType="Self.StoreReference" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UKDashContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="fn_UnmatchedRoles_Result">
+          <Property Name="JobRole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </ComplexType>
+        <ComplexType Name="fn_UnmatchedStores_Result">
+          <Property Name="LABORLEVELNAME5" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </ComplexType>
+        <EntityContainer Name="UKDashModel" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="fn_UnmatchedRoles" IsComposable="true" ReturnType="Collection(String)" />
+          <FunctionImport Name="fn_UnmatchedStores" IsComposable="true" ReturnType="Collection(String)" />
+          <EntitySet Name="RoleReferences" EntityType="UKDashContext.RoleReference" />
+          <EntitySet Name="StoreReferences" EntityType="UKDashContext.StoreReference" />
+        </EntityContainer>
+        <EntityType Name="RoleReference">
+          <Key>
+            <PropertyRef Name="Role" />
+          </Key>
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reporting_Role_Flag" Type="Int16" Nullable="false" />
+          <Property Name="Sales_Role_Flag" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreReference">
+          <Key>
+            <PropertyRef Name="Br_" />
+          </Key>
+          <Property Name="Br_" Type="Int16" Nullable="false" />
+          <Property Name="UK_BR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Store_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="Region_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Channel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UKDashContextStoreContainer" CdmEntityContainer="UKDashModel">
+          <FunctionImportMapping FunctionName="UKDashContext.Store.fn_UnmatchedRoles" FunctionImportName="fn_UnmatchedRoles">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="UKDashContext.Store.fn_UnmatchedStores" FunctionImportName="fn_UnmatchedStores">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="RoleReferences">
+            <EntityTypeMapping TypeName="UKDashContext.RoleReference">
+              <MappingFragment StoreEntitySet="RoleReference">
+                <ScalarProperty Name="Sales_Role_Flag" ColumnName="Sales Role Flag" />
+                <ScalarProperty Name="Reporting_Role_Flag" ColumnName="Reporting Role Flag" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreReferences">
+            <EntityTypeMapping TypeName="UKDashContext.StoreReference">
+              <MappingFragment StoreEntitySet="StoreReference">
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="Region_name" ColumnName="Region name" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Store_Name" ColumnName="Store Name" />
+                <ScalarProperty Name="UK_BR" ColumnName="UK BR" />
+                <ScalarProperty Name="Br_" ColumnName="Br " />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

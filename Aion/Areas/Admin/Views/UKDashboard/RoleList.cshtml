@@ -1,0 +1,36 @@
+﻿@model List<Aion.DAL.Entities.RoleReference>
+@{
+    ViewBag.Title = "Role List";
+}
+
+<h2>Role List</h2>
+
+<p>@Html.ActionLink("Create New", "AddRole")</p>
+
+<table class="table table-sm text-center">
+    <thead>
+        <tr>
+            <th>Role</th>
+            <th>Reporting Role Flag</th>
+            <th>Sales Role Flag</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Role</td>
+                <td>@item.Reporting_Role_Flag</td>
+                <td>@item.Sales_Role_Flag</td>
+                <td>
+                    @Html.ActionLink("Edit", "EditRole", new { id = item.Role }) |
+                    @Html.ActionLink("Delete", "DeleteRole", new { id = item.Role })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+
+@Html.ActionLink("Back", "Index", "UKDashManager")

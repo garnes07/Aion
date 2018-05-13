@@ -1,0 +1,69 @@
+﻿@model Aion.Areas.Admin.ViewModels.UKDashboard.DashboardErrors
+
+@{
+    ViewBag.Title = "UK Dash";
+}
+
+<div class="container-fluid">
+    <h2>UK Dashboard Maintenance</h2>
+    @if(ViewBag.PackageRunning != null)
+    {
+        <div class="alert alert-success text-center">
+            The job has been started and should take no more than 1 minute to complete.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>            
+        </div>
+    }
+    @if (Model.RoleErrors.Count() > 0 || Model.StoreErrors.Count() > 0)
+    {
+        <div class="card card-danger">
+            <div class="card-header"><strong>There are errors present in the reference tables!</strong></div>
+            <div class="card-body">
+                @if (Model.RoleErrors.Count() > 0)
+                {
+                    <p>The following unmatched roles exist:</p>
+                    <ul>
+                        @foreach (var r in Model.RoleErrors)
+                    {
+                            <li>@r.ToString() - <a href="@Url.Action("AddRole","UKDashboard",new { SeedRole=r.ToString() })">Add</a></li>
+                        }
+                    </ul>
+                }
+                @if (Model.StoreErrors.Count() > 0)
+                {
+                    <p>The following unmatched stores exist:</p>
+                    <ul>
+                        @foreach (var r in Model.StoreErrors)
+                    {
+                            <li>@r.ToString() - <a href="@Url.Action("AddStore","UKDashboard",new { SeedNumber=r.ToString() })">Add</a></li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    }
+    <div>
+        <a class="btn btn-primary" href="@Url.Action("RoleList", "UKDashboard")">Role Reference</a>
+    </div>
+    <br />
+    <div>
+        <a class="btn btn-primary" href="@Url.Action("StoreList", "UKDashboard")">Store Reference</a>
+    </div>
+    <br />
+    <div>
+        <a class="btn btn-success" href="@Url.Action("RunBudgets","UKDashboard")">Import Budget Data</a>
+    </div>
+    <br />
+    <hr />
+    <div>
+        <a class="btn btn-success" href="@Url.Action("RunBuild","UKDashboard")">Re-Run Data Build</a>
+    </div>
+    <br />
+    <div>
+        <a class="btn btn-success" href="@Url.Action("RunBuildNewData","UKDashboard")">Re-Run Data Build with new data</a>
+    </div>
+    <br />
+    <hr />
+    <div>
+        <a id="pushBtn" class="btn btn-success" href="@Url.Action("PushData","UKDashboard")">Push data to site</a><span class="text-danger pl-2"><strong>Only press when dashboard data has been validated</strong></span>
+    </div>
+</div>

@@ -55,11 +55,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -85,6 +85,14 @@
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -167,12 +175,14 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OpeningTimesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RecruitmentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UKDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
     <Compile Include="Areas\Admin\Models\RecruitmentDetail.cs" />
     <Compile Include="Areas\Admin\Models\ReviewOutcome.cs" />
     <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\RecruitmentSummaryVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewPendingVm.cs" />
+    <Compile Include="Areas\Admin\ViewModels\UKDashboard\DashboardErrors.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossView.cs" />
@@ -245,6 +255,12 @@
     <Compile Include="DAL\Entities\fn_LatestPLRecord_Result.cs">
       <DependentUpon>ProfitLossModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\fn_UnmatchedRoles_Result.cs">
+      <DependentUpon>UKDashModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\fn_UnmatchedStores_Result.cs">
+      <DependentUpon>UKDashModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\Group.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
@@ -311,6 +327,9 @@
     <Compile Include="DAL\Entities\RFTPCaseStub.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\RoleReference.cs">
+      <DependentUpon>UKDashModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\sp_AllChainDashboardData_v2_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -371,6 +390,9 @@
     <Compile Include="DAL\Entities\StoreOpeningTime.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\StoreReference.cs">
+      <DependentUpon>UKDashModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\tempRegionLookup.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
@@ -394,6 +416,21 @@
     </Compile>
     <Compile Include="DAL\Entities\TicketType.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\UKDashModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UKDashModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\UKDashModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\UKDashModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UKDashModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\UnknownIpLog.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -582,6 +619,7 @@
     <Compile Include="DAL\IManagers\IPayCalendarManager.cs" />
     <Compile Include="DAL\IManagers\IProfitLossManager.cs" />
     <Compile Include="DAL\IManagers\IVacancyManager.cs" />
+    <Compile Include="DAL\IManagers\IUKDashManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\PayCalendarManager.cs" />
@@ -591,6 +629,7 @@
     <Compile Include="DAL\Managers\SOHBudgetsManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />
+    <Compile Include="DAL\Managers\UKDashManager.cs" />
     <Compile Include="DAL\Managers\VacancyManager.cs" />
     <Compile Include="DAL\Managers\WeeksManager.cs" />
     <Compile Include="Global.asax.cs">
@@ -647,6 +686,7 @@
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.min.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\scss\custom.css">
       <DependentUpon>custom.scss</DependentUpon>
     </Content>
@@ -662,6 +702,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ProfitLossModel.edmx</DependentUpon>
       <LastGenOutput>ProfitLossModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="DAL\Entities\UKDashModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UKDashModel.edmx</DependentUpon>
+      <LastGenOutput>UKDashModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DAL\Entities\UKDashModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>UKDashModel.edmx</DependentUpon>
+      <LastGenOutput>UKDashModel.cs</LastGenOutput>
     </Content>
     <Content Include="DAL\Entities\VacancyModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -908,6 +958,15 @@
     <Content Include="Areas\Admin\Views\Recruitment\ReviewPending.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_NewComment.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_ToPost.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\StoreList.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\AddStore.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\EditStore.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\DeleteStore.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\RoleList.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\AddRole.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\EditRole.cshtml" />
+    <Content Include="Areas\Admin\Views\UKDashboard\DeleteRole.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1042,6 +1101,13 @@
     </EntityDeploy>
     <Content Include="DAL\Entities\VacancyModel.edmx.diagram">
       <DependentUpon>VacancyModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="DAL\Entities\UKDashModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UKDashModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DAL\Entities\UKDashModel.edmx.diagram">
+      <DependentUpon>UKDashModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
