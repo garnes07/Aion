@@ -119,15 +119,6 @@ namespace Aion.Services
                 Timestamp = DateTime.Now
             });
 
-            if(loginCount <3 && HttpContext.Current.Session["_AccessLevel"].ToString() != "0")
-            {
-                HttpContext.Current.Session["_showHelper"] = true;
-            }
-            else
-            {
-                HttpContext.Current.Session["_showHelper"] = false;
-            }
-
             return authResult;
         }
 

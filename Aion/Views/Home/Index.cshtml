@@ -13,33 +13,6 @@
         </div>*@
     @if (Request.IsAuthenticated)
     {
-        if (HttpContext.Current.Session["_showHelper"] != null)
-        {
-            if ((bool)HttpContext.Current.Session["_showHelper"])
-            {
-                <div id="newHelper" class="modal fade in bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-show="true">
-                    <div class="vertical-alignment-helper">
-                        <div class="modal-dialog vertical-align-center" role="document">
-                            <div class="modal-content modal-content-center">
-                                <div class="modal-header text-center">
-                                    <h4 class="modal-title" id="mySmallModalLabel">New website layout</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                </div>
-                                <div class="text-center modal-body">
-                                    <h4>Welcome to the new look WFM website!</h4>
-                                    <p>This upgrade will provide a new navigation bar creating an improved user experience along with allowing visibility for higher level detail for example - Store to Regional View, Region to Divisional</p>
-                                    <p>
-                                        For the first 3 log in’s to the new Website, colleagues will see a short PDF guide of the navigational changes to support. <br />The new Website will now provide us with the ability to make upgrades to your existing tools along with launching new tools in the future for Retail
-                                    </p>
-                                    <a href="@Url.Action("Documents","Home", new { area = "", f = "NewWebsiteNavigation.pdf"})" target="_blank" class="btn btn-lg btn-info mx-auto">Guide</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-
         <div class="row justify-content-end mb-2">
             <div>
                 @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
