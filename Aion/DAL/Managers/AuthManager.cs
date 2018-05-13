@@ -26,10 +26,9 @@ namespace Aion.DAL.Managers
             using (var context = new WebMasterModel())
             {
                 context.UserLogs.Add(_entry);
-                int result = await context.SaveChangesAsync();
-
-                var loginRecords = await context.UserLogs.Where(x => x.UserName == _entry.UserName).ToListAsync();
-                return loginRecords.Count;
+                await context.SaveChangesAsync();
+                
+                return _entry.EntryId;
             }
         }
 

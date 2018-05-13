@@ -17,6 +17,8 @@ namespace Aion.Models.Utils
             }
         }
         public string EmpNum => HttpContext.Current.Session["_EmpNum"].ToString();
+        public byte AccessLevel => (byte)HttpContext.Current.Session["_AccessLevel"];
+        public byte AreaLevel => (byte)HttpContext.Current.Session["_AreaLevel"];
         public string ErrorMessage { get; set; }
         public bool IsSuccess => string.IsNullOrEmpty(ErrorMessage);
     }

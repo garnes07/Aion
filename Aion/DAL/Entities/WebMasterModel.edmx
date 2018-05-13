@@ -96,6 +96,10 @@
           <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="25" />
           <Property Name="Timestamp" Type="datetime" />
+          <Property Name="EmpNum" Type="nvarchar" MaxLength="25" />
+          <Property Name="AccessLvl" Type="tinyint" />
+          <Property Name="AreaLevel" Type="tinyint" />
+          <Property Name="IP" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="WeekRef">
           <Key>
@@ -380,7 +384,9 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserAccessArea_UserAccess">
-          <End Role="UserAccess" Type="Self.UserAccess" Multiplicity="1" />
+          <End Role="UserAccess" Type="Self.UserAccess" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="UserAccessArea" Type="Self.UserAccessArea" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAccess">
@@ -648,6 +654,10 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="EmpNum" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="AccessLvl" Type="Byte" />
+          <Property Name="AreaLevel" Type="Byte" />
+          <Property Name="IP" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UnknownIpLog">
           <Key>
@@ -1056,6 +1066,10 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <EntitySetMapping Name="UserLogs">
             <EntityTypeMapping TypeName="WebMasterContext.UserLog">
               <MappingFragment StoreEntitySet="UserLog">
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="AreaLevel" ColumnName="AreaLevel" />
+                <ScalarProperty Name="AccessLvl" ColumnName="AccessLvl" />
+                <ScalarProperty Name="EmpNum" ColumnName="EmpNum" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />

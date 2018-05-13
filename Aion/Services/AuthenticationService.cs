@@ -103,21 +103,31 @@ namespace Aion.Services
             {
                 RetriveDSGEmpNum(entry);
             }
-
-            //
+            
             if (HttpContext.Current.Session["_wfUserGroup"] == null)
             {
                 HttpContext.Current.Session["_wfUserGroup"] = _ticketManager.GetUserGroup(authResult.UserName);
             }
 
-            HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress; 
+            HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress;
 
             await CheckAccessLevel(authResult);
-            var loginCount = await _authManager.RecordLogIn(new UserLog
+
+            //#if DEBUG
+            //            HttpContext.Current.Session.Add("_LoginID", 0);
+            //#else
+            var loginID = await _authManager.RecordLogIn(new UserLog
             {
                 UserName = authResult.UserName,
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.Now,
+                EmpNum = authResult.EmpNum,
+                AccessLvl = authResult.AccessLevel,
+                AreaLevel = authResult.AreaLevel,
+                IP = MvcHelper.GetIPHelper()
             });
+
+            HttpContext.Current.Session.Add("_LoginID", loginID);
+            //#endif
 
             return authResult;
         }
@@ -183,10 +193,12 @@ namespace Aion.Services
             if (UserAccess == null)
             {
                 HttpContext.Current.Session["_AccessLevel"] = (byte)0;
+                HttpContext.Current.Session["_AreaLevel"] = (byte)0;
                 return false;
             }
 
             HttpContext.Current.Session["_AccessLevel"] = UserAccess.AccessLevel;
+            HttpContext.Current.Session["_AreaLevel"] = UserAccess.AreaLevel;
             return await LoadStoreMenu(UserAccess.AreaLevel, UserAccess.UserAccessAreas.Select(x => x.AreaName).ToArray());
         }
 
