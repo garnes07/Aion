@@ -113,9 +113,9 @@ namespace Aion.Services
 
             await CheckAccessLevel(authResult);
 
-            //#if DEBUG
-            //            HttpContext.Current.Session.Add("_LoginID", 0);
-            //#else
+#if DEBUG
+            HttpContext.Current.Session.Add("_LoginID", 0);
+#else
             var loginID = await _authManager.RecordLogIn(new UserLog
             {
                 UserName = authResult.UserName,
@@ -127,7 +127,7 @@ namespace Aion.Services
             });
 
             HttpContext.Current.Session.Add("_LoginID", loginID);
-            //#endif
+#endif
 
             return authResult;
         }

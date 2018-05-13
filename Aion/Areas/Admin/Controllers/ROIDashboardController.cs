@@ -155,7 +155,7 @@ namespace Aion.Areas.Admin.Controllers
         }
 
         //add new rolereference record
-        public ActionResult Create(string SeedRole)
+        public ActionResult AddRole(string SeedRole)
         {
             ViewBag.SeedRole = SeedRole;
             return View();
@@ -164,7 +164,7 @@ namespace Aion.Areas.Admin.Controllers
         //post new rolereference record
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RoleReference model)
+        public async Task<ActionResult> AddRole(RoleReference model)
         {
             if (ModelState.IsValid)
             {
@@ -174,7 +174,7 @@ namespace Aion.Areas.Admin.Controllers
         }
 
         //get rolereference record for edit
-        public async Task<ActionResult> Edit(string id)
+        public async Task<ActionResult> EditRole(string id)
         {
             if (id == null)
             {
@@ -193,7 +193,7 @@ namespace Aion.Areas.Admin.Controllers
         //post changes to rolereference record
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(RoleReference model)
+        public async Task<ActionResult> EditRole(RoleReference model)
         {
             if (ModelState.IsValid)
             {
