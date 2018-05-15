@@ -63,6 +63,12 @@ namespace Aion.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<PartialViewResult> _SearchHistoric(int storenumber)
+        {
+            return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_SearchResult.cshtml", await _vacancyManager.GetHistoricVacancies(storenumber));
+        }
+
         public async Task<bool> _MarkIncorrectDone(int jobReqId)
         {
             var result = await _vacancyManager.MarkIncorrectDone(jobReqId, User.Identity.Name);
@@ -99,6 +105,13 @@ namespace Aion.Areas.Admin.Controllers
             var result = await _vacancyManager.HoldToPost(chain, store, jobcode);
             return result;
         }        
+
+        [HttpPost]
+        public async Task<ActionResult> UnapproveToPost(string chain, int store, int jobcode)
+        {
+            var result = await _vacancyManager.UnapproveToPost(chain, store, jobcode);
+            return RedirectToAction("Index");
+        }
 
         public async Task<ActionResult> ReviewOffer(int JobReqId)
         {
@@ -139,6 +152,13 @@ namespace Aion.Areas.Admin.Controllers
         {
             var result = await _vacancyManager.AddOfferOutcome(r.Where(x => x.ApprovalStatus != null).ToList(), User.Identity.Name);
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RejectedToReview(int entryId)
+        {
+            var result = await _vacancyManager.RejectedToReview(entryId);
             return RedirectToAction("Index");
         }
     }

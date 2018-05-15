@@ -1,0 +1,77 @@
+﻿@model List<Aion.DAL.Entities.VacancyRequest>
+
+@if(Model.Count != 0)
+{
+    <table class="table table-bordered table-sm table-smtxtperm text-center">
+        <thead>
+            <tr>
+                <th>Chain</th>
+                <th>Store Number</th>
+                <th>Ref#</th>
+                <th>SF Ref#</th>
+                <th>Status</th>
+                <th>Heads</th>
+                <th>ContractHrs</th>
+                <th>Raised By</th>
+                <th>Raised Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><button data-toggle="collapse" data-target="#@(item.EntryId)" class="btn btn-light btn-sm"><i class="icon ion-plus-round m-1"></i></button> @item.Chain</td>
+                    <td>@item.StoreNumber</td>
+                    <td>@item.EntryId</td>
+                    <td>@item.SFRefNo</td>
+                    <td>@(item.Approved ? "Approved" : "Rejected" )</td>
+                    <td>@item.Heads</td>
+                    <td>@item.ContractHrs</td>
+                    <td>@item.RaisedBy</td>
+                    <td>@item.RaisedDate</td>
+                    <td>
+                        @if (item.Rejected)
+                        {
+                            <button data-entryid="@item.EntryId" class="btn btn-sm btn-warning backToReview">Back to Review</button>
+                        }
+                    </td>
+                </tr>
+                if (item.RequestComments.Count > 0)
+                {
+                    <tr>
+                        <td colspan="10" class="hiddenRow">
+                            <div class="accordion-body collapse" id="@item.EntryId">
+                                <table class="table table-bordered table-sm table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Comment Type</th>
+                                            <th>Comment</th>
+                                            <th>Entered By</th>
+                                            <th>Entered On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var comment in item.RequestComments)
+                                        {
+                                            <tr>
+                                                <td>@comment.CommentType</td>
+                                                <td>@comment.Comment</td>
+                                                <td>@comment.EnteredBy</td>
+                                                <td>@comment.EnteredOn</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+ else
+{
+    <h2>No results found...</h2>
+}

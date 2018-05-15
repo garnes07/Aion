@@ -29,6 +29,14 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<VacancyRequest>> GetHistoricVacancies(int storeNum)
+        {
+            using(var context = new VacanciesModel())
+            {
+                return await context.VacancyRequests.Where(x => x.StoreNumber == storeNum).OrderBy(x => x.Chain).ThenByDescending(x => x.RaisedDate).Include("RequestComments").ToListAsync();
+            }
+        }
+
         public async Task<List<VacancyRequest>> GetPendingRequestsCPW(string storeNum)
         {
             using (var context = new VacanciesModel())
@@ -454,6 +462,32 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<bool> UnapproveToPost(string chain, int storenumber, int jobcode)
+        {
+            using (var context = new VacanciesModel())
+            {
+                try
+                {
+                    var _chain = chain == "Travel" ? "Dixons" : chain;
+                    var existing = await context.VacancyRequests.Where(x => x.Approved && x.SFRefNo == null && x.Chain == _chain && x.StoreNumber == storenumber && x.PositionCode == jobcode).ToListAsync();
+                    if(existing.Count > 0)
+                    {
+                        foreach(var item in existing)
+                        {
+                            item.Approved = false;
+                        }
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
         public async Task<List<WFM_EMPLOYEE_INFO_UNEDITED>> GetHrCurrent(string chain, int storenumber)
         {
             using(var context = new VacanciesModel())
@@ -551,6 +585,35 @@ namespace Aion.DAL.Managers
                     return true;
                 }
                 catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> RejectedToReview(int entryId)
+        {
+            using(var context = new VacanciesModel())
+            {
+                try
+                {
+                    var existing = await context.VacancyRequests.Where(x => x.EntryId == entryId && x.Rejected).FirstOrDefaultAsync();
+                    if(existing != null)
+                    {
+                        existing.Rejected = false;
+                        existing.Show = true;
+                        existing.RequestComments.Add(new RequestComment
+                        {
+                            CommentType = "HeadOffice",
+                            Comment = "Moved back to review",
+                            EnteredOn = DateTime.Now,
+                            EnteredBy = "Admin"
+                        });
+                        await context.SaveChangesAsync();
+                    }
+                    return false;
+                }
+                catch
                 {
                     return false;
                 }

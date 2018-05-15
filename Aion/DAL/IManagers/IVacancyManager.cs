@@ -10,6 +10,7 @@ namespace Aion.DAL.Managers
     {
         Task<List<sp_GetRecruitmentDetailCPW_Result>> GetVacancyDetailCPW(string storeNum);
         Task<List<sp_GetRecruitmentDetailDXNS_Result>> GetVacancyDetailDXNS(string storeNum);
+        Task<List<VacancyRequest>> GetHistoricVacancies(int storeNum);
         Task<List<VacancyRequest>> GetPendingRequestsCPW(string storeNum);
         Task<List<VacancyRequest>> GetPendingRequestsDXNS(string storeNum);
         Task<List<vw_SFOpenVacancies>> GetOpenVacanciesCPW(string storeNum);
@@ -30,10 +31,12 @@ namespace Aion.DAL.Managers
         Task<bool> ReviewOnHold(string Chain, int StoreNumber, int PositionCode);
         Task<bool> MarkAsPosted(string chain, int storenumber, int jobcode, int SFRef, string contract, string username);
         Task<bool> HoldToPost(string chain, int storenumber, int jobcode);
+        Task<bool> UnapproveToPost(string chain, int storenumber, int jobcode);
         Task<List<WFM_EMPLOYEE_INFO_UNEDITED>> GetHrCurrent(string chain, int storenumber);
         Task<List<WFM_FUTURE_DATED>> GetHrChanges(string chain, int storenumber);
         Task<List<vw_OfferApprovals>> GetOfferToReview(int JobReqId);
         Task<bool> OfferOnHold(int JobReqId);
         Task<bool> AddOfferOutcome(List<ReviewOutcome> outcomes, string username);
+        Task<bool> RejectedToReview(int entryId);
     }
 }

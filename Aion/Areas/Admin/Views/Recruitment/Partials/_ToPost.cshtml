@@ -60,6 +60,17 @@ else
     <strong>
         Raised by: @Model.FirstOrDefault().RaisedBy
     </strong>
+    if (Model.First().RequestComments.Count() > 0)
+    {
+        <br />
+        <strong>Supporting Comments:</strong>
+        <p class="border border-left p-2 mt-1 rounded">
+            @foreach (var item in Model.First().RequestComments.Where(x => x.CommentType == "Notes"))
+            {
+                <span>@item.Comment</span>
+            }
+        </p>
+    }
     <hr />
     <form id="frm">
         <input id="mChain" value="@Model.FirstOrDefault().Chain" hidden/>
@@ -78,5 +89,13 @@ else
                 <option value="Fixed Term Contract - Peak">Fixed Term Contract - Peak</option>
             </select>
         </div>
+    </form>
+    <form id="frmUnapprove" action="/Admin/Recruitment/UnapproveToPost" method="post">
+        @foreach (var item in Model)
+        {
+            <input name="chain" value="@Model.FirstOrDefault().Chain" hidden />
+            <input name="store" value="@Model.FirstOrDefault().StoreNumber" hidden />
+            <input name="jobcode" value="@Model.FirstOrDefault().PositionCode" hidden />
+        }
     </form>
 }

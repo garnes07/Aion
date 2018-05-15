@@ -20,6 +20,7 @@
                 
             </div>
             <div class="modal-footer">
+                <button id="mUnapprove" type="button" class="btn btn-warning">Unapprove</button>
                 <button id="mHold" type="button" class="btn btn-warning mr-5">Put on Hold</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button id="mSubmit" type="button" class="btn btn-primary">Submit</button>                
@@ -184,6 +185,20 @@
             </div>
         </div>
     </div>
+    <hr />
+    <p>
+        Find by store number: <input id="storeNum" name="storeNum" type="number"/>
+        <input id="searchSubmit" type="submit" value="Search" />
+    </p>
+    <div id="searchResult">
+        
+    </div>
+    <form id="backToReviewFrm" action="/Admin/Recruitment/RejectedToReview" method="post" class="d-none">
+        <input id="entryId" name="entryId" value="" hidden/>
+    </form>
+    <div id="searchProgress" class="progress w-100 d-none">
+        <div class="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar"></div>
+    </div>
 </div>
 
 @section myScripts{
@@ -265,6 +280,28 @@
                         };
                     }, 250);
                 });         
+            });
+
+            $('#mUnapprove').click(function(){
+                $('#frmUnapprove').submit();
+            });
+
+            $('#searchSubmit').click(function(){
+                $('#searchResult').html('');
+                $('#searchProgress').removeClass('d-none');
+                var store = $('#storeNum').val();
+                $.post('/Admin/Recruitment/_SearchHistoric', {storenumber: store}, function(result){
+                    setTimeout(function(){
+                        $('#searchProgress').addClass('d-none');
+                        $('#searchResult').html(result);
+                    },250);
+                });
+            });
+
+            $('#searchResult').on('click', '.backToReview', function(){
+                var entryId = $(this).data('entryid');
+                $('#backToReviewFrm').find('#entryId').val(entryId);
+                $('#backToReviewFrm').submit();
             });
         });
     </script>

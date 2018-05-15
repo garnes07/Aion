@@ -1015,6 +1015,7 @@
     <Content Include="Areas\Admin\Views\ROIDashboard\StoreList.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\ReviewOffer.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_NewOfferComment.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\Partials\_SearchResult.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
