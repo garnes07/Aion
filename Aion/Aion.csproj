@@ -182,6 +182,7 @@
     <Compile Include="Areas\Admin\Models\ReviewOutcome.cs" />
     <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\RecruitmentSummaryVm.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewOfferVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewPendingVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\UKDashboard\DashboardErrors.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
@@ -284,6 +285,12 @@
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\LiveVacanciesToCancel.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\OfferApproval.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\OfferComment.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\OpeningTimesComment.cs">
@@ -540,6 +547,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_Last12MonthRFTPCases.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_OfferApprovals.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_PublishedBudgetsROI.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -1003,6 +1013,8 @@
     <Content Include="Areas\Admin\Views\ROIDashboard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ROIDashboard\RoleList.cshtml" />
     <Content Include="Areas\Admin\Views\ROIDashboard\StoreList.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\ReviewOffer.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\Partials\_NewOfferComment.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

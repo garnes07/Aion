@@ -30,22 +30,22 @@ namespace Aion.Controllers
                 case "S":
                     if (_store.Region != "118" && _store.Region != "109")
                     {
-                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryStorePilot(selectCrit));
+                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
                     }
                     else
                     {
-                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
+                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryStorePilot(selectCrit));                        
                     }                        
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
                     if (_store.Region != "118" && _store.Region != "109")
                     {
-                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryRegionPilot(selectCrit));
+                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);
                     }
                     else
                     {
-                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);
+                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryRegionPilot(selectCrit));
                     }
                     vm.DisplayLevel = 2;
                     break;

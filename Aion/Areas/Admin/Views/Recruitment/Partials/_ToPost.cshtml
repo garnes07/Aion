@@ -6,9 +6,12 @@
 }
 else
 {
-    <div class="row justify-content-center mb-2">
-        <strong style="font-size:large;" class="text-warning">On Hold Since: @Model.FirstOrDefault().PostedDate</strong>
-    </div>
+    if (Model.FirstOrDefault().PostedBy == "On Hold")
+    {
+        <div class="row justify-content-center mb-2">
+            <strong style="font-size:large;" class="text-warning">On Hold Since: @Model.FirstOrDefault().PostedDate</strong>
+        </div>
+    }
     <table class="table table-bordered table-sm table-smtxtperm text-center">
         <thead>
             <tr>

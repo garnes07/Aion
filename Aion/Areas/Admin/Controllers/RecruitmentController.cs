@@ -3,11 +3,9 @@ using Aion.Areas.Admin.ViewModels.Recruitment;
 using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Managers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Aion.Areas.Admin.Controllers
@@ -27,7 +25,7 @@ namespace Aion.Areas.Admin.Controllers
             RecruitmentSummaryVm vm = new RecruitmentSummaryVm();
 
             vm.IncorrectVacancies = await _vacancyManager.GetIncorrectVacancies();
-            //vm.OfferApprovals = await _vacancyManager.GetOfferApprovals();
+            vm.OfferApprovals = await _vacancyManager.GetOfferApprovals();
             vm.AllPending = await _vacancyManager.GetPendingForAdmin();
 
             return View(vm);
@@ -72,13 +70,6 @@ namespace Aion.Areas.Admin.Controllers
             return result;
         }
 
-        //public async Task<bool> _OfferOutcome(int jobReqId, bool approved)
-        //{
-        //    var result = await _vacancyManager.MarkOfferApproved(jobReqId, approved, User.Identity.Name);
-
-        //    return result;
-        //}
-
         [HttpPost]
         public async Task<PartialViewResult> _PostNewComment(string commentText)
         {
@@ -107,6 +98,48 @@ namespace Aion.Areas.Admin.Controllers
         {
             var result = await _vacancyManager.HoldToPost(chain, store, jobcode);
             return result;
+        }        
+
+        public async Task<ActionResult> ReviewOffer(int JobReqId)
+        {
+            ReviewOfferVm vm = new ReviewOfferVm();
+
+            vm.OfferToReview = await _vacancyManager.GetOfferToReview(JobReqId);
+            vm.RecruitmentDetail = vm.OfferToReview.First().Company == "CPW" ?
+                mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(vm.OfferToReview.First().Store_Number.ToString())) :
+                mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(vm.OfferToReview.First().Store_Number.ToString()));
+            vm.HRCurrent = await _vacancyManager.GetHrCurrent(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
+            vm.HRChanges = await _vacancyManager.GetHrChanges(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
+            vm.OpenVacancy = await _vacancyManager.GetOpenVacancyByRef(JobReqId);
+
+            System.Web.HttpContext.Current.Session["RefIds"] = vm.OfferToReview.Select(x => x.Application_ID).ToArray();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> _PostNewOfferComment(string commentText)
+        {
+            var RefIds = (int[])System.Web.HttpContext.Current.Session["RefIds"];
+            var result = await _vacancyManager.AddNewOfferComment(RefIds, User.Identity.Name, commentText, "HeadOffice");
+
+            return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_NewOfferComment.cshtml", result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> HoldOffer(int JobReqId)
+        {
+            var result = await _vacancyManager.OfferOnHold(JobReqId);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ReviewOffer(List<ReviewOutcome> r)
+        {
+            var result = await _vacancyManager.AddOfferOutcome(r.Where(x => x.ApprovalStatus != null).ToList(), User.Identity.Name);
+
+            return RedirectToAction("Index");
         }
     }
 }

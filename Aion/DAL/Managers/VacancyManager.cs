@@ -65,6 +65,14 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<vw_SFOpenVacancies> GetOpenVacancyByRef(int JobReqID)
+        {
+            using(var context = new VacanciesModel())
+            {
+                return await context.vw_SFOpenVacancies.Where(x => x.JobReqId == JobReqID).FirstOrDefaultAsync();
+            }
+        }
+
         public async Task<bool> CancelPending(string storeNum, int refId)
         {
             using(var context = new VacanciesModel())
@@ -199,13 +207,13 @@ namespace Aion.DAL.Managers
             }
         }
 
-        //public async Task<List<vw_OfferApprovals>> GetOfferApprovals()
-        //{
-        //    using (var context = new VacanciesModel())
-        //    {
-        //        return await context.vw_OfferApprovals.OrderBy(x => x.Company).ThenBy(x => x.Store_Number).ToListAsync();
-        //    }
-        //}
+        public async Task<List<vw_OfferApprovals>> GetOfferApprovals()
+        {
+            using (var context = new VacanciesModel())
+            {
+                return await context.vw_OfferApprovals.OrderBy(x => x.Company).ThenBy(x => x.Store_Number).ToListAsync();
+            }
+        }
 
         public async Task<List<vw_VacancyRequestsAdmin>> GetPendingForAdmin()
         {
@@ -269,30 +277,6 @@ namespace Aion.DAL.Managers
             }
         }
 
-        //public async Task<bool> MarkOfferApproved(int reqId, bool approved, string username)
-        //{
-        //    using(var context = new VacanciesModel())
-        //    {
-        //        try
-        //        {
-        //            var toEdit = await context.OfferApprovals.FirstOrDefaultAsync(x => x.Job_Req_Id == reqId && x.Approved == null);
-        //            if(toEdit != null)
-        //            {
-        //                toEdit.Approved = approved;
-        //                toEdit.ApprovedBy = username;
-        //                toEdit.ApprovedDate = DateTime.Now;
-        //                await context.SaveChangesAsync();
-        //                return true;
-        //            }
-        //            return false;
-        //        }
-        //        catch
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //}
-
         public async Task<RequestComment> AddNewComment(int[] reqId, string username, string commentText, string type)
         {
             using(var context = new VacanciesModel())
@@ -312,6 +296,28 @@ namespace Aion.DAL.Managers
 
                 await context.SaveChangesAsync();
                 return new RequestComment { RequestId = reqId[0], Comment = commentText, EnteredBy = username, EnteredOn = now, CommentType = type };
+            }
+        }
+
+        public async Task<OfferComment> AddNewOfferComment(int[] reqId, string username, string commentText, string type)
+        {
+            using (var context = new VacanciesModel())
+            {
+                var now = DateTime.Now;
+                foreach (var item in reqId)
+                {
+                    context.OfferComments.Add(new OfferComment
+                    {
+                        ApplicationID = item,
+                        CommentType = type,
+                        Comment = commentText,
+                        EnteredOn = now,
+                        EnteredBy = username
+                    });
+                }
+
+                await context.SaveChangesAsync();
+                return new OfferComment { ApplicationID = reqId[0], Comment = commentText, EnteredBy = username, EnteredOn = now, CommentType = type };
             }
         }
 
@@ -463,6 +469,91 @@ namespace Aion.DAL.Managers
             {
                 var _chain = chain == "CPW" ? "CPW" : "Currys PC World";
                 return await context.WFM_FUTURE_DATED.Where(x => x.Chain == _chain && x.NewDeptID == storenumber).OrderBy(x => x.Alternate_ID).ThenBy(x => x.Effective_Date_of_Change).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_OfferApprovals>> GetOfferToReview(int JobReqId)
+        {
+            using(var context = new VacanciesModel())
+            {
+                return await context.vw_OfferApprovals.Include("OfferComments").Where(x => x.Job_Req_Id == JobReqId).ToListAsync();
+            }
+        }
+
+        public async Task<bool> OfferOnHold(int JobReqId)
+        {
+            using (var context = new VacanciesModel())
+            {
+                try
+                {
+                    var existing = await context.OfferApprovals
+                    .Where(x => x.Job_Req_Id == JobReqId && (bool)!x.Approved && (bool)!x.Rejected)
+                    .ToListAsync();
+
+                    if (existing.Count() > 0)
+                    {
+                        foreach (var item in existing)
+                        {
+                            item.ReviewedBy = "On Hold";
+                            item.ReviewedDate = DateTime.Now;
+                        }
+                        await context.SaveChangesAsync();
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> AddOfferOutcome(List<ReviewOutcome> outcomes, string username)
+        {
+            using (var context = new VacanciesModel())
+            {
+                try
+                {
+                    var entryIdList = outcomes.Select(y => y.EntryId).ToList();
+                    var existing = await context.OfferApprovals.Where(x => entryIdList.Contains(x.Application_ID) && !x.Approved && !x.Rejected).Include("OfferComments").ToListAsync();
+
+                    foreach (var item in outcomes)
+                    {
+                        var thisExisting = existing.FirstOrDefault(x => x.Application_ID == item.EntryId);
+                        thisExisting.ReviewedBy = null;
+                        thisExisting.ReviewedDate = null;
+                        if (item.ApprovalStatus == "a")
+                        {
+                            thisExisting.Approved = true;
+                            thisExisting.ReviewedBy = username;
+                            thisExisting.ReviewedDate = DateTime.Now;
+                        }
+                        else if (item.ApprovalStatus == "r")
+                        {
+                            context.OfferComments.Add(new OfferComment
+                            {
+                                ApplicationID = thisExisting.Application_ID,
+                                CommentType = "Reject",
+                                Comment = item.Note,
+                                EnteredOn = DateTime.Now,
+                                EnteredBy = username
+                            });
+                            await context.SaveChangesAsync();
+
+                            thisExisting.Rejected = true;
+                            thisExisting.ReviewedBy = username;
+                            thisExisting.ReviewedDate = DateTime.Now;
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
             }
         }
     }

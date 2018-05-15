@@ -6,7 +6,7 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
 {
     public class RecruitmentSummaryVm
     {
-        //public List<vw_OfferApprovals> OfferApprovals { get; set; }
+        public List<vw_OfferApprovals> OfferApprovals { get; set; }
         public List<vw_IncorrectVacancies> IncorrectVacancies { get; set; }
         public List<vw_VacancyRequestsAdmin> AllPending { get; set; }
 
@@ -28,10 +28,24 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
             })
             .ToList());
 
+        private List<OfferStub> _ToOffer;
+        public List<OfferStub> ToOffer => _ToOffer ?? (_ToOffer =
+            OfferApprovals
+            .GroupBy(x => new { x.Job_Req_Id, x.Company, x.Store_Number, x.Job_Role, x.ReviewedBy })
+            .Select(x => new OfferStub
+            {
+                JobReqId = x.Key.Job_Req_Id,
+                Chain = x.Key.Company,
+                Store = x.Key.Store_Number,
+                FriendlyName = x.Key.Job_Role,
+                OnHold = x.Key.ReviewedBy == "On Hold"
+            })
+            .ToList());
+
         public int IncorrectCount => IncorrectVacancies.Count;
         public int ReviewCount => ToReview.Count;
         public int RaiseCount => ToRaise.Count;
-        public int OfferCount => 0;//OfferApprovals.Count;
+        public int OfferCount => ToOffer.Count;
 
         public class ToRaiseStub
         {
@@ -41,5 +55,15 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
             public string FriendlyName { get; set; }
             public bool OnHold { get; set; }
         }
+
+        public class OfferStub
+        {
+            public int JobReqId { get; set; }
+            public string Chain { get; set; }
+            public short? Store { get; set; }
+            public string FriendlyName { get; set; }
+            public bool OnHold { get; set; }
+        }
+
     }    
 }

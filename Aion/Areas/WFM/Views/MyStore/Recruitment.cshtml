@@ -140,7 +140,7 @@
                     <div class="form-row request" id="r_0">
                         <input name="RowNum" value="0" hidden />
                         <input class="action" name="r[0].Action" value="new" hidden />
-                        <input class="repost" name="r[0].Repost" value="true" hidden />
+                        <input class="repost" name="r[0].Repost" value="false" hidden />
                         <div class="col-1 px-1">
                             <div class="row pt-2">
                                 <i class="col-6 text-success icon ion-plus-circled add" style="font-size:larger; cursor:pointer;"></i>
@@ -148,11 +148,6 @@
                         </div>
                         <div class="form-group px-1 col-4">
                             @Html.DropDownList("r[0].Position", Model.PositionList, new { @class = "form-control position" })
-                            @*<select name="r[0].Position" class="form-control position" required>
-                                    <option value="1">Sales Consultant</option>
-                                    <option value="2">Team KnowHow Colleague</option>
-                                    <option value="3">Team KnowHow Engineer</option>
-                                </select>*@
                         </div>
                         <div class="form-group px-1 col-2">
                             <input name="r[0].Heads" class="form-control text-center heads" type="number" min="1" value="0" required />

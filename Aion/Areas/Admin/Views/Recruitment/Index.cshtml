@@ -20,9 +20,9 @@
                 
             </div>
             <div class="modal-footer">
+                <button id="mHold" type="button" class="btn btn-warning mr-5">Put on Hold</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="mSubmit" type="button" class="btn btn-primary">Submit</button>
-                <button id="mHold" type="button" class="btn btn-warning">Put on Hold</button>
+                <button id="mSubmit" type="button" class="btn btn-primary">Submit</button>                
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@
                             <tbody>
                                 @foreach (var item in Model.ToReview)
                                 {
-                                    <tr class="@((previousStore == item.StoreNumber && previousChain == item.Chain && previousRole == item.PositionCode) ? "no-border" : "") @(item.PostedBy == "On Hold" ? "table-warning" : (item.RaisedDate < DateTime.Now.AddDays(-2) ? "table-danger" : "")))">
+                                    <tr class="@((previousStore == item.StoreNumber && previousChain == item.Chain && previousRole == item.PositionCode) ? "no-border" : "") @(item.PostedBy == "On Hold" ? "table-warning" : (item.RaisedDate < DateTime.Now.AddDays(-1) ? "table-danger" : "")))">
                                         <td><small>@item.RaisedDate.ToShortDateString()</small></td>
                                         <td><small>@item.EntryId</small></td>
                                         <td><small>@item.Chain</small></td>
@@ -161,7 +161,6 @@
                         <table class="table table-sm text-center">
                             <thead>
                                 <tr>
-                                    <th>Ref#</th>
                                     <th>Company</th>
                                     <th>Store#</th>
                                     <th>Position</th>
@@ -169,16 +168,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @*@foreach (var item in Model.OfferApprovals)
+                                @foreach (var item in Model.ToOffer)
                                 {
-                                    <tr>
-                                        <td><small>@item.Application_ID</small></td>
-                                        <td><small>@item.Company</small></td>
-                                        <td><small>@item.Store_Number</small></td>
-                                        <td><small>@item.Job_Role</small></td>
-                                        <td><a href="#" class="btn btn-sm btn-success">Go</a></td>
+                                    <tr class="@(item.OnHold ? "table-warning" : "")">
+                                        <td><small>@item.Chain</small></td>
+                                        <td><small>@item.Store</small></td>
+                                        <td><small>@item.FriendlyName</small></td>
+                                        <td><a href="@Url.Action("ReviewOffer", new { JobReqId = item.JobReqId})" class="btn btn-sm btn-success">Go</a></td>
                                     </tr>
-                                }*@
+                                }
                             </tbody>
                         </table>
                     </div>

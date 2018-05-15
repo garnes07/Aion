@@ -1,7 +1,7 @@
-﻿@model Aion.Areas.Admin.ViewModels.Recruitment.ReviewPendingVm
+﻿@model Aion.Areas.Admin.ViewModels.Recruitment.ReviewOfferVm
 
 @{
-    ViewBag.Title = "Review Pending";
+    ViewBag.Title = "Review Offer";
 }
 
 <div class="modal fade" id="commentsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -48,10 +48,6 @@
                             <th>Current Contract</th>
                         }
                         <th>Average Contract</th>
-                        <th>
-                            Open Vacancies<br />
-                            <small>Including this one</small>
-                        </th>
                         <th>New Total</th>
                     </tr>
 
@@ -69,22 +65,14 @@
                             <td>@Model.PositionDetail.ContractBase</td>
                             <td>@string.Format("{0:0.00}", Model.PositionDetail.CurrentContract)</td>
                         }
-                        <td>@string.Format("{0:0.00}", Model.PositionDetail.AverageContract)</td>
+                        <td>@string.Format("{0:0.00}", Model.NewAvgContract)</td>                        
                         @if (Model.PositionDetail.ContractBase == 0)
                         {
-                            <td>@string.Format("{0:C}", Model.PositionDetail.OpenVacancies)</td>
+                            <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract) + Model.PositionDetail.RateOfPay * Model.OfferToReview.Sum(x => x.Contracted_Hours))</td>
                         }
                         else
                         {
-                            <td>@string.Format("{0:0.00}", Model.PositionDetail.OpenVacancies)</td>
-                        }
-                        @if (Model.PositionDetail.ContractBase == 0)
-                        {
-                            <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract) + Model.PositionDetail.OpenVacancies)</td>
-                        }
-                        else
-                        {
-                            <td>@string.Format("{0:0.00}", (Model.PositionDetail.CurrentContract + Model.PositionDetail.OpenVacancies))</td>
+                            <td>@string.Format("{0:0.00}",(Model.PositionDetail.CurrentContract + Model.OfferToReview.Sum(x => x.Contracted_Hours)))</td>
                         }
                     </tr>
                 </tbody>
@@ -94,7 +82,7 @@
                 <div class="table-responsive" style="max-height:300px;">
                     <table class="table table-bordered table-sm table-smtxtperm text-center mb-3">
                         <thead>
-                            <tr class="thead-light">
+                            <tr>
                                 <th colspan="4">
                                     <strong>Current Records</strong>
                                 </th>
@@ -121,37 +109,35 @@
                 </div>
                 @if (Model.HRChanges.Count > 0)
                 {
-                    <div class="table-responsive" style="max-height:300px;">
-                        <table class="table table-bordered table-sm table-smtxtperm text-center mb-3">
-                            <thead>
-                                <tr class="thead-light">
-                                    <th colspan="5">
-                                        <strong>Future Changes</strong>
-                                    </th>
-                                </tr>
+                    <table class="table table-bordered table-sm table-smtxtperm text-center mb-3">
+                        <thead>
+                            <tr>
+                                <th colspan="5">
+                                    <strong>Future Changes</strong>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>PersonID</th>
+                                <th>Name</th>
+                                <th>Job Title</th>
+                                <th>Contract Hrs</th>
+                                <th>Effective Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.HRChanges)
+                            {
                                 <tr>
-                                    <th>PersonID</th>
-                                    <th>Name</th>
-                                    <th>Job Title</th>
-                                    <th>Contract Hrs</th>
-                                    <th>Effective Date</th>
+                                    <td>@item.Alternate_ID</td>
+                                    <td>@string.Format("{0}, {1}", item.Last_Name, item.First_Name.Substring(0, 1))</td>
+                                    <td>@item.Job_Title</td>
+                                    <td>@item.Std_Hrs_Wk</td>
+                                    <td>@item.Effective_Date_of_Change</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.HRChanges)
-                                {
-                                    <tr>
-                                        <td>@item.Alternate_ID</td>
-                                        <td>@string.Format("{0}, {1}", item.Last_Name, item.First_Name.Substring(0, 1))</td>
-                                        <td>@item.Job_Title</td>
-                                        <td>@item.Std_Hrs_Wk</td>
-                                        <td>@item.Effective_Date_of_Change</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
+                            }
+                        </tbody>
+                    </table>
+                }                
             </div>
         </div>
     </div>
@@ -161,85 +147,89 @@
         </div>
         <div class="card-body">
             <h5>@string.Format("{0} - {1}", Model.RecruitmentDetail.FirstOrDefault().StoreNumber, Model.RecruitmentDetail.First().StoreName)</h5>
-            @if (Model.VacancyRequests.FirstOrDefault().PostedBy == "On Hold")
+            @if (Model.OfferToReview.First().ReviewedBy == "On Hold")
             {
                 <div class="row justify-content-center">
-                    <strong style="font-size:large;" class="text-warning">On Hold Since: @Model.VacancyRequests.FirstOrDefault().PostedDate</strong>
+                    <strong style="font-size:large;" class="text-warning">On Hold Since: @Model.OfferToReview.First().ReviewedDate</strong>
                 </div>
-            }
-            <table id="requestTbl" class="table table-bordered table-sm table-smtxtperm text-center mb-2">
+            }            
+            <table id="offerTbl" class="table table-bordered table-sm table-smtxtperm text-center mb-3">
                 <thead>
+                    <tr class="thead-light">
+                        <th colspan="6">
+                            <strong>Offer To Review</strong>
+                        </th>
+                    </tr>
                     <tr>
-                        <th>Ref#</th>
-                        <th>Position</th>
-                        <th>Heads</th>
-                        <th>ContractHrs</th>
-                        <th>Total</th>
-                        <th>Replace</th>
-                        <th>Raised By</th>
-                        <th>Raised Date</th>
+                        <th>Application ID</th>
+                        <th>Reason for Vacancy</th>
+                        <th>Job Role</th>
+                        <th>Contracted Hours</th>
                         <th>Approve</th>
                         <th>Reject</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.VacancyRequests)
+                    @foreach (var item in Model.OfferToReview)
                     {
                         <tr>
-                            <td>@item.EntryId</td>
-                            <td>@item.VacancyPosition.FriendlyName</td>
-                            <td>@item.Heads</td>
-                            <td>@item.ContractHrs</td>
-                            @if (Model.PositionDetail.ContractBase == 0)
-                            {
-                                <td>@string.Format("{0:C}", item.Heads * item.ContractHrs * item.VacancyPosition.RateOfPay)</td>
-                            }
-                            else
-                            {
-                                <td>@(item.Heads * item.ContractHrs)</td>
-                            }
-                            <td>@(item.Replace ? "Yes" : "No")</td>
-                            <td>@item.RaisedBy</td>
-                            <td>@item.RaisedDate.ToShortDateString()</td>
+                            <td>@item.Application_ID</td>
+                            <td>@item.Reason_for_Vacancy</td>
+                            <td>@item.Job_Role</td>
+                            <td>@item.Contracted_Hours</td>
                             <td>
-                                <input class="approve checkbox" type="checkbox" value="" data-entryid="@item.EntryId" />
+                                <input class="approve checkbox" type="checkbox" value="" data-entryid="@item.Application_ID" />
                             </td>
                             <td>
-                                <input class="reject checkbox" type="checkbox" value="" data-entryid="@item.EntryId" />
+                                <input class="reject checkbox" type="checkbox" value="" data-entryid="@item.Application_ID" />
                             </td>
                         </tr>
-                    }
+                    }                    
+                </tbody>
+            </table>
+
+            <table id="requestTbl" class="table table-bordered table-sm table-smtxtperm text-center mb-3">
+                <thead>
+                    <tr class="thead-light">
+                        <th colspan="5">
+                            <strong>Open Vacancy</strong>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Ref#</th>
+                        <th>Position</th>
+                        <th>Created</th>
+                        <th>Total Vacant Hrs</th>
+                        <th>Headcount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.OpenVacancy.JobReqId</td>
+                        <td>@Model.OpenVacancy.FriendlyName</td>
+                        <td>@string.Format("{0:d}", Model.OpenVacancy.DateCreated)</td>
+                        <td>@Model.OpenVacancy.TotalVacantHours</td>
+                        <td>@Model.OpenVacancy.Headcount</td>
+                    </tr>
                 </tbody>
             </table>
             <form id="frm" method="post" class="d-none">
-                @for (int i = 0; i < Model.VacancyRequests.Count; i++)
+                @for (int i = 0; i < Model.OfferToReview.Count; i++)
                 {
-                    <div id="r@(Model.VacancyRequests[i].EntryId)" class="approvalRow">
-                        <input class="entryid" name="r[@(i)].EntryId" value="@(Model.VacancyRequests[i].EntryId)" hidden />
+                    <div id="r@(Model.OfferToReview[i].Application_ID)" class="approvalRow">
+                        <input class="entryid" name="r[@(i)].EntryId" value="@(Model.OfferToReview[i].Application_ID)" hidden />
                         <input class="approvalstatus" name="r[@(i)].ApprovalStatus" value="" hidden />
                         <input class="notes" name="r[@(i)].Note" value="" hidden />
                     </div>
                 }
             </form>
-            <form id="frmHold" method="post" class="d-none" action="/Admin/Recruitment/HoldPending">
-                <input name="Chain" value="@Model.VacancyRequests.FirstOrDefault().Chain" />
-                <input name="StoreNumber" value="@Model.VacancyRequests.FirstOrDefault().StoreNumber" />
-                <input name="PositionCode" value="@Model.VacancyRequests.FirstOrDefault().PositionCode" />
+            <form id="frmHold" method="post" class="d-none" action="/Admin/Recruitment/HoldOffer">
+                <input name="JobReqId" value="@Model.OfferToReview.FirstOrDefault().Job_Req_Id" />
             </form>
             <div class="row justify-content-center">
                 <button id="btnHold" type="button" role="button" class="btn btn-warning">Put On Hold</button>
                 <button id="frmSubmit" type="button" role="button" class="btn btn-success ml-3">Update</button>
-            </div>
-            @if (Model.UniqueComments.Any())
-            {
-                <strong>Supporting Comments:</strong>
-                <p class="border border-left p-2 mt-1 rounded">
-                    @foreach (var item in Model.UniqueComments)
-                {
-                        <span>@item</span>
-                    }
-                </p>
-            }
+            </div>            
             <hr />
             <div class="row">
                 <div class="col-12">
@@ -297,7 +287,7 @@
 
             $('#submitComment').click(function () {
                 if ($comVal.val()) {
-                    $.post('/Admin/Recruitment/_PostNewComment', { commentText: $comVal.val() }, function (result) {
+                    $.post('/Admin/Recruitment/_PostNewOfferComment', { commentText: $comVal.val() }, function (result) {
                         $comCont.after(result);
                         $('#noComments').remove();
                         $comCont.next().slideToggle(400);
@@ -328,7 +318,8 @@
             })
 
             $('#frmSubmit').click(function () {
-                if ($('#requestTbl input[type="checkbox"]:checked').length) {
+                console.log('here')
+                if ($('#offerTbl input[type="checkbox"]:checked').length) {
                     var comments = false;
                     $('#commentsModalBody').html('');
                     $('#frm').find('.approvalRow').each(function () {

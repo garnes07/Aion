@@ -2,7 +2,7 @@
 
 @{
     var max = Model.collection.Any() ? Model.collection.Max(x => x.Heirarchy) : 0;
-    var thisSelect = Model.collection.Any() ? Model.collection.FirstOrDefault(x => x.Heirarchy == max).selectCrit : "e";
+    var thisSelect = Model.collection.Any() ? Model.collection.FirstOrDefault(x => x.Heirarchy == max).selectCrit.Substring(0,1) : "e";
     ViewBag.Title = "Profit Loss";
 }
 
@@ -147,7 +147,7 @@
             }
             else {
                 $('#@ViewBag.current').remove();
-                $('#row_@ViewBag.current').prepend('<td id=\"@ViewBag.current\"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=@thisSelect">@ViewBag.current</a></td>');
+                $('#row_@ViewBag.current').prepend('<td id=\"@ViewBag.current\"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=@(thisSelect + "_" + ViewBag.current)">@ViewBag.current</a></td>');
             };
         });
     </script>

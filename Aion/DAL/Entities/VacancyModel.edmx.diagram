@@ -4,21 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dda748e70ecb46bbaaf90c73617104c2" Name="Diagram1" ZoomLevel="74">
+      <Diagram DiagramId="dda748e70ecb46bbaaf90c73617104c2" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="VacancyModel.RequestComment" Width="1.5" PointX="5.25" PointY="1.625" />
         <EntityTypeShape EntityType="VacancyModel.VacancyPosition" Width="1.5" PointX="0.5" PointY="2.5" />
-        <EntityTypeShape EntityType="VacancyModel.VacancyRequest" Width="1.875" PointX="2.625" PointY="1" />
+        <EntityTypeShape EntityType="VacancyModel.VacancyRequest" Width="1.875" PointX="2.75" PointY="1.25" />
         <AssociationConnector Association="VacancyModel.FK_RequestComments_VacancyRequests" />
         <AssociationConnector Association="VacancyModel.FK_VacancyRequests_VacancyPositions" />
         <EntityTypeShape EntityType="VacancyModel.vw_SFOpenVacancies" Width="1.5" PointX="10.75" PointY="0.875" />
         <EntityTypeShape EntityType="VacancyModel.LiveVacanciesToCancel" Width="1.5" PointX="5.375" PointY="4.75" />
         <EntityTypeShape EntityType="VacancyModel.vw_IncorrectVacancies" Width="1.5" PointX="10.75" PointY="5.75" />
         <EntityTypeShape EntityType="VacancyModel.IncorrectVacancy" Width="1.5" PointX="5.375" PointY="8.75" />
-        <EntityTypeShape EntityType="VacancyModel.vw_VacancyRequestsAdmin" Width="1.5" PointX="7.5" PointY="0.75" />
+        <EntityTypeShape EntityType="VacancyModel.vw_VacancyRequestsAdmin" Width="1.5" PointX="7.625" PointY="0.625" />
         <AssociationConnector Association="VacancyModel.vw_VacancyRequestsAdminRequestComment" />
         <AssociationConnector Association="VacancyModel.VacancyPositionvw_VacancyRequestsAdmin" />
         <EntityTypeShape EntityType="VacancyModel.WFM_EMPLOYEE_INFO_UNEDITED" Width="1.5" PointX="7.375" PointY="7.75" />
         <EntityTypeShape EntityType="VacancyModel.WFM_FUTURE_DATED" Width="1.5" PointX="9.375" PointY="12.75" />
+        <EntityTypeShape EntityType="VacancyModel.vw_OfferApprovals" Width="1.5" PointX="13.75" PointY="6.875" />
+        <EntityTypeShape EntityType="VacancyModel.OfferComment" Width="1.5" PointX="16.125" PointY="8.5" />
+        <EntityTypeShape EntityType="VacancyModel.OfferApproval" Width="1.5" PointX="18.5" PointY="6.75" />
+        <AssociationConnector Association="VacancyModel.FK_OfferComments_OfferApprovals" />
+        <AssociationConnector Association="VacancyModel.vw_OfferApprovalsOfferComment" />
+        <AssociationConnector Association="VacancyModel.vw_OfferApprovalsOfferComment" />
+        <AssociationConnector Association="VacancyModel.OfferCommentvw_OfferApprovals" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
