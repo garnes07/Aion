@@ -31,7 +31,7 @@
                     <td>@item.RaisedBy</td>
                     <td>@item.RaisedDate</td>
                     <td>
-                        @if (item.Rejected)
+                        @if (item.SFRefNo == null)
                         {
                             <button data-entryid="@item.EntryId" class="btn btn-sm btn-warning backToReview">Back to Review</button>
                         }

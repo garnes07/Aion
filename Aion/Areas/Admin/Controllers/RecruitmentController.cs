@@ -1,8 +1,11 @@
 ﻿using Aion.Areas.Admin.Models;
 using Aion.Areas.Admin.ViewModels.Recruitment;
+using Aion.Areas.WFM.Models.MyStore;
+using Aion.Areas.WFM.ViewModels.MyStore;
 using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Managers;
+using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,8 +40,8 @@ namespace Aion.Areas.Admin.Controllers
 
             vm.VacancyRequests = await _vacancyManager.GetPendingForAdmin(Chain, StoreNumber, PositionCode);
             vm.RecruitmentDetail = Chain == "CPW" ? 
-                mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(StoreNumber.ToString())) : 
-                mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(StoreNumber.ToString()));
+                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(StoreNumber.ToString())) : 
+                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(StoreNumber.ToString()));
             vm.HRCurrent = await _vacancyManager.GetHrCurrent(Chain, StoreNumber);
             vm.HRChanges = await _vacancyManager.GetHrChanges(Chain, StoreNumber);
             
@@ -119,8 +122,8 @@ namespace Aion.Areas.Admin.Controllers
 
             vm.OfferToReview = await _vacancyManager.GetOfferToReview(JobReqId);
             vm.RecruitmentDetail = vm.OfferToReview.First().Company == "CPW" ?
-                mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(vm.OfferToReview.First().Store_Number.ToString())) :
-                mapper.Map<List<RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(vm.OfferToReview.First().Store_Number.ToString()));
+                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(vm.OfferToReview.First().Store_Number.ToString())) :
+                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(vm.OfferToReview.First().Store_Number.ToString()));
             vm.HRCurrent = await _vacancyManager.GetHrCurrent(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
             vm.HRChanges = await _vacancyManager.GetHrChanges(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
             vm.OpenVacancy = await _vacancyManager.GetOpenVacancyByRef(JobReqId);
@@ -159,6 +162,41 @@ namespace Aion.Areas.Admin.Controllers
         public async Task<ActionResult> RejectedToReview(int entryId)
         {
             var result = await _vacancyManager.RejectedToReview(entryId);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> RecruitmentAdmin(string storeNum = "e", string chain = "e")
+        {
+            if(storeNum == "e")
+            {
+                return View(new VacancyRequestVm());
+            }
+
+            VacancyRequestVm vm = new VacancyRequestVm();
+            var detail = chain == "CPW" ? mapper.Map<List<WFM.Models.MyStore.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(storeNum)) : mapper.Map<List<WFM.Models.MyStore.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(storeNum));
+            if (detail.Any())
+            {
+                vm.Populate(detail);
+                vm.PendingRequests = await _vacancyManager.GetPendingRequestsCPW(storeNum);
+                vm.LiveRequests = await _vacancyManager.GetOpenVacanciesCPW(storeNum);
+            }
+            else
+            {
+                vm.MessageType = MessageType.Error;
+                vm.Message = "Your store is not currently set up to use this process, please raise this with The Medics";
+            }
+
+            System.Web.HttpContext.Current.Session["adminChain"] = chain;
+            System.Web.HttpContext.Current.Session["adminStore"] = storeNum;
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> NewVacancy(List<RecruitmentRequest> r, string Notes)
+        {
+            var result = await _vacancyManager.PostNewRequestsAdmin(r, Notes, HttpContext.Session["Email"].ToString(), System.Web.HttpContext.Current.Session["adminChain"].ToString(), System.Web.HttpContext.Current.Session["adminStore"].ToString());
+
             return RedirectToAction("Index");
         }
     }

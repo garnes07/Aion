@@ -94,5 +94,11 @@
     "inputFiles": [
       "Scripts/HeatMap.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/site/Recruitment.min.js",
+    "inputFiles": [
+      "Scripts/site/Recruitment.js"
+    ]
   }
 ]

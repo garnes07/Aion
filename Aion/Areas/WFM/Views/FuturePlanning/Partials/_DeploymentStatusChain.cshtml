@@ -9,11 +9,11 @@
     {
         var rtn = "table-success";
 
-        if (Math.Abs(1 - (double)a.ToBudget) >= 0.2)
+        if (Math.Abs(1 - (double)a.ToBudget) >= 0.1)
         {
             rtn = "table-danger";
         }
-        else if (Math.Abs(1 - (double)a.ToBudget) >= 0.1)
+        else if (Math.Abs(1 - (double)a.ToBudget) >= 0.05)
         {
             rtn = "table-warning";
         }

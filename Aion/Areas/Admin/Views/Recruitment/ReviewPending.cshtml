@@ -14,7 +14,7 @@
                 </button>
             </div>
             <div class="modal-body" id="commentsModalBody">
-
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -335,7 +335,7 @@
                         var approvalState = $(this).find('.approvalstatus').val();
                         if (approvalState === 'r') {
                             var entryId = $(this).find('.entryid').val();
-                            $('#commentsModalBody').append('<div class="cRow"><label data-ref="' + entryId + '">Reference# ' + entryId + '</label><textarea class="form-control" id="c' + entryId + '"></textarea></div>');
+                            $('#commentsModalBody').append('<div class="cRow"><label data-ref="' + entryId + '">Reference# ' + entryId + '</label><select class="cSelect form-control mb-2" data-ref="' + entryId + '"><option selected value="0">Select Template</option><option value="1">Over Base</option><option value="2">Something Else</option><option value="3">Another thing</option></select><textarea class="form-control" id="c' + entryId + '"></textarea></div>');
                             comments = true;
                         };
                     });
@@ -345,6 +345,24 @@
                     } else {
                         $('#frm').submit();
                     }
+                };
+            });
+
+            $('#commentsModalBody').on('change', 'select', function () {
+                if ($(this).val() != 0) {
+                    var entryId = $(this).data('ref');
+                    console.log(entryId);
+                    switch ($(this).val()) {
+                        case "1":
+                            $('#c' + entryId).val('Over your base');
+                            break;
+                        case "2":
+                            $('#c' + entryId).val('Something else to say');
+                            break;
+                        case "3":
+                            $('#c' + entryId).val('One last thing');
+                            break;
+                    };
                 };
             });
 

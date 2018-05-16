@@ -38,5 +38,6 @@ namespace Aion.DAL.Managers
         Task<bool> OfferOnHold(int JobReqId);
         Task<bool> AddOfferOutcome(List<ReviewOutcome> outcomes, string username);
         Task<bool> RejectedToReview(int entryId);
+        Task<bool> PostNewRequestsAdmin(List<RecruitmentRequest> requests, string notes, string userName, string chain, string storeNum);
     }
 }

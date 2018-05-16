@@ -1,0 +1,272 @@
+﻿@model Aion.Areas.WFM.ViewModels.MyStore.VacancyRequestVm
+
+@{
+    ViewBag.Title = "Recruitment";
+}
+
+<div class="container-fluid">
+    <form method="get">
+        <div class="form-group form-row">
+            <label class="col-2 col-form-label"><strong>Raise for store number: </strong></label>
+            <div class="col-2">
+                <input id="storeNum" name="storeNum" type="number" class="form-control" required/>
+            </div>
+            <select class="col-2 form-control" name="chain">
+                <option value="CPW">CPW</option>
+                <option value="Dixons">Dixons</option>
+            </select>
+            <button id="searchSubmit" type="submit" class="btn btn-info btn-sm col-1 ml-1">Go</button>
+        </div>
+    </form>    
+    <hr />
+    @if (Model.MessageType == Aion.ViewModels.MessageType.Error)
+    {
+    <div class="alert alert-warning text-center">
+        <strong>@Model.Message</strong>
+    </div>
+    }
+    else if(Model.RecruitmentDetail != null)
+    {
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>Dixons Carphone Recruitment</strong>
+        </div>
+        <div class="card-body">
+            <i data-container="body"
+               data-toggle="popover"
+               data-placement="bottom"
+               data-trigger="hover"
+               data-content="<p>The below summary of your contract base position is a snapshot of what has been entered into MyHub as of 8AM this morning. This informations is used as the basis for recruitment decisions. The following has been included:<ul><li>Any future dated leavers</li><li>Any future dated contract changes</li><li>Any future dated transfers</li><li>Any current vacancies including offers and on-boarding</li></ul>Please ensure future information is updated into MyHub as soon as it is known, for the below information to be accurate. Please review the above before raising a Medics query.</p>"
+               class="icon ion-information-circled info-button">
+            </i>
+            <p>
+                Use the form and information provided below to submit vacancy requests for your store. The SLA from requesting the vacancy below and if approved, having it posted and available in MyHUB is 2 days. Hover over the <i class="icon ion-information-circled text-info"></i> icons to view further information about that section of the form.
+            </p>
+            <p>
+                For any queries regarding the information displayed on this form, queries about using the form or queries about vacancy approvals please raise this via The Medics.
+            </p>
+            <hr />
+            <p><strong>Store</strong>: @Model.StoreName</p>
+            <p>
+                <h6><strong>Contract Base Summary</strong></h6>
+                @foreach (var item in Model.RecruitmentDetail)
+                {
+                <u>@item.FriendlyName</u>
+                if (item.Allowance > 0)
+                {
+                <ul>
+                    <li>You are @(item.Allowance) hours under your maximum contract base <strong>(@item.ContractBase)</strong></li>
+                    <li>Your average contract length is currently @string.Format("{0:0.0}", item.AverageContract)</li>
+                    <li><strong>You may be able to recruit</strong></li>
+                </ul>
+                }
+                else
+                {
+                <ul>
+                    <li>You are @(Math.Abs(item.ContractBase - item.OpenVacancies - item.CurrentContract)) hours over your maximum contract base <strong>(@item.ContractBase)</strong></li>
+                    <li>Your average contract length is currently @string.Format("{0:0.0}", item.AverageContract)</li>
+                    <li><strong>You do not have allowance to recruit</strong></li>
+                </ul>
+                }
+                }
+            </p>
+        </div>
+    </div>
+    <div id="formCard" class="card mb-3">
+        <div class="card-header text-center">
+            <strong>New Vacancy Request</strong>
+        </div>
+        <div class="card-body">
+            <i data-container="body"
+               data-toggle="popover"
+               data-placement="bottom"
+               data-trigger="hover"
+               data-content="<div style='font-size:small;'><p>You are only able to raise vacancies for positions applicable to your store. If you believe this list is incorrect and need to raise a vacancy for a position not in this list please raise a Medics.<p>An instant response will be provided as you add rows to the request form:</br><i class='icon ion-checkmark-round text-success'></i> - This vacancy is approved and will be raised.</br><i class='icon ion-alert text-warning'></i> - This vacancy will need to be reviewed by the WFM Team. You will need to add comments to the form to support the request.</br><i class='icon ion-close-round text-danger'></i> - This is not approved. You will not be able to submit a vacancy request without removing this from the form.</p>These responses are based on your current contract base position and any specific budgets/allocation for the role being chosen.</p></div>"
+               class="icon ion-information-circled info-button">
+            </i>
+            <div id="baseAlert" class="alert alert-danger text-center d-none">
+                These vacancies will take you over your maximum contract base by @(Model.RecruitmentDetail.First().CurrentBase > Model.RecruitmentDetail.First().TotalBase ? "a further " : "")
+                <strong>£<span id="baseAlertNum"></span></strong>
+                <br /><span id="baseWarning" class="d-none">This request will be sent for review, please add notes below to support this request.</span>
+            </div>
+            <div class="form-row">
+                <div class="col-1"></div>
+                <div class="col-4 text-center px-1 pt-3"><strong>Position</strong></div>
+                <div class="col-2 text-center px-1 pt-3"><strong>Heads</strong></div>
+                <div class="col-2 text-center px-1"><strong>Contract<br /> Hours</strong></div>
+                <div class="col-2 text-center px-1"><strong>Total<br /> Hours</strong></div>
+            </div>
+            <form id="rRequest" method="post" action="/Admin/Recruitment/NewVacancy">
+                <div class="form-row request" id="r_0">
+                    <input name="RowNum" value="0" hidden />
+                    <input class="action" name="r[0].Action" value="new" hidden />
+                    <input class="repost" name="r[0].Repost" value="false" hidden />
+                    <div class="col-1 px-1">
+                        <div class="row pt-2">
+                            <i class="col-6 text-success icon ion-plus-circled add" style="font-size:larger; cursor:pointer;"></i>
+                        </div>
+                    </div>
+                    <div class="form-group px-1 col-4">
+                        @Html.DropDownList("r[0].Position", Model.PositionList, new { @class = "form-control position" })
+                    </div>
+                    <div class="form-group px-1 col-2">
+                        <input name="r[0].Heads" class="form-control text-center heads" type="number" min="1" value="0" required />
+                    </div>
+                    <div class="form-group px-1 col-2">
+                        <input name="r[0].ContractHours" class="form-control text-center hours" type="number" value="6" min="6" max="45" required />
+                    </div>
+                    <div class="form-group px-1 col-2">
+                        <input class="form-control text-center rowTotal" type="number" value="0" required readonly />
+                    </div>
+                    <div class="pt-1 px-1 text-center mb-3 col-1">
+                        <input class="approval" name="r[0].approval" value="approved" hidden />
+                        <div class="approvalResult icon" style="font-size:large;"></div>
+                    </div>
+                </div>
+                <div class="mb-2"><small>Use the <i class="icon ion-plus-circled text-success"></i> button to add additional rows to the request form if you want to add multiple positions or the same position with different heads or contracted hours.</small></div>
+                <div class="form-row">
+                    <div class="form-group w-100">
+                        <label for="notes"><strong>Notes <span id="notesError" class="text-danger ml-2 d-none">Please add notes to support this request</span></strong></label>
+                        <textarea class="form-control w-100" style="resize:vertical; min-height:50px;" placeholder="Add notes to support relevant vacancy requests..." name="Notes" rows="2" id="notes"></textarea>
+                    </div>
+                </div>
+            </form>
+            <div id="checkContainer" class="d-none mb-3">
+                <hr />
+                <p class="text-left">
+                    There are existing vacancies for some of the roles you have selected, please indicate below what action you wish to take.<br />
+                    <u>Selecting 'Repost Vacancy' will ensuring the vacancy is made live again for the full duration.</u>
+                </p>
+                <div id="pContainer">
+                    <div id="p_0" class="pRow">
+                        <div class="text-left"><i class="icon ion-alert text-warning mr-1" style="font-size:larger;"></i><strong class="position"></strong></div>
+                        <div class="form-check form-check-inline">
+                            <input id="p[0]a" name="p[0]" class="form-check-input" type="radio" value="replace" />
+                            <label class="form-check-label" for="p[0]a">Replace existing vacancies</label>
+                        </div>
+                        <div class="form-check form-check-inline mr-5">
+                            <input id="p[0]b" name="p[0]" class="form-check-input" type="radio" value="add" />
+                            <label class="form-check-label" for="p[0]b">Add to existing vacancies</label>
+                        </div>
+                        <div class="form-check-inline ml-5">
+                            <input class="form-check-input" type="checkbox" value="" name="p[0]Repost" id="p[0]Repost" />
+                            <label class="form-check-label" for="p[0]Repost">Repost vacancy?</label>
+                        </div>
+                    </div>
+                </div>
+                <p id="pError" class="text-danger d-none">
+                    <strong>Please ensure you have made a selection on every row</strong>
+                </p>
+                <hr />
+            </div>
+            <div class="row justify-content-center">
+                <button type="button" id="btnSubmit" class="btn btn-lg btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Existing Vacancies</strong>
+        </div>
+        <div class="card-body">
+            <i data-container="body"
+               data-toggle="popover"
+               data-placement="bottom"
+               data-trigger="hover"
+               data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>Raising - The WFM Team is raising this vacancy in MyHub</li><li>To Post - The vacancy has been raised, awaiting posting by HR Shared Services</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
+               class="icon ion-information-circled info-button">
+            </i>
+            @if (!Model.PendingRequests.Any() && !Model.LiveRequests.Any())
+            {
+            <h5>No existing vacancies...</h5>
+            }
+            else
+            {
+            <p>To edit a vacancy, complete the “Request” form above. When you select a position that already has a “Live” or “Pending” vacancy you will be asked whether you wish to “Replace” or “Add To” the vacancy.</p>
+            <p>To cancel a “Live” vacancy please contact HR Shared Services, HRSharedServices@dixonscarphone.com</p>
+            <hr />
+            }
+            @if (Model.PendingRequests.Any())
+            {
+            <h3>Pending</h3>
+            <table class="table table-bordered table-sm text-center">
+                <thead>
+                    <tr>
+                        <th style="width:14%;">Request Id</th>
+                        <th style="width:30%;">Position</th>
+                        <th style="width:14%;">Heads</th>
+                        <th style="width:14%;">Total Hours</th>
+                        <th style="width:12%;">Status</th>
+                        <th style="width:16%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PendingRequests)
+                    {
+                    <tr>
+                        <td>@item.EntryId</td>
+                        <td>@item.VacancyPosition.FriendlyName</td>
+                        <td>@item.Heads</td>
+                        <td>@(item.ContractHrs * item.Heads)</td>
+                        <td>
+                            @(!item.Approved ? "Under review" : (item.SFRefNo != null ? "Raising" : "To Post"))
+                        </td>
+                        <td>
+                            @if (item.SFRefNo == null)
+                            {
+                            <button type="button" data-toggle="modal" data-target="#cp_modal" class="btn btn-sm btn-danger" data-refid="@item.EntryId">Cancel</button>
+                            }
+                            else
+                            {
+                            <i data-container="body" data-toggle="popover" data-placement="top" data-content="This vacancy is currently in the process of being made live and cannot be cancelled. Please check back in 24 hours time." data-trigger="hover" class="icon ion-information-circled"></i>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            @if (Model.LiveRequests.Any())
+            {
+            <h3>Live</h3>
+            <table class="table table-bordered table-sm text-center">
+                <thead>
+                    <tr>
+                        <th style="width:21%;">Vacancy No.</th>
+                        <th style="width:31%;">Position</th>
+                        <th style="width:24%;">Heads</th>
+                        <th style="width:24%;">Total Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.LiveRequests)
+                    {
+                    <tr>
+                        <td>@item.JobReqId</td>
+                        <td>@item.FriendlyName</td>
+                        <td>@item.Headcount</td>
+                        <td>@item.TotalVacantHours</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            }
+        </div>
+    </div>
+    }
+</div>
+
+@section myScripts{
+    @if (Model.MessageType != Aion.ViewModels.MessageType.Error && Model.RecruitmentDetail != null)
+    {
+<script id="scrpt" src="~/Scripts/site/RecruitmentAdmin.js" data-buffer="1.30" data-roledetail="@Model.RoleAllowance" data-totalbase="@Model.RecruitmentDetail.First().TotalBase" data-currentbase="@Model.RecruitmentDetail.First().CurrentBase"></script>
+    }
+<script>
+    $(function () {
+        $(function () {
+            $('[data-toggle="popover"]').popover({ html: true });
+        });
+    });
+</script>
+}
+

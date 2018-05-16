@@ -1016,6 +1016,7 @@
     <Content Include="Areas\Admin\Views\Recruitment\ReviewOffer.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_NewOfferComment.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_SearchResult.cshtml" />
+    <Content Include="Areas\Admin\Views\Recruitment\RecruitmentAdmin.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1202,7 +1203,11 @@
     <Content Include="Scripts\site\CPayPortal.min.js">
       <DependentUpon>CPayPortal.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\site\RecruitmentAdmin.js" />
     <Content Include="Scripts\site\Recruitment.js" />
+    <Content Include="Scripts\site\Recruitment.min.js">
+      <DependentUpon>Recruitment.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\site\RFTPTracking.js" />
     <Content Include="Scripts\site\RFTPTracking.min.js">
       <DependentUpon>RFTPTracking.js</DependentUpon>

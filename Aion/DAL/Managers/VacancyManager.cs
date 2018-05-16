@@ -619,5 +619,53 @@ namespace Aion.DAL.Managers
                 }
             }
         }
+
+        public async Task<bool> PostNewRequestsAdmin(List<RecruitmentRequest> requests, string notes, string userName, string chain, string storeNum)
+        {
+            using (var context = new VacanciesModel())
+            {
+                try
+                {
+                    var _storeNum = short.Parse(storeNum);
+                    
+                    List<VacancyRequest> requestsToAdd = requests.Select(x => new VacancyRequest
+                    {
+                        StoreNumber = _storeNum,
+                        PositionCode = (short)x.Position,
+                        Heads = (short)x.Heads,
+                        ContractHrs = (short)x.ContractHours,
+                        Approved = false,
+                        Rejected = false,
+                        RaisedBy = userName,
+                        RaisedDate = DateTime.Now,
+                        Repost = x.Repost,
+                        Replace = x.Action == "replace",
+                        Chain = chain,
+                        Show = true
+                    }).ToList();
+
+                    if (notes != "")
+                    {
+                        foreach (var item in requestsToAdd)
+                        {
+                            item.RequestComments.Add(new RequestComment { CommentType = "Notes", Comment = notes, EnteredOn = DateTime.Now, EnteredBy = userName });
+                        }
+                    }
+
+                    foreach (var item in requestsToAdd)
+                    {
+                        context.VacancyRequests.Add(item);
+                    }
+
+                    await context.SaveChangesAsync();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
     }
 }
