@@ -1404,10 +1404,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudits" />
           </AssociationSet>
           <EntitySet Name="RFTPCaseActions" EntityType="WFMMContext.RFTPCaseAction" />
-          <FunctionImport Name="sp_RFTPReassignCase">
-            <Parameter Name="personNumber" Mode="In" Type="String" />
-            <Parameter Name="oldCaseID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="vw_Last12MonthRFTPCases" EntityType="WFMMContext.vw_Last12MonthRFTPCases" />
           <FunctionImport Name="sp_PeriodDeploymentSummary" ReturnType="Collection(WFMMContext.sp_PeriodDeploymentSummary_Result)">
             <Parameter Name="Level" Mode="In" Type="Byte" />
@@ -1453,6 +1449,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             <End Role="StoreOpeningTime" EntitySet="StoreOpeningTimes" />
             <End Role="OpeningTimesComment" EntitySet="OpeningTimesComments" />
           </AssociationSet>
+          <FunctionImport Name="sp_RFTPReassignCase">
+            <Parameter Name="personNumber" Mode="In" Type="String" />
+            <Parameter Name="oldCaseID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2661,7 +2661,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_RFTPReassignCase" FunctionName="WFMMContext.Store.sp_RFTPReassignCase" />
           <EntitySetMapping Name="vw_Last12MonthRFTPCases">
             <EntityTypeMapping TypeName="WFMMContext.vw_Last12MonthRFTPCases">
               <MappingFragment StoreEntitySet="vw_Last12MonthRFTPCases">
@@ -3218,6 +3217,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_RFTPReassignCase" FunctionName="WFMMContext.Store.sp_RFTPReassignCase" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

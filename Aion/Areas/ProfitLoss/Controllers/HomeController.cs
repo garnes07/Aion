@@ -98,7 +98,7 @@ namespace Aion.Areas.ProfitLoss.Controllers
             {
                 return RedirectToAction("Index", new { selectedYear = selectedYear, selectedMonth = selectedMonth, a = true, select = selectArea + "_" + selectCrit });
             }
-            if (!a)
+            if (!a || selectArea == "S")
             {
                 return RedirectToAction("Index", new { selectedYear = selectedYear, selectedMonth = selectedMonth });
             }

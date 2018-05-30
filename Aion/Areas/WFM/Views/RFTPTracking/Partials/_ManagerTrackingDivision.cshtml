@@ -1,5 +1,9 @@
 ﻿@model Aion.Areas.WFM.ViewModels.RFTPTracking.RFTPManagerSummaryVm
 
+@if(Model.AccessLevel == 3)
+{
+    <div class="alert alert-warning text-center"><strong>The divisional overview is <u>read only</u>, in order to submit actions please select your Region from the top right menu</strong></div>
+}
 @foreach (var region in Model.RegionList)
 {
     var caseList = Model.Cases.Where(x => Model.RegionManagers.Where(c => c.Region == region).Select(c => c.PersonNumber).Contains(x.PersonNumber)).OrderBy(x => x.Year).ThenBy(x => x.Period).ThenBy(x => x.PersonName).ToList();

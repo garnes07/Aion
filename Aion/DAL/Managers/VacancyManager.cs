@@ -194,9 +194,8 @@ namespace Aion.DAL.Managers
                     foreach (var item in requestsToAdd)
                     {
                         context.VacancyRequests.Add(item);
-                    }
-
-                    await context.SaveChangesAsync();
+                        await context.SaveChangesAsync();
+                    }                    
 
                     return valid;
                 }
@@ -492,7 +491,7 @@ namespace Aion.DAL.Managers
         {
             using(var context = new VacanciesModel())
             {
-                var _chain = chain == "CPW" ? "CPW" : "Currys PC World";
+                var _chain = chain == "CPW" ? "CPW" : (chain == "Travel" ? "Dixons Travel" : "Currys PC World");
                 return await context.WFM_EMPLOYEE_INFO_UNEDITED.Where(x => x.Chain == _chain && x.NewDeptID == storenumber).OrderByDescending(x => x.Grade).ThenBy(x => x.Std_Hrs_Wk).ToListAsync();
             }
         }
@@ -501,7 +500,7 @@ namespace Aion.DAL.Managers
         {
             using (var context = new VacanciesModel())
             {
-                var _chain = chain == "CPW" ? "CPW" : "Currys PC World";
+                var _chain = chain == "CPW" ? "CPW" : (chain == "Travel" ? "Dixons Travel" : "Currys PC World");
                 return await context.WFM_FUTURE_DATED.Where(x => x.Chain == _chain && x.NewDeptID == storenumber).OrderBy(x => x.Alternate_ID).ThenBy(x => x.Effective_Date_of_Change).ToListAsync();
             }
         }
@@ -655,14 +654,14 @@ namespace Aion.DAL.Managers
                     foreach (var item in requestsToAdd)
                     {
                         context.VacancyRequests.Add(item);
-                    }
-
-                    await context.SaveChangesAsync();
+                        await context.SaveChangesAsync();
+                    }                    
 
                     return true;
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                     return false;
                 }
             }

@@ -322,7 +322,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> HolidayPlanning(int year = 201800)
+        public async Task<ActionResult> HolidayPlanning(int year = 201900)
         {
             HolidayPlanningVm vm = new HolidayPlanningVm();
             vm.CurrentWeek = ("This Week").GetWeekNumber();

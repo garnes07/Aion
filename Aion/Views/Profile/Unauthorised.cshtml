@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Unauthorised";
+    var payroll = HttpContext.Current.Session["_EmpNum"] != null ? (HttpContext.Current.Session["_EmpNum"].ToString().Length == 0 ? "e" : HttpContext.Current.Session["_EmpNum"].ToString()) : "e";
 }
 
 <div class="container-fluid">
@@ -9,13 +10,60 @@
             <div class="alert alert-danger text-center">
                 You are not authorised to view this page
                 <div class="text-center mt-2" id="aHelp"><div class="btn btn-light btn-sm">I think I should have access</div></div>
-                <div id="Help" class="card mt-2" style="display: none;">
-                    <div class="card-body">
-                        <h5><strong><u>Branch Manager, Assistant Manager</u></strong></h5>
-                        <p>Access rights are aligned to your role on STAR. If you get this error message, you are not currently in a valid position and should raise this with your TPC in the first instance. If still not resolved please raise with The Medics.</p>
-                        <hr />
+                <div id="Help" class="card mt-2 p-2" style="display: none;">
+                    <div id="q1">
+                        <div class="row justify-content-center mb-2">
+                            <strong>Please select your role below:</strong>
+                        </div>
+                        <div class="row justify-content-center">
+                            <button id="q1_1" type="button" class="btn btn-info col-4 mr-2">Store Manager</button>
+                            <button id="q1_2" type="button" class="btn btn-info col-4 ml-2">RM, DD, TPC</button>
+                        </div>
+                    </div>
+                    <div id="q2" style="display:none;">
+                        <div class="row justify-content-center mb-2">
+                            <strong>Is your employee number - @payroll ?</strong>                            
+                        </div>
+                        <div class="row justify-content-center">
+                            <button id="q2_1" type="button" class="btn btn-success col-4 mr-2">Yes</button>
+                            <button id="q2_2" type="button" class="btn btn-danger col-4 ml-2">No</button>
+                        </div>
+                    </div>
+                    <div id="rm" style="display:none;">
                         <h5><strong><u>RM, DD, TPC</u></strong></h5>
-                        <p>Please contact <u>STAR@cpwplc.com</u> who will assist you with getting the correct access</p>
+                        <p>Please contact <u>STAR@cpwplc.com</u> who will assist you with getting the correct access.</p>
+                    </div>
+                    <div id="payrollMissing" style="display:none;">
+                        <h5><strong><u>Employee Number Missing</u></strong></h5>
+                        <p>
+                            It looks like your employee number is not correctly set on your login. In order to get this updated you will need to follow the below process:
+                            <ol style="text-align:left !important;">
+                                <li>Raise a ticket with the IT helpdesk asking for the employee number on your AD account to be updated</li> 
+                                <li>A ticket will be raised and will be sent to the relevant team</li>
+                                <li>You will be asked to provide an email from HRSC (HRSharedServices@dixonscarphone.com) confirming your correct employee number</li>
+                                <li>Once you have provided this to the helpdesk colleague your account will be updated</li>
+                            </ol>
+                        </p>
+                    </div>
+                    <div id="payrollWrong" style="display:none;">
+                        <h5><strong><u>Employee Number Incorrect</u></strong></h5>
+                        <p>
+                            It looks like your employee number is not correctly set on your login. In order to get this updated you will need to follow the below process:
+                            <ol style="text-align:left !important;">
+                                <li>Raise a ticket with the IT helpdesk asking for the employee number on your AD account to be updated</li>
+                                <li>A ticket will be raised and will be sent to the relevant team</li>
+                                <li>You will be asked to provide an email from HRSC (HRSharedServices@dixonscarphone.com) confirming your correct employee number</li>
+                                <li>Once you have provided this to the helpdesk colleague your account will be updated</li>
+                            </ol>
+                        </p>
+                    </div>
+                    <div id="payrollCorrect" style="display:none;">
+                        <p>
+                            It looks like we have your correct details. It may be that your job role is not correct on STAR, as this is how we determine what you can and can't see.
+                        </p>
+                        <p>
+                            Please raise this through your TPC who will be able to escalate if your details are incorrect.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -26,9 +74,43 @@
 @section myScripts{
     <script>
         $(function () {
+            var payroll = '@payroll';
+
             $('#aHelp').click(function () {
-                $('#Help').slideToggle(350);
+                $(this).addClass('active');
+                $('#Help').slideDown(350);
             });
-        })
-    </script>    
+
+            $('#q1_2').click(function () {
+                $('#q1').fadeOut('fast', function () {
+                    $('#rm').fadeIn('fast');
+                });
+            });
+
+            $('#q1_1').click(function(){
+                if(payroll === 'e'){
+                    $('#q1').fadeOut('fast', function () {
+                        $('#payrollMissing').fadeIn('fast');
+                    });
+                }
+                else{
+                    $('#q1').fadeOut('fast', function () {
+                        $('#q2').fadeIn('fast');
+                    });
+                };
+            });
+
+            $('#q2_1').click(function(){
+                $('#q2').fadeOut('fast', function () {
+                    $('#payrollCorrect').fadeIn('fast');
+                });
+            });
+
+            $('#q2_2').click(function(){
+                $('#q2').fadeOut('fast', function () {
+                    $('#payrollWrong').fadeIn('fast');
+                });
+            });
+        });
+    </script>
 }

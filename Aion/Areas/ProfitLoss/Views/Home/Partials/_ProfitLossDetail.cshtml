@@ -14,12 +14,56 @@
             cssClass = "table-costs";
             break;
     }
+
+    Func<string, string> GetBlurb = (i) =>
+    {
+        var rtn = "";
+        if (i == "Stationery")
+        {
+            rtn = "Stationery ordered via Commercial Grp";
+        }
+        else if (i == "Maintenance Complete (ipsos/videra)")
+        {
+            rtn = "Repair call out charges for Ipsos (FF counters) & Videra (Digital Signage) where no fault was found";
+        }
+        else if (i == "Trade In Non Compliance")
+        {
+            rtn = "Non-compliance with handset trade ins";
+        }
+        else if (i == "SOH")
+        {
+            rtn = "SOH spend costed at a notional amount of £10 per hour";
+        }
+        else if (i == "Electricity")
+        {
+            rtn = "Electricity used in store, for lights, etc.";
+        }
+        else if (i == "Petty cash Expenses")
+        {
+            rtn = "Expenses processed through PIE";
+        }
+        else if (i == "Refuse")
+        {
+            rtn = "Bin service charges, including penalties";
+        }
+        else if (i == "Colleague Expenses")
+        {
+            rtn = "Expenses claimed through HR. eg. Mileage, meals, travel costs";
+        }
+        return rtn;
+    };
 }
 
 @foreach (var item in Model)
 {
     <tr class="@cssClass">
-        <td>@item.DetailTitle</td>
+        <td>
+            @item.DetailTitle
+            @if (GetBlurb(item.DetailTitle) != "")
+            {
+                <span class="float-right text-center"><a tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="@GetBlurb(item.DetailTitle)" data-trigger="focus" style="color:black"></a></span>
+            }
+        </td>
         <td>
             @if (item.AccountEntryDetailBreakDownId != null)
             {

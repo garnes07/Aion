@@ -131,19 +131,6 @@ namespace Aion.DAL.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ComplianceSummary_Result>("sp_ComplianceSummaryDivision", divisionParameter, periodParameter, yearParameter);
         }
     
-        public virtual int sp_RFTPReassignCase(string personNumber, Nullable<int> oldCaseID)
-        {
-            var personNumberParameter = personNumber != null ?
-                new ObjectParameter("personNumber", personNumber) :
-                new ObjectParameter("personNumber", typeof(string));
-    
-            var oldCaseIDParameter = oldCaseID.HasValue ?
-                new ObjectParameter("oldCaseID", oldCaseID) :
-                new ObjectParameter("oldCaseID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RFTPReassignCase", personNumberParameter, oldCaseIDParameter);
-        }
-    
         public virtual ObjectResult<sp_PeriodDeploymentSummary_Result> sp_PeriodDeploymentSummary(Nullable<byte> level, string area, string year, Nullable<byte> period)
         {
             var levelParameter = level.HasValue ?
@@ -189,6 +176,19 @@ namespace Aion.DAL.Entities
                 new ObjectParameter("BeginWeek", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_AllChainDashboardData_v2_Result>("sp_AllDivisionDashboardData_v2", divisionParameter, beginWeekParameter);
+        }
+    
+        public virtual int sp_RFTPReassignCase(string personNumber, Nullable<int> oldCaseID)
+        {
+            var personNumberParameter = personNumber != null ?
+                new ObjectParameter("personNumber", personNumber) :
+                new ObjectParameter("personNumber", typeof(string));
+    
+            var oldCaseIDParameter = oldCaseID.HasValue ?
+                new ObjectParameter("oldCaseID", oldCaseID) :
+                new ObjectParameter("oldCaseID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RFTPReassignCase", personNumberParameter, oldCaseIDParameter);
         }
     }
 }
