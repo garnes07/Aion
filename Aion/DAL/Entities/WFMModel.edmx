@@ -266,6 +266,35 @@
           <Property Name="SubmittedByUser" Type="nvarchar" MaxLength="20" />
           <Property Name="ReasonForChange" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="WFM_EMPLOYEE_INFO">
+          <Key>
+            <PropertyRef Name="Alternate ID" />
+          </Key>
+          <Property Name="Legal Entity" Type="nvarchar" MaxLength="50" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dept" Type="nvarchar" MaxLength="100" />
+          <Property Name="ID" Type="nvarchar" MaxLength="10" />
+          <Property Name="Alternate ID" Type="int" Nullable="false" />
+          <Property Name="First Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Last Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Birthdate" Type="date" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="25" />
+          <Property Name="JobCode" Type="smallint" />
+          <Property Name="Job Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Std Hrs/Wk" Type="numeric" Precision="4" Scale="2" />
+          <Property Name="Hrly Rate" Type="float" />
+          <Property Name="Annual Rt" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="Sex" Type="nchar" MaxLength="1" />
+          <Property Name="Hire Date" Type="date" />
+          <Property Name="Perm/Temp" Type="nvarchar" MaxLength="50" />
+          <Property Name="Emp Class" Type="nvarchar" MaxLength="25" />
+          <Property Name="Retail Old TCs" Type="nvarchar" MaxLength="10" />
+          <Property Name="NewDeptID" Type="smallint" />
+          <Property Name="CostCentre" Type="smallint" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="250" />
+          <Property Name="AverageWorkedHrs" Type="numeric" Precision="4" Scale="2" />
+          <Property Name="HolidayBalance" Type="float" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_4WeekSummary">
@@ -930,6 +959,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreOpeningTimes" EntityType="Self.StoreOpeningTimes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WFM_EMPLOYEE_INFO" EntityType="Self.WFM_EMPLOYEE_INFO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_4WeekSummary" EntityType="Self.vw_4WeekSummary" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_4WeekSummary].[RowId] AS [RowId], 
@@ -1453,6 +1483,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             <Parameter Name="personNumber" Mode="In" Type="String" />
             <Parameter Name="oldCaseID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="WFM_EMPLOYEE_INFO" EntityType="WFMMContext.WFM_EMPLOYEE_INFO" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2333,6 +2364,35 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WFM_EMPLOYEE_INFO">
+          <Key>
+            <PropertyRef Name="Alternate_ID" />
+          </Key>
+          <Property Name="Legal_Entity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Chain" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Alternate_ID" Type="Int32" Nullable="false" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthdate" Type="DateTime" Precision="0" />
+          <Property Name="Grade" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="JobCode" Type="Int16" />
+          <Property Name="Job_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Std_Hrs_Wk" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="Hrly_Rate" Type="Double" />
+          <Property Name="Annual_Rt" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Hire_Date" Type="DateTime" Precision="0" />
+          <Property Name="Perm_Temp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Class" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Retail_Old_TCs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="NewDeptID" Type="Int16" />
+          <Property Name="CostCentre" Type="Int16" />
+          <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AverageWorkedHrs" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="HolidayBalance" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3218,6 +3278,36 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_RFTPReassignCase" FunctionName="WFMMContext.Store.sp_RFTPReassignCase" />
+          <EntitySetMapping Name="WFM_EMPLOYEE_INFO">
+            <EntityTypeMapping TypeName="WFMMContext.WFM_EMPLOYEE_INFO">
+              <MappingFragment StoreEntitySet="WFM_EMPLOYEE_INFO">
+                <ScalarProperty Name="HolidayBalance" ColumnName="HolidayBalance" />
+                <ScalarProperty Name="AverageWorkedHrs" ColumnName="AverageWorkedHrs" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
+                <ScalarProperty Name="NewDeptID" ColumnName="NewDeptID" />
+                <ScalarProperty Name="Retail_Old_TCs" ColumnName="Retail Old TCs" />
+                <ScalarProperty Name="Emp_Class" ColumnName="Emp Class" />
+                <ScalarProperty Name="Perm_Temp" ColumnName="Perm/Temp" />
+                <ScalarProperty Name="Hire_Date" ColumnName="Hire Date" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Annual_Rt" ColumnName="Annual Rt" />
+                <ScalarProperty Name="Hrly_Rate" ColumnName="Hrly Rate" />
+                <ScalarProperty Name="Std_Hrs_Wk" ColumnName="Std Hrs/Wk" />
+                <ScalarProperty Name="Job_Title" ColumnName="Job Title" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First Name" />
+                <ScalarProperty Name="Alternate_ID" ColumnName="Alternate ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="Legal_Entity" ColumnName="Legal Entity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

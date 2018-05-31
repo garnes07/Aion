@@ -26,14 +26,14 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<HrFeed>> GetStaffListStore(string store)
+        public async Task<List<WFM_EMPLOYEE_INFO>> GetStaffListStore(string store)
         {
             using (var context = new WFMModel())
             {
                 short crit = short.Parse(store);
-                return await context.HrFeeds.Where(x => x.STORE_NUM == crit && x.DOL == "")
-                    .OrderByDescending(x => x.AnnualBasic).ThenByDescending(x => x.CONTRACT_HOURS)
-                    .ThenBy(x => x.SURNAME).ToListAsync();
+                return await context.WFM_EMPLOYEE_INFO.Where(x => x.CostCentre == crit)
+                    .OrderByDescending(x => x.Grade).ThenBy(x => x.JobCode).ThenByDescending(x => x.Std_Hrs_Wk)
+                    .ToListAsync();
             }
         }
     }

@@ -38,7 +38,7 @@
         <script src="~/Scripts/Gauge.min.js"></script>
         <script>
         var canvas = document.getElementById("contract-mix");
-        var value = @Model.StaffList.Average(x => x.CONTRACT_HOURS);
+        var value = @Model.StaffList.Average(x => x.Std_Hrs_Wk);
 
         if (value > 33) {
             value = 33
@@ -95,7 +95,7 @@
 
         ctx.font = "bold 16px sans-serif";
         ctx.fillStyle = "#FFFFFF";
-        ctx.fillText(@string.Format("{0:0}", Model.StaffList.Average(x => x.CONTRACT_HOURS)),posx - 10, posy + 5)
+        ctx.fillText(@string.Format("{0:0}", Model.StaffList.Average(x => x.Std_Hrs_Wk)),posx - 10, posy + 5)
 
         ctx.fillStyle = '#000000';
         ctx.font = "bold 14px sans-serif";

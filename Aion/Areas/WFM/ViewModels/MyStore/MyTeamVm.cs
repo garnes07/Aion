@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Aion.DAL.Entities;
+﻿using Aion.DAL.Entities;
 using Aion.ViewModels;
+using System.Collections.Generic;
 
 namespace Aion.Areas.WFM.ViewModels.MyStore
 {
@@ -11,6 +8,6 @@ namespace Aion.Areas.WFM.ViewModels.MyStore
     {
         public vw_ContractBaseDetail ContractBaseDetailStore { get; set; }
         public List<vw_ContractBaseDetail> ContractBaseDetailRegion { get; set; }
-        public List<HrFeed> StaffList { get; set; }
+        public List<WFM_EMPLOYEE_INFO> StaffList { get; set; }
     }
 }

@@ -76,11 +76,11 @@
             @foreach (var item in Model.StaffList)
             {
                 <tr>
-                    <td>@string.Format("{0}, {1}", item.SURNAME, item.FORENAME)</td>
-                    <td>@item.ROLE.Replace(".Retail","")</td>
-                    <td class="text-center">@item.CONTRACT_HOURS</td>
-                    <td class="text-center">@item.TODAYS_BALANCE</td>
-                    <td class="text-center">@item.CONTRACT_DAYS</td>
+                    <td>@string.Format("{0}, {1}", item.Last_Name, item.First_Name)</td>
+                    <td>@item.Job_Title</td>
+                    <td class="text-center">@item.Std_Hrs_Wk</td>
+                    <td class="text-center">@item.HolidayBalance</td>
+                    <td class="text-center">@item.AverageWorkedHrs</td>
                 </tr>
             }
             </tbody>

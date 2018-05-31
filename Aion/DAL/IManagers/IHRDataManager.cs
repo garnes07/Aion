@@ -8,6 +8,6 @@ namespace Aion.DAL.Managers
     {
         Task<vw_ContractBaseDetail> GetContractAndHolidayStore(string store);
         Task<List<vw_ContractBaseDetail>> GetContractAndHolidayRegion(string region);
-        Task<List<HrFeed>> GetStaffListStore(string store);
+        Task<List<WFM_EMPLOYEE_INFO>> GetStaffListStore(string store);
     }
 }

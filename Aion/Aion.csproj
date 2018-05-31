@@ -605,6 +605,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WFMModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\WFM_EMPLOYEE_INFO.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\WFM_EMPLOYEE_INFO_UNEDITED.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
