@@ -87,7 +87,7 @@
                     <div class="card @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "card-success" : "card-danger")">
                         <div class="card-header">
                             <strong>
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePunch">Clocking Compliance - @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "No Clocking issues!" : "(" + string.Format("{0:0}%", Model._dashboardView.First().PunchCompliance * 100) + ")")</button>
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePunch">Clocking Compliance - @(Model._dashboardView.First().PunchCompliance >= 0.9 ? "No Clocking issues!" : "(" + string.Format("{0:0.0}%", Model._dashboardView.First().PunchCompliance * 100) + ")")</button>
                             </strong>
                         </div>
                         <div id="collapsePunch" class="collapse" data-parent="#accordion">

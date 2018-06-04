@@ -124,7 +124,7 @@ namespace Aion.Areas.WFM.Controllers
                     break;
             }
 
-            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(-7), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-84), DateTime.Now.FirstDayOfWeek().AddDays(-7).FirstDayOfWeek()));
             vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
 
             return View(vm);
