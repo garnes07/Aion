@@ -9,6 +9,7 @@ using Aion.DAL.Managers;
 using Aion.Helpers;
 using Aion.ViewModels;
 using Aion.Attributes;
+using Aion.DAL.Entities;
 
 namespace Aion.Areas.WFM.Controllers
 {
@@ -18,6 +19,9 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IWeeksManager _weeksManager;
         private readonly IFootfallManager _footfallManager;
         private readonly IGmWeWorkingManager _gmWeWorkingManager;
+        private readonly IAvlbltyManager _avlbltyManager;
+        private readonly IEmpSummaryManager _empSummaryManager;
+        private readonly IStoreManager _storeManager;
 
         public DeploymentController()
         {
@@ -25,6 +29,9 @@ namespace Aion.Areas.WFM.Controllers
             _weeksManager = new WeeksManager();
             _footfallManager = new FootfallManager();
             _gmWeWorkingManager = new GmWeWorkingManager();
+            _avlbltyManager = new AvlbltyManager();
+            _empSummaryManager = new EmpSummaryManager();
+            _storeManager = new StoreManager();
         }
 
         public async Task<ActionResult> Summary(string c = "e_0")
@@ -66,7 +73,7 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> Detail(string selectedDate = "Last Week")
         {
-            if (_store.Region == "118" || _store.Region == "109")
+            if (_store.Region == "118" || _store.Region == "109" || _store.Region == "124")
             {
                 return RedirectToAction("DetailPilot", new { selectedDate = selectedDate });
             }
@@ -105,7 +112,7 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> DetailPilot(string selectedDate = "Last Week")
         {
-            if (_store.Region != "118" && _store.Region != "109")
+            if (_store.Region != "118" && _store.Region != "109" && _store.Region != "124")
             {
                 return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }
@@ -206,6 +213,78 @@ namespace Aion.Areas.WFM.Controllers
             }
 
             return View(vm);
+        }
+
+        public async Task<ActionResult> Availability()
+        {
+            AvlbltySummaryVm vm = new AvlbltySummaryVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.AvlbltyCollection = await _avlbltyManager.GetAllPatternsStore(selectCrit);
+                    vm.AvlbltyMissing = await _avlbltyManager.GetAllColleaguesWithoutPattern(selectCrit);
+                    vm.AvlbltySummary = await _avlbltyManager.GetPatternStore(selectCrit);
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+                case "D":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+                case "C":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
+
+            return View(vm);
+        }
+
+        public async Task<ActionResult> UpdateAvailability(string personNumber = "e")
+        {
+            if(selectArea != "S")
+            {
+                return RedirectToAction("Availability");
+            }
+
+            var _personNumber = personNumber == "e" ? System.Web.HttpContext.Current.Session["_EmpNum"].ToString() : personNumber;
+
+            UpdateAvlbltyVm vm = new UpdateAvlbltyVm();
+
+            vm.existingPattern = await _avlbltyManager.GetAllPatternsPerson(_personNumber);
+            vm.empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(_personNumber);
+            vm.LocalStores = await _storeManager.GetStoresInSameRegion(selectCrit);
+            vm.AvlbltyStores = await _avlbltyManager.GetAllPatternStoresPerson(_personNumber);
+
+            System.Web.HttpContext.Current.Session["_avlbltyRedirect"] = HttpContext.Request.UrlReferrer.Segments.Last() == "ColleaguePayPortal" ? "colleague" : "store";
+            HttpContext.Request.UrlReferrer.Segments.Last();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateAvailability(AvailabilityPattern a, short[] s)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _avlbltyManager.SubmitNewPattern(a, s,User.Identity.Name);
+            }
+
+            if(System.Web.HttpContext.Current.Session["_avlbltyRedirect"] != null)
+            {
+                if(System.Web.HttpContext.Current.Session["_avlbltyRedirect"].ToString() == "colleague")
+                {
+                    System.Web.HttpContext.Current.Session.Remove("_avlbltyRedirect");
+                    return RedirectToAction("ColleaguePayPortal", "RFTP", new { area = "WFM"});
+                }
+            }
+            System.Web.HttpContext.Current.Session.Remove("_avlbltyRedirect");
+            return RedirectToAction("Availability");
         }
     }
 }

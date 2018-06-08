@@ -44,6 +44,15 @@
         <EntityTypeShape EntityType="WFMMContext.OpeningTimesComment" Width="1.5" PointX="9.625" PointY="20.625" />
         <AssociationConnector Association="WFMMContext.FK_StoreOpeningTimes" />
         <EntityTypeShape EntityType="WFMMContext.WFM_EMPLOYEE_INFO" Width="1.5" PointX="19.375" PointY="12.75" />
+        <EntityTypeShape EntityType="WFMMContext.AvailabilityDay" Width="1.5" PointX="22.25" PointY="20.25" />
+        <EntityTypeShape EntityType="WFMMContext.AvailabilityPattern" Width="1.5" PointX="20" PointY="20" />
+        <EntityTypeShape EntityType="WFMMContext.vw_AvailabilityPattern" Width="1.5" PointX="25" PointY="19.875" />
+        <AssociationConnector Association="WFMMContext.FK_AvailabilityDays_AvailabilityPattern" />
+        <AssociationConnector Association="WFMMContext.vw_AvailabilityPatternAvailabilityDay" />
+        <EntityTypeShape EntityType="WFMMContext.vw_AvailabilityPatternMissing" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_AvailabilitySummary" Width="1.5" PointX="12.375" PointY="20.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_PilotDailyUnders" Width="1.5" PointX="20.375" PointY="3.75" />
+        <EntityTypeShape EntityType="WFMMContext.AvailabilityStore" Width="1.5" PointX="23.5" PointY="23.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

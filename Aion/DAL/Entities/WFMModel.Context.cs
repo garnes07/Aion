@@ -63,6 +63,13 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_4WeekSummary_Pilot> vw_4WeekSummary_Pilot { get; set; }
         public virtual DbSet<OpeningTimesComment> OpeningTimesComments { get; set; }
         public virtual DbSet<WFM_EMPLOYEE_INFO> WFM_EMPLOYEE_INFO { get; set; }
+        public virtual DbSet<AvailabilityDay> AvailabilityDays { get; set; }
+        public virtual DbSet<AvailabilityPattern> AvailabilityPatterns { get; set; }
+        public virtual DbSet<vw_AvailabilityPattern> vw_AvailabilityPattern { get; set; }
+        public virtual DbSet<vw_AvailabilityPatternMissing> vw_AvailabilityPatternMissing { get; set; }
+        public virtual DbSet<vw_AvailabilitySummary> vw_AvailabilitySummary { get; set; }
+        public virtual DbSet<vw_PilotDailyUnders> vw_PilotDailyUnders { get; set; }
+        public virtual DbSet<AvailabilityStore> AvailabilityStores { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {

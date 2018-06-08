@@ -203,10 +203,12 @@
     <Compile Include="Areas\WFM\Models\MyStore\SOHBudgetView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\AvlbltySummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailPilotVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\UpdateAvlbltyVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\DeploymentStatusVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\RecruitmentStatusVm.cs" />
@@ -244,6 +246,15 @@
     </Compile>
     <Compile Include="DAL\Entities\ActivityType.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\AvailabilityDay.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\AvailabilityPattern.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\AvailabilityStore.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\DailyDeployment.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -500,6 +511,15 @@
     <Compile Include="DAL\Entities\vw_4WeekSummary_Pilot.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_AvailabilityPattern.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_AvailabilityPatternMissing.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_AvailabilitySummary.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_ContractBaseDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -550,6 +570,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_OfferApprovals.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_PilotDailyUnders.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_PublishedBudgetsROI.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -620,6 +643,7 @@
     <Compile Include="DAL\Kronos\KronosApi.cs" />
     <Compile Include="DAL\Managers\ActivityManager.cs" />
     <Compile Include="DAL\Managers\AuthManager.cs" />
+    <Compile Include="DAL\Managers\AvlbltyManager.cs" />
     <Compile Include="DAL\Managers\ClockingDataManager.cs" />
     <Compile Include="DAL\Managers\ContractStatusManager.cs" />
     <Compile Include="DAL\Managers\DashboardDataManager.cs" />
@@ -649,6 +673,7 @@
     <Compile Include="DAL\IManagers\IProfitLossManager.cs" />
     <Compile Include="DAL\IManagers\IVacancyManager.cs" />
     <Compile Include="DAL\IManagers\IAdminDashManager.cs" />
+    <Compile Include="DAL\IManagers\IAvlbltyManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\PayCalendarManager.cs" />
@@ -1020,6 +1045,9 @@
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_NewOfferComment.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Partials\_SearchResult.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\RecruitmentAdmin.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Availability.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_AvailabilityStore.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\UpdateAvailability.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

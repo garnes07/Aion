@@ -1,7 +1,6 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
-using Aion.Models.Utils;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,7 +27,7 @@ namespace Aion.Controllers
             switch (selectArea)
             {
                 case "S":
-                    if (_store.Region != "118" && _store.Region != "109")
+                    if (_store.Region != "118" && _store.Region != "109" && _store.Region != "124")
                     {
                         vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
                     }
@@ -39,7 +38,7 @@ namespace Aion.Controllers
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    if (_store.Region != "118" && _store.Region != "109")
+                    if (_store.Region != "118" && _store.Region != "109" && _store.Region != "124")
                     {
                         vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);
                     }

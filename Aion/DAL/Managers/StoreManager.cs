@@ -17,6 +17,15 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<StoreMaster>> GetStoresInSameRegion(string storeNumber)
+        {
+            using(var context = new WebMasterModel())
+            {
+                short crit = short.Parse(storeNumber);
+                return await context.StoreMasters.Where(x => x.Region == context.StoreMasters.FirstOrDefault(y => y.StoreNumber == crit).Region).ToListAsync();
+            }
+        }
+
         public async Task<string> GetKronosName(string storeNum)
         {
             using (var context = new WebMasterModel())

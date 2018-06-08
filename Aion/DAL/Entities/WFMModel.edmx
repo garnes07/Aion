@@ -5,6 +5,37 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WFMMContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AvailabilityDays">
+          <Key>
+            <PropertyRef Name="DayId" />
+          </Key>
+          <Property Name="DayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatternId" Type="int" Nullable="false" />
+          <Property Name="DayNum" Type="tinyint" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="0" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AvailabilityPattern">
+          <Key>
+            <PropertyRef Name="PatternId" />
+          </Key>
+          <Property Name="PatternId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastConfirmedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastConfirmedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="PatternType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AvailabilityStores">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+        </EntityType>
         <EntityType Name="DailyDeployment">
           <Key>
             <PropertyRef Name="EntryID" />
@@ -326,6 +357,62 @@ warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary_Pilot' does not have
           <Property Name="WeekNumber" Type="int" />
           <Property Name="NonCompliant" Type="int" />
           <Property Name="Deployment" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPattern' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_AvailabilityPattern">
+          <Key>
+            <PropertyRef Name="PatternId" />
+            
+            
+            
+            
+          </Key>
+          <Property Name="PatternId" Type="int" Nullable="false" />
+          <Property Name="HomeBranch" Type="smallint" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastConfirmedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastConfirmedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="PatternType" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPatternMissing' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_AvailabilityPatternMissing">
+          <Key>
+            <PropertyRef Name="PersonNumber" />
+          </Key>
+          <Property Name="Region" Type="smallint" />
+          <Property Name="HomeBranch" Type="smallint" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilitySummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_AvailabilitySummary">
+          <Key>
+            <PropertyRef Name="DayNum" />
+          </Key>
+          <Property Name="HomeBranch" Type="smallint" />
+          <Property Name="DayNum" Type="tinyint" Nullable="false" />
+          <Property Name="08 AV" Type="int" />
+          <Property Name="09 AV" Type="int" />
+          <Property Name="10 AV" Type="int" />
+          <Property Name="11 AV" Type="int" />
+          <Property Name="12 AV" Type="int" />
+          <Property Name="13 AV" Type="int" />
+          <Property Name="14 AV" Type="int" />
+          <Property Name="15 AV" Type="int" />
+          <Property Name="16 AV" Type="int" />
+          <Property Name="17 AV" Type="int" />
+          <Property Name="18 AV" Type="int" />
+          <Property Name="19 AV" Type="int" />
+          <Property Name="20 AV" Type="int" />
+          <Property Name="21 AV" Type="int" />
+          <Property Name="22 AV" Type="int" />
+          <Property Name="23 AV" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_ContractBaseDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -771,6 +858,16 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Last12MonthRFTPCases' does not ha
           <Property Name="Show" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_PilotDailyUnders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_PilotDailyUnders">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+          </Key>
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="TotalUnders" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsROI' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_PublishedBudgetsROI">
           <Key>
@@ -862,6 +959,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="ContractBase" Type="float" />
           <Property Name="VacancyHours" Type="float" />
         </EntityType>
+        <Association Name="FK_AvailabilityDays_AvailabilityPattern">
+          <End Role="AvailabilityPattern" Type="Self.AvailabilityPattern" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AvailabilityDays" Type="Self.AvailabilityDays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvailabilityPattern">
+              <PropertyRef Name="PatternId" />
+            </Principal>
+            <Dependent Role="AvailabilityDays">
+              <PropertyRef Name="PatternId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PayCalendarDates_PayCalendarRef">
           <End Role="PayCalendarRef" Type="Self.PayCalendarRef" Multiplicity="1" />
           <End Role="PayCalendarDates" Type="Self.PayCalendarDates" Multiplicity="*" />
@@ -945,6 +1056,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Parameter Name="oldCaseID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="WFMMContextStoreContainer">
+          <EntitySet Name="AvailabilityDays" EntityType="Self.AvailabilityDays" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AvailabilityPattern" EntityType="Self.AvailabilityPattern" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AvailabilityStores" EntityType="Self.AvailabilityStores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DailyDeployment" EntityType="Self.DailyDeployment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
@@ -983,6 +1097,49 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_4WeekSummary_Pilot].[NonCompliant] AS [NonCompliant], 
     [vw_4WeekSummary_Pilot].[Deployment] AS [Deployment]
     FROM [dbo].[vw_4WeekSummary_Pilot] AS [vw_4WeekSummary_Pilot]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_AvailabilityPattern" EntityType="Self.vw_AvailabilityPattern" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_AvailabilityPattern].[PatternId] AS [PatternId], 
+    [vw_AvailabilityPattern].[HomeBranch] AS [HomeBranch], 
+    [vw_AvailabilityPattern].[PersonNumber] AS [PersonNumber], 
+    [vw_AvailabilityPattern].[PersonName] AS [PersonName], 
+    [vw_AvailabilityPattern].[CreatedDate] AS [CreatedDate], 
+    [vw_AvailabilityPattern].[CreatedBy] AS [CreatedBy], 
+    [vw_AvailabilityPattern].[LastConfirmedDate] AS [LastConfirmedDate], 
+    [vw_AvailabilityPattern].[LastConfirmedBy] AS [LastConfirmedBy], 
+    [vw_AvailabilityPattern].[PatternType] AS [PatternType]
+    FROM [dbo].[vw_AvailabilityPattern] AS [vw_AvailabilityPattern]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_AvailabilityPatternMissing" EntityType="Self.vw_AvailabilityPatternMissing" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_AvailabilityPatternMissing].[Region] AS [Region], 
+    [vw_AvailabilityPatternMissing].[HomeBranch] AS [HomeBranch], 
+    [vw_AvailabilityPatternMissing].[PersonNumber] AS [PersonNumber], 
+    [vw_AvailabilityPatternMissing].[PersonName] AS [PersonName]
+    FROM [dbo].[vw_AvailabilityPatternMissing] AS [vw_AvailabilityPatternMissing]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_AvailabilitySummary" EntityType="Self.vw_AvailabilitySummary" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_AvailabilitySummary].[HomeBranch] AS [HomeBranch], 
+    [vw_AvailabilitySummary].[DayNum] AS [DayNum], 
+    [vw_AvailabilitySummary].[08 AV] AS [08 AV], 
+    [vw_AvailabilitySummary].[09 AV] AS [09 AV], 
+    [vw_AvailabilitySummary].[10 AV] AS [10 AV], 
+    [vw_AvailabilitySummary].[11 AV] AS [11 AV], 
+    [vw_AvailabilitySummary].[12 AV] AS [12 AV], 
+    [vw_AvailabilitySummary].[13 AV] AS [13 AV], 
+    [vw_AvailabilitySummary].[14 AV] AS [14 AV], 
+    [vw_AvailabilitySummary].[15 AV] AS [15 AV], 
+    [vw_AvailabilitySummary].[16 AV] AS [16 AV], 
+    [vw_AvailabilitySummary].[17 AV] AS [17 AV], 
+    [vw_AvailabilitySummary].[18 AV] AS [18 AV], 
+    [vw_AvailabilitySummary].[19 AV] AS [19 AV], 
+    [vw_AvailabilitySummary].[20 AV] AS [20 AV], 
+    [vw_AvailabilitySummary].[21 AV] AS [21 AV], 
+    [vw_AvailabilitySummary].[22 AV] AS [22 AV], 
+    [vw_AvailabilitySummary].[23 AV] AS [23 AV]
+    FROM [dbo].[vw_AvailabilitySummary] AS [vw_AvailabilitySummary]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_ContractBaseDetail" EntityType="Self.vw_ContractBaseDetail" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1315,6 +1472,13 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_Last12MonthRFTPCases].[Show] AS [Show]
     FROM [dbo].[vw_Last12MonthRFTPCases] AS [vw_Last12MonthRFTPCases]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_PilotDailyUnders" EntityType="Self.vw_PilotDailyUnders" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_PilotDailyUnders].[WeekNumber] AS [WeekNumber], 
+    [vw_PilotDailyUnders].[StoreNumber] AS [StoreNumber], 
+    [vw_PilotDailyUnders].[TotalUnders] AS [TotalUnders]
+    FROM [dbo].[vw_PilotDailyUnders] AS [vw_PilotDailyUnders]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_PublishedBudgetsROI" EntityType="Self.vw_PublishedBudgetsROI" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_PublishedBudgetsROI].[RowID] AS [RowID], 
@@ -1380,6 +1544,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_StoreContractStatus].[VacancyHours] AS [VacancyHours]
     FROM [dbo].[vw_StoreContractStatus] AS [vw_StoreContractStatus]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_AvailabilityDays_AvailabilityPattern" Association="Self.FK_AvailabilityDays_AvailabilityPattern">
+            <End Role="AvailabilityPattern" EntitySet="AvailabilityPattern" />
+            <End Role="AvailabilityDays" EntitySet="AvailabilityDays" />
+          </AssociationSet>
           <AssociationSet Name="FK_PayCalendarDates_PayCalendarRef" Association="Self.FK_PayCalendarDates_PayCalendarRef">
             <End Role="PayCalendarRef" EntitySet="PayCalendarRef" />
             <End Role="PayCalendarDates" EntitySet="PayCalendarDates" />
@@ -1484,6 +1652,21 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
             <Parameter Name="oldCaseID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="WFM_EMPLOYEE_INFO" EntityType="WFMMContext.WFM_EMPLOYEE_INFO" />
+          <EntitySet Name="AvailabilityDays" EntityType="WFMMContext.AvailabilityDay" />
+          <EntitySet Name="AvailabilityPatterns" EntityType="WFMMContext.AvailabilityPattern" />
+          <EntitySet Name="vw_AvailabilityPattern" EntityType="WFMMContext.vw_AvailabilityPattern" />
+          <AssociationSet Name="FK_AvailabilityDays_AvailabilityPattern" Association="WFMMContext.FK_AvailabilityDays_AvailabilityPattern">
+            <End Role="AvailabilityPattern" EntitySet="AvailabilityPatterns" />
+            <End Role="AvailabilityDay" EntitySet="AvailabilityDays" />
+          </AssociationSet>
+          <AssociationSet Name="vw_AvailabilityPatternAvailabilityDay" Association="WFMMContext.vw_AvailabilityPatternAvailabilityDay">
+            <End Role="vw_AvailabilityPattern" EntitySet="vw_AvailabilityPattern" />
+            <End Role="AvailabilityDay" EntitySet="AvailabilityDays" />
+          </AssociationSet>
+          <EntitySet Name="vw_AvailabilityPatternMissing" EntityType="WFMMContext.vw_AvailabilityPatternMissing" />
+          <EntitySet Name="vw_AvailabilitySummary" EntityType="WFMMContext.vw_AvailabilitySummary" />
+          <EntitySet Name="vw_PilotDailyUnders" EntityType="WFMMContext.vw_PilotDailyUnders" />
+          <EntitySet Name="AvailabilityStores" EntityType="WFMMContext.AvailabilityStore" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2392,6 +2575,121 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="AverageWorkedHrs" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="HolidayBalance" Type="Double" />
+        </EntityType>
+        <EntityType Name="AvailabilityDay">
+          <Key>
+            <PropertyRef Name="DayId" />
+          </Key>
+          <Property Name="DayId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatternId" Type="Int32" Nullable="false" />
+          <Property Name="DayNum" Type="Byte" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="0" />
+          <NavigationProperty Name="AvailabilityPattern" Relationship="WFMMContext.FK_AvailabilityDays_AvailabilityPattern" FromRole="AvailabilityDay" ToRole="AvailabilityPattern" />
+          <NavigationProperty Name="vw_AvailabilityPattern" Relationship="WFMMContext.vw_AvailabilityPatternAvailabilityDay" FromRole="AvailabilityDay" ToRole="vw_AvailabilityPattern" />
+        </EntityType>
+        <EntityType Name="AvailabilityPattern">
+          <Key>
+            <PropertyRef Name="PatternId" />
+          </Key>
+          <Property Name="PatternId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastConfirmedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastConfirmedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PatternType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AvailabilityDays" Relationship="WFMMContext.FK_AvailabilityDays_AvailabilityPattern" FromRole="AvailabilityPattern" ToRole="AvailabilityDay" />
+        </EntityType>
+        <EntityType Name="vw_AvailabilityPattern">
+          <Key>
+            <PropertyRef Name="PatternId" />
+          </Key>
+          <Property Name="PatternId" Type="Int32" Nullable="false" />
+          <Property Name="HomeBranch" Type="Int16" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastConfirmedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastConfirmedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PatternType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AvailabilityDays" Relationship="WFMMContext.vw_AvailabilityPatternAvailabilityDay" FromRole="vw_AvailabilityPattern" ToRole="AvailabilityDay" />
+        </EntityType>
+        <Association Name="FK_AvailabilityDays_AvailabilityPattern">
+          <End Type="WFMMContext.AvailabilityPattern" Role="AvailabilityPattern" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WFMMContext.AvailabilityDay" Role="AvailabilityDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AvailabilityPattern">
+              <PropertyRef Name="PatternId" />
+            </Principal>
+            <Dependent Role="AvailabilityDay">
+              <PropertyRef Name="PatternId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="vw_AvailabilityPatternAvailabilityDay">
+          <End Type="WFMMContext.vw_AvailabilityPattern" Role="vw_AvailabilityPattern" Multiplicity="1" />
+          <End Type="WFMMContext.AvailabilityDay" Role="AvailabilityDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vw_AvailabilityPattern">
+              <PropertyRef Name="PatternId" />
+            </Principal>
+            <Dependent Role="AvailabilityDay">
+              <PropertyRef Name="PatternId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_AvailabilityPatternMissing">
+          <Key>
+            <PropertyRef Name="PersonNumber" />
+          </Key>
+          <Property Name="Region" Type="Int16" />
+          <Property Name="HomeBranch" Type="Int16" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_AvailabilitySummary">
+          <Key>
+            <PropertyRef Name="DayNum" />
+          </Key>
+          <Property Name="HomeBranch" Type="Int16" />
+          <Property Name="DayNum" Type="Byte" Nullable="false" />
+          <Property Name="C08_AV" Type="Int32" />
+          <Property Name="C09_AV" Type="Int32" />
+          <Property Name="C10_AV" Type="Int32" />
+          <Property Name="C11_AV" Type="Int32" />
+          <Property Name="C12_AV" Type="Int32" />
+          <Property Name="C13_AV" Type="Int32" />
+          <Property Name="C14_AV" Type="Int32" />
+          <Property Name="C15_AV" Type="Int32" />
+          <Property Name="C16_AV" Type="Int32" />
+          <Property Name="C17_AV" Type="Int32" />
+          <Property Name="C18_AV" Type="Int32" />
+          <Property Name="C19_AV" Type="Int32" />
+          <Property Name="C20_AV" Type="Int32" />
+          <Property Name="C21_AV" Type="Int32" />
+          <Property Name="C22_AV" Type="Int32" />
+          <Property Name="C23_AV" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_PilotDailyUnders">
+          <Key>
+            <PropertyRef Name="WeekNumber" />
+          </Key>
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="TotalUnders" Type="Double" />
+        </EntityType>
+        <EntityType Name="AvailabilityStore">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3305,6 +3603,98 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
                 <ScalarProperty Name="Dept" ColumnName="Dept" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="Legal_Entity" ColumnName="Legal Entity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvailabilityDays">
+            <EntityTypeMapping TypeName="WFMMContext.AvailabilityDay">
+              <MappingFragment StoreEntitySet="AvailabilityDays">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="DayNum" ColumnName="DayNum" />
+                <ScalarProperty Name="PatternId" ColumnName="PatternId" />
+                <ScalarProperty Name="DayId" ColumnName="DayId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvailabilityPatterns">
+            <EntityTypeMapping TypeName="WFMMContext.AvailabilityPattern">
+              <MappingFragment StoreEntitySet="AvailabilityPattern">
+                <ScalarProperty Name="PatternType" ColumnName="PatternType" />
+                <ScalarProperty Name="LastConfirmedBy" ColumnName="LastConfirmedBy" />
+                <ScalarProperty Name="LastConfirmedDate" ColumnName="LastConfirmedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="PatternId" ColumnName="PatternId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_AvailabilityPattern">
+            <EntityTypeMapping TypeName="WFMMContext.vw_AvailabilityPattern">
+              <MappingFragment StoreEntitySet="vw_AvailabilityPattern">
+                <ScalarProperty Name="PatternType" ColumnName="PatternType" />
+                <ScalarProperty Name="LastConfirmedBy" ColumnName="LastConfirmedBy" />
+                <ScalarProperty Name="LastConfirmedDate" ColumnName="LastConfirmedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="HomeBranch" ColumnName="HomeBranch" />
+                <ScalarProperty Name="PatternId" ColumnName="PatternId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_AvailabilityPatternMissing">
+            <EntityTypeMapping TypeName="WFMMContext.vw_AvailabilityPatternMissing">
+              <MappingFragment StoreEntitySet="vw_AvailabilityPatternMissing">
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="HomeBranch" ColumnName="HomeBranch" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_AvailabilitySummary">
+            <EntityTypeMapping TypeName="WFMMContext.vw_AvailabilitySummary">
+              <MappingFragment StoreEntitySet="vw_AvailabilitySummary">
+                <ScalarProperty Name="C23_AV" ColumnName="23 AV" />
+                <ScalarProperty Name="C22_AV" ColumnName="22 AV" />
+                <ScalarProperty Name="C21_AV" ColumnName="21 AV" />
+                <ScalarProperty Name="C20_AV" ColumnName="20 AV" />
+                <ScalarProperty Name="C19_AV" ColumnName="19 AV" />
+                <ScalarProperty Name="C18_AV" ColumnName="18 AV" />
+                <ScalarProperty Name="C17_AV" ColumnName="17 AV" />
+                <ScalarProperty Name="C16_AV" ColumnName="16 AV" />
+                <ScalarProperty Name="C15_AV" ColumnName="15 AV" />
+                <ScalarProperty Name="C14_AV" ColumnName="14 AV" />
+                <ScalarProperty Name="C13_AV" ColumnName="13 AV" />
+                <ScalarProperty Name="C12_AV" ColumnName="12 AV" />
+                <ScalarProperty Name="C11_AV" ColumnName="11 AV" />
+                <ScalarProperty Name="C10_AV" ColumnName="10 AV" />
+                <ScalarProperty Name="C09_AV" ColumnName="09 AV" />
+                <ScalarProperty Name="C08_AV" ColumnName="08 AV" />
+                <ScalarProperty Name="DayNum" ColumnName="DayNum" />
+                <ScalarProperty Name="HomeBranch" ColumnName="HomeBranch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_PilotDailyUnders">
+            <EntityTypeMapping TypeName="WFMMContext.vw_PilotDailyUnders">
+              <MappingFragment StoreEntitySet="vw_PilotDailyUnders">
+                <ScalarProperty Name="TotalUnders" ColumnName="TotalUnders" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvailabilityStores">
+            <EntityTypeMapping TypeName="WFMMContext.AvailabilityStore">
+              <MappingFragment StoreEntitySet="AvailabilityStores">
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

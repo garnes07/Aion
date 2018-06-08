@@ -25,6 +25,7 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IEmpSummaryManager _empSummaryManager;
         private readonly IEditedClockManager _editedClockManager;
         private readonly IPayCalendarManager _payCalendarManager;
+        private readonly IAvlbltyManager _avlbltyManager;
 
         public RFTPController()
         {
@@ -37,6 +38,7 @@ namespace Aion.Areas.WFM.Controllers
             _empSummaryManager = new EmpSummaryManager();
             _editedClockManager = new EditedClockManager();
             _payCalendarManager = new PayCalendarManager();
+            _avlbltyManager = new AvlbltyManager();
         }
         
         //Summary
@@ -324,6 +326,12 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     System.Web.HttpContext.Current.Session["_PTFlag"] = "";
                 }
+            }
+
+            if(_store.Region == "118" || _store.Region == "109")
+            {
+                vm.avlbltyPattern = await _avlbltyManager.GetAllPatternsPerson(System.Web.HttpContext.Current.Session["_EmpNum"].ToString());
+                vm.avlbltlyPilot = true;
             }
 
             vm.rawMenu = await _payCalendarManager.GetPayCalendarRef(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString());

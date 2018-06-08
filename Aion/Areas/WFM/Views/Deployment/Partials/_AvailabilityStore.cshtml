@@ -1,0 +1,105 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.AvlbltySummaryVm
+
+<div class="card">
+    <div class="card-header text-center">
+        <strong>My Team's Availability</strong>
+    </div>
+    <div class="card-body">
+        @if (Model.AvlbltyMissing.Any())
+        {
+            <h4>The below colleagues have not submitted their availability</h4>
+            <ul>
+                @foreach (var item in Model.AvlbltyMissing)
+                {
+                    <li><strong>@item.PersonName</strong><a href="@Url.Action("UpdateAvailability","Deployment",new { PersonNumber=item.PersonNumber })" class="ml-3">Submit <i class="icon ion-arrow-right-a"></i></a></li>
+                }
+            </ul>
+            <hr />
+        }
+        @if (Model.AvlbltyCollection.Any())
+        {
+            <table class="table table-bordered table-sm table-smtxtperm">
+                <thead>
+                    <tr class="text-center">
+                        <th></th>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                        <th>Last Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AvlbltyCollection.OrderBy(x => x.PersonName))
+                    {
+                        <tr>
+                            <td>@item.PersonName</td>
+                            <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 1)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 1)?.EndTime)</td>
+                            <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 2)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 2)?.EndTime)</td>
+                            <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 3)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 3)?.EndTime)</td>
+                            <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 4)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 4)?.EndTime)</td>
+                            <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 5)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 5)?.EndTime)</td>
+                            <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 6)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 6)?.EndTime)</td>
+                            <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 7)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 7)?.EndTime)</td>
+                            <td class="text-center @(item.LastConfirmedDate.AddDays(90) < DateTime.Now ? "table-danger" : "")">@item.LastConfirmedDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (Model.AvlbltySummary.Any())
+        {
+            <hr />
+            <table id="avlbltyPattern" class="table table-bordered table-sm table-smtxtperm" style="table-layout:fixed;">
+                <thead>
+                    <tr class="text-center">
+                        <th></th>
+                        <th>8</th>
+                        <th>9</th>
+                        <th>10</th>
+                        <th>11</th>
+                        <th>12</th>
+                        <th>13</th>
+                        <th>14</th>
+                        <th>15</th>
+                        <th>16</th>
+                        <th>17</th>
+                        <th>18</th>
+                        <th>19</th>
+                        <th>20</th>
+                        <th>21</th>
+                        <th>22</th>
+                        <th>23</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @foreach (var item in Model.AvlbltySummary.OrderBy(x => x.DayNum))
+                    {
+                        <tr>
+                            <td><strong>@Model.GetName(item.DayNum)</strong></td>
+                            <td>@item.C08_AV</td>
+                            <td>@item.C09_AV</td>
+                            <td>@item.C10_AV</td>
+                            <td>@item.C11_AV</td>
+                            <td>@item.C12_AV</td>
+                            <td>@item.C13_AV</td>
+                            <td>@item.C14_AV</td>
+                            <td>@item.C15_AV</td>
+                            <td>@item.C16_AV</td>
+                            <td>@item.C17_AV</td>
+                            <td>@item.C18_AV</td>
+                            <td>@item.C19_AV</td>
+                            <td>@item.C20_AV</td>
+                            <td>@item.C21_AV</td>
+                            <td>@item.C22_AV</td>
+                            <td>@item.C23_AV</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }        
+    </div>
+</div>

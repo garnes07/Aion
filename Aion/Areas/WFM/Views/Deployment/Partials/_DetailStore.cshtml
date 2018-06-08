@@ -105,13 +105,13 @@
                     </tr>
                     <tr style="background-color: #d6f3f5">
                         <td>This is where you've currently put your hours</td>
-                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SundayDeployed)</td>
-                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.MondayDeployed)</td>
-                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.TuesdayDeployed)</td>
-                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.WednesdayDeployed)</td>
-                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.ThursdayDeployed)</td>
-                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.FridayDeployed)</td>
-                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SaturdayDeployed)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SundayDeployed / Model.StoreDailyData.DeployedTotal * 100)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.MondayDeployed / Model.StoreDailyData.DeployedTotal * 100)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.TuesdayDeployed / Model.StoreDailyData.DeployedTotal * 100)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.WednesdayDeployed / Model.StoreDailyData.DeployedTotal * 100)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.ThursdayDeployed / Model.StoreDailyData.DeployedTotal * 100)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.FridayDeployed / Model.StoreDailyData.DeployedTotal * 100)</td>
+                        <td class="text-center">@string.Format("{0:0}%", Model.StoreDailyData.SaturdayDeployed / Model.StoreDailyData.DeployedTotal * 100)</td>
                     </tr>
                     <tr>
                         <td>This is what you need to do</td>

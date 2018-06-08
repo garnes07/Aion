@@ -1,0 +1,316 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.UpdateAvlbltyVm
+
+@{
+    ViewBag.Title = "Update Availability";
+    string scriptTxt = "";
+    int a = 0;
+
+    if (Model.existingPattern.Any())
+    {
+        foreach (var item in Model.DefaultPattern.AvailabilityDays)
+        {
+            scriptTxt += string.Format("$('[name=\"a.AvailabilityDays[{0}].StartTime\"]').val('{1}');", item.DayNum - 1, item.StartTime);
+            scriptTxt += string.Format("$('[name=\"a.AvailabilityDays[{0}].EndTime\"]').val('{1}');", item.DayNum - 1, item.EndTime);
+        }
+    }
+
+    var payroll = HttpContext.Current.Session["_EmpNum"] != null ? (HttpContext.Current.Session["_EmpNum"].ToString().Length == 0 ? "e" : HttpContext.Current.Session["_EmpNum"].ToString()) : "e";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Standard Availability</strong>
+        </div>
+        <div class="card-body">
+            @if (Model.empDetails == null)
+            {
+                <p><strong>Unfortunately we couldn't confirm your details from our STAR records.</strong></p>
+                <div id="Help" class="card mt-2 p-2">
+                    <div id="q2" style="display:none;">
+                        <div class="row justify-content-center mb-2">
+                            <strong>Is your employee number - @payroll ?</strong>
+                        </div>
+                        <div class="row justify-content-center">
+                            <button id="q2_1" type="button" class="btn btn-success col-4 mr-2">Yes</button>
+                            <button id="q2_2" type="button" class="btn btn-danger col-4 ml-2">No</button>
+                        </div>
+                    </div>
+                    <div id="payrollMissing" style="display:none;">
+                        <h5><strong><u>Employee Number Missing</u></strong></h5>
+                        <p>
+                            It looks like your employee number is not correctly set on your login. In order to get this updated you will need to follow the below process:
+                            <ol style="text-align:left !important;">
+                                <li>Raise a ticket with the IT helpdesk asking for the employee number on your AD account to be updated</li>
+                                <li>A ticket will be raised and will be sent to the relevant team</li>
+                                <li>You will be asked to provide an email from HRSC (HRSharedServices@dixonscarphone.com) confirming your correct employee number</li>
+                                <li>Once you have provided this to the helpdesk colleague your account will be updated</li>
+                            </ol>
+                        </p>
+                    </div>
+                    <div id="payrollWrong" style="display:none;">
+                        <h5><strong><u>Employee Number Incorrect</u></strong></h5>
+                        <p>
+                            It looks like your employee number is not correctly set on your login. In order to get this updated you will need to follow the below process:
+                            <ol style="text-align:left !important;">
+                                <li>Raise a ticket with the IT helpdesk asking for the employee number on your AD account to be updated</li>
+                                <li>A ticket will be raised and will be sent to the relevant team</li>
+                                <li>You will be asked to provide an email from HRSC (HRSharedServices@dixonscarphone.com) confirming your correct employee number</li>
+                                <li>Once you have provided this to the helpdesk colleague your account will be updated</li>
+                            </ol>
+                        </p>
+                    </div>
+                    <div id="payrollCorrect" style="display:none;">
+                        <h5><strong><u>STAR Details Incorrect</u></strong></h5>
+                        <p>
+                            It looks like we have your correct details. It may be that your you're not set up correctly on STAR.
+                        </p>
+                        <p>
+                            Please raise this with your Manager/TPC who will be able to escalate if your details are incorrect.
+                        </p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p>
+                    <strong>Name: </strong>@Model.empDetails.PersonName<br />
+                    <strong>Role: </strong>@Model.empDetails.JobRole<br />
+                    <strong>Contract Hrs: </strong>@Model.empDetails.EmployeeStandardHours<br />
+                    <strong>Home Branch: </strong>@string.Format("{0} {1}", Model.empDetails.HomeBranch, Model.empDetails.BranchName)
+                </p>
+                <hr />
+                using (Html.BeginForm("UpdateAvailability", "Deployment", null, FormMethod.Post, new { id = "changeAvailabilityForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input name="a.PersonNumber" value="@Model.empDetails.PersonNumber" hidden />
+                    <input name="a.PersonName" value="@Model.empDetails.PersonName" hidden />
+                    <input name="a.PatternType" value="0" hidden />
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="text-center" style="visibility:hidden;">
+                                <h5>Placeholder</h5>
+                            </div>
+                            <table class="table table-bordered table-sm text-center">
+                                <thead>
+                                    <tr>
+                                        <th style="width:33.3%;"></th>
+                                        <th style="width:33.3%;" class="text-center">Start Time</th>
+                                        <th style="width:33.3%;" class="text-center">End Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="formBody">
+                                    <tr class="text-center">
+                                        <td>
+                                            <strong>Sunday</strong>
+                                            <input name="a.AvailabilityDays[0].DayNum" value="1" hidden />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[0].StartTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[0].EndTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Monday</strong>
+                                            <input name="a.AvailabilityDays[1].DayNum" value="2" hidden />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[1].StartTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[1].EndTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Tuesday</strong>
+                                            <input name="a.AvailabilityDays[2].DayNum" value="3" hidden />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[2].StartTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[2].EndTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Wednesday</strong>
+                                            <input name="a.AvailabilityDays[3].DayNum" value="4" hidden />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[3].StartTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[3].EndTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Thursday</strong>
+                                            <input name="a.AvailabilityDays[4].DayNum" value="5" hidden />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[4].StartTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[4].EndTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Friday</strong>
+                                            <input name="a.AvailabilityDays[5].DayNum" value="6" hidden />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[5].StartTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[5].EndTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Saturday</strong>
+                                            <input name="a.AvailabilityDays[6].DayNum" value="7" hidden />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[6].StartTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                        <td>
+                                            @Html.DropDownList("a.AvailabilityDays[6].EndTime", Model.Times, new { @class = "form-control select-center" })
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h5>Would you like additional hours in a nearby store?</h5>
+                            </div>
+                            <div class="table-responsive" style="max-height:350px;">
+                                <table class="table table-bordered table-sm">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th style="width:65%;">Store</th>
+                                            <th>Confirm</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="storeBody">
+                                        @foreach (var item in Model.LocalStores.OrderBy(x => x.StoreNumber))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @string.Format("{0} - {1}", item.StoreNumber, item.StoreName)
+                                                </td>
+                                                <td class="text-center" data-storenum="@item.StoreNumber">
+                                                    @if (Model.AvlbltyStores.Any(x => x.StoreNumber == item.StoreNumber))
+                                                    {
+                                                        <button type="button" class="btn btn-sm btn-success storeConfirm" data-action="unconfirm">I can work here</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" class="btn btn-sm btn-light storeConfirm" data-action="confirm">Confirm?</button>
+                                                    }
+                                                </td>                                                
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group">
+                            <div class="col-10">
+                                <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="storeContainer" class="d-none">
+                    </div>
+                }
+            }            
+        </div>
+    </div>
+</div>
+
+
+@section myScripts{
+    @if (Model.existingPattern.Any())
+    {
+        <script>
+            $(function () {
+                @Html.Raw(scriptTxt)
+            });
+        </script>
+    }
+    <script>
+            $(function () {
+                var payroll = '@payroll';
+                var confirmed = '<button type="button" class="btn btn-sm btn-success storeConfirm" data-action="unconfirm">I can work here</button>';
+                var unconfirmed = '<button type="button" class="btn btn-sm btn-light storeConfirm" data-action="confirm">Confirm?</button>';
+                var storeList = @Model.StoreList;
+                var $storeContainer = $('#storeContainer');
+
+                if (payroll === 'e') {
+                    $('#payrollMissing').toggle();
+                }
+                else {
+                    $('#q2').toggle();
+                };
+
+                $('#q2_1').click(function(){
+                    $('#q2').fadeOut('fast', function () {
+                        $('#payrollCorrect').fadeIn('fast');
+                    });
+                });
+
+                $('#q2_2').click(function(){
+                    $('#q2').fadeOut('fast', function () {
+                        $('#payrollWrong').fadeIn('fast');
+                    });
+                });
+
+                $('#formBody').on('change', 'select', function () {
+                    if ($(this).val() === "00:00:00") {
+                        var selectName = $(this).attr('name');
+                        console.log(selectName);
+                        if (selectName.indexOf('StartTime') != -1)
+                            selectName = selectName.replace('StartTime', 'EndTime');
+                        else
+                            selectName = selectName.replace('EndTime', 'StartTime');
+                        console.log(selectName);
+                        console.log('[name="' + selectName + '"]');
+                        $('[name="' + selectName + '"]').val("00:00:00");
+                    };
+                });
+
+                $('#storeBody').on('click', '.storeConfirm', function () {
+                    if($(this).data('action') === 'confirm'){
+                        storeList.push($(this).parent().data('storenum'));
+                        $(this).parent().html(confirmed);
+                    }
+                    else{
+                        var index = storeList.indexOf($(this).parent().data('storenum'));
+                        if(index > -1){
+                            storeList.splice(index, 1)
+                        };
+                        $(this).parent().html(unconfirmed);
+                    };
+                });
+
+                $('#changeAvailabilityForm').submit(function(e){
+                    e.preventDefault();
+                    for (var i = 0; i < storeList.length; i++) {
+                        $storeContainer.append('<input name="s['+i+']" value="'+storeList[i]+'" hidden/>');
+                    }
+                    this.submit();
+                });
+            });
+    </script>
+}
+

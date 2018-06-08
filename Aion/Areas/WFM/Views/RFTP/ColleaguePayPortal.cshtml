@@ -5,6 +5,54 @@
 }
 
 <div class="container-fluid">
+    @if (Model.avlbltlyPilot)
+    {
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                <strong>Availability</strong>
+            </div>
+            <div class="card-body">
+                @if (Model.DefaultPattern == null)
+                {
+                    <p>We don't yet have a record of your availability, please submit to support your manager with creating schedules</p>
+                    <div class="row justify-content-center">
+                        <a href="@Url.Action("UpdateAvailability","Deployment")" class="col-2 btn btn-info">Submit</a>
+                    </div>
+                }
+                else
+                {
+                    <table class="table table-bordered table-sm table-smtxtperm" style="table-layout:fixed;">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                                <th>Last Completed</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 1)?.StartTime, Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 1)?.EndTime)</td>
+                                <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 2)?.StartTime, Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 2)?.EndTime)</td>
+                                <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 3)?.StartTime, Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 3)?.EndTime)</td>
+                                <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 4)?.StartTime, Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 4)?.EndTime)</td>
+                                <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 5)?.StartTime, Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 5)?.EndTime)</td>
+                                <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 6)?.StartTime, Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 6)?.EndTime)</td>
+                                <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 7)?.StartTime, Model.DefaultPattern.AvailabilityDays.FirstOrDefault(x => x.DayNum == 7)?.EndTime)</td>
+                                <td class="text-center @(Model.DefaultPattern.LastConfirmedDate.AddDays(90) < DateTime.Now ? "table-danger" : "")">@Model.DefaultPattern.LastConfirmedDate.ToShortDateString()</td>
+                                <td class="text-center"><a href="@Url.Action("UpdateAvailability","Deployment")" class="btn btn-sm btn-info">Update</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    }    
     <div class="card" style="min-height:500px;">
         <div class="card-header text-center">
             <strong>Colleague Pay Portal</strong>

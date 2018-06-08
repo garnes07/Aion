@@ -15,5 +15,9 @@ namespace Aion.Areas.ProfitLoss.Models
         public decimal? PercToBudget => VmHelpers.CalcPerc(ActualAmount, BudgetAmount);
         public decimal? QtdPercToBudget => VmHelpers.CalcPerc(QtdActualAmount, QtdBudgetAmount);
         public decimal? YtdPercToBudget => VmHelpers.CalcPerc(YtdActualAmount, YtdBudgetAmount);
+
+        public decimal? PercToBudgetTotal => VmHelpers.CalcPercTotal(ActualAmount, BudgetAmount);
+        public decimal? QtdPercToBudgetTotal => VmHelpers.CalcPercTotal(QtdActualAmount, QtdBudgetAmount);
+        public decimal? YtdPercToBudgetTotal => VmHelpers.CalcPercTotal(YtdActualAmount, YtdBudgetAmount);
     }
 }

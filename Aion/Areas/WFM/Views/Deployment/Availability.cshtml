@@ -1,0 +1,43 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.Deployment.AvlbltySummaryVm
+
+@{
+    ViewBag.Title = "Availability";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+
+    @if (Model.MessageType == MessageType.Error)
+    {
+        <div class="alert alert-warning text-center"><strong>@Model.Message</strong></div>
+    }
+    else if (Model.DisplayLevel == 1)
+    {
+        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_AvailabilityStore.cshtml")
+    }
+</div>
+
+@section myScripts{
+    @if (Model.DisplayLevel == 1)
+    {
+        <script src="~/Scripts/HeatMap.min.js"></script>
+        <script>
+               $(function(){
+                   $('#avlbltyPattern td').hottie({
+                       colorArray : [
+                           '#f97a86',
+                           '#7af97c'
+                       ]
+                   });
+               });
+        </script>
+    }
+}

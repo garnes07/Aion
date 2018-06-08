@@ -25,6 +25,40 @@ namespace Aion.Helpers
         {
             if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
             {
+                return actual / budget;
+                //if (budget < 0)
+                //{
+                //    return (actual / Math.Abs((decimal)budget) + 2);
+                //}
+                //else
+                //{
+                //    return actual / budget;
+                //}
+            }
+            return 0;
+        }
+
+        public static double? CalcPerc(double? actual, double? budget)
+        {
+            if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
+            {
+                return actual / budget;
+                //if (budget < 0)
+                //{
+                //    return (actual / Math.Abs((double)budget) + 2);
+                //}
+                //else
+                //{
+                //    return actual / budget;
+                //}
+            }
+            return 0;
+        }
+
+        public static decimal? CalcPercTotal(decimal? actual, decimal? budget)
+        {
+            if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
+            {
                 if (budget < 0)
                 {
                     return (actual / Math.Abs((decimal)budget) + 2);
@@ -37,7 +71,7 @@ namespace Aion.Helpers
             return 0;
         }
 
-        public static double? CalcPerc(double? actual, double? budget)
+        public static double? CalcPercTotal(double? actual, double? budget)
         {
             if (actual.GetValueOrDefault() != 0 && budget.GetValueOrDefault() != 0)
             {
@@ -54,13 +88,13 @@ namespace Aion.Helpers
         }
 
         // Populate select list for opening times
-        public static IEnumerable<SelectListItem> GetTimes()
+        public static IEnumerable<SelectListItem> GetTimes(string zeroValue = "Closed")
         {
             TimeSpan TimeCounter = new TimeSpan(7, 0, 0);
             TimeSpan TimeIncrement = new TimeSpan(0, 15, 0);
             TimeSpan MaxTime = new TimeSpan(23, 15, 0);
 
-            var times = new List<SelectListItem> {new SelectListItem {Text = "Closed", Value = "00:00:00"}};
+            var times = new List<SelectListItem> {new SelectListItem {Text = zeroValue, Value = "00:00:00"}};
 
             while (TimeCounter < MaxTime)
             {
