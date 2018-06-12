@@ -70,6 +70,9 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_AvailabilitySummary> vw_AvailabilitySummary { get; set; }
         public virtual DbSet<vw_PilotDailyUnders> vw_PilotDailyUnders { get; set; }
         public virtual DbSet<AvailabilityStore> AvailabilityStores { get; set; }
+        public virtual DbSet<vw_TradingHoursForAvlblty> vw_TradingHoursForAvlblty { get; set; }
+        public virtual DbSet<vw_AvailabilityCompletionRate> vw_AvailabilityCompletionRate { get; set; }
+        public virtual DbSet<AvailabilityContact> AvailabilityContacts { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {

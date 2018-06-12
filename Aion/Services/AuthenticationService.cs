@@ -34,14 +34,17 @@ namespace Aion.Services
         public async Task<AuthenticationResult> SignIn(string userName, string password)
         {
             AuthenticationResult authResult = new AuthenticationResult();
-            
-            if (userName.StartsWith("DSG\\"))
+            string Domain = "CPWPLC";
+
+            if (userName.StartsWith("DSG\\", true, new System.Globalization.CultureInfo("en-US")))
             {
-                userName = userName.Replace("DSG\\", "");
+                //userName = userName.Replace("DSG\\", "");
+                userName = System.Text.RegularExpressions.Regex.Replace(userName, "([Dd][Ss][Gg]\\\\)", "");
+                Domain = "DSG";
             }
 
             //try CPWPLC first
-            var principalContext = new PrincipalContext(ContextType.Domain, "CPWPLC");
+            var principalContext = new PrincipalContext(ContextType.Domain, Domain);
             bool IsAuthenticated;
             UserPrincipal userPrincipal = null;
             try
@@ -63,7 +66,8 @@ namespace Aion.Services
             //try DSG if not authenticated via CPWPLC
             if (!IsAuthenticated)
             {
-                principalContext = new PrincipalContext(ContextType.Domain, "DSG");
+                Domain = Domain == "CPWPLC" ? "DSG" : "CPWPLC";
+                principalContext = new PrincipalContext(ContextType.Domain, Domain);
                 try
                 {
                     IsAuthenticated = principalContext.ValidateCredentials(userName, password, ContextOptions.Negotiate);

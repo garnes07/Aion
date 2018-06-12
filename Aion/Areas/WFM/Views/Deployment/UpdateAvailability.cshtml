@@ -200,7 +200,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="storeBody">
-                                        @foreach (var item in Model.LocalStores.OrderBy(x => x.StoreNumber))
+                                        @foreach (var item in Model.LocalStores.Where(x => x.StoreNumber != Model.empDetails.HomeBranch).OrderBy(x => x.StoreNumber))
                                         {
                                             <tr>
                                                 <td>
@@ -215,7 +215,7 @@
                                                     {
                                                         <button type="button" class="btn btn-sm btn-light storeConfirm" data-action="confirm">Confirm?</button>
                                                     }
-                                                </td>                                                
+                                                </td>
                                             </tr>
                                         }
                                     </tbody>
@@ -223,6 +223,74 @@
                             </div>
                         </div>
                     </div>
+                    if (Model.displayContact)
+                    {
+                        <hr />
+                        <div class="row" id="contactContainer">
+                            <div class="col">
+                                <h5>Contact Details</h5>
+                                <p>So that other managers in your region can contact you about open shifts we would like to keep a record of some of your details.</p>
+                                @if (Model.contactDetails != null)
+                                {
+                                    <div id="existingContact">
+                                        It looks like we already have some details for you, is the below information correct?<br />
+                                        <strong>Email: </strong>@(Model.contactDetails.Email != null ? Model.contactDetails.Email : "None given")<br />
+                                        <strong>Phone: </strong>@(Model.contactDetails.Phone != null ? Model.contactDetails.Phone : "None given")<br />
+                                        <div class="form-group form-row mb-0" id="confirmValidate" style="display:none;">
+                                            <div class="text-danger"><strong>Please select one</strong></div>
+                                        </div>
+                                        <div class="form-check form-check-inline mt-1">
+                                            <input class="form-check-input" type="radio" name="cConfirm" id="cConfirm" value="yes"/>
+                                            <label class="form-check-label" for="cConfirm">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline mt-1">
+                                            <input class="form-check-input" type="radio" name="cConfirm" id="cUnconfirm" value="no"/>
+                                            <label class="form-check-label" for="cConfirm">No</label>
+                                        </div>
+                                        <div class="form-group row mt-2">
+                                            <div class="col">
+                                                <strong>If you would like us to delete your contact details please tick here</strong>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input id="dChck" class="form-check-input" type="checkbox" value=""/>
+                                                    <input type="hidden" value="false" name="d" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input name="confirmOnly" value="true" hidden />
+                                    </div>
+                                }
+                                <div id="addDetails" style="@(Model.contactDetails != null ? "display:none;" : "")">
+                                    <p>
+                                        Please provide at least one contact method below and confirm you are happy to be contacted
+                                        <div class="form-group form-row">
+                                            <label class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input id="c.Email" type="email" name="c.Email" class="form-control" value="@Model.contactDetails.Email"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <label class="col-sm-2 col-form-label">Phone</label>
+                                            <div class="col-sm-10">
+                                                <input id="c.Phone" type="text" name="c.Phone" class="form-control" value="@Model.contactDetails.Phone"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row mb-0" id="confirmValidation" style="display:none;">
+                                            <div class="text-danger"><strong>Please tick to confirm you are happy to be contacted</strong></div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <div class="col-sm-5"><strong>I am happy to be contacted by managers about open shifts</strong></div>
+                                            <div class="ml-2 col-sm-1">
+                                                <input class="form-check-input" type="checkbox" id="happyConfirm" />
+                                            </div>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <hr />
                     <div class="row justify-content-center">
                         <div class="form-group">
                             <div class="col-10">
@@ -233,7 +301,7 @@
                     <div id="storeContainer" class="d-none">
                     </div>
                 }
-            }            
+            }
         </div>
     </div>
 </div>
@@ -249,68 +317,109 @@
         </script>
     }
     <script>
-            $(function () {
-                var payroll = '@payroll';
-                var confirmed = '<button type="button" class="btn btn-sm btn-success storeConfirm" data-action="unconfirm">I can work here</button>';
-                var unconfirmed = '<button type="button" class="btn btn-sm btn-light storeConfirm" data-action="confirm">Confirm?</button>';
-                var storeList = @Model.StoreList;
-                var $storeContainer = $('#storeContainer');
+        $(function () {
+            var payroll = '@payroll';
+            var confirmed = '<button type="button" class="btn btn-sm btn-success storeConfirm" data-action="unconfirm">I can work here</button>';
+            var unconfirmed = '<button type="button" class="btn btn-sm btn-light storeConfirm" data-action="confirm">Confirm?</button>';
+            var storeList = @Model.StoreList;
+            var $storeContainer = $('#storeContainer');
 
-                if (payroll === 'e') {
-                    $('#payrollMissing').toggle();
-                }
-                else {
-                    $('#q2').toggle();
-                };
+            if (payroll === 'e') {
+                $('#payrollMissing').toggle();
+            }
+            else {
+                $('#q2').toggle();
+            };
 
-                $('#q2_1').click(function(){
-                    $('#q2').fadeOut('fast', function () {
-                        $('#payrollCorrect').fadeIn('fast');
-                    });
-                });
-
-                $('#q2_2').click(function(){
-                    $('#q2').fadeOut('fast', function () {
-                        $('#payrollWrong').fadeIn('fast');
-                    });
-                });
-
-                $('#formBody').on('change', 'select', function () {
-                    if ($(this).val() === "00:00:00") {
-                        var selectName = $(this).attr('name');
-                        console.log(selectName);
-                        if (selectName.indexOf('StartTime') != -1)
-                            selectName = selectName.replace('StartTime', 'EndTime');
-                        else
-                            selectName = selectName.replace('EndTime', 'StartTime');
-                        console.log(selectName);
-                        console.log('[name="' + selectName + '"]');
-                        $('[name="' + selectName + '"]').val("00:00:00");
-                    };
-                });
-
-                $('#storeBody').on('click', '.storeConfirm', function () {
-                    if($(this).data('action') === 'confirm'){
-                        storeList.push($(this).parent().data('storenum'));
-                        $(this).parent().html(confirmed);
-                    }
-                    else{
-                        var index = storeList.indexOf($(this).parent().data('storenum'));
-                        if(index > -1){
-                            storeList.splice(index, 1)
-                        };
-                        $(this).parent().html(unconfirmed);
-                    };
-                });
-
-                $('#changeAvailabilityForm').submit(function(e){
-                    e.preventDefault();
-                    for (var i = 0; i < storeList.length; i++) {
-                        $storeContainer.append('<input name="s['+i+']" value="'+storeList[i]+'" hidden/>');
-                    }
-                    this.submit();
+            $('#q2_1').click(function(){
+                $('#q2').fadeOut('fast', function () {
+                    $('#payrollCorrect').fadeIn('fast');
                 });
             });
+
+            $('#q2_2').click(function(){
+                $('#q2').fadeOut('fast', function () {
+                    $('#payrollWrong').fadeIn('fast');
+                });
+            });
+
+            $('#dChck').change(function(){
+                console.log($('[name="d"]').val());
+                if($('[name="d"]').val() === 'false'){
+                    $('[name="d"]').val('true');
+                }
+                else{
+                    $('[name="d"]').val('false');
+                };
+            });
+
+            $('#formBody').on('change', 'select', function () {
+                if ($(this).val() === "00:00:00") {
+                    var selectName = $(this).attr('name');
+                    console.log(selectName);
+                    if (selectName.indexOf('StartTime') != -1)
+                        selectName = selectName.replace('StartTime', 'EndTime');
+                    else
+                        selectName = selectName.replace('EndTime', 'StartTime');
+                    console.log(selectName);
+                    console.log('[name="' + selectName + '"]');
+                    $('[name="' + selectName + '"]').val("00:00:00");
+                };
+            });
+
+            $('#storeBody').on('click', '.storeConfirm', function () {
+                if($(this).data('action') === 'confirm'){
+                    storeList.push($(this).parent().data('storenum'));
+                    $(this).parent().html(confirmed);
+                }
+                else{
+                    var index = storeList.indexOf($(this).parent().data('storenum'));
+                    if(index > -1){
+                        storeList.splice(index, 1)
+                    };
+                    $(this).parent().html(unconfirmed);
+                };
+            });
+
+            $('#cUnconfirm').click(function(){
+                $('#existingContact').remove();
+                $('#addDetails').show();
+            });
+
+            $('#cConfirm').click(function(){
+                $('#confirmValidate').hide();
+            });
+
+            $('#changeAvailabilityForm').submit(function(e){
+                e.preventDefault();
+                var allowSubmit = true;
+
+                for (var i = 0; i < storeList.length; i++) {
+                    $storeContainer.append('<input name="s['+i+']" value="'+storeList[i]+'" hidden/>');
+                };
+                
+                if($('#cConfirm').length){
+                    if($('input[name="cConfirm"]:checked').val() !== "yes"){
+                        allowSubmit = false;
+                        $('#confirmValidate').show();
+                    }
+                    else{
+                        $('#confirmValidate').hide();
+                    };
+                }
+                else{
+                    if($('#c\\.Email').val().length || $('#c\\.Phone').val().length){
+                        if(!$('#happyConfirm').is(':checked')){
+                            allowSubmit = false;
+                            $('#confirmValidation').show();
+                        };                        
+                    };
+                };
+                
+                if(allowSubmit)
+                    this.submit();
+            });
+        });
     </script>
 }
 

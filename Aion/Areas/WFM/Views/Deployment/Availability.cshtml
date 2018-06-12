@@ -23,6 +23,10 @@
     {
         @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_AvailabilityStore.cshtml")
     }
+    else if (Model.DisplayLevel == 2)
+    {
+        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_AvailabilityRegion.cshtml")
+    }
 </div>
 
 @section myScripts{
@@ -30,13 +34,36 @@
     {
         <script src="~/Scripts/HeatMap.min.js"></script>
         <script>
-               $(function(){
-                   $('#avlbltyPattern td').hottie({
-                       colorArray : [
-                           '#f97a86',
-                           '#7af97c'
-                       ]
-                   });
+            $(function () {
+                var coverLoaded = false;
+
+                $('#avlbltyPattern td').hottie({
+                    colorArray : [
+                        '#f97a86',
+                        '#7af97c'
+                    ]
+                });
+
+                $('#coverContainer').popover({
+                    selector: '[rel="popover"]',
+                    html: true
+                });
+
+                $('#chckCover').click(function () {
+                    if (!coverLoaded) {
+                        $('#coverContainer').toggle();
+                        $.get('/WFM/Deployment/_getCoverColleagues', function (result) {
+                            setTimeout(function () {
+                                $('#coverContainer').html(result);
+                                coverLoaded = true;
+                            }, 250);
+                        });
+                    }
+                    else {
+                        $('#coverContainer').slideToggle();
+                    };
+                });
+                    
                });
         </script>
     }

@@ -10,6 +10,8 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
         public List<vw_AvailabilityPattern> AvlbltyCollection { get; set; }
         public List<vw_AvailabilityPatternMissing> AvlbltyMissing { get; set; }
         public List<vw_AvailabilitySummary> AvlbltySummary { get; set; }
+        public vw_TradingHoursForAvlblty tradingHrs { get; set; }
+        public List<vw_AvailabilityCompletionRate> areaCompletion { get; set; }
 
         public string GetName(short? a)
         {

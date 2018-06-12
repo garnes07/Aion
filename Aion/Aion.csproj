@@ -247,6 +247,9 @@
     <Compile Include="DAL\Entities\ActivityType.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\AvailabilityContact.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\AvailabilityDay.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -511,6 +514,9 @@
     <Compile Include="DAL\Entities\vw_4WeekSummary_Pilot.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_AvailabilityCompletionRate.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_AvailabilityPattern.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -591,6 +597,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_TicketStubRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_TradingHoursForAvlblty.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_VacancyRequestsAdmin.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
@@ -1048,6 +1057,8 @@
     <Content Include="Areas\WFM\Views\Deployment\Availability.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_AvailabilityStore.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\UpdateAvailability.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_AvailabilityRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_coverColleagues.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

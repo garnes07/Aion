@@ -225,11 +225,12 @@ namespace Aion.Areas.WFM.Controllers
                     vm.AvlbltyCollection = await _avlbltyManager.GetAllPatternsStore(selectCrit);
                     vm.AvlbltyMissing = await _avlbltyManager.GetAllColleaguesWithoutPattern(selectCrit);
                     vm.AvlbltySummary = await _avlbltyManager.GetPatternStore(selectCrit);
+                    vm.tradingHrs = await _avlbltyManager.GetCurrentTradingHrs(selectCrit);
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.MessageType = MessageType.Error;
-                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.areaCompletion = await _avlbltyManager.GetCompletionRateRegion(selectCrit);
+                    vm.DisplayLevel = 2;
                     break;
                 case "D":
                     vm.MessageType = MessageType.Error;
@@ -246,7 +247,7 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> UpdateAvailability(string personNumber = "e")
         {
-            if(selectArea != "S")
+            if(selectArea != "S" && personNumber != "e")
             {
                 return RedirectToAction("Availability");
             }
@@ -255,12 +256,27 @@ namespace Aion.Areas.WFM.Controllers
 
             UpdateAvlbltyVm vm = new UpdateAvlbltyVm();
 
+            if (personNumber == "e")
+            {
+                vm.contactDetails = await _avlbltyManager.GetContactDetailsPerson(_personNumber);
+                vm.displayContact = true;
+            }
+            else
+            {
+                if(! await _avlbltyManager.CheckAddRightsForUser(_personNumber, selectCrit))
+                    return RedirectToAction("Availability");
+            }
+
             vm.existingPattern = await _avlbltyManager.GetAllPatternsPerson(_personNumber);
             vm.empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(_personNumber);
             vm.LocalStores = await _storeManager.GetStoresInSameRegion(selectCrit);
             vm.AvlbltyStores = await _avlbltyManager.GetAllPatternStoresPerson(_personNumber);
 
+            if (vm.existingPattern.Count != 0 && personNumber != "e")
+                return RedirectToAction("Availability");
+
             System.Web.HttpContext.Current.Session["_avlbltyRedirect"] = HttpContext.Request.UrlReferrer.Segments.Last() == "ColleaguePayPortal" ? "colleague" : "store";
+            System.Web.HttpContext.Current.Session["_avlbltyToChange"] = _personNumber;
             HttpContext.Request.UrlReferrer.Segments.Last();
 
             return View(vm);
@@ -268,11 +284,12 @@ namespace Aion.Areas.WFM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateAvailability(AvailabilityPattern a, short[] s)
+        public async Task<ActionResult> UpdateAvailability(AvailabilityPattern a, AvailabilityContact c, short[] s, bool d = false, bool confirmOnly = false)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && System.Web.HttpContext.Current.Session["_avlbltyToChange"].ToString() == a.PersonNumber)
             {
-                var result = await _avlbltyManager.SubmitNewPattern(a, s,User.Identity.Name);
+                var patternResult = await _avlbltyManager.SubmitNewPattern(a, s,User.Identity.Name);
+                var contactResult = await _avlbltyManager.UpdateContactDetails(c, d, a.PersonNumber, confirmOnly);
             }
 
             if(System.Web.HttpContext.Current.Session["_avlbltyRedirect"] != null)
@@ -280,11 +297,18 @@ namespace Aion.Areas.WFM.Controllers
                 if(System.Web.HttpContext.Current.Session["_avlbltyRedirect"].ToString() == "colleague")
                 {
                     System.Web.HttpContext.Current.Session.Remove("_avlbltyRedirect");
+                    System.Web.HttpContext.Current.Session.Remove("_avlbltyToChange");
                     return RedirectToAction("ColleaguePayPortal", "RFTP", new { area = "WFM"});
                 }
             }
             System.Web.HttpContext.Current.Session.Remove("_avlbltyRedirect");
+            System.Web.HttpContext.Current.Session.Remove("_avlbltyToChange");
             return RedirectToAction("Availability");
+        }
+
+        public async Task<PartialViewResult> _GetCoverColleagues()
+        {
+            return PartialView("../Deployment/Partials/_coverColleagues", await _avlbltyManager.GetPatternsForAvailableCover(selectCrit));
         }
     }
 }

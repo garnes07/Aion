@@ -1,5 +1,10 @@
 ﻿@model Aion.Areas.WFM.ViewModels.Deployment.AvlbltySummaryVm
 
+@{ 
+    int? open = 0;
+    int? close = 0;
+}
+
 <div class="card">
     <div class="card-header text-center">
         <strong>My Team's Availability</strong>
@@ -49,7 +54,15 @@
                     }
                 </tbody>
             </table>
+            <hr />
         }
+        <button id="chckCover" class="btn btn-info">Check for cover in my region <span class="icon ion-arrow-right-b"></span></button>
+        <div id="coverContainer" class="pt-3" style="display:none;">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"style="width: 75%"></div>
+            </div>
+        </div>
+
         @if (Model.AvlbltySummary.Any())
         {
             <hr />
@@ -76,26 +89,85 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @foreach (var item in Model.AvlbltySummary.OrderBy(x => x.DayNum))
+                    @for (int i = 1; i <= 7; i++)
                     {
+                        var item = Model.AvlbltySummary.FirstOrDefault(x => x.DayNum == i);
+                        if (Model.tradingHrs != null)
+                        {
+                            switch (i)
+                            {
+                                case 1:
+                                    open = Model.tradingHrs.SundayOpen;
+                                    close = Model.tradingHrs.SundayClose;
+                                    break;
+                                case 2:
+                                    open = Model.tradingHrs.MondayOpen;
+                                    close = Model.tradingHrs.MondayClose;
+                                    break;
+                                case 3:
+                                    open = Model.tradingHrs.TuesdayOpen;
+                                    close = Model.tradingHrs.TuesdayClose;
+                                    break;
+                                case 4:
+                                    open = Model.tradingHrs.WednesdayOpen;
+                                    close = Model.tradingHrs.WednesdayClose;
+                                    break;
+                                case 5:
+                                    open = Model.tradingHrs.ThursdayOpen;
+                                    close = Model.tradingHrs.ThursdayClose;
+                                    break;
+                                case 6:
+                                    open = Model.tradingHrs.FridayOpen;
+                                    close = Model.tradingHrs.FridayClose;
+                                    break;
+                                case 7:
+                                    open = Model.tradingHrs.SaturdayOpen;
+                                    close = Model.tradingHrs.SaturdayClose;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                         <tr>
-                            <td><strong>@Model.GetName(item.DayNum)</strong></td>
-                            <td>@item.C08_AV</td>
-                            <td>@item.C09_AV</td>
-                            <td>@item.C10_AV</td>
-                            <td>@item.C11_AV</td>
-                            <td>@item.C12_AV</td>
-                            <td>@item.C13_AV</td>
-                            <td>@item.C14_AV</td>
-                            <td>@item.C15_AV</td>
-                            <td>@item.C16_AV</td>
-                            <td>@item.C17_AV</td>
-                            <td>@item.C18_AV</td>
-                            <td>@item.C19_AV</td>
-                            <td>@item.C20_AV</td>
-                            <td>@item.C21_AV</td>
-                            <td>@item.C22_AV</td>
-                            <td>@item.C23_AV</td>
+                            <td><strong>@Model.GetName((short?)i)</strong></td>
+                            @if (item != null)
+                            {
+                                <td>@(open <= 8 && close >= 9 ? item.C08_AV.ToString() : "")</td>
+                                <td>@(open <= 9 && close >= 10 ? item.C09_AV.ToString() : "")</td>
+                                <td>@(open <= 10 && close >= 11 ? item.C10_AV.ToString() : "")</td>
+                                <td>@(open <= 11 && close >= 12 ? item.C11_AV.ToString() : "")</td>
+                                <td>@(open <= 12 && close >= 13 ? item.C12_AV.ToString() : "")</td>
+                                <td>@(open <= 13 && close >= 14 ? item.C13_AV.ToString() : "")</td>
+                                <td>@(open <= 14 && close >= 15 ? item.C14_AV.ToString() : "")</td>
+                                <td>@(open <= 15 && close >= 16 ? item.C15_AV.ToString() : "")</td>
+                                <td>@(open <= 16 && close >= 17 ? item.C16_AV.ToString() : "")</td>
+                                <td>@(open <= 17 && close >= 18 ? item.C17_AV.ToString() : "")</td>
+                                <td>@(open <= 18 && close >= 19 ? item.C18_AV.ToString() : "")</td>
+                                <td>@(open <= 19 && close >= 20 ? item.C19_AV.ToString() : "")</td>
+                                <td>@(open <= 20 && close >= 21 ? item.C20_AV.ToString() : "")</td>
+                                <td>@(open <= 21 && close >= 22 ? item.C21_AV.ToString() : "")</td>
+                                <td>@(open <= 22 && close >= 23 ? item.C22_AV.ToString() : "")</td>
+                                <td>@(open <= 23 && close >= 24 ? item.C23_AV.ToString() : "")</td>
+                            }
+                            else
+                            {
+                                <td>@(open <= 8 && close >= 9 ? "0" : "")</td>
+                                <td>@(open <= 9 && close >= 10 ? "0" : "")</td>
+                                <td>@(open <= 10 && close >= 11 ? "0" : "")</td>
+                                <td>@(open <= 11 && close >= 12 ? "0" : "")</td>
+                                <td>@(open <= 12 && close >= 13 ? "0" : "")</td>
+                                <td>@(open <= 13 && close >= 14 ? "0" : "")</td>
+                                <td>@(open <= 14 && close >= 15 ? "0" : "")</td>
+                                <td>@(open <= 15 && close >= 16 ? "0" : "")</td>
+                                <td>@(open <= 16 && close >= 17 ? "0" : "")</td>
+                                <td>@(open <= 17 && close >= 18 ? "0" : "")</td>
+                                <td>@(open <= 18 && close >= 19 ? "0" : "")</td>
+                                <td>@(open <= 19 && close >= 20 ? "0" : "")</td>
+                                <td>@(open <= 20 && close >= 21 ? "0" : "")</td>
+                                <td>@(open <= 21 && close >= 22 ? "0" : "")</td>
+                                <td>@(open <= 22 && close >= 23 ? "0" : "")</td>
+                                <td>@(open <= 23 && close >= 24 ? "0" : "")</td>
+                            }
                         </tr>
                     }
                 </tbody>

@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WFMMContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AvailabilityContact">
+          <Key>
+            <PropertyRef Name="PersonNumber" />
+          </Key>
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="25" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="AvailabilityDays">
           <Key>
             <PropertyRef Name="DayId" />
@@ -359,6 +369,24 @@ warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary_Pilot' does not have
           <Property Name="Deployment" Type="float" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityCompletionRate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_AvailabilityCompletionRate">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Headcount" Type="int" />
+          <Property Name="AvlbltyUpToDate" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPattern' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_AvailabilityPattern">
           <Key>
@@ -377,6 +405,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPattern' does not hav
           <Property Name="LastConfirmedDate" Type="datetime" Nullable="false" />
           <Property Name="LastConfirmedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="PatternType" Type="int" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="25" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPatternMissing' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -959,6 +989,28 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="ContractBase" Type="float" />
           <Property Name="VacancyHours" Type="float" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_TradingHoursForAvlblty">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+          </Key>
+          <Property Name="StoreNumber" Type="int" Nullable="false" />
+          <Property Name="SundayOpen" Type="int" />
+          <Property Name="SundayClose" Type="int" />
+          <Property Name="MondayOpen" Type="int" />
+          <Property Name="MondayClose" Type="int" />
+          <Property Name="TuesdayOpen" Type="int" />
+          <Property Name="TuesdayClose" Type="int" />
+          <Property Name="WednesdayOpen" Type="int" />
+          <Property Name="WednesdayClose" Type="int" />
+          <Property Name="ThursdayOpen" Type="int" />
+          <Property Name="ThursdayClose" Type="int" />
+          <Property Name="FridayOpen" Type="int" />
+          <Property Name="FridayClose" Type="int" />
+          <Property Name="SaturdayOpen" Type="int" />
+          <Property Name="SaturdayClose" Type="int" />
+        </EntityType>
         <Association Name="FK_AvailabilityDays_AvailabilityPattern">
           <End Role="AvailabilityPattern" Type="Self.AvailabilityPattern" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1056,6 +1108,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Parameter Name="oldCaseID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="WFMMContextStoreContainer">
+          <EntitySet Name="AvailabilityContact" EntityType="Self.AvailabilityContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AvailabilityDays" EntityType="Self.AvailabilityDays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AvailabilityPattern" EntityType="Self.AvailabilityPattern" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AvailabilityStores" EntityType="Self.AvailabilityStores" Schema="dbo" store:Type="Tables" />
@@ -1098,6 +1151,17 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_4WeekSummary_Pilot].[Deployment] AS [Deployment]
     FROM [dbo].[vw_4WeekSummary_Pilot] AS [vw_4WeekSummary_Pilot]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_AvailabilityCompletionRate" EntityType="Self.vw_AvailabilityCompletionRate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_AvailabilityCompletionRate].[Chain] AS [Chain], 
+    [vw_AvailabilityCompletionRate].[Division] AS [Division], 
+    [vw_AvailabilityCompletionRate].[Region] AS [Region], 
+    [vw_AvailabilityCompletionRate].[StoreNumber] AS [StoreNumber], 
+    [vw_AvailabilityCompletionRate].[StoreName] AS [StoreName], 
+    [vw_AvailabilityCompletionRate].[Headcount] AS [Headcount], 
+    [vw_AvailabilityCompletionRate].[AvlbltyUpToDate] AS [AvlbltyUpToDate]
+    FROM [dbo].[vw_AvailabilityCompletionRate] AS [vw_AvailabilityCompletionRate]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_AvailabilityPattern" EntityType="Self.vw_AvailabilityPattern" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_AvailabilityPattern].[PatternId] AS [PatternId], 
@@ -1108,7 +1172,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_AvailabilityPattern].[CreatedBy] AS [CreatedBy], 
     [vw_AvailabilityPattern].[LastConfirmedDate] AS [LastConfirmedDate], 
     [vw_AvailabilityPattern].[LastConfirmedBy] AS [LastConfirmedBy], 
-    [vw_AvailabilityPattern].[PatternType] AS [PatternType]
+    [vw_AvailabilityPattern].[PatternType] AS [PatternType], 
+    [vw_AvailabilityPattern].[Phone] AS [Phone], 
+    [vw_AvailabilityPattern].[Email] AS [Email]
     FROM [dbo].[vw_AvailabilityPattern] AS [vw_AvailabilityPattern]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_AvailabilityPatternMissing" EntityType="Self.vw_AvailabilityPatternMissing" store:Type="Views" store:Schema="dbo">
@@ -1544,6 +1610,25 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
     [vw_StoreContractStatus].[VacancyHours] AS [VacancyHours]
     FROM [dbo].[vw_StoreContractStatus] AS [vw_StoreContractStatus]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_TradingHoursForAvlblty" EntityType="Self.vw_TradingHoursForAvlblty" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_TradingHoursForAvlblty].[StoreNumber] AS [StoreNumber], 
+    [vw_TradingHoursForAvlblty].[SundayOpen] AS [SundayOpen], 
+    [vw_TradingHoursForAvlblty].[SundayClose] AS [SundayClose], 
+    [vw_TradingHoursForAvlblty].[MondayOpen] AS [MondayOpen], 
+    [vw_TradingHoursForAvlblty].[MondayClose] AS [MondayClose], 
+    [vw_TradingHoursForAvlblty].[TuesdayOpen] AS [TuesdayOpen], 
+    [vw_TradingHoursForAvlblty].[TuesdayClose] AS [TuesdayClose], 
+    [vw_TradingHoursForAvlblty].[WednesdayOpen] AS [WednesdayOpen], 
+    [vw_TradingHoursForAvlblty].[WednesdayClose] AS [WednesdayClose], 
+    [vw_TradingHoursForAvlblty].[ThursdayOpen] AS [ThursdayOpen], 
+    [vw_TradingHoursForAvlblty].[ThursdayClose] AS [ThursdayClose], 
+    [vw_TradingHoursForAvlblty].[FridayOpen] AS [FridayOpen], 
+    [vw_TradingHoursForAvlblty].[FridayClose] AS [FridayClose], 
+    [vw_TradingHoursForAvlblty].[SaturdayOpen] AS [SaturdayOpen], 
+    [vw_TradingHoursForAvlblty].[SaturdayClose] AS [SaturdayClose]
+    FROM [dbo].[vw_TradingHoursForAvlblty] AS [vw_TradingHoursForAvlblty]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AvailabilityDays_AvailabilityPattern" Association="Self.FK_AvailabilityDays_AvailabilityPattern">
             <End Role="AvailabilityPattern" EntitySet="AvailabilityPattern" />
             <End Role="AvailabilityDays" EntitySet="AvailabilityDays" />
@@ -1667,6 +1752,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySet Name="vw_AvailabilitySummary" EntityType="WFMMContext.vw_AvailabilitySummary" />
           <EntitySet Name="vw_PilotDailyUnders" EntityType="WFMMContext.vw_PilotDailyUnders" />
           <EntitySet Name="AvailabilityStores" EntityType="WFMMContext.AvailabilityStore" />
+          <EntitySet Name="vw_TradingHoursForAvlblty" EntityType="WFMMContext.vw_TradingHoursForAvlblty" />
+          <EntitySet Name="vw_AvailabilityCompletionRate" EntityType="WFMMContext.vw_AvailabilityCompletionRate" />
+          <EntitySet Name="AvailabilityContacts" EntityType="WFMMContext.AvailabilityContact" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2616,6 +2704,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="LastConfirmedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PatternType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AvailabilityDays" Relationship="WFMMContext.vw_AvailabilityPatternAvailabilityDay" FromRole="vw_AvailabilityPattern" ToRole="AvailabilityDay" />
+          <Property Name="Phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_AvailabilityDays_AvailabilityPattern">
           <End Type="WFMMContext.AvailabilityPattern" Role="AvailabilityPattern" Multiplicity="1">
@@ -2690,6 +2780,52 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_TradingHoursForAvlblty">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+          </Key>
+          <Property Name="StoreNumber" Type="Int32" Nullable="false" />
+          <Property Name="SundayOpen" Type="Int32" />
+          <Property Name="SundayClose" Type="Int32" />
+          <Property Name="MondayOpen" Type="Int32" />
+          <Property Name="MondayClose" Type="Int32" />
+          <Property Name="TuesdayOpen" Type="Int32" />
+          <Property Name="TuesdayClose" Type="Int32" />
+          <Property Name="WednesdayOpen" Type="Int32" />
+          <Property Name="WednesdayClose" Type="Int32" />
+          <Property Name="ThursdayOpen" Type="Int32" />
+          <Property Name="ThursdayClose" Type="Int32" />
+          <Property Name="FridayOpen" Type="Int32" />
+          <Property Name="FridayClose" Type="Int32" />
+          <Property Name="SaturdayOpen" Type="Int32" />
+          <Property Name="SaturdayClose" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_AvailabilityCompletionRate">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Headcount" Type="Int32" />
+          <Property Name="AvlbltyUpToDate" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AvailabilityContact">
+          <Key>
+            <PropertyRef Name="PersonNumber" />
+          </Key>
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3634,6 +3770,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <EntitySetMapping Name="vw_AvailabilityPattern">
             <EntityTypeMapping TypeName="WFMMContext.vw_AvailabilityPattern">
               <MappingFragment StoreEntitySet="vw_AvailabilityPattern">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="PatternType" ColumnName="PatternType" />
                 <ScalarProperty Name="LastConfirmedBy" ColumnName="LastConfirmedBy" />
                 <ScalarProperty Name="LastConfirmedDate" ColumnName="LastConfirmedDate" />
@@ -3695,6 +3833,51 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_TradingHoursForAvlblty">
+            <EntityTypeMapping TypeName="WFMMContext.vw_TradingHoursForAvlblty">
+              <MappingFragment StoreEntitySet="vw_TradingHoursForAvlblty">
+                <ScalarProperty Name="SaturdayClose" ColumnName="SaturdayClose" />
+                <ScalarProperty Name="SaturdayOpen" ColumnName="SaturdayOpen" />
+                <ScalarProperty Name="FridayClose" ColumnName="FridayClose" />
+                <ScalarProperty Name="FridayOpen" ColumnName="FridayOpen" />
+                <ScalarProperty Name="ThursdayClose" ColumnName="ThursdayClose" />
+                <ScalarProperty Name="ThursdayOpen" ColumnName="ThursdayOpen" />
+                <ScalarProperty Name="WednesdayClose" ColumnName="WednesdayClose" />
+                <ScalarProperty Name="WednesdayOpen" ColumnName="WednesdayOpen" />
+                <ScalarProperty Name="TuesdayClose" ColumnName="TuesdayClose" />
+                <ScalarProperty Name="TuesdayOpen" ColumnName="TuesdayOpen" />
+                <ScalarProperty Name="MondayClose" ColumnName="MondayClose" />
+                <ScalarProperty Name="MondayOpen" ColumnName="MondayOpen" />
+                <ScalarProperty Name="SundayClose" ColumnName="SundayClose" />
+                <ScalarProperty Name="SundayOpen" ColumnName="SundayOpen" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_AvailabilityCompletionRate">
+            <EntityTypeMapping TypeName="WFMMContext.vw_AvailabilityCompletionRate">
+              <MappingFragment StoreEntitySet="vw_AvailabilityCompletionRate">
+                <ScalarProperty Name="AvlbltyUpToDate" ColumnName="AvlbltyUpToDate" />
+                <ScalarProperty Name="Headcount" ColumnName="Headcount" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AvailabilityContacts">
+            <EntityTypeMapping TypeName="WFMMContext.AvailabilityContact">
+              <MappingFragment StoreEntitySet="AvailabilityContact">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

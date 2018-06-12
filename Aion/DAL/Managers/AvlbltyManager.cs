@@ -26,6 +26,55 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<vw_AvailabilityPattern>> GetPatternsForAvailableCover(string storeNum)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(storeNum);
+                return await context.vw_AvailabilityPattern
+                    .Where(x => context.AvailabilityStores.Where(y => y.StoreNumber == crit).Select(y => y.PersonNumber).Contains(x.PersonNumber))
+                    .Include("AvailabilityDays")
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<AvailabilityContact> GetContactDetailsPerson(string personNumber)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.AvailabilityContacts.FirstOrDefaultAsync(x => x.PersonNumber == personNumber);
+            }
+        }
+
+        public async Task<bool> CheckAddRightsForUser(string personNumber, string storeNumber)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(storeNumber);
+                var result = await context.KronosEmployeeSummaries.FirstOrDefaultAsync(x => x.PersonNumber == personNumber && x.HomeBranch == crit && x.Active == true);
+
+                return result != null;
+            }
+        }
+
+        public async Task<vw_TradingHoursForAvlblty> GetCurrentTradingHrs(string storeNum)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(storeNum);
+                return await context.vw_TradingHoursForAvlblty.FirstOrDefaultAsync(x => x.StoreNumber == crit);
+            }
+        }
+
+        public async Task<List<vw_AvailabilityCompletionRate>> GetCompletionRateRegion(string region)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_AvailabilityCompletionRate.Where(x => x.Region == crit).OrderBy(x => x.StoreNumber).ToListAsync();
+            }
+        }
+
         public async Task<List<AvailabilityStore>> GetAllPatternStoresPerson(string personNumber)
         {
             using(var context = new WFMModel())
@@ -128,6 +177,62 @@ namespace Aion.DAL.Managers
             catch(Exception e)
             {
                 return false;
+            }
+        }
+
+        public async Task<bool> UpdateContactDetails(AvailabilityContact ContactDetail, bool deleteRecord, string personNumber, bool confirmOnly)
+        {
+            using(var context = new WFMModel())
+            {
+                try
+                {
+                    bool changes = false;
+                    var existingDetail = await context.AvailabilityContacts.FirstOrDefaultAsync(x => x.PersonNumber == personNumber);
+                    if (existingDetail != null)
+                    {
+                        if (deleteRecord)
+                        {
+                            context.AvailabilityContacts.Remove(existingDetail);
+                            changes = true;
+                        }
+                        else
+                        {
+                            if (confirmOnly)
+                            {
+                                existingDetail.LastUpdated = DateTime.Now;
+                                changes = true;
+                            }
+                            else
+                            {
+                                existingDetail.Email = ContactDetail.Email;
+                                existingDetail.Phone = ContactDetail.Phone;
+                                existingDetail.LastUpdated = DateTime.Now;
+                                changes = true;
+                            }
+                        }
+                    }
+                    else if (ContactDetail.Email != null || ContactDetail.Phone != null)
+                    {
+                        context.AvailabilityContacts.Add(new AvailabilityContact
+                        {
+                            PersonNumber = personNumber,
+                            Phone = ContactDetail.Phone,
+                            Email = ContactDetail.Email,
+                            CreatedDate = DateTime.Now,
+                            LastUpdated = DateTime.Now
+                        });
+                        changes = true;
+                    }
+
+                    if (changes)
+                        await context.SaveChangesAsync();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
     }

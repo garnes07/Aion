@@ -52,7 +52,10 @@
         <EntityTypeShape EntityType="WFMMContext.vw_AvailabilityPatternMissing" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_AvailabilitySummary" Width="1.5" PointX="12.375" PointY="20.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_PilotDailyUnders" Width="1.5" PointX="20.375" PointY="3.75" />
-        <EntityTypeShape EntityType="WFMMContext.AvailabilityStore" Width="1.5" PointX="23.5" PointY="23.25" />
+        <EntityTypeShape EntityType="WFMMContext.AvailabilityStore" Width="1.5" PointX="26" PointY="23.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_TradingHoursForAvlblty" Width="1.5" PointX="14.375" PointY="20.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_AvailabilityCompletionRate" Width="1.5" PointX="16.375" PointY="20.75" />
+        <EntityTypeShape EntityType="WFMMContext.AvailabilityContact" Width="1.5" PointX="21.5" PointY="23.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
