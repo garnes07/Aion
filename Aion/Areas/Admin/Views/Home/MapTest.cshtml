@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "MapTest";
+}
+
+@section myStyles{
+<link rel="stylesheet" href="~/Content/leaflet.css" />    
+}
+
+<div class="container-fluid">
+    <div id="mapContainer" style="min-height:500px;"></div>
+</div>
+
+@section myScripts{
+<script src="~/Scripts/leaflet.js"></script>    
+<script>
+    var map;
+    var ajaxRequest;
+    var plotlist;
+    var plotlayers = [];
+
+    var RedIcon = L.Icon.Default.extend({
+        options: {
+            iconUrl: 'map-marker-icon-red.png',
+            iconSize: [32,32]
+        }
+    });
+    var redIcon = new RedIcon();
+
+    function initmap() {
+        ajaxRequest = getXmlHttpObject();
+        if (ajaxRequest == null) {
+            alert("This browser does not support HTTP Request");
+            return;
+        }
+
+        map = new L.Map('mapContainer');
+
+        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osm = new L.TileLayer(osmUrl, { minZoom: 8, maxZoom: 12, attribution: osmAttrib });
+
+        // start the map in South-East England
+        map.setView(new L.LatLng(51.38, -0.684), 9);
+        map.addLayer(osm);
+
+        askForPlots();
+    };
+
+    function getXmlHttpObject() {
+        if (window.XMLHttpRequest) { return new XMLHttpRequest(); }
+        if (window.ActiveXObject) { return new ActiveXObject("Microsoft.XMLHTTP"); }
+        return null;
+    };
+
+    function askForPlots() {
+        $.get('/Admin/Home/_GetStores', function (result) {
+            setTimeout(function () {
+                stateChanged(result);
+            }, 250);
+        }).fail(function () {
+            //TODO
+        });
+    };
+
+    function stateChanged(a) {
+        plotlist = eval("(" + a + ")");
+        removeMarkers();
+        for (i = 0; i < plotlist.length; i++) {
+            var plotll = new L.LatLng(plotlist[i].Lat, plotlist[i].Long, true);
+            var plotmark = new L.Marker(plotll, { icon: redIcon });
+            plotmark.data = plotlist[i];
+            map.addLayer(plotmark);
+            plotmark.bindPopup("<h3>" + plotlist[i].Region + "</h3>" + plotlist[i].StoreNumber + " - " + plotlist[i].StoreName);
+            plotlayers.push(plotmark);
+        };
+    };
+
+    function removeMarkers() {
+        for (i = 0; i < plotlayers.length; i++) {
+            map.removeLayer(plotlayers[i]);
+        };
+        plotlayers = [];
+    };
+
+    $(function () {
+        initmap();
+    });
+</script>
+}

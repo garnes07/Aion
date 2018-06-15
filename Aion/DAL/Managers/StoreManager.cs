@@ -83,5 +83,13 @@ namespace Aion.DAL.Managers
                 return await context.StoreMasters.OrderBy(x => x.Chain).ThenBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
             }
         }
+
+        public async Task<List<vw_StoreLocations>> GetAllStoreLocations()
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_StoreLocations.OrderBy(x => x.Region).ToListAsync();
+            }
+        }
     }
 }

@@ -12,26 +12,21 @@ namespace Aion.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class StoreMaster
+    public partial class vw_StoreLocations
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public StoreMaster()
-        {
-            this.IpRefs = new HashSet<IpRef>();
-        }
-    
-        public short StoreNumber { get; set; }
-        public string StoreName { get; set; }
         public string Chain { get; set; }
         public string Division { get; set; }
         public short Region { get; set; }
-        public string KronosName { get; set; }
-        public Nullable<short> BaseStore { get; set; }
-        public string IpRange { get; set; }
+        public short StoreNumber { get; set; }
+        public string StoreName { get; set; }
         public Nullable<decimal> Lat { get; set; }
         public Nullable<decimal> Long { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IpRef> IpRefs { get; set; }
+        public int MinervaStore { get; set; }
+        public int MinervaTransferStore { get; set; }
+        public Nullable<short> Contract_Base { get; set; }
+        public Nullable<double> Contract_Hours { get; set; }
+        public Nullable<byte> StoreBand { get; set; }
+        public Nullable<decimal> TotalTradeTransfer { get; set; }
+        public string TradeTransfer { get; set; }
     }
 }

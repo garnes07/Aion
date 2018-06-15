@@ -101,8 +101,8 @@ namespace Aion.Services
             var entry = new DirectoryEntry("LDAP://" + principalContext.ConnectedServer + "/" + userPrincipal.DistinguishedName, userName, password);
             if (principalContext.Name != "DSG")
             {
-                //RetriveCPWPLCEmpNum(entry);
-                HttpContext.Current.Session.Add("_EmpNum", "UK1754357");
+                RetriveCPWPLCEmpNum(entry);
+                //HttpContext.Current.Session.Add("_EmpNum", "UK1754357");
             }
             else
             {

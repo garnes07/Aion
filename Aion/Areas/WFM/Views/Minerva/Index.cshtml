@@ -1,0 +1,191 @@
+﻿@model Aion.Areas.WFM.ViewModels.Minerva.MinervaVm
+
+@{
+    ViewBag.Title = "Minerva";
+}
+
+@section myStyles{
+    <link rel="stylesheet" href="~/Content/leaflet.css" />
+}
+
+<div class="container-fluid">
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="row">
+                <div class="col"><img class="mr-1" src="~/Content/Images/map-marker-red.png" style="height:35px;width:22px;" />Minerva Store</div>
+                <div class="col"><img class="mr-1" src="~/Content/Images/map-marker-green.png" style="height:35px;width:22px;" />Minerva Recipient Store</div>
+                <div class="col"><img class="mr-1" src="~/Content/Images/map-marker-orange.png" style="height:35px;width:22px;" />Band 1/2</div>
+                <div class="col"><img class="mr-1" src="~/Content/Images/map-marker-grey.png" style="height:35px;width:22px;" />All others</div>
+            </div>
+        </div>
+    </div>
+    <div id="mapContainer" class="mb-2" style="min-height:500px;"></div>
+    <div class="card">
+        <div class="card-body">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="selector" id="allStores" value="1" />
+                <label class="form-check-label" for="allStores">All Stores</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="selector" id="minervaStores" value="2" checked />
+                <label class="form-check-label" for="allStores">Minerva</label>
+            </div>
+            <hr />
+            <div class="form-row">
+                <label class="col" for="postcode"><strong><u>Add a marker using postcode: </u></strong> (including the space)</label>
+            </div>
+            <div class="form-row align-items-end">
+                <div class="form-group col-4">
+                    <div><input id="postcode" name="postcode" type="text" class="form-control" /></div>
+                </div>
+                <div class="col-1 mb-3">
+                    <button id="pcAdd" class="btn btn-primary">Add</button>
+                </div>
+                <div id="noMatch" class="col text-danger mb-3" style="display:none;">
+                    <strong>No match found...</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script src="~/Scripts/leaflet.js"></script>
+    <script>
+        var map;
+        var ajaxRequest;
+        var plotlist;
+        var plotlayers = [];
+        var manualMarker;
+
+        var allStores = @Html.Raw(Model.allStores);
+        var minervaOnly = @Html.Raw(Model.minervaOnly);
+
+        var OrangeIcon = L.Icon.Default.extend({
+            options: {
+                iconUrl: 'map-marker-orange.png',
+                iconSize: [22,35]
+            }
+        });
+        var orangeIcon = new OrangeIcon();
+
+        var RedIcon = L.Icon.Default.extend({
+            options: {
+                iconUrl: 'map-marker-red.png',
+                iconSize: [22, 35]
+            }
+        });
+        var redIcon = new RedIcon();
+
+        var GreenIcon = L.Icon.Default.extend({
+            options: {
+                iconUrl: 'map-marker-green.png',
+                iconSize: [22, 35]
+            }
+        });
+        var greenIcon = new GreenIcon();
+
+        var GreyIcon = L.Icon.Default.extend({
+            options: {
+                iconUrl: 'map-marker-grey.png',
+                iconSize: [22, 35]
+            }
+        });
+        var greyIcon = new GreyIcon();
+
+        var HomeIcon = L.Icon.Default.extend({
+            options: {
+                iconUrl: 'map-marker-home.png',
+                iconSize: [51, 64],
+                iconAnchor: [25, 64]
+            }
+        });
+        var homeIcon = new HomeIcon();
+
+        function initmap() {
+            map = new L.Map('mapContainer');
+
+            var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+            var osm = new L.TileLayer(osmUrl, { minZoom: 4, maxZoom: 14, attribution: osmAttrib });
+
+            // start the map in South-East England
+            map.setView(new L.LatLng(52.48, -1.65), 7);
+            map.addLayer(osm);
+
+            mapPlots(minervaOnly);
+        };
+
+        function mapPlots(a) {
+            plotlist = a;
+            removeMarkers();
+            for (i = 0; i < plotlist.length; i++) {
+                var plotll = new L.LatLng(plotlist[i].Lat, plotlist[i].Long, true);
+                var plotmark;
+                var popupTxt = "<h5>" + plotlist[i].StoreNumber + " - " + plotlist[i].StoreName + "</h5>" + "Current Contract: " + plotlist[i].Contract_Hours + "</br>Contract Base: " + plotlist[i].Contract_Base;
+                if(plotlist[i].MinervaStore === 1){
+                    plotmark = new L.Marker(plotll, { icon: redIcon });
+                    popupTxt += "</br></br><strong>Minerva Trade Transfer:</strong></br>" + plotlist[i].TotalTradeTransfer + "%";
+                }
+                else if(plotlist[i].MinervaTransferStore === 1){
+                    plotmark = new L.Marker(plotll, { icon: greenIcon });
+                    popupTxt += "</br></br><strong>Minerva Trade Transfer:</strong></br>" + plotlist[i].TradeTransfer;
+                }
+                else if(plotlist[i].StoreBand === 1 || plotlist[i].StoreBand === 2){
+                    plotmark = new L.Marker(plotll, { icon: orangeIcon });
+                }
+                else{
+                    plotmark = new L.Marker(plotll, { icon: greyIcon });
+                };
+
+                plotmark.data = plotlist[i];
+                map.addLayer(plotmark);
+                plotmark.bindPopup(popupTxt);
+                plotlayers.push(plotmark);
+            };
+        };
+
+        function removeMarkers() {
+            for (i = 0; i < plotlayers.length; i++) {
+                map.removeLayer(plotlayers[i]);
+            };
+            plotlayers = [];
+        };
+
+        $(function () {
+            initmap();
+
+            $('input:radio').change(function(){
+                var selected = $('[name="selector"]:checked').val();
+                if(selected == 1)
+                    mapPlots(allStores);
+                else if(selected == 2)
+                    mapPlots(minervaOnly);
+            });
+
+            $('#pcAdd').click(function(){
+                if(manualMarker != null){
+                    map.removeLayer(manualMarker);
+                    manualMarker = null;
+                };
+
+                var pc = $('#postcode').val();
+                var action = 'https://nominatim.openstreetmap.org/?postalcode=' + pc.replace(' ', '%20') + '&format=json';
+                $.getJSON(action, function(result){
+                    if(result.length){
+                        $('#noMatch').hide();
+                        var plotll = new L.LatLng(result[0].lat, result[0].lon);
+                        manualMarker = new L.Marker(plotll, {icon: homeIcon});
+                        map.addLayer(manualMarker);
+                        manualMarker.bindPopup('<h5>'+ pc.toUpperCase() +'</h5>');
+                        plotlayers.push(manualMarker);
+                        map.setView(new L.LatLng(result[0].lat, result[0].lon), 11);
+                    }
+                    else{
+                        $('#noMatch').show();
+                    };
+                });
+            });
+        });
+    </script>
+}

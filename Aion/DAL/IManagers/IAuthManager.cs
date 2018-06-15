@@ -14,5 +14,6 @@ namespace Aion.DAL.IManagers
         Task<bool> AddNewUserRecord(UserAccess userDetail);
         Task<bool> DeleteUser(string username);
         Task<bool> EditUser(UserAccess userDetail);
+        Task<bool> CheckMinervaAccess(string username);
     }
 }

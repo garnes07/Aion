@@ -16,9 +16,9 @@ namespace Aion.Areas.ProfitLoss.Models
         public Nullable<decimal> AnnualActual { get; set; }
         public Nullable<decimal> AnnualBudget { get; set; }
 
-        public decimal? PercToBudgetTotal => VmHelpers.CalcPerc(PeriodActual, PeriodBudget);
-        public decimal? QTDPercToBudgetTotal => VmHelpers.CalcPerc(QuarterActual, QuarterBudget);
-        public decimal? YTDPercToBudgetTotal => VmHelpers.CalcPerc(AnnualActual, AnnualBudget);
+        public decimal? PercToBudgetTotal => VmHelpers.CalcPercTotal(PeriodActual, PeriodBudget);
+        public decimal? QTDPercToBudgetTotal => VmHelpers.CalcPercTotal(QuarterActual, QuarterBudget);
+        public decimal? YTDPercToBudgetTotal => VmHelpers.CalcPercTotal(AnnualActual, AnnualBudget);
 
         public string selectCrit
         {

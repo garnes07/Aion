@@ -136,5 +136,13 @@ namespace Aion.DAL.Managers
                 }
             }
         }
+
+        public async Task<bool> CheckMinervaAccess(string username)
+        {
+            using(var context = new WebMasterModel())
+            {
+                return await context.MinervaAccesses.Where(x => x.Username == username).AnyAsync();
+            }
+        }
     }
 }

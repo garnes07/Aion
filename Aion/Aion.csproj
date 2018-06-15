@@ -194,6 +194,7 @@
     <Compile Include="Areas\ProfitLoss\ViewModels\Home\ProfitLossVm.cs" />
     <Compile Include="Areas\WFM\Controllers\DeploymentController.cs" />
     <Compile Include="Areas\WFM\Controllers\FuturePlanningController.cs" />
+    <Compile Include="Areas\WFM\Controllers\MinervaController.cs" />
     <Compile Include="Areas\WFM\Controllers\MyStoreController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\DeploymentStatusVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\RecruitmentStatusVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Minerva\MinervaVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\HolidayPlanningVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\MyTeamVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\MyStore\NewOpeningTimeVm.cs" />
@@ -300,6 +302,9 @@
     </Compile>
     <Compile Include="DAL\Entities\LiveVacanciesToCancel.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\MinervaAccess.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\OfferApproval.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
@@ -595,6 +600,9 @@
     <Compile Include="DAL\Entities\vw_StoreContractStatus.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_StoreLocations.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_TicketStubRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
@@ -735,6 +743,17 @@
     <Content Include="Content\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\Images\layers-2x.png" />
+    <Content Include="Content\Images\layers.png" />
+    <Content Include="Content\Images\map-marker-blue.png" />
+    <Content Include="Content\Images\map-marker-green.png" />
+    <Content Include="Content\Images\map-marker-grey.png" />
+    <Content Include="Content\Images\map-marker-home.png" />
+    <Content Include="Content\Images\map-marker-orange.png" />
+    <Content Include="Content\Images\map-marker-red.png" />
+    <Content Include="Content\Images\marker-icon-2x.png" />
+    <Content Include="Content\Images\marker-icon.png" />
+    <Content Include="Content\Images\marker-shadow.png" />
     <Content Include="Content\Images\ui-bg_glass_55_fbf9ee_1x400.png" />
     <Content Include="Content\Images\ui-bg_glass_65_ffffff_1x400.png" />
     <Content Include="Content\Images\ui-bg_glass_75_dadada_1x400.png" />
@@ -750,6 +769,7 @@
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery-ui.structure.min.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
+    <Content Include="Content\leaflet.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\scss\custom.css">
       <DependentUpon>custom.scss</DependentUpon>
@@ -1059,6 +1079,8 @@
     <Content Include="Areas\WFM\Views\Deployment\UpdateAvailability.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_AvailabilityRegion.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_coverColleagues.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\MapTest.cshtml" />
+    <Content Include="Areas\WFM\Views\Minerva\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1234,6 +1256,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\leaflet.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />

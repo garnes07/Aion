@@ -50,6 +50,7 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_TicketStubRef> vw_TicketStubRef { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<ActivityType> ActivityTypes { get; set; }
+        public virtual DbSet<MinervaAccess> MinervaAccesses { get; set; }
     
         public virtual ObjectResult<sp_CheckHelpTickets_Result> sp_CheckHelpTickets(Nullable<short> branchNum)
         {

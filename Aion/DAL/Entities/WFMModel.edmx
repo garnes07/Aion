@@ -395,6 +395,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPattern' does not hav
             
             
             
+            
+            
           </Key>
           <Property Name="PatternId" Type="int" Nullable="false" />
           <Property Name="HomeBranch" Type="smallint" />
@@ -405,8 +407,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPattern' does not hav
           <Property Name="LastConfirmedDate" Type="datetime" Nullable="false" />
           <Property Name="LastConfirmedBy" Type="nvarchar" MaxLength="100" />
           <Property Name="PatternType" Type="int" Nullable="false" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="25" />
-          <Property Name="Email" Type="nvarchar" MaxLength="150" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityPatternMissing' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -988,6 +990,33 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not hav
           <Property Name="ContractHours" Type="float" />
           <Property Name="ContractBase" Type="float" />
           <Property Name="VacancyHours" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_StoreLocations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_StoreLocations">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+            
+            
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StoreBand" Type="tinyint" />
+          <Property Name="Lat" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="Long" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="MinervaStore" Type="int" Nullable="false" />
+          <Property Name="MinervaTransferStore" Type="int" Nullable="false" />
+          <Property Name="Contract Base" Type="smallint" />
+          <Property Name="Contract_Hours" Type="float" />
+          <Property Name="TotalTradeTransfer" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="TradeTransfer" Type="nvarchar" MaxLength="131" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1610,6 +1639,24 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_StoreContractStatus].[VacancyHours] AS [VacancyHours]
     FROM [dbo].[vw_StoreContractStatus] AS [vw_StoreContractStatus]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_StoreLocations" EntityType="Self.vw_StoreLocations" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_StoreLocations].[Chain] AS [Chain], 
+    [vw_StoreLocations].[Division] AS [Division], 
+    [vw_StoreLocations].[Region] AS [Region], 
+    [vw_StoreLocations].[StoreNumber] AS [StoreNumber], 
+    [vw_StoreLocations].[StoreName] AS [StoreName], 
+    [vw_StoreLocations].[StoreBand] AS [StoreBand], 
+    [vw_StoreLocations].[Lat] AS [Lat], 
+    [vw_StoreLocations].[Long] AS [Long], 
+    [vw_StoreLocations].[MinervaStore] AS [MinervaStore], 
+    [vw_StoreLocations].[MinervaTransferStore] AS [MinervaTransferStore], 
+    [vw_StoreLocations].[Contract Base] AS [Contract Base], 
+    [vw_StoreLocations].[Contract_Hours] AS [Contract_Hours], 
+    [vw_StoreLocations].[TotalTradeTransfer] AS [TotalTradeTransfer], 
+    [vw_StoreLocations].[TradeTransfer] AS [TradeTransfer]
+    FROM [dbo].[vw_StoreLocations] AS [vw_StoreLocations]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_TradingHoursForAvlblty" EntityType="Self.vw_TradingHoursForAvlblty" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_TradingHoursForAvlblty].[StoreNumber] AS [StoreNumber], 
@@ -1755,6 +1802,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="vw_TradingHoursForAvlblty" EntityType="WFMMContext.vw_TradingHoursForAvlblty" />
           <EntitySet Name="vw_AvailabilityCompletionRate" EntityType="WFMMContext.vw_AvailabilityCompletionRate" />
           <EntitySet Name="AvailabilityContacts" EntityType="WFMMContext.AvailabilityContact" />
+          <EntitySet Name="vw_StoreLocations" EntityType="WFMMContext.vw_StoreLocations" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2704,8 +2752,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="LastConfirmedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PatternType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AvailabilityDays" Relationship="WFMMContext.vw_AvailabilityPatternAvailabilityDay" FromRole="vw_AvailabilityPattern" ToRole="AvailabilityDay" />
-          <Property Name="Phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK_AvailabilityDays_AvailabilityPattern">
           <End Type="WFMMContext.AvailabilityPattern" Role="AvailabilityPattern" Multiplicity="1">
@@ -2826,6 +2874,29 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="Phone" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="vw_StoreLocations">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lat" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="Long" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="MinervaStore" Type="Int32" Nullable="false" />
+          <Property Name="MinervaTransferStore" Type="Int32" Nullable="false" />
+          <Property Name="Contract_Base" Type="Int16" />
+          <Property Name="Contract_Hours" Type="Double" />
+          <Property Name="StoreBand" Type="Byte" />
+          <Property Name="TotalTradeTransfer" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="TradeTransfer" Type="String" MaxLength="131" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3878,6 +3949,26 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_StoreLocations">
+            <EntityTypeMapping TypeName="WFMMContext.vw_StoreLocations">
+              <MappingFragment StoreEntitySet="vw_StoreLocations">
+                <ScalarProperty Name="TradeTransfer" ColumnName="TradeTransfer" />
+                <ScalarProperty Name="TotalTradeTransfer" ColumnName="TotalTradeTransfer" />
+                <ScalarProperty Name="StoreBand" ColumnName="StoreBand" />
+                <ScalarProperty Name="Contract_Hours" ColumnName="Contract_Hours" />
+                <ScalarProperty Name="Contract_Base" ColumnName="Contract Base" />
+                <ScalarProperty Name="MinervaTransferStore" ColumnName="MinervaTransferStore" />
+                <ScalarProperty Name="MinervaStore" ColumnName="MinervaStore" />
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

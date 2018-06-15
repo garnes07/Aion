@@ -40,6 +40,12 @@
           <Property Name="StoreNumber" Type="smallint" Nullable="false" />
           <Property Name="Added" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="MinervaAccess">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="StoreMaster">
           <Key>
             <PropertyRef Name="StoreNumber" />
@@ -52,6 +58,8 @@
           <Property Name="KronosName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="BaseStore" Type="smallint" />
           <Property Name="IpRange" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Lat" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="Long" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <EntityType Name="UnknownIpLog">
           <Key>
@@ -429,6 +437,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IpRef" EntityType="Self.IpRef" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MinervaAccess" EntityType="Self.MinervaAccess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreMaster" EntityType="Self.StoreMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnknownIpLog" EntityType="Self.UnknownIpLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAccess" EntityType="Self.UserAccess" Schema="dbo" store:Type="Tables" />
@@ -547,6 +556,8 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Name="BaseStore" Type="Int16" />
           <Property Name="IpRange" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="IpRefs" Relationship="Self.FK_IpRef_StoreMaster" FromRole="StoreMaster" ToRole="IpRef" />
+          <Property Name="Lat" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="Long" Type="Decimal" Precision="9" Scale="2" />
         </EntityType>
         <Association Name="FK_IpRef_StoreMaster">
           <End Role="StoreMaster" Type="Self.StoreMaster" Multiplicity="1">
@@ -646,6 +657,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             <End Role="ActivityType" EntitySet="ActivityTypes" />
             <End Role="Activity" EntitySet="Activities" />
           </AssociationSet>
+          <EntitySet Name="MinervaAccesses" EntityType="WebMasterContext.MinervaAccess" />
         </EntityContainer>
         <EntityType Name="UserLog">
           <Key>
@@ -1034,6 +1046,12 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MinervaAccess">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1052,6 +1070,8 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <EntitySetMapping Name="StoreMasters">
             <EntityTypeMapping TypeName="WebMasterContext.StoreMaster">
               <MappingFragment StoreEntitySet="StoreMaster">
+                <ScalarProperty Name="Long" ColumnName="Long" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
                 <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
@@ -1321,6 +1341,13 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="ActivityType1" ColumnName="ActivityType" />
                 <ScalarProperty Name="ActivityTypeId" ColumnName="ActivityTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MinervaAccesses">
+            <EntityTypeMapping TypeName="WebMasterContext.MinervaAccess">
+              <MappingFragment StoreEntitySet="MinervaAccess">
+                <ScalarProperty Name="Username" ColumnName="Username" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
