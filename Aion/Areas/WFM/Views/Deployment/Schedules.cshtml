@@ -1,5 +1,5 @@
 ﻿@using Aion.ViewModels
-@model Aion.Areas.WFM.ViewModels.MyStore.ScheduleVm
+@model Aion.Areas.WFM.ViewModels.Deployment.ScheduleVm
 
 @{
     ViewBag.Title = "Schedules";
@@ -20,14 +20,14 @@
     }
     else
     {
-        @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "Schedules", Controller = "MyStore", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
+        @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "Schedules", Controller = "Deployment", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
         if (Model.DisplayLevel == 1)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SchedulesStore.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SchedulesStore.cshtml")
         }
         else if (Model.DisplayLevel == 2)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SchedulesRegion.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SchedulesRegion.cshtml")
         }
     }
 </div>

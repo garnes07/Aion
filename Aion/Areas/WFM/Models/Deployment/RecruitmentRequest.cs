@@ -1,4 +1,4 @@
-﻿namespace Aion.Areas.WFM.Models.MyStore
+﻿namespace Aion.Areas.WFM.Models.Deployment
 {
     public class RecruitmentRequest
     {

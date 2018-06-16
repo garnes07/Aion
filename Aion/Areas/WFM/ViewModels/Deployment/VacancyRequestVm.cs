@@ -1,4 +1,4 @@
-﻿using Aion.Areas.WFM.Models.MyStore;
+﻿using Aion.Areas.WFM.Models.Deployment;
 using Aion.DAL.Entities;
 using Aion.ViewModels;
 using Newtonsoft.Json;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Aion.Areas.WFM.ViewModels.MyStore
+namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class VacancyRequestVm : BaseVm
     {

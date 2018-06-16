@@ -5,7 +5,7 @@ using Aion.DAL.Entities;
 using Aion.ViewModels;
 using Newtonsoft.Json;
 
-namespace Aion.Areas.WFM.ViewModels.MyStore
+namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class HolidayPlanningVm : BaseVm
     {

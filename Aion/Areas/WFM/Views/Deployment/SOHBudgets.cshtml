@@ -1,5 +1,5 @@
 ﻿@using Aion.ViewModels
-@model Aion.Areas.WFM.ViewModels.MyStore.SOHBudgetsVm
+@model Aion.Areas.WFM.ViewModels.Deployment.SOHBudgetsVm
 
 @{
     ViewBag.Title = "SOH Budgets";
@@ -32,11 +32,11 @@
 
         if (Model.DisplayLevel == 1)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SOHBudgetsStore.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SOHBudgetsStore.cshtml")
         }
         else if (Model.DisplayLevel == 2)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_SOHBudgetsRegion.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_SOHBudgetsRegion.cshtml")
         }
     }
 </div>

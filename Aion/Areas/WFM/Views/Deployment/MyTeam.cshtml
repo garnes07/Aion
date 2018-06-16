@@ -1,5 +1,5 @@
 ﻿@using Aion.ViewModels
-@model Aion.Areas.WFM.ViewModels.MyStore.MyTeamVm
+@model Aion.Areas.WFM.ViewModels.Deployment.MyTeamVm
 
 @{
     ViewBag.Title = "My Team";
@@ -22,11 +22,11 @@
     {
         if (Model.DisplayLevel == 1)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_MyTeamStore.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_MyTeamStore.cshtml")
         }
         else if (Model.DisplayLevel == 2)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_MyTeamRegion.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_MyTeamRegion.cshtml")
         }
     }
 

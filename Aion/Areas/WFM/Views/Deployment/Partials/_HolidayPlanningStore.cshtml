@@ -1,4 +1,4 @@
-﻿@model Aion.Areas.WFM.ViewModels.MyStore.HolidayPlanningVm
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.HolidayPlanningVm
 
 @{
     Func<char, string> ragFormat = (c) =>
@@ -32,7 +32,7 @@
         <table class="table table-bordered table-sm" style="table-layout: fixed;">
             <thead class="thead-blue">
             <tr>
-                <th class="text-center" rowspan="2">Store</th>
+                <th class="text-center" rowspan="2">Name</th>
                 <th class="text-center" colspan="4">Year To Date <small>(exlcudes future planned)</small></th>
                 <th class="text-center" rowspan="2">Planned</th>
             </tr>
@@ -44,11 +44,11 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.RollupCollection.Where(x => x.StoreNumber != null))
+            @foreach (var item in Model.EmpCollection)
             {
                 var _rag = Model.RAG(item);
                 <tr>
-                    <td>@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</td>
+                    <td>@item.EmployeeName</td>
                     <td class="text-center">@item.Balance</td>
                     <td class="text-center">@item.Taken</td>
                     <td class="text-center">@string.Format("{0:0}", (item.Balance + item.Taken) * Model.PercToTake)</td>

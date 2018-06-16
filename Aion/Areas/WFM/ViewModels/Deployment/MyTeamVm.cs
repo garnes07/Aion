@@ -2,7 +2,7 @@
 using Aion.ViewModels;
 using System.Collections.Generic;
 
-namespace Aion.Areas.WFM.ViewModels.MyStore
+namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class MyTeamVm : BaseVm
     {

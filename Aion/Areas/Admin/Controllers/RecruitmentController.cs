@@ -1,7 +1,7 @@
 ﻿using Aion.Areas.Admin.Models;
 using Aion.Areas.Admin.ViewModels.Recruitment;
-using Aion.Areas.WFM.Models.MyStore;
-using Aion.Areas.WFM.ViewModels.MyStore;
+using Aion.Areas.WFM.Models.Deployment;
+using Aion.Areas.WFM.ViewModels.Deployment;
 using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Managers;
@@ -173,7 +173,7 @@ namespace Aion.Areas.Admin.Controllers
             }
 
             VacancyRequestVm vm = new VacancyRequestVm();
-            var detail = chain == "CPW" ? mapper.Map<List<WFM.Models.MyStore.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(storeNum)) : mapper.Map<List<WFM.Models.MyStore.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(storeNum));
+            var detail = chain == "CPW" ? mapper.Map<List<WFM.Models.Deployment.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(storeNum)) : mapper.Map<List<WFM.Models.Deployment.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(storeNum));
             if (detail.Any())
             {
                 vm.Populate(detail);

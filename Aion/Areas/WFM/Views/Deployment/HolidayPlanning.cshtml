@@ -1,5 +1,5 @@
 ﻿@using Aion.ViewModels
-@model Aion.Areas.WFM.ViewModels.MyStore.HolidayPlanningVm
+@model Aion.Areas.WFM.ViewModels.Deployment.HolidayPlanningVm
 
 @{
     ViewBag.Title = "Holiday Planning";
@@ -88,15 +88,15 @@
         </div>
         if (Model.DisplayLevel == 1)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_HolidayPlanningStore.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_HolidayPlanningStore.cshtml")
         }
         else if (Model.DisplayLevel == 2)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_HolidayPlanningRegion.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_HolidayPlanningRegion.cshtml")
         }
         else if (Model.DisplayLevel == 3)
         {
-            @Html.Partial("~/Areas/WFM/Views/MyStore/Partials/_HolidayPlanningDivision.cshtml")
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_HolidayPlanningDivision.cshtml")
         }
     }
 </div>

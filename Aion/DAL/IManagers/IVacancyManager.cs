@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Aion.DAL.Entities;
-using Aion.Areas.WFM.Models.MyStore;
+using Aion.Areas.WFM.Models.Deployment;
 using Aion.Areas.Admin.Models;
 
 namespace Aion.DAL.Managers

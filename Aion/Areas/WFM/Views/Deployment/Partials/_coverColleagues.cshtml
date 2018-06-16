@@ -20,7 +20,7 @@
             @foreach (var item in Model.OrderBy(x => x.PersonName))
             {
                 <tr>
-                    <td>@item.PersonName</td>
+                    <td>@item.PersonName <small>(@item.HomeBranch)</small></td>
                     <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 1)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 1)?.EndTime)</td>
                     <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 2)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 2)?.EndTime)</td>
                     <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 3)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 3)?.EndTime)</td>

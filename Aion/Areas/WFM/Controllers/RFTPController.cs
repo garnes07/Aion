@@ -308,58 +308,7 @@ namespace Aion.Areas.WFM.Controllers
             }
 
             return View(vm);
-        }
-
-        [Authorize]
-        public async Task<ActionResult> ColleaguePayPortal()
-        {
-            ColleaguePortalVm vm = new ColleaguePortalVm();
-
-            if(System.Web.HttpContext.Current.Session["_PTFlag"] == null)
-            {
-                if(!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
-                {
-                    var person = await _empSummaryManager.GetEmployeeMatchingNumber(System.Web.HttpContext.Current.Session["_EmpNum"].ToString());
-                    System.Web.HttpContext.Current.Session["_PTFlag"] = person?.EmployeeStandardHours != 45 ? "PT" : "FT";
-                }
-                else
-                {
-                    System.Web.HttpContext.Current.Session["_PTFlag"] = "";
-                }
-            }
-
-            if(_store.Region == "118" || _store.Region == "109")
-            {
-                vm.avlbltyPattern = await _avlbltyManager.GetAllPatternsPerson(System.Web.HttpContext.Current.Session["_EmpNum"].ToString());
-                vm.avlbltlyPilot = true;
-            }
-
-            vm.rawMenu = await _payCalendarManager.GetPayCalendarRef(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString());
-
-            return View(vm);
-        }
-
-        [Authorize]
-        public async Task<PartialViewResult> _PayData(string period)
-        {
-            ColleaguePayDataVm vm = new ColleaguePayDataVm();
-
-            string payroll = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
-            string sessionID = System.Web.HttpContext.Current.Session.SessionID;
-                        
-            if(payroll != "e")
-            {
-                vm.payDates = await _payCalendarManager.GetPayCalendarDates(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString(), period);
-                vm.tSheet = await _kronosManager.GetTimesheet(vm.payDates.Select(x => x.WCDate).ToArray(), payroll, sessionID);
-                vm.punch = await _clockManager.GetEmployeePunch(payroll, vm.payDates.Min(x => x.Week), vm.payDates.Max(x => x.Week));
-            }
-            else
-            {
-                vm.errorPayroll = true;
-            }
-            
-            return PartialView("~/Areas/WFM/Views/RFTP/Partials/_PayData.cshtml", vm);
-        }
+        }        
 
         public ActionResult Guide()
         {

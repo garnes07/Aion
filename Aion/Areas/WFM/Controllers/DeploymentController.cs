@@ -10,6 +10,8 @@ using Aion.Helpers;
 using Aion.ViewModels;
 using Aion.Attributes;
 using Aion.DAL.Entities;
+using System.Collections.Generic;
+using Aion.Areas.WFM.Models.Deployment;
 
 namespace Aion.Areas.WFM.Controllers
 {
@@ -22,6 +24,12 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IAvlbltyManager _avlbltyManager;
         private readonly IEmpSummaryManager _empSummaryManager;
         private readonly IStoreManager _storeManager;
+        private readonly ISOHBudgetsManager _sohBudgetsManager;
+        private readonly IHRDataManager _hrDataManager;
+        private readonly IVacancyManager _vacancyManger;
+        private readonly IHolidayPlanningManager _holidayPlanningManager;
+        private readonly IScheduleManager _scheduleManager;
+        private readonly IOpeningTimesManager _openingTimesManager;
 
         public DeploymentController()
         {
@@ -32,6 +40,12 @@ namespace Aion.Areas.WFM.Controllers
             _avlbltyManager = new AvlbltyManager();
             _empSummaryManager = new EmpSummaryManager();
             _storeManager = new StoreManager();
+            _sohBudgetsManager = new SOHBudgetsManager();
+            _hrDataManager = new HRDataManager();
+            _vacancyManger = new VacancyManager();
+            _holidayPlanningManager = new HolidayPlanningManager();
+            _scheduleManager = new ScheduleManager();
+            _openingTimesManager = new OpeningTimesManager();
         }
 
         public async Task<ActionResult> Summary(string c = "e_0")
@@ -146,6 +160,33 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        public async Task<ActionResult> SOHBudgets()
+        {
+            SOHBudgetsVm vm = new SOHBudgetsVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.Collection = !(bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ?
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetUKStore(selectCrit)) :
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetROIStore(selectCrit));
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.Collection = !(bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ?
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetUKRegion(selectCrit)) :
+                        mapper.Map<List<SOHBudgetView>>(await _sohBudgetsManager.GetBudgetROIRegion(selectCrit));
+                    vm.DisplayLevel = 2;
+                    break;
+                default:
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
+
+            return View(vm);
+        }
+
         public async Task<ActionResult> Footfall(string selectedYear = null, string selectedWeek = null)
         {
             FootfallVm vm = new FootfallVm();
@@ -188,6 +229,30 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [UserFilter(MinLevel = 1)]
+        public async Task<ActionResult> MyTeam()
+        {
+            MyTeamVm vm = new MyTeamVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.ContractBaseDetailStore = await _hrDataManager.GetContractAndHolidayStore(selectCrit);
+                    vm.StaffList = await _hrDataManager.GetStaffListStore(selectCrit);
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.ContractBaseDetailRegion = await _hrDataManager.GetContractAndHolidayRegion(selectCrit);
+                    vm.DisplayLevel = 2;
+                    break;
+                default:
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
+            return View(vm);
+        }
+
+        [UserFilter(MinLevel = 2)]
         public async Task<ActionResult> WeekendWorking()
         {
             WeekendWorkingVm vm = new WeekendWorkingVm();
@@ -215,6 +280,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [UserFilter(MinLevel = 1)]
         public async Task<ActionResult> Availability()
         {
             AvlbltySummaryVm vm = new AvlbltySummaryVm();
@@ -245,6 +311,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [Authorize]
         public async Task<ActionResult> UpdateAvailability(string personNumber = "e")
         {
             if(selectArea != "S" && personNumber != "e")
@@ -282,6 +349,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateAvailability(AvailabilityPattern a, AvailabilityContact c, short[] s, bool d = false, bool confirmOnly = false)
@@ -306,9 +374,166 @@ namespace Aion.Areas.WFM.Controllers
             return RedirectToAction("Availability");
         }
 
+        [UserFilter(MinLevel = 1)]
         public async Task<PartialViewResult> _GetCoverColleagues()
         {
             return PartialView("../Deployment/Partials/_coverColleagues", await _avlbltyManager.GetPatternsForAvailableCover(selectCrit));
+        }
+
+        [UserFilter(MinLevel = 1)]
+        public async Task<ActionResult> Recruitment()
+        {
+            VacancyRequestVm vm = new VacancyRequestVm();
+            if (selectArea == "S")
+            {
+                var detail = await _vacancyManger.GetVacancyDetailCPW(selectCrit);
+                if (detail.Any())
+                {
+                    vm.Populate(mapper.Map<List<RecruitmentDetail>>(detail));
+                    vm.PendingRequests = await _vacancyManger.GetPendingRequestsCPW(selectCrit);
+                    vm.LiveRequests = await _vacancyManger.GetOpenVacanciesCPW(selectCrit);
+                }
+                else
+                {
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "Your store is not currently set up to use this process, please raise this with The Medics";
+                }
+
+            }
+            else
+            {
+                vm.MessageType = MessageType.Error;
+                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+            }
+
+            return View(vm);
+        }
+
+        [UserFilter(MinLevel = 1)]
+        public async Task<ActionResult> RecruitmentDixons()
+        {
+            VacancyRequestVm vm = new VacancyRequestVm();
+            vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailDXNS("2216")));
+            vm.PendingRequests = await _vacancyManger.GetPendingRequestsDXNS("2216");
+            vm.LiveRequests = await _vacancyManger.GetOpenVacanciesDXNS("2216");
+
+            return View("Recruitment", vm);
+        }
+
+        [UserFilter(MinLevel = 1)]
+        [HttpPost]
+        public async Task<ActionResult> NewVacancy(List<RecruitmentRequest> r, string Notes)
+        {
+            var result = await _vacancyManger.PostNewRequestsCPW(r, Notes, selectCrit, HttpContext.Session["Email"].ToString());
+
+            return RedirectToAction("Recruitment");
+        }
+
+        [UserFilter(MinLevel = 1)]
+        [HttpPost]
+        public async Task<ActionResult> CancelLive(int ReferenceId)
+        {
+            var result = await _vacancyManger.CancelLive(selectCrit, ReferenceId, User.Identity.Name);
+            return RedirectToAction("Recruitment");
+        }
+
+        [UserFilter(MinLevel = 1)]
+        [HttpPost]
+        public async Task<ActionResult> CancelPending(int ReferenceId)
+        {
+            var result = await _vacancyManger.CancelPending(selectCrit, ReferenceId);
+            return RedirectToAction("Recruitment");
+        }
+
+        public async Task<ActionResult> HolidayPlanning(int year = 201900)
+        {
+            HolidayPlanningVm vm = new HolidayPlanningVm();
+            vm.CurrentWeek = ("This Week").GetWeekNumber();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayStore(selectCrit, year + 1, year + 52);
+                    vm.EmpCollection = await _holidayPlanningManager.GetHolidayStoreEmp(selectCrit, year + 1);
+                    vm.DashCollection = await _dashDataManager.GetStoreDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayRegion(selectCrit, year + 1, year + 52);
+                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayRegionRollup(selectCrit, year + 1);
+                    vm.DashCollection = await _dashDataManager.GetRegionDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayDivision(selectCrit, year + 1, year + 52);
+                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayDivisionRollup(selectCrit, year + 1);
+                    vm.DashCollection = await _dashDataManager.GetDivisionDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.DisplayLevel = 3;
+                    break;
+                case "C":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
+            return View(vm);
+        }
+
+        public async Task<ActionResult> Schedules(string selectedDate = "This Week")
+        {
+            ScheduleVm vm = new ScheduleVm();
+            int weekNum = selectedDate.GetWeekNumber();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.Collection = await _scheduleManager.GetStoreSchedule(selectCrit, weekNum);
+                    vm.HomeStore = !(bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "UK " + selectCrit : "IE " + selectCrit;
+                    if (vm.Collection.Min(x => x.StartDate) < DateTime.Now.Date.FirstDayOfWeek())
+                    {
+                        ViewBag.historic = true;
+                    }
+                    if (vm.Collection.Any())
+                    {
+                        var oTimes = await _openingTimesManager.GetSpecificStoreOpeningTime(selectCrit, (DateTime)vm.Collection.Min(x => x.StartDate));
+                        if (oTimes.Any(x => x.Status != "Live"))
+                        {
+                            vm.OpeningTime = oTimes.First(x => x.Status != "Live");
+                        }
+                        else if (oTimes.Any(x => x.Status == "Live"))
+                        {
+                            vm.OpeningTime = oTimes.First(x => x.Status == "Live");
+                        }
+                        else
+                        {
+                            vm.OpeningTime = null;
+                        }
+                    }
+                    vm.DisplayLevel = 1;
+                    break;
+                case "R":
+                    vm.Collection = await _scheduleManager.GetRegionGMScheduleData(selectCrit, weekNum);
+                    if (vm.Collection.Min(x => x.StartDate) < DateTime.Now.Date.FirstDayOfWeek())
+                    {
+                        ViewBag.historic = true;
+                    }
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.DisplayLevel = 3;
+                    break;
+                case "C":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.DisplayLevel = 4;
+                    break;
+            }
+
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(42), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-28), DateTime.Now.FirstDayOfWeek().AddDays(42).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            return View(vm);
         }
     }
 }

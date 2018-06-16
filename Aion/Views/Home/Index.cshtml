@@ -75,6 +75,11 @@
     }
 </div>
 
+@if(accessLvl >= 4)
+{
+    <a href="@Url.Action("Index", "Minerva", new { area = "WFM" })" style="position:fixed; bottom:0; left:0; height:50px; width:50px;"></a>
+}
+
 @section myScripts{
     @if (Request.IsAuthenticated)
     {

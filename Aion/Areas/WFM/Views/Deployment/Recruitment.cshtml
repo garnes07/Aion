@@ -1,4 +1,4 @@
-﻿@model Aion.Areas.WFM.ViewModels.MyStore.VacancyRequestVm
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.VacancyRequestVm
 
 @{
     ViewBag.Title = "Recruitment";
@@ -15,7 +15,7 @@
             </div>
             <div class="modal-body">
                 <p>Are you sure you wish to cancel this pending vacancy?</p>
-                <form id="cp_form" action="/WFM/MyStore/CancelPending" method="post">
+                <form id="cp_form" action="/WFM/Deployment/CancelPending" method="post">
                     <input name="ReferenceId" id="ReferenceId" hidden value="" />
                 </form>
             </div>
@@ -38,7 +38,7 @@
             </div>
             <div class="modal-body">
                 <p>Are you sure you wish to cancel this pending vacancy?</p>
-                <form id="cl_form" action="/WFM/MyStore/CancelLive" method="post">
+                <form id="cl_form" action="/WFM/Deployment/CancelLive" method="post">
                     <input name="ReferenceId" id="ReferenceId" hidden value="" />
                 </form>
             </div>
@@ -136,7 +136,7 @@
                     <div class="col-2 text-center px-1"><strong>Contract<br /> Hours</strong></div>
                     <div class="col-2 text-center px-1"><strong>Total<br /> Hours</strong></div>
                 </div>
-                <form id="rRequest" method="post" action="/WFM/MyStore/NewVacancy">
+                <form id="rRequest" method="post" action="/WFM/Deployment/NewVacancy">
                     <div class="form-row request" id="r_0">
                         <input name="RowNum" value="0" hidden />
                         <input class="action" name="r[0].Action" value="new" hidden />

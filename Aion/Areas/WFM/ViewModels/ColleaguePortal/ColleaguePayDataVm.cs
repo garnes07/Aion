@@ -1,11 +1,8 @@
 ﻿using Aion.DAL.Entities;
 using Aion.Models.Kronos;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace Aion.Areas.WFM.ViewModels.RFTP
+namespace Aion.Areas.WFM.ViewModels.ColleaguePortal
 {
     public class ColleaguePayDataVm
     {

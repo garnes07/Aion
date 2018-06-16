@@ -11,7 +11,7 @@
                 $loading.toggle();
             });
             $error.hide();
-            $.get('/WFM/RFTP/_PayData', { period: $menu.val() }, function (result) {
+            $.get('/WFM/ColleaguePortal/_PayData', { period: $menu.val() }, function (result) {
                 setTimeout(function () {
                     $cont.html(result);
                     $loading.toggle();

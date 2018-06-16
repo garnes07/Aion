@@ -21,7 +21,7 @@
                         <td><a href="@Url.Action("MenuSelect", "Profile", new {area = "", a = "S_" + item.StoreNumber})">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</a></td>
                         <td class="text-center">@item.Headcount</td>
                         <td class="text-center">@item.AvlbltyUpToDate</td>
-                        <td class="text-center @(item.AvlbltyUpToDate / item.Headcount < 0.9 ? "table-danger" : "table-success")">@string.Format("{0:0%}", item.AvlbltyUpToDate / item.Headcount)</td>
+                        <td class="text-center @((float)item.AvlbltyUpToDate / item.Headcount < 0.9 ? "table-danger" : "table-success")">@string.Format("{0:0%}", (float)item.AvlbltyUpToDate / item.Headcount)</td>
                     </tr>
                 }
             </tbody>

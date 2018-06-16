@@ -3,7 +3,7 @@ using System.Linq;
 using Aion.DAL.Entities;
 using Aion.ViewModels;
 
-namespace Aion.Areas.WFM.ViewModels.MyStore
+namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class ScheduleVm : BaseVm
     {

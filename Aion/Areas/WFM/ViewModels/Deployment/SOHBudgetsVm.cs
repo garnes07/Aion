@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Aion.Areas.WFM.Models.MyStore;
+using Aion.Areas.WFM.Models.Deployment;
 using Aion.ViewModels;
 
-namespace Aion.Areas.WFM.ViewModels.MyStore
+namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class SOHBudgetsVm : BaseVm
     {

@@ -1,5 +1,5 @@
 ﻿using Aion.Areas.Admin.Models;
-using Aion.Areas.WFM.Models.MyStore;
+using Aion.Areas.WFM.Models.Deployment;
 using Aion.DAL.Entities;
 using System;
 using System.Collections.Generic;

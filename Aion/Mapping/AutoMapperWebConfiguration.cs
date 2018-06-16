@@ -1,4 +1,5 @@
 ﻿using Aion.Areas.WFM.Models.MyStore;
+using Aion.Areas.WFM.Models.Deployment;
 using AutoMapper;
 using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;

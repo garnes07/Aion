@@ -1,32 +1,15 @@
 ﻿@{
     var accessLvl = HttpContext.Current.Session["_AccessLevel"] != null ? (byte)HttpContext.Current.Session["_AccessLevel"] : 0;
     var roi = (bool)HttpContext.Current.Session["_ROIFlag"];
+    var pilot = (bool)HttpContext.Current.Session["_PilotFlag"];
 }
 
 <li class="nav-item dropdown mx-1">
-    <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-checkbox-outline m-1"></i> Right First Time Pay</a>
+    <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-stats-bars m-1"></i> Deployment</a>
     <div class="dropdown-menu">
-        <a class="dropdown-item" href="@Url.Action("ColleaguePayPortal", "RFTP", new { area = "WFM" })">Colleague Portal</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="@Url.Action("Summary", "RFTP", new { area = "WFM" })">RFTP Summary</a>
-        <a class="dropdown-item" href="@Url.Action("Detail", "RFTP", new { area = "WFM" })">RFTP Detail</a>
-        <a class="dropdown-item" href="@Url.Action("TimecardSignOff","RFTP", new { area = "WFM" })">Timecard Sign Off</a>
-        <a class="dropdown-item" href="@Url.Action("ClockingCompliance", "RFTP", new {area = "WFM"})">Clocking Compliance</a>
-        <a class="dropdown-item" href="@Url.Action("ClockingBehaviours", "RFTP", new {area = "WFM"})">Clocking Behaviours</a>
-        <a class="dropdown-item" href="@Url.Action("EditedClocks", "RFTP", new {area = "WFM"})">Edited Clocks</a>
-        @if (accessLvl >= 2 && accessLvl != 7)
-        {
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="@Url.Action("ManagerTracking", "RFTPTracking", new {area = "WFM"})">Manager Tracking</a>
-        }
-
-    </div>
-</li>
-<li class="nav-item dropdown mx-1">
-    <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-stats-bars m-1"></i> Deployment</a>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="@Url.Action("Summary", "Deployment", new { area = "WFM" })">Deployment Summary</a>
-        <a class="dropdown-item" href="@Url.Action("Detail", "Deployment", new { area = "WFM" })">Deployment Detail</a>
+        <a class="dropdown-item" href="@Url.Action("Summary", "Deployment", new { area = "WFM" })">Summary</a>
+        <a class="dropdown-item" href="@Url.Action("Detail", "Deployment", new { area = "WFM" })">Detail</a>
+        <a class="dropdown-item" href="@Url.Action("SOHBudgets", "Deployment", new { area = "WFM" })">SOH Budgets</a>
         @if (!roi)
         {
             <a class="dropdown-item" href="@Url.Action("Footfall", "Deployment", new { area = "WFM" })">Footfall</a>
@@ -34,9 +17,47 @@
             {
                 <a class="dropdown-item" href="@Url.Action("WeekendWorking", "Deployment", new { area = "WFM" })">GM Weekend Working</a>
             }
-
-        }       
+        }
+        <div class="dropdown-divider"></div>
+        @if (!roi)
+        {
+            <a class="dropdown-item" href="@Url.Action("MyTeam", "Deployment", new {area = "WFM"})">My Team</a>
+        }
+        <a class="dropdown-item" href="@Url.Action("Recruitment", "Deployment", new { area = "WFM" })">Recruitment</a>
+        @if (!roi)
+        {
+            <a class="dropdown-item" href="@Url.Action("HolidayPlanning", "Deployment", new {area = "WFM"})">Holiday Planning</a>
+        }
+        @if (pilot)
+        {
+            <a class="dropdown-item" href="@Url.Action("Availability", "Deployment", new {area = "WFM"})">Availability</a>
+        }
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="@Url.Action("Schedules", "Deployment", new { area = "WFM" })">Schedules</a>
     </div>
+</li>
+<li class="nav-item dropdown mx-1">
+    <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-checkbox-outline m-1"></i> Right First Time Pay</a>
+    <div class="dropdown-menu">
+        @if (accessLvl >= 2 && accessLvl != 7)
+        {
+            <a class="dropdown-item" href="@Url.Action("ManagerTracking", "RFTPTracking", new {area = "WFM"})">Manager Tracking</a>
+            <div class="dropdown-divider"></div>
+        }
+        <a class="dropdown-item" href="@Url.Action("Summary", "RFTP", new { area = "WFM" })">Summary</a>
+        <a class="dropdown-item" href="@Url.Action("Detail", "RFTP", new { area = "WFM" })">Detail</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="@Url.Action("TimecardSignOff","RFTP", new { area = "WFM" })">Timecard Sign Off</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="@Url.Action("ClockingCompliance", "RFTP", new {area = "WFM"})">Clocking Compliance</a>
+        <a class="dropdown-item" href="@Url.Action("ClockingBehaviours", "RFTP", new {area = "WFM"})">Clocking Behaviours</a>
+        <a class="dropdown-item" href="@Url.Action("EditedClocks", "RFTP", new {area = "WFM"})">Edited Clocks</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="@Url.Action("Guide", "RFTP", new {area = "WFM"})">Briefing Packs</a>
+    </div>
+</li>
+<li class="nav-item mx-1">
+    <a class="nav-link text-menu" href="@Url.Action("ColleaguePortal", "ColleaguePortal", new { area = "WFM" })"><i class="icon ion-person"></i> Colleague Portal</a>
 </li>
 @if (!roi)
 {
@@ -44,33 +65,19 @@
         <a class="nav-link text-menu" href="@Url.Action("Index", "Home", new { area = "ProfitLoss" })"><i class="icon ion-cash"></i> Profit & Loss</a>
     </li>
 }
-
-<li class="nav-item dropdown mx-1">
-    <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-apps m-1"></i> My Store</a>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="@Url.Action("SOHBudgets", "MyStore", new { area = "WFM" })">SOH Budgets</a>
-        <a class="dropdown-item" href="@Url.Action("Schedules", "MyStore", new { area = "WFM" })">Schedules</a>
-        @if (!roi)
-        {
-            <a class="dropdown-item" href="@Url.Action("MyTeam", "MyStore", new {area = "WFM"})">My Team</a>
-            <a class="dropdown-item" href="@Url.Action("HolidayPlanning", "MyStore", new {area = "WFM"})">Holiday Planning</a>
-        }        
-        <a class="dropdown-item" href="@Url.Action("OpeningTimes", "MyStore", new {area = "WFM"})">Opening Times</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="@Url.Action("Recruitment", "MyStore", new { area = "WFM" })">Recruitment</a>
-    </div>
-</li>
 <li class="nav-item dropdown mx-1">
     <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-list m-1"></i> Requests &amp; Tickets<span id="wfBadge" class="badge-wf-red" style="display:none;"></span></a>
     <div class="dropdown-menu">
         <a class="dropdown-item" href="@Url.Action("Index", "Workflow", new { area = "Workflow" })">My Tickets</a>
         <a class="dropdown-item" href="@Url.Action("Index", "Form", new { area = "Workflow" })">Raise a Ticket</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="@Url.Action("OpeningTimes", "MyStore", new {area = "WFM"})">Opening Times</a>
     </div>
 </li>
 @*<li class="nav-item dropdown mx-1">
-        <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-help-circled m-1"></i> Help &amp; Support</a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another Action</a>
-        </div>
-</li>*@
+                <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-help-circled m-1"></i> WFM Support</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another Action</a>
+                </div>
+    </li>*@
