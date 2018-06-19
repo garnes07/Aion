@@ -19,15 +19,9 @@
             }
         }
         <div class="dropdown-divider"></div>
-        @if (!roi)
-        {
-            <a class="dropdown-item" href="@Url.Action("MyTeam", "Deployment", new {area = "WFM"})">My Team</a>
-        }
+        <a class="dropdown-item" href="@Url.Action("MyTeam", "Deployment", new {area = "WFM"})">My Team</a>
         <a class="dropdown-item" href="@Url.Action("Recruitment", "Deployment", new { area = "WFM" })">Recruitment</a>
-        @if (!roi)
-        {
-            <a class="dropdown-item" href="@Url.Action("HolidayPlanning", "Deployment", new {area = "WFM"})">Holiday Planning</a>
-        }
+        <a class="dropdown-item" href="@Url.Action("HolidayPlanning", "Deployment", new {area = "WFM"})">Holiday Planning</a>
         @if (pilot)
         {
             <a class="dropdown-item" href="@Url.Action("Availability", "Deployment", new {area = "WFM"})">Availability</a>
