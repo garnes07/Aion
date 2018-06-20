@@ -15,5 +15,7 @@ namespace Aion.Models.Kronos
         public PersonData PersonData { get; set; }
 
         public string parsedPerson => int.Parse(PersonNumber.Replace("UK", "")).ToString();
+
+        public int storeNumber { get; set; }
     }
 }

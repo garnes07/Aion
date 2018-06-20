@@ -16,5 +16,6 @@ namespace Aion.DAL.IManagers
         Task<List<StoreMaster>> GetChainMenu(string[] _chain);
         Task<List<StoreMaster>> GetAllMenu();
         Task<List<vw_StoreLocations>> GetAllStoreLocations();
+        Task<List<StoreMaster>> GetStoresInRegion(string region);
     }
 }

@@ -136,11 +136,11 @@ namespace Aion.Areas.WFM.Controllers
         public async Task<ActionResult> TimecardSignOff()
         {
             TimecardSignOffVm vm = new TimecardSignOffVm();
-            var weekOfYr = (int)_weeksManager.GetSingleWeek(vm.weekStart);
 
             switch (selectArea)
             {
                 case "S":
+                    var weekOfYr = (int)_weeksManager.GetSingleWeek(vm.weekStart);
                     string storeName = await _storeManager.GetKronosName(selectCrit);
                     vm.hf = await _kronosManager.GetKronosHyperFind(storeName, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
                     vm.ss = await _editedClockManager.GetEditedClocksStore(selectCrit, weekOfYr);
@@ -149,32 +149,12 @@ namespace Aion.Areas.WFM.Controllers
                     short a = 1;
                     while ((vm.hf == null || !vm.hf.Any()) && a < 3)
                     {
-                        vm.hf = mapper.Map<List<HyperFindResult>>(await _kronosManager.GetKronosHyperFind(storeName, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID));
+                        vm.hf = await _kronosManager.GetKronosHyperFind(storeName, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
                         a++;
                     }
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    string hfQuery = selectCrit.Length == 1 ? "IE Region " : "UK - Region CPW";
-                    vm.hf = mapper.Map<List<HyperFindResult>>(await _kronosManager.GetKronosHyperFind(hfQuery + selectCrit, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID));
-                    var empList = await _empSummaryManager.GetAllByRegion(selectCrit);
-                    var combined = vm.hf.Where(x => x.PersonData.Person.SignOffDate.Year != 1901).Join(empList, kronos => kronos.PersonNumber, db => db.PersonNumber, (kronos, db) => new {kronos.PersonNumber, BranchNumber = db.HomeBranch, db.BranchName, signedOff = kronos.PersonData.Person.SignOffDate, db.PersonName }).ToList();
-                    var punched = await _kronosManager.GetPunchStatus(empList.Where(x => x.KronosUser).Select(x => x.PersonNumber).ToList(), System.Web.HttpContext.Current.Session.SessionID);
-                    var punchCombined = empList.Where(x => x.KronosUser).Join(punched, db => db.PersonNumber, kronos => kronos.Employee.PersonIdentity.PersonNumber, (db, kronos) => new { PersonNumer = db.PersonNumber, BranchNumber = db.HomeBranch, punched = kronos.Status }).ToList();
-
-                    vm.rso = new List<RegionSignOff>();
-                    foreach (var item in empList.GroupBy(x => x.HomeBranch).Select(c => c.Key).OrderBy(x => x).ToList())
-                    {
-                        var data = combined.Where(x => x.BranchNumber == item).ToList();
-                        if (data.Any())
-                        {
-                            bool userScheduled = empList.Any(x => x.HomeBranch == item && x.Scheduled && x.KronosUser);
-                            bool userPunched = punchCombined.Any(x => x.BranchNumber == item && x.punched == "In");
-
-                            vm.rso.Add(new RegionSignOff { BranchNumber = item, BranchName = data.First().BranchName, Headcount = data.Count(), SignedOff = data.Count(x => x.signedOff.Date >= vm.weekStart), KronosScheduled = userScheduled, KronosPunched = userPunched });
-                        }
-                    }
-
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
@@ -188,6 +168,34 @@ namespace Aion.Areas.WFM.Controllers
             }
 
             return View(vm);
+        }
+
+        public async Task<PartialViewResult> _regionTCSignOff()
+        {
+            TimecardSignOffVm vm = new TimecardSignOffVm();
+
+            var storeList = await _storeManager.GetStoresInRegion(selectCrit);
+            vm.hf = await _kronosManager.GetKronosHyperFind(storeList, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
+            var empList = await _empSummaryManager.GetAllByRegion(selectCrit);
+            var punched = await _kronosManager.GetPunchStatus(empList.Where(x => x.KronosUser).Select(x => x.PersonNumber).ToList(), System.Web.HttpContext.Current.Session.SessionID);
+            var punchCombined = empList.Where(x => x.KronosUser).Join(punched, db => db.PersonNumber, kronos => kronos.Employee.PersonIdentity.PersonNumber, (db, kronos) => new { PersonNumer = db.PersonNumber, BranchNumber = db.HomeBranch, punched = kronos.Status }).ToList();
+
+            vm.rso = new List<RegionSignOff>();
+            foreach (var item in storeList.ToList())
+            {
+                var data = vm.hf.Where(x => x.storeNumber == item.StoreNumber).ToList();
+                if (data.Any())
+                {
+                    bool userScheduled = empList.Any(x => x.HomeBranch == item.StoreNumber && x.Scheduled && x.KronosUser);
+                    bool userPunched = punchCombined.Any(x => x.BranchNumber == item.StoreNumber && x.punched == "In");
+
+                    vm.rso.Add(new RegionSignOff { BranchNumber = item.StoreNumber, BranchName = item.StoreName, Headcount = data.Count(), SignedOff = data.Count(x => x.PersonData.Person.SignOffDate.Date >= vm.weekStart), KronosScheduled = userScheduled, KronosPunched = userPunched });
+                }
+            }
+
+            vm.DisplayLevel = 2;
+
+            return PartialView("~/Areas/WFM/Views/RFTP/Partials/_regionTCSignOff.cshtml", vm);
         }
 
         [HttpPost]

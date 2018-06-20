@@ -1082,6 +1082,7 @@
     <Content Include="Areas\WFM\Views\Deployment\Partials\_coverColleagues.cshtml" />
     <Content Include="Areas\Admin\Views\Home\MapTest.cshtml" />
     <Content Include="Areas\WFM\Views\Minerva\Index.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\Partials\_regionTCSignOff.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

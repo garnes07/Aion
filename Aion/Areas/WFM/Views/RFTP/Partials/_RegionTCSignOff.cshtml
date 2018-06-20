@@ -1,0 +1,33 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.TimecardSignOffVm
+
+
+@if (Model.hf.Any())
+{
+    <table class="table table-bordered table-sm mt-1">
+        <thead class="thead-blue">
+            <tr>
+                <th class="text-center">Branch Name</th>
+                <th class="text-center">Timecards Completed</th>
+                <th class="text-center">Star User Scheduled</th>
+                <th class="text-center">Star User Clocked</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.rso)
+                {
+                <tr>
+                    <td>@string.Format("{0} - {1}", item.BranchNumber, item.BranchName)</td>
+                    <td class="text-center @(item.RAG > 0 ? "table-danger" : "")">@string.Format("{0}/{1}", item.SignedOff, item.Headcount)</td>
+                    <td class="text-center @(!item.KronosScheduled ? item.RAGClass : "")">@(item.KronosScheduled ? "Y" : "N")</td>
+                    <td class="text-center @(!item.KronosPunched ? item.RAGClass : "")">@(item.KronosPunched ? "Y" : "N")</td>
+                </tr>
+            }
+            <tr>
+                <td><strong>Region Total</strong></td>
+                <td class="text-center"><strong>@string.Format("{0}/{1}", Model.rso.Sum(x => x.SignedOff), Model.rso.Sum(x => x.Headcount))</strong></td>
+                <td class="text-center"><strong>@string.Format("{0}/{1}", Model.rso.Count(x => x.KronosScheduled), Model.rso.Count())</strong></td>
+                <td class="text-center"><strong>@string.Format("{0}/{1}", Model.rso.Count(x => x.KronosPunched), Model.rso.Count())</strong></td>
+            </tr>
+        </tbody>
+    </table>
+}

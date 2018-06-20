@@ -35,5 +35,28 @@
     @if (Model.DisplayLevel == 1)
     {
         <script id="tc1" src="~/Scripts/site/TCSignOff.min.js"></script>
-    }    
+    }
+    else if(Model.DisplayLevel == 2)
+    {
+        <script>
+            var getRegionData = function () {
+                $.get('/WFM/RFTP/_regionTCSignOff', function (result) {
+                    $('#loading').hide();
+                    $('#resultContainer').html(result);
+                }).fail(function () {
+                    $('#loading').hide();
+                    $('#errorContainer').show();
+                });
+            };
+            $(function () {
+                getRegionData();
+
+                $('#retry').click(function () {
+                    $('#errorContainer').hide();
+                    $('#loading').show();
+                    getRegionData();
+                });
+            });
+        </script>
+    }
 }

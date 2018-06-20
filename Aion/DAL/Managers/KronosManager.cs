@@ -1,4 +1,5 @@
-﻿using Aion.DAL.Kronos;
+﻿using Aion.DAL.Entities;
+using Aion.DAL.Kronos;
 using Aion.Models.Kronos;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,24 @@ namespace Aion.DAL.Managers
         public async Task<List<Timesheet>> GetTimesheet(DateTime[] dates, string personNumber, string sessionID = null)
         {
             return KronosApi.RequestTimesheet(dates, personNumber, sessionID);
+        }
+
+        public async Task<List<HyperFindResult>> GetKronosHyperFind(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null)
+        {
+            List<HyperFindResult> result = new List<HyperFindResult>();
+            string dateSpan = string.Format("{0}-{1}", startDate, endDate);
+
+            foreach (var store in kronosStoreNames)
+            {
+                var kronosResult = await KronosApi.HyperfindResult(store.KronosName, dateSpan, sessionId);
+                foreach(var item in kronosResult)
+                {
+                    item.storeNumber = store.StoreNumber;
+                }
+                result.AddRange(kronosResult);
+            }
+
+            return result;
         }
     }
 }

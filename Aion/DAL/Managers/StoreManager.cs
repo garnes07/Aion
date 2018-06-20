@@ -91,5 +91,14 @@ namespace Aion.DAL.Managers
                 return await context.vw_StoreLocations.OrderBy(x => x.Region).ToListAsync();
             }
         }
+
+        public async Task<List<StoreMaster>> GetStoresInRegion(string region)
+        {
+            using(var context = new WebMasterModel())
+            {
+                short crit = short.Parse(region);
+                return await context.StoreMasters.Where(x => x.Region == crit).ToListAsync();
+            }
+        }
     }
 }
