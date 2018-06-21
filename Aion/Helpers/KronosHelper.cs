@@ -81,9 +81,10 @@ namespace Aion.Helpers
             return toRtn;
         }
 
-        public static async Task<List<T>> DeserializeToObjectAsync<T>(this string xmlString) where T : new()
+        public static async Task<List<T>> DeserializeToObjectAsync<T>(this string xmlString, bool storeInTransaction = false) where T : new()
         {
             var result = new List<T>();
+            var storeNumber = 0;
             if (string.IsNullOrEmpty(xmlString)) return result;
 
             //var serializer = new XmlSerializer(typeof(T));
@@ -95,12 +96,21 @@ namespace Aion.Helpers
             var objName = typeof(T).Name;
             while (reader.Read())
             {
+                if(reader.NodeType == XmlNodeType.Element && reader.Name.Equals("Response") && storeInTransaction == true)
+                {
+                    storeNumber = int.Parse(reader.GetAttribute("TransactionSequence"));
+                }
                 while (reader.NodeType == XmlNodeType.Element &&
                     reader.Name.Equals(objName, StringComparison.InvariantCultureIgnoreCase))
-                {
+                {           
                     var doc = new XmlDocument();
                     doc.LoadXml(await reader.ReadOuterXmlAsync());
-                    result.Add(Deserialize<T>(doc));
+                    var toAdd = Deserialize<T>(doc);
+                    if (storeInTransaction)
+                    {
+                        toAdd.GetType().GetProperty("storeNumber").SetValue(toAdd, storeNumber);
+                    }
+                    result.Add(toAdd);
                 }
             }
 

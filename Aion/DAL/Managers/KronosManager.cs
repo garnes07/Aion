@@ -49,5 +49,14 @@ namespace Aion.DAL.Managers
 
             return result;
         }
+
+        public async Task<List<HyperFindResult>> GetKronosHyperFindBatch(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null)
+        {
+            string dateSpan = string.Format("{0}-{1}", startDate, endDate);
+
+            var result = await KronosApi.HyperfindResultBatch(kronosStoreNames, dateSpan, sessionId);
+
+            return result;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace Aion.DAL.Managers
         Task<List<PunchStatus>> GetPunchStatus(List<string> empList, string sessionId = null);
         Task<List<Timesheet>> GetTimesheet(DateTime[] dates, string personNumber, string sessionID = null);
         Task<List<HyperFindResult>> GetKronosHyperFind(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null);
+        Task<List<HyperFindResult>> GetKronosHyperFindBatch(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null);
     }
 }

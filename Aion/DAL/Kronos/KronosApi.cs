@@ -1,4 +1,5 @@
-﻿using Aion.Helpers;
+﻿using Aion.DAL.Entities;
+using Aion.Helpers;
 using Aion.Models.Kronos;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,36 @@ namespace Aion.DAL.Kronos
             logAction("Hyperfind", success, sessionID, queryName);
 
             return success == 1 ? await outcome.DeserializeToObjectAsync<HyperFindResult>() : new List<HyperFindResult>();
+        }
+
+        public static async Task<List<HyperFindResult>> HyperfindResultBatch(List<StoreMaster> queryName, string dateSpan, string sessionID)
+        {
+            var xmlString = XMLheader;
+
+            foreach(var item in queryName)
+            {
+                xmlString += string.Format(
+                "<Transaction TransactionSequence='{0}'><Request Action='RunQuery'><HyperFindQuery HyperFindQueryName='{1}' VisibilityCode='Public' QueryDateSpan='{2}' QueryPersonOrEmployee='Employee' QueryIncludePersonFlag='True'></HyperFindQuery>" +
+                "</Request></Transaction>", item.StoreNumber, item.KronosName, dateSpan);
+            }
+            xmlString += XMLfooter;
+
+            var outcome = await postRequestAsync(xmlString);
+            var success = CheckResponse(outcome);
+
+            if (success == -1)
+            {
+                var logon = await Logon();
+                if (logon)
+                {
+                    outcome = await postRequestAsync(xmlString);
+                    success = CheckResponse(outcome);
+                }
+            }
+
+            logAction("Hyperfind", success, sessionID, "Region " + queryName.First().Region);
+
+            return success == 1 ? await outcome.DeserializeToObjectAsync<HyperFindResult>(true) : new List<HyperFindResult>();
         }
 
         public static List<Timesheet> RequestTimesheet(DateTime[] dates, string personNumber, string sessionID)
