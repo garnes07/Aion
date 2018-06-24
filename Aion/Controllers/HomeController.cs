@@ -27,7 +27,7 @@ namespace Aion.Controllers
             switch (selectArea)
             {
                 case "S":
-                    if (_store.Region != "118" && _store.Region != "109" && _store.Region != "124")
+                    if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
                     {
                         vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
                     }
@@ -38,7 +38,7 @@ namespace Aion.Controllers
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    if (_store.Region != "118" && _store.Region != "109" && _store.Region != "124")
+                    if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
                     {
                         vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);
                     }

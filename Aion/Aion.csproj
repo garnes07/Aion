@@ -1376,6 +1376,7 @@
     <Content Include="Areas\WFM\Views\Deployment\Recruitment.cshtml" />
     <Content Include="Views\Home\STARHandbook.cshtml" />
     <Content Include="Uploads\NewWebsiteNavigation.pdf" />
+    <Content Include="Uploads\RFTPSecondUserBrief.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\WFM\Views\MyStore\Partials\" />

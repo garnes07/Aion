@@ -87,7 +87,7 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> Detail(string selectedDate = "Last Week")
         {
-            if (_store.Region == "118" || _store.Region == "109" || _store.Region == "124")
+            if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
             {
                 return RedirectToAction("DetailPilot", new { selectedDate = selectedDate });
             }
@@ -126,7 +126,7 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> DetailPilot(string selectedDate = "Last Week")
         {
-            if (_store.Region != "118" && _store.Region != "109" && _store.Region != "124")
+            if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
             {
                 return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }
