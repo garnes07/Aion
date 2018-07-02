@@ -148,7 +148,7 @@ namespace Aion.DAL.Managers
                         context.AvailabilityPatterns.Add(newPattern);
                     }
 
-                    if(storeList.Length > 0)
+                    if(storeList != null)
                     {
                         var existingStores = await context.AvailabilityStores.Where(x => x.PersonNumber == newPattern.PersonNumber).ToListAsync();
 

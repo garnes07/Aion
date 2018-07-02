@@ -100,28 +100,28 @@ namespace Aion.Areas.WFM.Controllers
 
                     vm.DisplayLevel = 1;
 
-                    if (vm._dashboardView.Sum(x => x.PunchCompliance) == 0)
+                    if (vm._dashboardView.Sum(x => x.TotalHeadCount) == 0)
                         vm.MessageType = MessageType.Warning;
                     break;
                 case "R":
                     vm._dashboardView = await _dashDataManager.GetAllRegionDashData(selectCrit, weekNum);
                     vm.DisplayLevel = 2;
 
-                    if (vm._dashboardView.Sum(x => x.PunchCompliance) == 0)
+                    if (vm._dashboardView.Sum(x => x.TotalHeadCount) == 0)
                         vm.MessageType = MessageType.Warning;
                     break;
                 case "D":
                     vm._chainView = await _dashDataManager.GetAllDivisionDashData(selectCrit, weekNum);
                     vm.DisplayLevel = 3;
 
-                    if (vm._chainView.Sum(x => x.PunchCompliance) == 0)
+                    if (vm._chainView.Sum(x => x.TotalHeadCount) == 0)
                         vm.MessageType = MessageType.Warning;
                     break;
                 case "C":
                     vm._chainView = await _dashDataManager.GetAllChainDashData(selectCrit, weekNum);
                     vm.DisplayLevel = 4;
 
-                    if (vm._chainView.Sum(x => x.PunchCompliance) == 0)
+                    if (vm._chainView.Sum(x => x.TotalHeadCount) == 0)
                         vm.MessageType = MessageType.Warning;
                     break;
             }

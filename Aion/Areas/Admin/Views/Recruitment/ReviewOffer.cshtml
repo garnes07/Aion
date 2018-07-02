@@ -33,50 +33,58 @@
             <strong>Current Position</strong>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-sm table-smtxtperm text-center">
-                <thead>
-                    <tr>
-                        <th>Position</th>
-                        @if (Model.PositionDetail.ContractBase == 0)
-                        {
-                            <th>Total Base</th>
-                            <th>Current Base</th>
-                        }
-                        else
-                        {
-                            <th>Contract Base</th>
-                            <th>Current Contract</th>
-                        }
-                        <th>New Average Contract</th>
-                        <th>New Total</th>
-                    </tr>
+            @if (Model.PositionDetail != null)
+            {
+                <table class="table table-bordered table-sm table-smtxtperm text-center">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            @if (Model.PositionDetail.ContractBase == 0)
+                            {
+                                <th>Total Base</th>
+                                <th>Current Base</th>
+                            }
+                            else
+                            {
+                                <th>Contract Base</th>
+                                <th>Current Contract</th>
+                            }
+                            <th>New Average Contract</th>
+                            <th>New Total</th>
+                        </tr>
 
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>@Model.PositionDetail.FriendlyName</td>
-                        @if (Model.PositionDetail.ContractBase == 0)
-                        {
-                            <td>@string.Format("{0:C}", Model.PositionDetail.TotalBase)</td>
-                            <td>@string.Format("{0:C}", Model.PositionDetail.CurrentBase)</td>
-                        }
-                        else
-                        {
-                            <td>@Model.PositionDetail.ContractBase</td>
-                            <td>@string.Format("{0:0.00}", Model.PositionDetail.CurrentContract)</td>
-                        }
-                        <td>@string.Format("{0:0.00}", Model.NewAvgContract)</td>                        
-                        @if (Model.PositionDetail.ContractBase == 0)
-                        {
-                            <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract) + Model.PositionDetail.RateOfPay * Model.OfferToReview.Sum(x => x.Contracted_Hours))</td>
-                        }
-                        else
-                        {
-                            <td>@string.Format("{0:0.00}",(Model.PositionDetail.CurrentContract + Model.OfferToReview.Sum(x => x.Contracted_Hours)))</td>
-                        }
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.PositionDetail.FriendlyName</td>
+                            @if (Model.PositionDetail.ContractBase == 0)
+                            {
+                                <td>@string.Format("{0:C}", Model.PositionDetail.TotalBase)</td>
+                                <td>@string.Format("{0:C}", Model.PositionDetail.CurrentBase)</td>
+                            }
+                            else
+                            {
+                                <td>@Model.PositionDetail.ContractBase</td>
+                                <td>@string.Format("{0:0.00}", Model.PositionDetail.CurrentContract)</td>
+                            }
+                            <td>@string.Format("{0:0.00}", Model.NewAvgContract)</td>
+                            @if (Model.PositionDetail.ContractBase == 0)
+                            {
+                                <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract) + Model.PositionDetail.RateOfPay * Model.OfferToReview.Sum(x => x.Contracted_Hours))</td>
+                            }
+                            else
+                            {
+                                <td>@string.Format("{0:0.00}", (Model.PositionDetail.CurrentContract + Model.OfferToReview.Sum(x => x.Contracted_Hours)))</td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h4>No position detail found for this offer...</h4>
+                <hr />
+            }
             <h4>MyHub Detail <button id="HRShow" class="btn btn-info btn-sm ml-2"><i class="icon ion-plus-round m-1"></i></button></h4>
             <div id="HRDetail" style="display:none;">
                 <div class="table-responsive" style="max-height:300px;">
@@ -129,7 +137,7 @@
                             {
                                 <tr>
                                     <td>@item.Alternate_ID</td>
-                                    <td>@string.Format("{0}, {1}", item.Last_Name, item.First_Name.Substring(0, 1))</td>
+                                    <td>@string.Format("{0}, {1}", item.Last_Name, item.First_Name?.Substring(0, 1))</td>
                                     <td>@item.Job_Title</td>
                                     <td>@item.Std_Hrs_Wk</td>
                                     <td>@item.Effective_Date_of_Change</td>
@@ -137,7 +145,7 @@
                             }
                         </tbody>
                     </table>
-                }                
+                }
             </div>
         </div>
     </div>
@@ -152,7 +160,7 @@
                 <div class="row justify-content-center">
                     <strong style="font-size:large;" class="text-warning">On Hold Since: @Model.OfferToReview.First().ReviewedDate</strong>
                 </div>
-            }            
+            }
             <table id="offerTbl" class="table table-bordered table-sm table-smtxtperm text-center mb-3">
                 <thead>
                     <tr class="thead-light">
@@ -184,7 +192,7 @@
                                 <input class="reject checkbox" type="checkbox" value="" data-entryid="@item.Application_ID" />
                             </td>
                         </tr>
-                    }                    
+                    }
                 </tbody>
             </table>
 
@@ -229,7 +237,7 @@
             <div class="row justify-content-center">
                 <button id="btnHold" type="button" role="button" class="btn btn-warning">Put On Hold</button>
                 <button id="frmSubmit" type="button" role="button" class="btn btn-success ml-3">Update</button>
-            </div>            
+            </div>
             <hr />
             <div class="row">
                 <div class="col-12">

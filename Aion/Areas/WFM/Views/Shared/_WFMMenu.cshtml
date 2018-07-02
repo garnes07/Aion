@@ -10,10 +10,7 @@
         <a class="dropdown-item" href="@Url.Action("Summary", "Deployment", new { area = "WFM" })">Summary</a>
         <a class="dropdown-item" href="@Url.Action("Detail", "Deployment", new { area = "WFM" })">Detail</a>
         <a class="dropdown-item" href="@Url.Action("SOHBudgets", "Deployment", new { area = "WFM" })">SOH Budgets</a>
-        @if (!roi)
-        {
-            <a class="dropdown-item" href="@Url.Action("Footfall", "Deployment", new { area = "WFM" })">Footfall</a>
-        }
+        <a class="dropdown-item" href="@Url.Action("Footfall", "Deployment", new { area = "WFM" })">Footfall</a>
         @if (accessLvl >= 2)
         {
         <a class="dropdown-item" href="@Url.Action("WeekendWorking", "Deployment", new { area = "WFM" })">GM Weekend Working</a>

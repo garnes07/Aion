@@ -102,7 +102,6 @@ namespace Aion.Services
             if (principalContext.Name != "DSG")
             {
                 RetriveCPWPLCEmpNum(entry);
-                //HttpContext.Current.Session.Add("_EmpNum", "UK1754357");
             }
             else
             {

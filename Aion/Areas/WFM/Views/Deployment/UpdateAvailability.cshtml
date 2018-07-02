@@ -393,9 +393,11 @@
                 e.preventDefault();
                 var allowSubmit = true;
 
-                for (var i = 0; i < storeList.length; i++) {
-                    $storeContainer.append('<input name="s['+i+']" value="'+storeList[i]+'" hidden/>');
-                };
+                if(storeList.length){
+                    for (var i = 0; i < storeList.length; i++) {
+                        $storeContainer.append('<input name="s['+i+']" value="'+storeList[i]+'" hidden/>');
+                    };
+                };                
                 
                 if($('#cConfirm').length){
                     if($('input[name="cConfirm"]:checked').val() !== "yes" && !$('#dChck').is(':checked')){
@@ -406,7 +408,7 @@
                         $('#confirmValidate').hide();
                     };
                 }
-                else{
+                else if($('#contactContainer').length){
                     if($('#c\\.Email').val().length || $('#c\\.Phone').val().length){
                         if(!$('#happyConfirm').is(':checked')){
                             allowSubmit = false;

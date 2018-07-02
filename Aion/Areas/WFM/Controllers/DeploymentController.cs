@@ -126,7 +126,7 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> DetailPilot(string selectedDate = "Last Week")
         {
-            if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
+            if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == false)
             {
                 return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }

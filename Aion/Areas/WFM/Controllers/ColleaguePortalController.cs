@@ -42,7 +42,7 @@ namespace Aion.Areas.WFM.Controllers
                 }
             }
 
-            if (_store.Region == "118" || _store.Region == "109")
+            if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
             {
                 vm.avlbltyPattern = await _avlbltyManager.GetAllPatternsPerson(System.Web.HttpContext.Current.Session["_EmpNum"].ToString());
                 vm.avlbltlyPilot = true;

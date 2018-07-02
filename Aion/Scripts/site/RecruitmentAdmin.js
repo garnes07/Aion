@@ -342,6 +342,8 @@ $pContainer.on('change', ':input', function (e) {
     $triggerRow.find('.icon').attr('class', 'icon');
     checksValid = ValidateChecks();
     if (checksValid) {
+        allowSubmit = true;
+        $submit.removeClass('disabled').attr('disabled', false);
         $form.find('.request').each(function () {
             var position = $(this).find('.position').val();
             if (totalBase != -1) {
