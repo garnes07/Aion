@@ -944,6 +944,16 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <Property Name="Hours" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_ROIMismatch' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_ROIMismatch">
+          <Key>
+            <PropertyRef Name="RowNum" />
+          </Key>
+          <Property Name="RowNum" Type="bigint" Nullable="false" />
+          <Property Name="Kronos ID" Type="varchar" MaxLength="50" />
+          <Property Name="MyHub ID" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_ScheduleData">
           <Key>
@@ -1602,6 +1612,13 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_PublishedBudgetsUK].[Hours] AS [Hours]
     FROM [dbo].[vw_PublishedBudgetsUK] AS [vw_PublishedBudgetsUK]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_ROIMismatch" EntityType="Self.vw_ROIMismatch" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ROIMismatch].[RowNum] AS [RowNum], 
+    [vw_ROIMismatch].[Kronos ID] AS [Kronos ID], 
+    [vw_ROIMismatch].[MyHub ID] AS [MyHub ID]
+    FROM [dbo].[vw_ROIMismatch] AS [vw_ROIMismatch]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_ScheduleData" EntityType="Self.vw_ScheduleData" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_ScheduleData].[EntryId] AS [EntryId], 
@@ -1803,6 +1820,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="vw_AvailabilityCompletionRate" EntityType="WFMMContext.vw_AvailabilityCompletionRate" />
           <EntitySet Name="AvailabilityContacts" EntityType="WFMMContext.AvailabilityContact" />
           <EntitySet Name="vw_StoreLocations" EntityType="WFMMContext.vw_StoreLocations" />
+          <EntitySet Name="vw_ROIMismatch" EntityType="WFMMContext.vw_ROIMismatch" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2898,6 +2916,14 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="TotalTradeTransfer" Type="Decimal" Precision="9" Scale="2" />
           <Property Name="TradeTransfer" Type="String" MaxLength="131" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="vw_ROIMismatch">
+          <Key>
+            <PropertyRef Name="RowNum" />
+          </Key>
+          <Property Name="RowNum" Type="Int64" Nullable="false" />
+          <Property Name="Kronos_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MyHub_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3969,6 +3995,15 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ROIMismatch">
+            <EntityTypeMapping TypeName="WFMMContext.vw_ROIMismatch">
+              <MappingFragment StoreEntitySet="vw_ROIMismatch">
+                <ScalarProperty Name="MyHub_ID" ColumnName="MyHub ID" />
+                <ScalarProperty Name="Kronos_ID" ColumnName="Kronos ID" />
+                <ScalarProperty Name="RowNum" ColumnName="RowNum" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

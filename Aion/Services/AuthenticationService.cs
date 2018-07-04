@@ -137,7 +137,7 @@ namespace Aion.Services
         }
 
         //Extract CPWPLC emp num form AD and translate to business context
-        private static void RetriveCPWPLCEmpNum(DirectoryEntry entry)
+        private void RetriveCPWPLCEmpNum(DirectoryEntry entry)
         {
             try
             {
@@ -149,7 +149,16 @@ namespace Aion.Services
                 }
                 else
                 {
-                    HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : empNum);
+                    var result = CheckForRemap(empNum);
+                    if(result.Equals("none"))
+                    {
+                        HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : empNum);
+                    }
+                    else
+                    {
+                        HttpContext.Current.Session.Add("_EmpNum", result);
+                    }
+                    
                 }
             }
             catch(Exception e)
@@ -188,6 +197,13 @@ namespace Aion.Services
             }
 
             return identity;
+        }
+
+        //Check for ROI remap
+        public string CheckForRemap(string payrollNum)
+        {
+            var result = _authManager.CheckROIRemap(payrollNum);
+            return result == null ? "none" : result.Kronos_ID;
         }
 
         //Check access level from WebMaster

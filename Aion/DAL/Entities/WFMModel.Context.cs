@@ -74,6 +74,7 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_AvailabilityCompletionRate> vw_AvailabilityCompletionRate { get; set; }
         public virtual DbSet<AvailabilityContact> AvailabilityContacts { get; set; }
         public virtual DbSet<vw_StoreLocations> vw_StoreLocations { get; set; }
+        public virtual DbSet<vw_ROIMismatch> vw_ROIMismatch { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {

@@ -15,5 +15,6 @@ namespace Aion.DAL.IManagers
         Task<bool> DeleteUser(string username);
         Task<bool> EditUser(UserAccess userDetail);
         Task<bool> CheckMinervaAccess(string username);
+        vw_ROIMismatch CheckROIRemap(string payrollNum);
     }
 }

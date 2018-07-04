@@ -144,5 +144,13 @@ namespace Aion.DAL.Managers
                 return await context.MinervaAccesses.Where(x => x.Username == username).AnyAsync();
             }
         }
+
+        public vw_ROIMismatch CheckROIRemap(string payrollNum)
+        {
+            using(var context = new WFMModel())
+            {
+                return context.vw_ROIMismatch.Where(x => x.MyHub_ID == payrollNum).FirstOrDefault();
+            }
+        }
     }
 }
