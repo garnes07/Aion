@@ -1,0 +1,177 @@
+﻿@model Aion.Areas.WFM.ViewModels.FuturePlanning.DeploymentSwingsVm
+
+@{ 
+    Func<double?, string> RAG = (a) =>
+    {
+        var rtn = "table-success";
+
+        if (Math.Abs(100 - (double)a) >= 10)
+        {
+            rtn = "table-danger";
+        }
+        else if (Math.Abs(100 - (double)a) >= 5)
+        {
+            rtn = "table-warning";
+        }
+
+        return rtn;
+    };
+}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-sm">
+            <thead class="text-center">
+                <tr>
+                    <th rowspan="2"></th>
+                    @foreach (var item in Model.WeekList)
+                    {
+                        <th colspan="4">@string.Format("Wk {0}", item.ToString().Substring(4))</th>
+                    }
+                </tr>
+                <tr>
+                    @foreach (var item in Model.WeekList)
+                    {
+                        <th>Start Of<br />Week</th>
+                        <th>End Of<br />Week</th>
+                        <th>Final</th>
+                        <th>Swing</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>@Model.ChainList</strong></td>
+                    @foreach (var item in Model.WeekList)
+                    {
+                        if (Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2) != null)
+                        {
+                            <td class="text-center @(RAG(Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget))"><strong>@Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget%</strong></td>
+                        }
+                        else
+                        {
+                            <td class="text-center"><strong>-</strong></td>
+                        }
+
+                        if (Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3) != null)
+                        {
+                            <td class="text-center @RAG(Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3).toBudget)"><strong>@Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3).toBudget%</strong></td>
+                        }
+                        else
+                        {
+                            <td class="text-center"><strong>-</strong></td>
+                        }
+
+                        if (Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4) != null)
+                        {
+                            <td class="text-center @RAG(Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget)"><strong>@Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget%</strong></td>
+                        }
+                        else
+                        {
+                            <td class="text-center"><strong>-</strong></td>
+                        }
+
+                        if (Model.ChainSummary.Count(x => x.WeekNumber == item && (x.sortOrder == 4 || x.sortOrder == 2)) == 2)
+                        {
+                            <td class="text-center font-weight-bold @(string.Format("w{0}", item))">@Math.Round((double)(Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget - Model.ChainSummary.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget), 1)%</td>
+                        }
+                        else
+                        {
+                            <td class="text-center"><strong>-</strong></td>
+                        }
+                    }
+                </tr>
+                @foreach (var division in Model.DivisionList)
+                {
+                    var divisionData = Model.DivisionSummary(division);
+                    <tr>
+                        <td><strong>@division</strong></td>
+                        @foreach (var item in Model.WeekList)
+                        {
+                            if (divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2) != null)
+                            {
+                                <td class="text-center @(RAG(divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget))"><strong>@divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget%</strong></td>
+                            }
+                            else
+                            {
+                                <td class="text-center"><strong>-</strong></td>
+                            }
+
+                            if (divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3) != null)
+                            {
+                                <td class="text-center @RAG(divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3).toBudget)"><strong>@divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3).toBudget%</strong></td>
+                            }
+                            else
+                            {
+                                <td class="text-center"><strong>-</strong></td>
+                            }
+
+                            if (divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4) != null)
+                            {
+                                <td class="text-center @RAG(divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget)"><strong>@divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget%</strong></td>
+                            }
+                            else
+                            {
+                                <td class="text-center"><strong>-</strong></td>
+                            }
+
+                            if (divisionData.Count(x => x.WeekNumber == item && (x.sortOrder == 4 || x.sortOrder == 2)) == 2)
+                            {
+                                <td class="text-center font-weight-bold @(string.Format("w{0}", item))">@Math.Round((double)(divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget - divisionData.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget), 1)%</td>
+                            }
+                            else
+                            {
+                                <td class="text-center"><strong>-</strong></td>
+                            }
+                        }
+                    </tr>
+                    foreach (var region in Model.RegionsInDivision(division))
+                    {
+                        var data = Model.collection.Where(c => c.Region == region);
+                        <tr>
+                            <td>@data.First().Region</td>
+                            @foreach (var item in Model.WeekList)
+                            {
+                                if (data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2) != null)
+                                {
+                                    <td class="text-center @(RAG(data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget))">@data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget%</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">-</td>
+                                }
+
+                                if (data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3) != null)
+                                {
+                                    <td class="text-center @RAG(data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3).toBudget)">@data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 3).toBudget%</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">-</td>
+                                }
+
+                                if (data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4) != null)
+                                {
+                                    <td class="text-center @RAG(data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget)">@data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget%</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">-</td>
+                                }
+
+                                if (data.Count(x => x.WeekNumber == item && (x.sortOrder == 4 || x.sortOrder == 2)) == 2)
+                                {
+                                    <td class="text-center @(string.Format("w{0}", item))">@Math.Round((double)(data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 4).toBudget - data.FirstOrDefault(x => x.WeekNumber == item && x.sortOrder == 2).toBudget), 1)%</td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">-</td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

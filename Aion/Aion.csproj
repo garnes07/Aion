@@ -200,6 +200,7 @@
     <Compile Include="Areas\WFM\Controllers\RFTPController.cs" />
     <Compile Include="Areas\WFM\Controllers\RFTPTrackingController.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\DeploymentAggregate.cs" />
+    <Compile Include="Areas\WFM\Models\FuturePlanning\DeploymentSwingView.cs" />
     <Compile Include="Areas\WFM\Models\MyStore\NewOpeningTime.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\RecruitmentDetail.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\SOHBudgetView.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Areas\WFM\ViewModels\Deployment\UpdateAvlbltyVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\DeploymentStatusVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\FuturePlanning\DeploymentSwingsVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\RecruitmentStatusVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Minerva\MinervaVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\HolidayPlanningVm.cs" />
@@ -600,6 +602,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_SFOpenVacancies.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_SOHSwings.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_StoreContractStatus.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -1086,6 +1091,10 @@
     <Content Include="Areas\Admin\Views\Home\MapTest.cshtml" />
     <Content Include="Areas\WFM\Views\Minerva\Index.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\Partials\_regionTCSignOff.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\DeploymentSwings.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsChain.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsRegion.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

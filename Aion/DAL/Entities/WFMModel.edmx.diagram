@@ -58,6 +58,7 @@
         <EntityTypeShape EntityType="WFMMContext.AvailabilityContact" Width="1.5" PointX="21.5" PointY="23.5" />
         <EntityTypeShape EntityType="WFMMContext.vw_StoreLocations" Width="1.5" PointX="0.75" PointY="21.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_ROIMismatch" Width="1.5" PointX="21.375" PointY="12.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_SOHSwings" Width="1.5" PointX="21.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

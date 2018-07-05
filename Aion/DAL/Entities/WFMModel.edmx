@@ -986,6 +986,23 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <Property Name="JobCode" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_SOHSwings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_SOHSwings">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="Type" Type="nvarchar" MaxLength="25" />
+          <Property Name="SOH" Type="float" />
+          <Property Name="FinalTarget" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_StoreContractStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_StoreContractStatus">
           <Key>
@@ -1643,6 +1660,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_ScheduleData].[JobCode] AS [JobCode]
     FROM [dbo].[vw_ScheduleData] AS [vw_ScheduleData]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_SOHSwings" EntityType="Self.vw_SOHSwings" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_SOHSwings].[RowId] AS [RowId], 
+    [vw_SOHSwings].[Chain] AS [Chain], 
+    [vw_SOHSwings].[Division] AS [Division], 
+    [vw_SOHSwings].[Region] AS [Region], 
+    [vw_SOHSwings].[StoreNumber] AS [StoreNumber], 
+    [vw_SOHSwings].[StoreName] AS [StoreName], 
+    [vw_SOHSwings].[WeekNumber] AS [WeekNumber], 
+    [vw_SOHSwings].[Type] AS [Type], 
+    [vw_SOHSwings].[SOH] AS [SOH], 
+    [vw_SOHSwings].[FinalTarget] AS [FinalTarget]
+    FROM [dbo].[vw_SOHSwings] AS [vw_SOHSwings]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_StoreContractStatus" EntityType="Self.vw_StoreContractStatus" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_StoreContractStatus].[RowId] AS [RowId], 
@@ -1821,6 +1852,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="AvailabilityContacts" EntityType="WFMMContext.AvailabilityContact" />
           <EntitySet Name="vw_StoreLocations" EntityType="WFMMContext.vw_StoreLocations" />
           <EntitySet Name="vw_ROIMismatch" EntityType="WFMMContext.vw_ROIMismatch" />
+          <EntitySet Name="vw_SOHSwings" EntityType="WFMMContext.vw_SOHSwings" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2924,6 +2956,21 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="Kronos_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MyHub_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="vw_SOHSwings">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="SOH" Type="Double" />
+          <Property Name="FinalTarget" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4004,6 +4051,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="MyHub_ID" ColumnName="MyHub ID" />
                 <ScalarProperty Name="Kronos_ID" ColumnName="Kronos ID" />
                 <ScalarProperty Name="RowNum" ColumnName="RowNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_SOHSwings">
+            <EntityTypeMapping TypeName="WFMMContext.vw_SOHSwings">
+              <MappingFragment StoreEntitySet="vw_SOHSwings">
+                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
+                <ScalarProperty Name="SOH" ColumnName="SOH" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -5,6 +5,7 @@ using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
 using Aion.Areas.Workflow.Models;
 using Aion.Areas.ProfitLoss.Models;
+using Aion.Areas.WFM.Models.FuturePlanning;
 
 namespace Aion.Mapping
 {
@@ -43,6 +44,7 @@ namespace Aion.Mapping
             CreateMap<sp_ComplianceSummaryRegion_Result, CompSummaryView>();
             CreateMap<sp_ComplianceSummaryStore_Result, CompSummaryView>();
             CreateMap<vw_4WeekSummary_Pilot, vw_4WeekSummary>();
+            CreateMap<vw_SOHSwings, DeploymentSwingView>();
         }
     }
 

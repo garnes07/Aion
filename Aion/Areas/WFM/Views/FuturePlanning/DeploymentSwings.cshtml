@@ -1,0 +1,58 @@
+﻿@model Aion.Areas.WFM.ViewModels.FuturePlanning.DeploymentSwingsVm
+
+@{
+    ViewBag.Title = "Deployment Swings";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    <div class="card mb-2">
+        <div class="card-header text-center">
+            <strong>Deployment Swings</strong>
+        </div>
+    </div>
+    @if (!Model.collection.Any())
+    {
+        <div class="alert alert-danger text-center"><strong>No data found</strong></div>
+    }
+    else
+    {
+        if (Model.DisplayLevel <= 2)
+        {
+            @Html.Partial("~/Areas/WFM/Views/FuturePlanning/Partials/_DeploymentSwingsRegion.cshtml")
+        }
+        else if (Model.DisplayLevel == 3)
+        {
+            @Html.Partial("~/Areas/WFM/Views/FuturePlanning/Partials/_DeploymentSwingsDivision.cshtml")
+        }
+        else if (Model.DisplayLevel == 4)
+        {
+            @Html.Partial("~/Areas/WFM/Views/FuturePlanning/Partials/_DeploymentSwingsChain.cshtml")
+        }
+    }
+</div>
+
+@section myScripts{
+<script src="~/Scripts/HeatMap.min.js"></script>
+<script>
+    var weeks = @Model.JsonWeekList;
+
+    $(function(){
+        for (var i = 0; i < weeks.length; i++) {
+            $('.w' + weeks[i]).hottie({
+                colorArray : [
+                    '#ffffff',
+                    '#f8696b'
+                ]
+            });
+        };        
+    });
+</script>    
+}
