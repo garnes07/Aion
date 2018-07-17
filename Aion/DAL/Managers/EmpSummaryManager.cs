@@ -69,5 +69,13 @@ namespace Aion.DAL.Managers
                 return await context.KronosEmployeeSummaries.Where(x => x.PersonName.Contains(PersonName) && x.Active == true).OrderBy(x => x.PersonName).ToListAsync();
             }
         }
+
+        public vw_ROIMismatch CheckROIRemap(string payrollNum)
+        {
+            using (var context = new WFMModel())
+            {
+                return context.vw_ROIMismatch.Where(x => x.MyHub_ID == payrollNum).FirstOrDefault();
+            }
+        }
     }
 }

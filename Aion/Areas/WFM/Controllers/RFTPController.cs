@@ -175,8 +175,8 @@ namespace Aion.Areas.WFM.Controllers
             TimecardSignOffVm vm = new TimecardSignOffVm();
 
             var storeList = await _storeManager.GetStoresInRegion(selectCrit);
-            //vm.hf = await _kronosManager.GetKronosHyperFind(storeList, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
-            vm.hf = await _kronosManager.GetKronosHyperFindBatch(storeList, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
+            vm.hf = await _kronosManager.GetKronosHyperFind(storeList, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
+            //vm.hf = await _kronosManager.GetKronosHyperFindBatch(storeList, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
             var empList = await _empSummaryManager.GetAllByRegion(selectCrit);
             var punched = await _kronosManager.GetPunchStatus(empList.Where(x => x.KronosUser).Select(x => x.PersonNumber).ToList(), System.Web.HttpContext.Current.Session.SessionID);
             var punchCombined = empList.Where(x => x.KronosUser).Join(punched, db => db.PersonNumber, kronos => kronos.Employee.PersonIdentity.PersonNumber, (db, kronos) => new { PersonNumer = db.PersonNumber, BranchNumber = db.HomeBranch, punched = kronos.Status }).ToList();

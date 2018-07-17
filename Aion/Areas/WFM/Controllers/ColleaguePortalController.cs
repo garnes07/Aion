@@ -68,6 +68,11 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     payroll = "UK" + payroll.PadLeft(6, '0');
                 }
+                else
+                {
+                    var result = _empSummaryManager.CheckROIRemap(payroll);
+                    payroll = result == null ? payroll : result.Kronos_ID;
+                }
                 vm.payDates = await _payCalendarManager.GetPayCalendarDates(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString(), period);
                 vm.tSheet = await _kronosManager.GetTimesheet(vm.payDates.Select(x => x.WCDate).ToArray(), payroll, sessionID);
                 vm.punch = await _clockManager.GetEmployeePunch(payroll, vm.payDates.Min(x => x.Week), vm.payDates.Max(x => x.Week));

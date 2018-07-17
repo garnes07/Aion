@@ -13,5 +13,6 @@ namespace Aion.DAL.Managers
         Task<List<KronosEmployeeSummary>> GetEmployeeDetails(List<string> PersonNums);
         Task<KronosEmployeeSummary> GetEmployeeMatchingNumber(string personNumber);
         Task<List<KronosEmployeeSummary>> GetEmployeeMatchingName(string PersonName);
+        vw_ROIMismatch CheckROIRemap(string payrollNum);
     }
 }
