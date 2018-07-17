@@ -75,6 +75,7 @@ namespace Aion.Areas.Workflow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> NewSubmission(List<TicketQ_A> q, int TicketTypeId, int exception)
         {
+            if (selectArea != "S") return RedirectToAction("NewSubmission");
             foreach (var item in q.Where(x => x.ReturnType == "date"))
             {
                 DateTime a = new DateTime();

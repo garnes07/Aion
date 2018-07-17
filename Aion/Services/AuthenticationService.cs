@@ -34,7 +34,7 @@ namespace Aion.Services
         public async Task<AuthenticationResult> SignIn(string userName, string password)
         {
             AuthenticationResult authResult = new AuthenticationResult();
-            string Domain = "CPWPLC";
+            string Domain = "DSG";
 
             if (userName.StartsWith("DSG\\", true, new System.Globalization.CultureInfo("en-US")))
             {
@@ -145,7 +145,7 @@ namespace Aion.Services
                 var roiFlag = HttpContext.Current.Session["_ROIFlag"] == null ? false : (bool)HttpContext.Current.Session["_ROIFlag"];
                 if (!roiFlag)
                 {
-                    HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : "UK" + empNum.PadLeft(6, '0'));
+                    HttpContext.Current.Session.Add("_EmpNum", empNum);
                 }
                 else
                 {
@@ -157,8 +157,7 @@ namespace Aion.Services
                     else
                     {
                         HttpContext.Current.Session.Add("_EmpNum", result);
-                    }
-                    
+                    }                    
                 }
             }
             catch(Exception e)
@@ -173,8 +172,8 @@ namespace Aion.Services
         {
             try
             {
-                string empNum = entry.Properties["workforceID"].Value.ToString();
-                HttpContext.Current.Session.Add("_EmpNum", "DSG" + empNum);
+                string empNum = entry.Properties["workforceID"].Value.ToString().Replace('A', '1').Replace('B', '2').Replace('C', '3');
+                HttpContext.Current.Session.Add("_EmpNum", empNum);
             }
             catch(Exception e)
             {

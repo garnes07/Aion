@@ -33,7 +33,8 @@ namespace Aion.Areas.WFM.Controllers
             {
                 if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
                 {
-                    var person = await _empSummaryManager.GetEmployeeMatchingNumber(System.Web.HttpContext.Current.Session["_EmpNum"].ToString());
+                    var empNum = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
+                    var person = await _empSummaryManager.GetEmployeeMatchingNumber(empNum == "" ? "e" : "UK" + empNum.PadLeft(6, '0'));
                     System.Web.HttpContext.Current.Session["_PTFlag"] = person?.EmployeeStandardHours != 45 ? "PT" : "FT";
                 }
                 else
@@ -63,6 +64,10 @@ namespace Aion.Areas.WFM.Controllers
 
             if (payroll != "e")
             {
+                if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+                {
+                    payroll = "UK" + payroll.PadLeft(6, '0');
+                }
                 vm.payDates = await _payCalendarManager.GetPayCalendarDates(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString(), period);
                 vm.tSheet = await _kronosManager.GetTimesheet(vm.payDates.Select(x => x.WCDate).ToArray(), payroll, sessionID);
                 vm.punch = await _clockManager.GetEmployeePunch(payroll, vm.payDates.Min(x => x.Week), vm.payDates.Max(x => x.Week));

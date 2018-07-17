@@ -178,7 +178,9 @@ namespace Aion.Areas.Admin.Controllers
             {
                 vm.Populate(detail);
                 vm.PendingRequests = await _vacancyManager.GetPendingRequestsCPW(storeNum);
+                vm.PendingRequests.AddRange(await _vacancyManager.GetPendingRequestsDXNS(storeNum));
                 vm.LiveRequests = await _vacancyManager.GetOpenVacanciesCPW(storeNum);
+                vm.LiveRequests.AddRange(await _vacancyManager.GetOpenVacanciesDXNS(storeNum));
             }
             else
             {

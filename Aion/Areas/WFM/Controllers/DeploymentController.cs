@@ -325,6 +325,10 @@ namespace Aion.Areas.WFM.Controllers
 
             if (personNumber == "e")
             {
+                if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+                {
+                    _personNumber = "UK" + _personNumber.PadLeft(6, '0');
+                }
                 vm.contactDetails = await _avlbltyManager.GetContactDetailsPerson(_personNumber);
                 vm.displayContact = true;
             }
