@@ -99,14 +99,15 @@ namespace Aion.Services
 
             //Get employee number and translate as per business context
             var entry = new DirectoryEntry("LDAP://" + principalContext.ConnectedServer + "/" + userPrincipal.DistinguishedName, userName, password);
-            if (principalContext.Name != "DSG")
-            {
-                RetriveCPWPLCEmpNum(entry);
-            }
-            else
-            {
-                RetriveDSGEmpNum(entry);
-            }
+            RetrieveEmpNum(entry);
+            //if (principalContext.Name != "DSG")
+            //{
+            //    RetriveCPWPLCEmpNum(entry);
+            //}
+            //else
+            //{
+            //    RetriveDSGEmpNum(entry);
+            //}
             
             if (HttpContext.Current.Session["_wfUserGroup"] == null)
             {
@@ -134,6 +135,48 @@ namespace Aion.Services
 #endif
 
             return authResult;
+        }
+
+        private void RetrieveEmpNum(DirectoryEntry entry)
+        {
+            try
+            {
+                if (entry.Properties.Contains("employeeNumber"))
+                {
+                    string empNum = entry.Properties["employeeNumber"].Value.ToString();
+                    var roiFlag = HttpContext.Current.Session["_ROIFlag"] == null ? false : (bool)HttpContext.Current.Session["_ROIFlag"];
+                    if (!roiFlag)
+                    {
+                        HttpContext.Current.Session.Add("_EmpNum", empNum);
+                    }
+                    else
+                    {
+                        var result = CheckForRemap(empNum);
+                        if (result.Equals("none"))
+                        {
+                            HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : empNum);
+                        }
+                        else
+                        {
+                            HttpContext.Current.Session.Add("_EmpNum", result);
+                        }
+                    }
+                }
+                else if (entry.Properties.Contains("dcgWorkforceID"))
+                {
+                    string empNum = entry.Properties["dcgWorkforceID"].Value.ToString().Replace('A', '1').Replace('B', '2').Replace('C', '3');
+                    HttpContext.Current.Session.Add("_EmpNum", empNum);
+                }
+                else
+                {
+                    HttpContext.Current.Session.Add("_EmpNum", "e");
+                }
+            }
+            catch (Exception e)
+            {
+                HttpContext.Current.Session.Add("_EmpNum", "e");
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+            }
         }
 
         //Extract CPWPLC emp num form AD and translate to business context
