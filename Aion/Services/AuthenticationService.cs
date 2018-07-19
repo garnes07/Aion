@@ -114,7 +114,10 @@ namespace Aion.Services
                 HttpContext.Current.Session["_wfUserGroup"] = _ticketManager.GetUserGroup(authResult.UserName);
             }
 
-            HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress;
+            if(userPrincipal.EmailAddress != null)
+            {
+                HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress;
+            }            
 
             await CheckAccessLevel(authResult);
 
@@ -147,27 +150,14 @@ namespace Aion.Services
         {
             try
             {
+                if (entry.Properties.Contains("userPrincipalName"))
+                {
+                    HttpContext.Current.Session["Email"] = entry.Properties["userPrincipalName"].Value.ToString();
+                }
                 if (entry.Properties.Contains("employeeNumber"))
                 {
                     string empNum = entry.Properties["employeeNumber"].Value.ToString();
                     HttpContext.Current.Session.Add("_EmpNum", empNum);
-                    //var roiFlag = HttpContext.Current.Session["_ROIFlag"] == null ? false : (bool)HttpContext.Current.Session["_ROIFlag"];
-                    //if (!roiFlag)
-                    //{
-                    //    HttpContext.Current.Session.Add("_EmpNum", empNum);
-                    //}
-                    //else
-                    //{
-                    //    var result = CheckForRemap(empNum);
-                    //    if (result.Equals("none"))
-                    //    {
-                    //        HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : empNum);
-                    //    }
-                    //    else
-                    //    {
-                    //        HttpContext.Current.Session.Add("_EmpNum", result);
-                    //    }
-                    //}
                 }
                 else if (entry.Properties.Contains("dcgWorkforceID"))
                 {
