@@ -118,6 +118,12 @@ namespace Aion.Services
 
             await CheckAccessLevel(authResult);
 
+            var result = CheckForRemap(authResult.EmpNum);
+            if (!result.Equals("none"))
+            {
+                HttpContext.Current.Session["_EmpNum"] = result;
+            }
+
 #if DEBUG
             HttpContext.Current.Session.Add("_LoginID", 0);
 #else
@@ -144,23 +150,24 @@ namespace Aion.Services
                 if (entry.Properties.Contains("employeeNumber"))
                 {
                     string empNum = entry.Properties["employeeNumber"].Value.ToString();
-                    var roiFlag = HttpContext.Current.Session["_ROIFlag"] == null ? false : (bool)HttpContext.Current.Session["_ROIFlag"];
-                    if (!roiFlag)
-                    {
-                        HttpContext.Current.Session.Add("_EmpNum", empNum);
-                    }
-                    else
-                    {
-                        var result = CheckForRemap(empNum);
-                        if (result.Equals("none"))
-                        {
-                            HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : empNum);
-                        }
-                        else
-                        {
-                            HttpContext.Current.Session.Add("_EmpNum", result);
-                        }
-                    }
+                    HttpContext.Current.Session.Add("_EmpNum", empNum);
+                    //var roiFlag = HttpContext.Current.Session["_ROIFlag"] == null ? false : (bool)HttpContext.Current.Session["_ROIFlag"];
+                    //if (!roiFlag)
+                    //{
+                    //    HttpContext.Current.Session.Add("_EmpNum", empNum);
+                    //}
+                    //else
+                    //{
+                    //    var result = CheckForRemap(empNum);
+                    //    if (result.Equals("none"))
+                    //    {
+                    //        HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : empNum);
+                    //    }
+                    //    else
+                    //    {
+                    //        HttpContext.Current.Session.Add("_EmpNum", result);
+                    //    }
+                    //}
                 }
                 else if (entry.Properties.Contains("dcgWorkforceID"))
                 {
@@ -177,53 +184,6 @@ namespace Aion.Services
                 HttpContext.Current.Session.Add("_EmpNum", "e");
                 Elmah.ErrorSignal.FromCurrentContext().Raise(e);
             }
-        }
-
-        //Extract CPWPLC emp num form AD and translate to business context
-        private void RetriveCPWPLCEmpNum(DirectoryEntry entry)
-        {
-            try
-            {
-                string empNum = entry.Properties["employeeNumber"].Value.ToString();
-                var roiFlag = HttpContext.Current.Session["_ROIFlag"] == null ? false : (bool)HttpContext.Current.Session["_ROIFlag"];
-                if (!roiFlag)
-                {
-                    HttpContext.Current.Session.Add("_EmpNum", empNum);
-                }
-                else
-                {
-                    var result = CheckForRemap(empNum);
-                    if(result.Equals("none"))
-                    {
-                        HttpContext.Current.Session.Add("_EmpNum", empNum == "" ? "e" : empNum);
-                    }
-                    else
-                    {
-                        HttpContext.Current.Session.Add("_EmpNum", result);
-                    }                    
-                }
-            }
-            catch(Exception e)
-            {
-                HttpContext.Current.Session.Add("_EmpNum", "e");
-                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
-            }
-        }
-
-        //Extract DSG emp num form AD and translate to business context
-        private static void RetriveDSGEmpNum(DirectoryEntry entry)
-        {
-            try
-            {
-                string empNum = entry.Properties["workforceID"].Value.ToString().Replace('A', '1').Replace('B', '2').Replace('C', '3');
-                HttpContext.Current.Session.Add("_EmpNum", empNum);
-            }
-            catch(Exception e)
-            {
-                HttpContext.Current.Session.Add("_EmpNum", "e");
-                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
-            }
-            return;
         }
 
         //Create and return claim
