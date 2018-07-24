@@ -56,5 +56,6 @@ namespace Aion.DAL.Entities
         public Nullable<double> IgniteCredits { get; set; }
         public Nullable<double> PunchCompliance { get; set; }
         public Nullable<short> ShortShifts { get; set; }
+        public Nullable<System.DateTime> LastUpdated { get; set; }
     }
 }

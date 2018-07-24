@@ -59,6 +59,10 @@
         <EntityTypeShape EntityType="WFMMContext.vw_StoreLocations" Width="1.5" PointX="0.75" PointY="21.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_ROIMismatch" Width="1.5" PointX="21.375" PointY="12.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_SOHSwings" Width="1.5" PointX="21.375" PointY="15.75" />
+        <EntityTypeShape EntityType="WFMMContext.Top100Ref" Width="1.5" PointX="20.375" PointY="6.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_DailyDeployment_Top100" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_DashboardData_v2_Top100" Width="1.5" PointX="23.375" PointY="7.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_Top100CreditSummary" Width="1.5" PointX="7.375" PointY="23.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

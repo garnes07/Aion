@@ -9,6 +9,16 @@ namespace Aion.DAL.Managers
 {
     public class DashboardDataManager : IDashboardDataManager
     {
+        public async Task<bool> CheckTop100(string store)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                var result = await context.Top100Ref.Where(x => x.StoreNumber == crit).FirstOrDefaultAsync();
+                return result != null;
+            }
+        }
+
         public async Task<List<sp_ComplianceSummary_Result>> GetCompSummary(string year, byte period, string chain)
         {
             using (var context = new WFMModel())
@@ -272,12 +282,30 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<vw_DashboardData_v2_Top100>> GetStoreDashDataTop100(string store, int weekOfYr)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_DashboardData_v2_Top100.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).ToListAsync();
+            }
+        }
+
         public async Task<vw_DailyDeployment_Pilot> GetDailyDeploymentStorePilot(string store, int weekOfYr)
         {
             using (var context = new WFMModel())
             {
                 short crit = short.Parse(store);
                 return await context.vw_DailyDeployment_Pilot.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).FirstOrDefaultAsync();
+            }
+        }
+
+        public async Task<vw_DailyDeployment_Top100> GetDailyDeploymentStoreTop100(string store, int weekOfYr)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.vw_DailyDeployment_Top100.Where(x => x.StoreNumber == crit && x.WeekNumber == weekOfYr).FirstOrDefaultAsync();
             }
         }
 
@@ -348,6 +376,14 @@ namespace Aion.DAL.Managers
                     .OrderBy(x => x.StoreNumber)
                     .ThenBy(x => x.WeekNumber)
                     .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_Top100CreditSummary>> GetCreditSummaryWeek(int weekOfYr)
+        {
+            using(var context = new WFMModel())
+            {
+                return await context.vw_Top100CreditSummary.Where(x => x.WeekNumber == weekOfYr).OrderBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
             }
         }
     }

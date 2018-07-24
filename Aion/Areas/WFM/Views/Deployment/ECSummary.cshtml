@@ -1,0 +1,87 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.Deployment.ECSummaryVm
+
+@{
+    ViewBag.Title = "Every Customer";
+
+    Func<string, string> GetRAGClass = (i) =>
+    {
+        switch (i)
+        {
+            case "R":
+                return "table-danger";
+            case "A":
+                return "table-warning";
+            default:
+                return "table-success";
+        }
+    };
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Every Customer Credits</strong>
+        </div>
+        <div class="card-body">
+            <p>Stuff...</p>
+        </div>
+    </div>
+
+    @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "ECSummary", Controller = "Deployment", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
+
+    <table class="table table-bordered table-sm table-smtxtperm">
+        <thead class="thead-blue text-center">
+            <tr>
+                <th rowspan="2">Division</th>
+                <th rowspan="2">Region</th>
+                <th rowspan="2">Store</th>
+                <th colspan="5">Sunday <small>(@Model.SundayDate)</small></th>
+                <th colspan="5">Saturday <small>(@Model.SaturdayDate)</small></th>
+                <th>Overall</th>
+            </tr>
+            <tr>
+                <th>Required<br />Hours</th>
+                <th>Max Credit<br />Available</th>
+                <th>Actual<br />Hours</th>
+                <th>Actual Credit<br />Used</th>
+                <th>RAG</th>
+                <th>Required<br />Hours</th>
+                <th>Max Credit<br />Available</th>
+                <th>Actual<br />Hours</th>
+                <th>Actual Credit<br />Used</th>
+                <th>RAG</th>
+                <th>RAG</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.collection)
+            {
+                <tr>
+                    <td>@item.Division</td>
+                    <td>@item.Region</td>
+                    <td>@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</td>
+                    <td class="text-center">@item.SundayReq</td>
+                    <td class="text-center">@item.SundayAvailable</td>
+                    <td class="text-center">@item.SundayDeployed</td>
+                    <td class="text-center">@item.SundayCredit</td>
+                    <td class="text-center @GetRAGClass(item.SundayRAG)">@item.SundayRAG</td>
+                    <td class="text-center">@item.SaturdayReq</td>
+                    <td class="text-center">@item.SaturdayAvailable</td>
+                    <td class="text-center">@item.SaturdayDeployed</td>
+                    <td class="text-center">@item.SaturdayCredit</td>
+                    <td class="text-center @GetRAGClass(item.SaturdayRAG)">@item.SaturdayRAG</td>
+                    <td class="text-center @GetRAGClass(item.TotalRAG)">@item.TotalRAG</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

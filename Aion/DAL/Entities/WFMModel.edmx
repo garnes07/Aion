@@ -307,6 +307,14 @@
           <Property Name="SubmittedByUser" Type="nvarchar" MaxLength="20" />
           <Property Name="ReasonForChange" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Top100Ref">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+          </Key>
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="SundayCredit" Type="smallint" Nullable="false" />
+          <Property Name="SaturdayCredit" Type="smallint" Nullable="false" />
+        </EntityType>
         <EntityType Name="WFM_EMPLOYEE_INFO">
           <Key>
             <PropertyRef Name="Alternate ID" />
@@ -639,6 +647,54 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DailyDeployment_Pilot' does not h
           <Property Name="SaturdayMove" Type="numeric" Precision="8" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_DailyDeployment_Top100' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_DailyDeployment_Top100">
+          <Key>
+            <PropertyRef Name="EntryID" />
+            <PropertyRef Name="WeekNumber" />
+            
+            <PropertyRef Name="SundayDeployed" />
+            <PropertyRef Name="MondayDeployed" />
+            <PropertyRef Name="TuesdayDeployed" />
+            <PropertyRef Name="WednesdayDeployed" />
+            <PropertyRef Name="ThursdayDeployed" />
+            <PropertyRef Name="FridayDeployed" />
+            <PropertyRef Name="SaturdayDeployed" />
+            <PropertyRef Name="DateTimeModified" />
+            <PropertyRef Name="DeployedTotal" />
+            <PropertyRef Name="SundayCredit" />
+            <PropertyRef Name="SaturdayCredit" />
+          </Key>
+          <Property Name="EntryID" Type="int" Nullable="false" />
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="SundayReq" Type="float" />
+          <Property Name="MondayReq" Type="float" />
+          <Property Name="TuesdayReq" Type="float" />
+          <Property Name="WednesdayReq" Type="float" />
+          <Property Name="ThursdayReq" Type="float" />
+          <Property Name="FridayReq" Type="float" />
+          <Property Name="SaturdayReq" Type="float" />
+          <Property Name="SundayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="MondayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="TuesdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="WednesdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="ThursdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="FridayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SaturdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="DateTimeModified" Type="datetime" Nullable="false" />
+          <Property Name="DeployedTotal" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SundayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="MondayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="TuesdayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="WednesdayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="ThursdayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="FridayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="SaturdayMove" Type="numeric" Precision="8" Scale="2" />
+          <Property Name="SundayCredit" Type="smallint" Nullable="false" />
+          <Property Name="SaturdayCredit" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_DashboardData_v2">
           <Key>
@@ -690,6 +746,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2' does not have a
           <Property Name="IgniteCredits" Type="float" />
           <Property Name="PunchCompliance" Type="float" />
           <Property Name="ShortShifts" Type="smallint" />
+          <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2_Pilot' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -744,6 +801,62 @@ warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2_Pilot' does not 
           <Property Name="IgniteCredits" Type="float" />
           <Property Name="PunchCompliance" Type="float" />
           <Property Name="PayEscalations" Type="float" />
+          <Property Name="Lastupdated" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_DashboardData_v2_Top100' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_DashboardData_v2_Top100">
+          <Key>
+            <PropertyRef Name="DashBoardDataId" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="SOHUtilization" />
+            <PropertyRef Name="StoreFlag" />
+          </Key>
+          <Property Name="DashBoardDataId" Type="int" Nullable="false" />
+          <Property Name="Year" Type="nvarchar" MaxLength="10" />
+          <Property Name="Quarter" Type="tinyint" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="WeekNumber" Type="int" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="UkStoreNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="255" />
+          <Property Name="TotalHeadCount" Type="smallint" />
+          <Property Name="TimeCardsCompleted" Type="smallint" />
+          <Property Name="ZeroHour" Type="smallint" />
+          <Property Name="ContractHours" Type="float" />
+          <Property Name="FTContractHours" Type="float" />
+          <Property Name="PTContractHours" Type="float" />
+          <Property Name="OriginalTarget" Type="float" />
+          <Property Name="FinalTarget" Type="float" />
+          <Property Name="HolidayTaken" Type="float" />
+          <Property Name="FTLeakage" Type="float" />
+          <Property Name="LeakageCount" Type="smallint" />
+          <Property Name="AllApprovedHours" Type="float" />
+          <Property Name="SOH" Type="float" />
+          <Property Name="OverTargetFlag" Type="bit" />
+          <Property Name="OverContractFlag" Type="bit" />
+          <Property Name="ComplianceScore" Type="smallint" />
+          <Property Name="SOHUtilization" Type="int" Nullable="false" />
+          <Property Name="UtilizationZeroFlag" Type="bit" />
+          <Property Name="GSContract" Type="float" />
+          <Property Name="GSTarget" Type="float" />
+          <Property Name="GSHolidayTaken" Type="float" />
+          <Property Name="GSFTLeakage" Type="float" />
+          <Property Name="GSAllApprovedHours" Type="float" />
+          <Property Name="GSSOHSpend" Type="float" />
+          <Property Name="GSOverTargetFlag" Type="bit" />
+          <Property Name="GSOverContractFlag" Type="bit" />
+          <Property Name="StoreFlag" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="ContractBaseTarget" Type="float" />
+          <Property Name="IgniteCredits" Type="float" />
+          <Property Name="PunchCompliance" Type="float" />
+          <Property Name="PayEscalations" Type="float" />
+          <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_DeploymentStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1046,6 +1159,42 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreLocations' does not have a p
           <Property Name="TradeTransfer" Type="nvarchar" MaxLength="131" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_Top100CreditSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Top100CreditSummary">
+          <Key>
+            <PropertyRef Name="EntryID" />
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="SundayDeployed" />
+            <PropertyRef Name="SaturdayDeployed" />
+            <PropertyRef Name="SundayAvailable" />
+            <PropertyRef Name="SaturdayAvailable" />
+            <PropertyRef Name="SundayRAG" />
+            <PropertyRef Name="SaturdayRAG" />
+            <PropertyRef Name="TotalRAG" />
+          </Key>
+          <Property Name="EntryID" Type="int" Nullable="false" />
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SundayReq" Type="float" />
+          <Property Name="SaturdayReq" Type="float" />
+          <Property Name="SundayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SaturdayDeployed" Type="numeric" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="SundayCredit" Type="float" />
+          <Property Name="SaturdayCredit" Type="float" />
+          <Property Name="SundayAvailable" Type="smallint" Nullable="false" />
+          <Property Name="SaturdayAvailable" Type="smallint" Nullable="false" />
+          <Property Name="SundayRAG" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="SaturdayRAG" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="TotalRAG" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_TradingHoursForAvlblty">
           <Key>
@@ -1182,6 +1331,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreOpeningTimes" EntityType="Self.StoreOpeningTimes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Top100Ref" EntityType="Self.Top100Ref" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WFM_EMPLOYEE_INFO" EntityType="Self.WFM_EMPLOYEE_INFO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_4WeekSummary" EntityType="Self.vw_4WeekSummary" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1396,6 +1546,38 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_DailyDeployment_Pilot].[SaturdayMove] AS [SaturdayMove]
     FROM [dbo].[vw_DailyDeployment_Pilot] AS [vw_DailyDeployment_Pilot]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_DailyDeployment_Top100" EntityType="Self.vw_DailyDeployment_Top100" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_DailyDeployment_Top100].[EntryID] AS [EntryID], 
+    [vw_DailyDeployment_Top100].[WeekNumber] AS [WeekNumber], 
+    [vw_DailyDeployment_Top100].[StoreNumber] AS [StoreNumber], 
+    [vw_DailyDeployment_Top100].[SundayReq] AS [SundayReq], 
+    [vw_DailyDeployment_Top100].[MondayReq] AS [MondayReq], 
+    [vw_DailyDeployment_Top100].[TuesdayReq] AS [TuesdayReq], 
+    [vw_DailyDeployment_Top100].[WednesdayReq] AS [WednesdayReq], 
+    [vw_DailyDeployment_Top100].[ThursdayReq] AS [ThursdayReq], 
+    [vw_DailyDeployment_Top100].[FridayReq] AS [FridayReq], 
+    [vw_DailyDeployment_Top100].[SaturdayReq] AS [SaturdayReq], 
+    [vw_DailyDeployment_Top100].[SundayDeployed] AS [SundayDeployed], 
+    [vw_DailyDeployment_Top100].[MondayDeployed] AS [MondayDeployed], 
+    [vw_DailyDeployment_Top100].[TuesdayDeployed] AS [TuesdayDeployed], 
+    [vw_DailyDeployment_Top100].[WednesdayDeployed] AS [WednesdayDeployed], 
+    [vw_DailyDeployment_Top100].[ThursdayDeployed] AS [ThursdayDeployed], 
+    [vw_DailyDeployment_Top100].[FridayDeployed] AS [FridayDeployed], 
+    [vw_DailyDeployment_Top100].[SaturdayDeployed] AS [SaturdayDeployed], 
+    [vw_DailyDeployment_Top100].[DateTimeModified] AS [DateTimeModified], 
+    [vw_DailyDeployment_Top100].[DeployedTotal] AS [DeployedTotal], 
+    [vw_DailyDeployment_Top100].[SundayMove] AS [SundayMove], 
+    [vw_DailyDeployment_Top100].[MondayMove] AS [MondayMove], 
+    [vw_DailyDeployment_Top100].[TuesdayMove] AS [TuesdayMove], 
+    [vw_DailyDeployment_Top100].[WednesdayMove] AS [WednesdayMove], 
+    [vw_DailyDeployment_Top100].[ThursdayMove] AS [ThursdayMove], 
+    [vw_DailyDeployment_Top100].[FridayMove] AS [FridayMove], 
+    [vw_DailyDeployment_Top100].[SaturdayMove] AS [SaturdayMove], 
+    [vw_DailyDeployment_Top100].[SundayCredit] AS [SundayCredit], 
+    [vw_DailyDeployment_Top100].[SaturdayCredit] AS [SaturdayCredit]
+    FROM [dbo].[vw_DailyDeployment_Top100] AS [vw_DailyDeployment_Top100]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_DashboardData_v2" EntityType="Self.vw_DashboardData_v2" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_DashboardData_v2].[DashBoardDataId] AS [DashBoardDataId], 
@@ -1439,7 +1621,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_DashboardData_v2].[ContractBaseTarget] AS [ContractBaseTarget], 
     [vw_DashboardData_v2].[IgniteCredits] AS [IgniteCredits], 
     [vw_DashboardData_v2].[PunchCompliance] AS [PunchCompliance], 
-    [vw_DashboardData_v2].[ShortShifts] AS [ShortShifts]
+    [vw_DashboardData_v2].[ShortShifts] AS [ShortShifts], 
+    [vw_DashboardData_v2].[LastUpdated] AS [LastUpdated]
     FROM [dbo].[vw_DashboardData_v2] AS [vw_DashboardData_v2]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_DashboardData_v2_Pilot" EntityType="Self.vw_DashboardData_v2_Pilot" store:Type="Views" store:Schema="dbo">
@@ -1485,8 +1668,56 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_DashboardData_v2_Pilot].[ContractBaseTarget] AS [ContractBaseTarget], 
     [vw_DashboardData_v2_Pilot].[IgniteCredits] AS [IgniteCredits], 
     [vw_DashboardData_v2_Pilot].[PunchCompliance] AS [PunchCompliance], 
-    [vw_DashboardData_v2_Pilot].[PayEscalations] AS [PayEscalations]
+    [vw_DashboardData_v2_Pilot].[PayEscalations] AS [PayEscalations], 
+    [vw_DashboardData_v2_Pilot].[Lastupdated] AS [Lastupdated]
     FROM [dbo].[vw_DashboardData_v2_Pilot] AS [vw_DashboardData_v2_Pilot]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_DashboardData_v2_Top100" EntityType="Self.vw_DashboardData_v2_Top100" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_DashboardData_v2_Top100].[DashBoardDataId] AS [DashBoardDataId], 
+    [vw_DashboardData_v2_Top100].[Year] AS [Year], 
+    [vw_DashboardData_v2_Top100].[Quarter] AS [Quarter], 
+    [vw_DashboardData_v2_Top100].[Period] AS [Period], 
+    [vw_DashboardData_v2_Top100].[WeekNumber] AS [WeekNumber], 
+    [vw_DashboardData_v2_Top100].[StoreNumber] AS [StoreNumber], 
+    [vw_DashboardData_v2_Top100].[UkStoreNumber] AS [UkStoreNumber], 
+    [vw_DashboardData_v2_Top100].[StoreName] AS [StoreName], 
+    [vw_DashboardData_v2_Top100].[Division] AS [Division], 
+    [vw_DashboardData_v2_Top100].[Region] AS [Region], 
+    [vw_DashboardData_v2_Top100].[RegionName] AS [RegionName], 
+    [vw_DashboardData_v2_Top100].[TotalHeadCount] AS [TotalHeadCount], 
+    [vw_DashboardData_v2_Top100].[TimeCardsCompleted] AS [TimeCardsCompleted], 
+    [vw_DashboardData_v2_Top100].[ZeroHour] AS [ZeroHour], 
+    [vw_DashboardData_v2_Top100].[ContractHours] AS [ContractHours], 
+    [vw_DashboardData_v2_Top100].[FTContractHours] AS [FTContractHours], 
+    [vw_DashboardData_v2_Top100].[PTContractHours] AS [PTContractHours], 
+    [vw_DashboardData_v2_Top100].[OriginalTarget] AS [OriginalTarget], 
+    [vw_DashboardData_v2_Top100].[FinalTarget] AS [FinalTarget], 
+    [vw_DashboardData_v2_Top100].[HolidayTaken] AS [HolidayTaken], 
+    [vw_DashboardData_v2_Top100].[FTLeakage] AS [FTLeakage], 
+    [vw_DashboardData_v2_Top100].[LeakageCount] AS [LeakageCount], 
+    [vw_DashboardData_v2_Top100].[AllApprovedHours] AS [AllApprovedHours], 
+    [vw_DashboardData_v2_Top100].[SOH] AS [SOH], 
+    [vw_DashboardData_v2_Top100].[OverTargetFlag] AS [OverTargetFlag], 
+    [vw_DashboardData_v2_Top100].[OverContractFlag] AS [OverContractFlag], 
+    [vw_DashboardData_v2_Top100].[ComplianceScore] AS [ComplianceScore], 
+    [vw_DashboardData_v2_Top100].[SOHUtilization] AS [SOHUtilization], 
+    [vw_DashboardData_v2_Top100].[UtilizationZeroFlag] AS [UtilizationZeroFlag], 
+    [vw_DashboardData_v2_Top100].[GSContract] AS [GSContract], 
+    [vw_DashboardData_v2_Top100].[GSTarget] AS [GSTarget], 
+    [vw_DashboardData_v2_Top100].[GSHolidayTaken] AS [GSHolidayTaken], 
+    [vw_DashboardData_v2_Top100].[GSFTLeakage] AS [GSFTLeakage], 
+    [vw_DashboardData_v2_Top100].[GSAllApprovedHours] AS [GSAllApprovedHours], 
+    [vw_DashboardData_v2_Top100].[GSSOHSpend] AS [GSSOHSpend], 
+    [vw_DashboardData_v2_Top100].[GSOverTargetFlag] AS [GSOverTargetFlag], 
+    [vw_DashboardData_v2_Top100].[GSOverContractFlag] AS [GSOverContractFlag], 
+    [vw_DashboardData_v2_Top100].[StoreFlag] AS [StoreFlag], 
+    [vw_DashboardData_v2_Top100].[ContractBaseTarget] AS [ContractBaseTarget], 
+    [vw_DashboardData_v2_Top100].[IgniteCredits] AS [IgniteCredits], 
+    [vw_DashboardData_v2_Top100].[PunchCompliance] AS [PunchCompliance], 
+    [vw_DashboardData_v2_Top100].[PayEscalations] AS [PayEscalations], 
+    [vw_DashboardData_v2_Top100].[LastUpdated] AS [LastUpdated]
+    FROM [dbo].[vw_DashboardData_v2_Top100] AS [vw_DashboardData_v2_Top100]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_DeploymentStatus" EntityType="Self.vw_DeploymentStatus" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1705,6 +1936,27 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_StoreLocations].[TradeTransfer] AS [TradeTransfer]
     FROM [dbo].[vw_StoreLocations] AS [vw_StoreLocations]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_Top100CreditSummary" EntityType="Self.vw_Top100CreditSummary" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_Top100CreditSummary].[EntryID] AS [EntryID], 
+    [vw_Top100CreditSummary].[WeekNumber] AS [WeekNumber], 
+    [vw_Top100CreditSummary].[Division] AS [Division], 
+    [vw_Top100CreditSummary].[Region] AS [Region], 
+    [vw_Top100CreditSummary].[StoreNumber] AS [StoreNumber], 
+    [vw_Top100CreditSummary].[StoreName] AS [StoreName], 
+    [vw_Top100CreditSummary].[SundayReq] AS [SundayReq], 
+    [vw_Top100CreditSummary].[SaturdayReq] AS [SaturdayReq], 
+    [vw_Top100CreditSummary].[SundayDeployed] AS [SundayDeployed], 
+    [vw_Top100CreditSummary].[SaturdayDeployed] AS [SaturdayDeployed], 
+    [vw_Top100CreditSummary].[SundayCredit] AS [SundayCredit], 
+    [vw_Top100CreditSummary].[SaturdayCredit] AS [SaturdayCredit], 
+    [vw_Top100CreditSummary].[SundayAvailable] AS [SundayAvailable], 
+    [vw_Top100CreditSummary].[SaturdayAvailable] AS [SaturdayAvailable], 
+    [vw_Top100CreditSummary].[SundayRAG] AS [SundayRAG], 
+    [vw_Top100CreditSummary].[SaturdayRAG] AS [SaturdayRAG], 
+    [vw_Top100CreditSummary].[TotalRAG] AS [TotalRAG]
+    FROM [dbo].[vw_Top100CreditSummary] AS [vw_Top100CreditSummary]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_TradingHoursForAvlblty" EntityType="Self.vw_TradingHoursForAvlblty" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_TradingHoursForAvlblty].[StoreNumber] AS [StoreNumber], 
@@ -1853,6 +2105,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="vw_StoreLocations" EntityType="WFMMContext.vw_StoreLocations" />
           <EntitySet Name="vw_ROIMismatch" EntityType="WFMMContext.vw_ROIMismatch" />
           <EntitySet Name="vw_SOHSwings" EntityType="WFMMContext.vw_SOHSwings" />
+          <EntitySet Name="Top100Ref" EntityType="WFMMContext.Top100Ref" />
+          <EntitySet Name="vw_DailyDeployment_Top100" EntityType="WFMMContext.vw_DailyDeployment_Top100" />
+          <EntitySet Name="vw_DashboardData_v2_Top100" EntityType="WFMMContext.vw_DashboardData_v2_Top100" />
+          <EntitySet Name="vw_Top100CreditSummary" EntityType="WFMMContext.vw_Top100CreditSummary" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -2042,6 +2298,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="IgniteCredits" Type="Double" />
           <Property Name="PunchCompliance" Type="Double" />
           <Property Name="ShortShifts" Type="Int16" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="vw_CPW_Clocking_Data_Trend">
           <Key>
@@ -2693,6 +2950,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="IgniteCredits" Type="Double" />
           <Property Name="PunchCompliance" Type="Double" />
           <Property Name="PayEscalations" Type="Double" />
+          <Property Name="Lastupdated" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="vw_4WeekSummary_Pilot">
           <Key>
@@ -2971,6 +3229,146 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="SOH" Type="Double" />
           <Property Name="FinalTarget" Type="Double" />
         </EntityType>
+        <EntityType Name="Top100Ref">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+          </Key>
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="SundayCredit" Type="Int16" Nullable="false" />
+          <Property Name="SaturdayCredit" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_DailyDeployment_Top100">
+          <Key>
+            <PropertyRef Name="EntryID" />
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="SundayDeployed" />
+            <PropertyRef Name="MondayDeployed" />
+            <PropertyRef Name="TuesdayDeployed" />
+            <PropertyRef Name="WednesdayDeployed" />
+            <PropertyRef Name="ThursdayDeployed" />
+            <PropertyRef Name="FridayDeployed" />
+            <PropertyRef Name="SaturdayDeployed" />
+            <PropertyRef Name="DateTimeModified" />
+            <PropertyRef Name="DeployedTotal" />
+            <PropertyRef Name="SundayCredit" />
+            <PropertyRef Name="SaturdayCredit" />
+          </Key>
+          <Property Name="EntryID" Type="Int32" Nullable="false" />
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="SundayReq" Type="Double" />
+          <Property Name="MondayReq" Type="Double" />
+          <Property Name="TuesdayReq" Type="Double" />
+          <Property Name="WednesdayReq" Type="Double" />
+          <Property Name="ThursdayReq" Type="Double" />
+          <Property Name="FridayReq" Type="Double" />
+          <Property Name="SaturdayReq" Type="Double" />
+          <Property Name="SundayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="MondayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="TuesdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="WednesdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="ThursdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="FridayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SaturdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="DateTimeModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeployedTotal" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SundayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="MondayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="TuesdayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="WednesdayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="ThursdayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="FridayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="SaturdayMove" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="SundayCredit" Type="Int16" Nullable="false" />
+          <Property Name="SaturdayCredit" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_DashboardData_v2_Top100">
+          <Key>
+            <PropertyRef Name="DashBoardDataId" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="SOHUtilization" />
+            <PropertyRef Name="StoreFlag" />
+          </Key>
+          <Property Name="DashBoardDataId" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Quarter" Type="Byte" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="WeekNumber" Type="Int32" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="UkStoreNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="RegionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TotalHeadCount" Type="Int16" />
+          <Property Name="TimeCardsCompleted" Type="Int16" />
+          <Property Name="ZeroHour" Type="Int16" />
+          <Property Name="ContractHours" Type="Double" />
+          <Property Name="FTContractHours" Type="Double" />
+          <Property Name="PTContractHours" Type="Double" />
+          <Property Name="OriginalTarget" Type="Double" />
+          <Property Name="FinalTarget" Type="Double" />
+          <Property Name="HolidayTaken" Type="Double" />
+          <Property Name="FTLeakage" Type="Double" />
+          <Property Name="LeakageCount" Type="Int16" />
+          <Property Name="AllApprovedHours" Type="Double" />
+          <Property Name="SOH" Type="Double" />
+          <Property Name="OverTargetFlag" Type="Boolean" />
+          <Property Name="OverContractFlag" Type="Boolean" />
+          <Property Name="ComplianceScore" Type="Int16" />
+          <Property Name="SOHUtilization" Type="Int32" Nullable="false" />
+          <Property Name="UtilizationZeroFlag" Type="Boolean" />
+          <Property Name="GSContract" Type="Double" />
+          <Property Name="GSTarget" Type="Double" />
+          <Property Name="GSHolidayTaken" Type="Double" />
+          <Property Name="GSFTLeakage" Type="Double" />
+          <Property Name="GSAllApprovedHours" Type="Double" />
+          <Property Name="GSSOHSpend" Type="Double" />
+          <Property Name="GSOverTargetFlag" Type="Boolean" />
+          <Property Name="GSOverContractFlag" Type="Boolean" />
+          <Property Name="StoreFlag" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContractBaseTarget" Type="Double" />
+          <Property Name="IgniteCredits" Type="Double" />
+          <Property Name="PunchCompliance" Type="Double" />
+          <Property Name="PayEscalations" Type="Double" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vw_Top100CreditSummary">
+          <Key>
+            <PropertyRef Name="EntryID" />
+            <PropertyRef Name="WeekNumber" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="SundayDeployed" />
+            <PropertyRef Name="SaturdayDeployed" />
+            <PropertyRef Name="SundayAvailable" />
+            <PropertyRef Name="SaturdayAvailable" />
+            <PropertyRef Name="SundayRAG" />
+            <PropertyRef Name="SaturdayRAG" />
+            <PropertyRef Name="TotalRAG" />
+          </Key>
+          <Property Name="EntryID" Type="Int32" Nullable="false" />
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SundayReq" Type="Double" />
+          <Property Name="SaturdayReq" Type="Double" />
+          <Property Name="SundayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SaturdayDeployed" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="SundayCredit" Type="Double" />
+          <Property Name="SaturdayCredit" Type="Double" />
+          <Property Name="SundayAvailable" Type="Int16" Nullable="false" />
+          <Property Name="SaturdayAvailable" Type="Int16" Nullable="false" />
+          <Property Name="SundayRAG" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SaturdayRAG" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TotalRAG" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3138,6 +3536,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySetMapping Name="vw_DashboardData_v2">
             <EntityTypeMapping TypeName="WFMMContext.vw_DashboardData_v2">
               <MappingFragment StoreEntitySet="vw_DashboardData_v2">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
                 <ScalarProperty Name="ShortShifts" ColumnName="ShortShifts" />
                 <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
                 <ScalarProperty Name="IgniteCredits" ColumnName="IgniteCredits" />
@@ -3785,6 +4184,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySetMapping Name="vw_DashboardData_v2_Pilot">
             <EntityTypeMapping TypeName="WFMMContext.vw_DashboardData_v2_Pilot">
               <MappingFragment StoreEntitySet="vw_DashboardData_v2_Pilot">
+                <ScalarProperty Name="Lastupdated" ColumnName="Lastupdated" />
                 <ScalarProperty Name="PayEscalations" ColumnName="PayEscalations" />
                 <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
                 <ScalarProperty Name="IgniteCredits" ColumnName="IgniteCredits" />
@@ -4067,6 +4467,121 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Top100Ref">
+            <EntityTypeMapping TypeName="WFMMContext.Top100Ref">
+              <MappingFragment StoreEntitySet="Top100Ref">
+                <ScalarProperty Name="SaturdayCredit" ColumnName="SaturdayCredit" />
+                <ScalarProperty Name="SundayCredit" ColumnName="SundayCredit" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DailyDeployment_Top100">
+            <EntityTypeMapping TypeName="WFMMContext.vw_DailyDeployment_Top100">
+              <MappingFragment StoreEntitySet="vw_DailyDeployment_Top100">
+                <ScalarProperty Name="SaturdayCredit" ColumnName="SaturdayCredit" />
+                <ScalarProperty Name="SundayCredit" ColumnName="SundayCredit" />
+                <ScalarProperty Name="SaturdayMove" ColumnName="SaturdayMove" />
+                <ScalarProperty Name="FridayMove" ColumnName="FridayMove" />
+                <ScalarProperty Name="ThursdayMove" ColumnName="ThursdayMove" />
+                <ScalarProperty Name="WednesdayMove" ColumnName="WednesdayMove" />
+                <ScalarProperty Name="TuesdayMove" ColumnName="TuesdayMove" />
+                <ScalarProperty Name="MondayMove" ColumnName="MondayMove" />
+                <ScalarProperty Name="SundayMove" ColumnName="SundayMove" />
+                <ScalarProperty Name="DeployedTotal" ColumnName="DeployedTotal" />
+                <ScalarProperty Name="DateTimeModified" ColumnName="DateTimeModified" />
+                <ScalarProperty Name="SaturdayDeployed" ColumnName="SaturdayDeployed" />
+                <ScalarProperty Name="FridayDeployed" ColumnName="FridayDeployed" />
+                <ScalarProperty Name="ThursdayDeployed" ColumnName="ThursdayDeployed" />
+                <ScalarProperty Name="WednesdayDeployed" ColumnName="WednesdayDeployed" />
+                <ScalarProperty Name="TuesdayDeployed" ColumnName="TuesdayDeployed" />
+                <ScalarProperty Name="MondayDeployed" ColumnName="MondayDeployed" />
+                <ScalarProperty Name="SundayDeployed" ColumnName="SundayDeployed" />
+                <ScalarProperty Name="SaturdayReq" ColumnName="SaturdayReq" />
+                <ScalarProperty Name="FridayReq" ColumnName="FridayReq" />
+                <ScalarProperty Name="ThursdayReq" ColumnName="ThursdayReq" />
+                <ScalarProperty Name="WednesdayReq" ColumnName="WednesdayReq" />
+                <ScalarProperty Name="TuesdayReq" ColumnName="TuesdayReq" />
+                <ScalarProperty Name="MondayReq" ColumnName="MondayReq" />
+                <ScalarProperty Name="SundayReq" ColumnName="SundayReq" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DashboardData_v2_Top100">
+            <EntityTypeMapping TypeName="WFMMContext.vw_DashboardData_v2_Top100">
+              <MappingFragment StoreEntitySet="vw_DashboardData_v2_Top100">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="PayEscalations" ColumnName="PayEscalations" />
+                <ScalarProperty Name="PunchCompliance" ColumnName="PunchCompliance" />
+                <ScalarProperty Name="IgniteCredits" ColumnName="IgniteCredits" />
+                <ScalarProperty Name="ContractBaseTarget" ColumnName="ContractBaseTarget" />
+                <ScalarProperty Name="StoreFlag" ColumnName="StoreFlag" />
+                <ScalarProperty Name="GSOverContractFlag" ColumnName="GSOverContractFlag" />
+                <ScalarProperty Name="GSOverTargetFlag" ColumnName="GSOverTargetFlag" />
+                <ScalarProperty Name="GSSOHSpend" ColumnName="GSSOHSpend" />
+                <ScalarProperty Name="GSAllApprovedHours" ColumnName="GSAllApprovedHours" />
+                <ScalarProperty Name="GSFTLeakage" ColumnName="GSFTLeakage" />
+                <ScalarProperty Name="GSHolidayTaken" ColumnName="GSHolidayTaken" />
+                <ScalarProperty Name="GSTarget" ColumnName="GSTarget" />
+                <ScalarProperty Name="GSContract" ColumnName="GSContract" />
+                <ScalarProperty Name="UtilizationZeroFlag" ColumnName="UtilizationZeroFlag" />
+                <ScalarProperty Name="SOHUtilization" ColumnName="SOHUtilization" />
+                <ScalarProperty Name="ComplianceScore" ColumnName="ComplianceScore" />
+                <ScalarProperty Name="OverContractFlag" ColumnName="OverContractFlag" />
+                <ScalarProperty Name="OverTargetFlag" ColumnName="OverTargetFlag" />
+                <ScalarProperty Name="SOH" ColumnName="SOH" />
+                <ScalarProperty Name="AllApprovedHours" ColumnName="AllApprovedHours" />
+                <ScalarProperty Name="LeakageCount" ColumnName="LeakageCount" />
+                <ScalarProperty Name="FTLeakage" ColumnName="FTLeakage" />
+                <ScalarProperty Name="HolidayTaken" ColumnName="HolidayTaken" />
+                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
+                <ScalarProperty Name="OriginalTarget" ColumnName="OriginalTarget" />
+                <ScalarProperty Name="PTContractHours" ColumnName="PTContractHours" />
+                <ScalarProperty Name="FTContractHours" ColumnName="FTContractHours" />
+                <ScalarProperty Name="ContractHours" ColumnName="ContractHours" />
+                <ScalarProperty Name="ZeroHour" ColumnName="ZeroHour" />
+                <ScalarProperty Name="TimeCardsCompleted" ColumnName="TimeCardsCompleted" />
+                <ScalarProperty Name="TotalHeadCount" ColumnName="TotalHeadCount" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="UkStoreNumber" ColumnName="UkStoreNumber" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="DashBoardDataId" ColumnName="DashBoardDataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Top100CreditSummary">
+            <EntityTypeMapping TypeName="WFMMContext.vw_Top100CreditSummary">
+              <MappingFragment StoreEntitySet="vw_Top100CreditSummary">
+                <ScalarProperty Name="TotalRAG" ColumnName="TotalRAG" />
+                <ScalarProperty Name="SaturdayRAG" ColumnName="SaturdayRAG" />
+                <ScalarProperty Name="SundayRAG" ColumnName="SundayRAG" />
+                <ScalarProperty Name="SaturdayAvailable" ColumnName="SaturdayAvailable" />
+                <ScalarProperty Name="SundayAvailable" ColumnName="SundayAvailable" />
+                <ScalarProperty Name="SaturdayCredit" ColumnName="SaturdayCredit" />
+                <ScalarProperty Name="SundayCredit" ColumnName="SundayCredit" />
+                <ScalarProperty Name="SaturdayDeployed" ColumnName="SaturdayDeployed" />
+                <ScalarProperty Name="SundayDeployed" ColumnName="SundayDeployed" />
+                <ScalarProperty Name="SaturdayReq" ColumnName="SaturdayReq" />
+                <ScalarProperty Name="SundayReq" ColumnName="SundayReq" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="EntryID" ColumnName="EntryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

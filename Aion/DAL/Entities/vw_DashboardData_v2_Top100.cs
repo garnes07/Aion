@@ -12,7 +12,7 @@ namespace Aion.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class vw_DashboardData_v2_Pilot
+    public partial class vw_DashboardData_v2_Top100
     {
         public int DashBoardDataId { get; set; }
         public string Year { get; set; }
@@ -56,6 +56,6 @@ namespace Aion.DAL.Entities
         public Nullable<double> IgniteCredits { get; set; }
         public Nullable<double> PunchCompliance { get; set; }
         public Nullable<double> PayEscalations { get; set; }
-        public Nullable<System.DateTime> Lastupdated { get; set; }
+        public Nullable<System.DateTime> LastUpdated { get; set; }
     }
 }

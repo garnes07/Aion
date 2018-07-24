@@ -34,7 +34,7 @@ namespace Aion.Services
         public async Task<AuthenticationResult> SignIn(string userName, string password)
         {
             AuthenticationResult authResult = new AuthenticationResult();
-            string Domain = "DSG";
+            string Domain = "CPWPLC";
 
             if (userName.StartsWith("DSG\\", true, new System.Globalization.CultureInfo("en-US")))
             {

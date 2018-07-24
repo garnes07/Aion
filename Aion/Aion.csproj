@@ -207,9 +207,11 @@
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\AvlbltySummaryVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailECVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailPilotVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\ECSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\SOHBudgetsVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\UpdateAvlbltyVm.cs" />
@@ -462,6 +464,9 @@
     <Compile Include="DAL\Entities\TicketType.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\Top100Ref.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\UKDashModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -552,10 +557,16 @@
     <Compile Include="DAL\Entities\vw_DailyDeployment_Pilot.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_DailyDeployment_Top100.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_DashboardData_v2.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_DashboardData_v2_Pilot.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_DashboardData_v2_Top100.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_DeploymentStatus.cs">
@@ -614,6 +625,9 @@
     </Compile>
     <Compile Include="DAL\Entities\vw_TicketStubRef.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_Top100CreditSummary.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_TradingHoursForAvlblty.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -1095,6 +1109,9 @@
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsChain.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsDivision.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\DetailEC.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailStoreEC.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\ECSummary.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

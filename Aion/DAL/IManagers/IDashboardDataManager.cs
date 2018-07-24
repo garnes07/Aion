@@ -34,12 +34,16 @@ namespace Aion.DAL.IManagers
         Task<List<vw_DeploymentStatus>> GetDeploymentStatusDivision(string division);
         Task<List<vw_DeploymentStatus>> GetDeploymentStatusChain(string chain);
         Task<List<vw_DashboardData_v2_Pilot>> GetStoreDashDataPilot(string store, int weekOfYr);
+        Task<List<vw_DashboardData_v2_Top100>> GetStoreDashDataTop100(string store, int weekOfYr);
         Task<vw_DailyDeployment_Pilot> GetDailyDeploymentStorePilot(string store, int weekOfYr);
+        Task<vw_DailyDeployment_Top100> GetDailyDeploymentStoreTop100(string store, int weekOfYr);
         Task<List<PowerHoursProfile>> GetStorePowerHours(string store, int weekOfYr);
         Task<List<vw_DashboardData_v2_Pilot>> GetAllRegionDashDataPilot(string region, int weekOfYr);
         Task<List<vw_SOHSwings>> GetSOHSwingsChain(string chain);
         Task<List<vw_SOHSwings>> GetSOHSwingsDivision(string division);
         Task<List<vw_SOHSwings>> GetSOHSwingsStore(string store);
         Task<List<vw_SOHSwings>> GetSOHSwingsRegion(string region);
+        Task<bool> CheckTop100(string store);
+        Task<List<vw_Top100CreditSummary>> GetCreditSummaryWeek(int weekOfYr);
     }
 }

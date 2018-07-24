@@ -87,6 +87,13 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> Detail(string selectedDate = "Last Week")
         {
+            if (selectArea == "S")
+            {
+                if (await _dashDataManager.CheckTop100(selectCrit))
+                {
+                    return RedirectToAction("DetailEC", new { selectedDate = selectedDate });
+                }
+            }
             if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
             {
                 return RedirectToAction("DetailPilot", new { selectedDate = selectedDate });
@@ -153,6 +160,49 @@ namespace Aion.Areas.WFM.Controllers
                 case "C":
                     return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }
+
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(49), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(49).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            return View(vm);
+        }
+
+        public async Task<ActionResult> DetailEC(string selectedDate = "Last Week")
+        {
+            if(selectArea != "S")
+            {
+                return RedirectToAction("Detail", new { selectedDate = selectedDate });
+            }
+            else if(!await _dashDataManager.CheckTop100(selectCrit))
+            {
+                return RedirectToAction("Detail", new { selectedDate = selectedDate });
+            }
+
+            DeploymentDetailECVm vm = new DeploymentDetailECVm();
+            int weekNum = selectedDate.GetWeekNumber();
+            
+            vm.WeekData = await _dashDataManager.GetStoreDashDataTop100(selectCrit, weekNum);
+            vm.DailyData = await _dashDataManager.GetDailyDeploymentStoreTop100(selectCrit, weekNum);
+            vm.PowerHours = await _dashDataManager.GetStorePowerHours(selectCrit, weekNum);
+            if (vm.WeekData.Count == 0)
+                vm.MessageType = MessageType.Warning;
+            vm.DisplayLevel = 1;
+
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(49), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(49).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());
+
+            return View(vm);
+        }
+
+        public async Task<ActionResult> ECSummary(string selectedDate = "Next Week")
+        {
+            ECSummaryVm vm = new ECSummaryVm();
+
+            int weekNum = selectedDate.GetWeekNumber();
+
+            vm.collection = await _dashDataManager.GetCreditSummaryWeek(weekNum);
+            if (vm.collection.Count == 0)
+                vm.MessageType = MessageType.Warning;
 
             vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(49), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-56), DateTime.Now.FirstDayOfWeek().AddDays(49).FirstDayOfWeek()));
             vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());

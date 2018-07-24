@@ -155,6 +155,7 @@
         </div>
         <div class="card-body">
             <h5>@string.Format("{0} - {1}", Model.RecruitmentDetail.FirstOrDefault().StoreNumber, Model.RecruitmentDetail.First().StoreName)</h5>
+            <strong>Hiring Manager: </strong>@Model.OfferToReview.FirstOrDefault().Hiring_Manager
             @if (Model.OfferToReview.First().ReviewedBy == "On Hold")
             {
                 <div class="row justify-content-center">

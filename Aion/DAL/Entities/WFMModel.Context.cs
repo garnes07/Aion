@@ -76,6 +76,10 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_StoreLocations> vw_StoreLocations { get; set; }
         public virtual DbSet<vw_ROIMismatch> vw_ROIMismatch { get; set; }
         public virtual DbSet<vw_SOHSwings> vw_SOHSwings { get; set; }
+        public virtual DbSet<Top100Ref> Top100Ref { get; set; }
+        public virtual DbSet<vw_DailyDeployment_Top100> vw_DailyDeployment_Top100 { get; set; }
+        public virtual DbSet<vw_DashboardData_v2_Top100> vw_DashboardData_v2_Top100 { get; set; }
+        public virtual DbSet<vw_Top100CreditSummary> vw_Top100CreditSummary { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {
