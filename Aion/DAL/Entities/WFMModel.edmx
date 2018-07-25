@@ -1193,6 +1193,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_Top100CreditSummary' does not hav
           <Property Name="SundayRAG" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="SaturdayRAG" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="TotalRAG" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="FinalTarget" Type="float" />
+          <Property Name="SOH" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1954,7 +1956,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_Top100CreditSummary].[SaturdayAvailable] AS [SaturdayAvailable], 
     [vw_Top100CreditSummary].[SundayRAG] AS [SundayRAG], 
     [vw_Top100CreditSummary].[SaturdayRAG] AS [SaturdayRAG], 
-    [vw_Top100CreditSummary].[TotalRAG] AS [TotalRAG]
+    [vw_Top100CreditSummary].[TotalRAG] AS [TotalRAG], 
+    [vw_Top100CreditSummary].[FinalTarget] AS [FinalTarget], 
+    [vw_Top100CreditSummary].[SOH] AS [SOH]
     FROM [dbo].[vw_Top100CreditSummary] AS [vw_Top100CreditSummary]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_TradingHoursForAvlblty" EntityType="Self.vw_TradingHoursForAvlblty" store:Type="Views" store:Schema="dbo">
@@ -3368,6 +3372,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="SundayRAG" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="SaturdayRAG" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="TotalRAG" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FinalTarget" Type="Double" />
+          <Property Name="SOH" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -4565,6 +4571,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySetMapping Name="vw_Top100CreditSummary">
             <EntityTypeMapping TypeName="WFMMContext.vw_Top100CreditSummary">
               <MappingFragment StoreEntitySet="vw_Top100CreditSummary">
+                <ScalarProperty Name="SOH" ColumnName="SOH" />
+                <ScalarProperty Name="FinalTarget" ColumnName="FinalTarget" />
                 <ScalarProperty Name="TotalRAG" ColumnName="TotalRAG" />
                 <ScalarProperty Name="SaturdayRAG" ColumnName="SaturdayRAG" />
                 <ScalarProperty Name="SundayRAG" ColumnName="SundayRAG" />

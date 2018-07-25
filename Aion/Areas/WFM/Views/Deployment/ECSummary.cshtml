@@ -46,7 +46,7 @@
                 <th rowspan="2">Store</th>
                 <th colspan="5">Sunday <small>(@Model.SundayDate)</small></th>
                 <th colspan="5">Saturday <small>(@Model.SaturdayDate)</small></th>
-                <th>Overall</th>
+                <th colspan="2">Overall</th>
             </tr>
             <tr>
                 <th>Required<br />Hours</th>
@@ -60,6 +60,7 @@
                 <th>Actual Credit<br />Used</th>
                 <th>RAG</th>
                 <th>RAG</th>
+                <th>To <br />Budget</th>
             </tr>
         </thead>
         <tbody>
@@ -80,6 +81,7 @@
                     <td class="text-center">@item.SaturdayCredit</td>
                     <td class="text-center @GetRAGClass(item.SaturdayRAG)">@item.SaturdayRAG</td>
                     <td class="text-center @GetRAGClass(item.TotalRAG)">@item.TotalRAG</td>
+                    <td class="text-center">@string.Format("{0:0.0}%", item.SOH / item.FinalTarget * 100)</td>
                 </tr>
             }
         </tbody>

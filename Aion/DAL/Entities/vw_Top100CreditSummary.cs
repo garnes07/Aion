@@ -31,5 +31,7 @@ namespace Aion.DAL.Entities
         public string SundayRAG { get; set; }
         public string SaturdayRAG { get; set; }
         public string TotalRAG { get; set; }
+        public Nullable<double> FinalTarget { get; set; }
+        public Nullable<double> SOH { get; set; }
     }
 }
