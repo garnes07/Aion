@@ -70,7 +70,7 @@
                                                 <strong>@auditItem.ActionType</strong>
                                             </div>
                                             <div class="card-body">
-                                                @(auditItem.Comment.Length == 0 ? "No comment added" : auditItem.Comment)
+                                                @Html.Raw(auditItem.Comment.Length == 0 ? "No comment added" : auditItem.Comment)
                                             </div>
                                             <div class="card-footer text-center p-2">
                                                 @Html.Raw(string.Format("Added {0:g} by <strong>{1}</strong>", auditItem.DateTimeCreated, auditItem.CompletedBy))

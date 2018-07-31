@@ -405,7 +405,7 @@ namespace Aion.Areas.WFM.Controllers
             var result = await _selfAsessmentManager.AddSubmission(personNum, a.Where(x => !x.Val).ToList());
 
             TempData["NewSubmission"] = true;
-            return RedirectToAction("ActionPlan");
+            return RedirectToAction("ActionPlan", new { s = result});
         }
 
         public async Task<ActionResult> ActionPlan(int s)
