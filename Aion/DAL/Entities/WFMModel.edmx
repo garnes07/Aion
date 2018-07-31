@@ -277,6 +277,60 @@
           <Property Name="Period" Type="tinyint" />
           <Property Name="Show" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="SAActionsRequired">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SACheckAnswers">
+          <Key>
+            <PropertyRef Name="CheckAnswerID" />
+          </Key>
+          <Property Name="CheckAnswerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CheckID" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Correct" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SAChecks">
+          <Key>
+            <PropertyRef Name="CheckID" />
+          </Key>
+          <Property Name="CheckID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionID" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SAQuestions">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortOrder" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SASubmission">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Year" Type="nchar" MaxLength="5" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="DateTimeSubmitted" Type="datetime" Nullable="false" />
+          <Property Name="ActionPlan" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SASubmissionAnswers">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmissionId" Type="int" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="StoreOpeningTimes">
           <Key>
             <PropertyRef Name="EntryID" />
@@ -375,6 +429,17 @@ warning 6002: The table/view '99999_WFM.dbo.vw_4WeekSummary_Pilot' does not have
           <Property Name="WeekNumber" Type="int" />
           <Property Name="NonCompliant" Type="int" />
           <Property Name="Deployment" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_ActionPlan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_ActionPlan">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="EntryId" Type="int" Nullable="false" />
+          <Property Name="DateTimeSubmitted" Type="datetime" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_AvailabilityCompletionRate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1099,6 +1164,38 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ScheduleData' does not have a pri
           <Property Name="JobCode" Type="smallint" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_SelfAssessmentRequired' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_SelfAssessmentRequired">
+          <Key>
+            <PropertyRef Name="CaseID" />
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </Key>
+          <Property Name="CaseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="Stage" Type="tinyint" Nullable="false" />
+          <Property Name="Override" Type="bit" Nullable="false" />
+          <Property Name="Reassign" Type="bit" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="Year" Type="nchar" MaxLength="5" />
+          <Property Name="Period" Type="tinyint" />
+          <Property Name="Show" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_SOHSwings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_SOHSwings">
           <Key>
@@ -1262,6 +1359,74 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SAActionsRequired_SAQuestions">
+          <End Role="SAQuestions" Type="Self.SAQuestions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SAActionsRequired" Type="Self.SAActionsRequired" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAQuestions">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="SAActionsRequired">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SACheckAnswers_SAChecks">
+          <End Role="SAChecks" Type="Self.SAChecks" Multiplicity="1" />
+          <End Role="SACheckAnswers" Type="Self.SACheckAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAChecks">
+              <PropertyRef Name="CheckID" />
+            </Principal>
+            <Dependent Role="SACheckAnswers">
+              <PropertyRef Name="CheckID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SAChecks_SAQuestions">
+          <End Role="SAQuestions" Type="Self.SAQuestions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SAChecks" Type="Self.SAChecks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAQuestions">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="SAChecks">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SASubmissionAnswers_SAQuestions">
+          <End Role="SAQuestions" Type="Self.SAQuestions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SASubmissionAnswers" Type="Self.SASubmissionAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAQuestions">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="SASubmissionAnswers">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SASubmissionAnswers_SASubmission">
+          <End Role="SASubmission" Type="Self.SASubmission" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SASubmissionAnswers" Type="Self.SASubmissionAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SASubmission">
+              <PropertyRef Name="EntryId" />
+            </Principal>
+            <Dependent Role="SASubmissionAnswers">
+              <PropertyRef Name="SubmissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreOpeningTimes">
           <End Role="StoreOpeningTimes" Type="Self.StoreOpeningTimes" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1332,6 +1497,12 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseStub" EntityType="Self.RFTPCaseStub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SAActionsRequired" EntityType="Self.SAActionsRequired" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SACheckAnswers" EntityType="Self.SACheckAnswers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SAChecks" EntityType="Self.SAChecks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SAQuestions" EntityType="Self.SAQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SASubmission" EntityType="Self.SASubmission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SASubmissionAnswers" EntityType="Self.SASubmissionAnswers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreOpeningTimes" EntityType="Self.StoreOpeningTimes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Top100Ref" EntityType="Self.Top100Ref" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WFM_EMPLOYEE_INFO" EntityType="Self.WFM_EMPLOYEE_INFO" Schema="dbo" store:Type="Tables" />
@@ -1358,6 +1529,14 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_4WeekSummary_Pilot].[NonCompliant] AS [NonCompliant], 
     [vw_4WeekSummary_Pilot].[Deployment] AS [Deployment]
     FROM [dbo].[vw_4WeekSummary_Pilot] AS [vw_4WeekSummary_Pilot]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_ActionPlan" EntityType="Self.vw_ActionPlan" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ActionPlan].[RowId] AS [RowId], 
+    [vw_ActionPlan].[EntryId] AS [EntryId], 
+    [vw_ActionPlan].[DateTimeSubmitted] AS [DateTimeSubmitted], 
+    [vw_ActionPlan].[Text] AS [Text]
+    FROM [dbo].[vw_ActionPlan] AS [vw_ActionPlan]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_AvailabilityCompletionRate" EntityType="Self.vw_AvailabilityCompletionRate" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1893,6 +2072,25 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_ScheduleData].[JobCode] AS [JobCode]
     FROM [dbo].[vw_ScheduleData] AS [vw_ScheduleData]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_SelfAssessmentRequired" EntityType="Self.vw_SelfAssessmentRequired" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_SelfAssessmentRequired].[CaseID] AS [CaseID], 
+    [vw_SelfAssessmentRequired].[PersonNumber] AS [PersonNumber], 
+    [vw_SelfAssessmentRequired].[PersonName] AS [PersonName], 
+    [vw_SelfAssessmentRequired].[StoreNumber] AS [StoreNumber], 
+    [vw_SelfAssessmentRequired].[Stage] AS [Stage], 
+    [vw_SelfAssessmentRequired].[Override] AS [Override], 
+    [vw_SelfAssessmentRequired].[Reassign] AS [Reassign], 
+    [vw_SelfAssessmentRequired].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [vw_SelfAssessmentRequired].[LastUpdated] AS [LastUpdated], 
+    [vw_SelfAssessmentRequired].[DateTimeCreated] AS [DateTimeCreated], 
+    [vw_SelfAssessmentRequired].[Confirmed] AS [Confirmed], 
+    [vw_SelfAssessmentRequired].[Completed] AS [Completed], 
+    [vw_SelfAssessmentRequired].[Year] AS [Year], 
+    [vw_SelfAssessmentRequired].[Period] AS [Period], 
+    [vw_SelfAssessmentRequired].[Show] AS [Show]
+    FROM [dbo].[vw_SelfAssessmentRequired] AS [vw_SelfAssessmentRequired]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_SOHSwings" EntityType="Self.vw_SOHSwings" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_SOHSwings].[RowId] AS [RowId], 
@@ -1991,6 +2189,26 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <AssociationSet Name="FK_RFTPCaseAudit_RFTPCaseStub" Association="Self.FK_RFTPCaseAudit_RFTPCaseStub">
             <End Role="RFTPCaseStub" EntitySet="RFTPCaseStub" />
             <End Role="RFTPCaseAudit" EntitySet="RFTPCaseAudit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SAActionsRequired_SAQuestions" Association="Self.FK_SAActionsRequired_SAQuestions">
+            <End Role="SAQuestions" EntitySet="SAQuestions" />
+            <End Role="SAActionsRequired" EntitySet="SAActionsRequired" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SACheckAnswers_SAChecks" Association="Self.FK_SACheckAnswers_SAChecks">
+            <End Role="SAChecks" EntitySet="SAChecks" />
+            <End Role="SACheckAnswers" EntitySet="SACheckAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SAChecks_SAQuestions" Association="Self.FK_SAChecks_SAQuestions">
+            <End Role="SAQuestions" EntitySet="SAQuestions" />
+            <End Role="SAChecks" EntitySet="SAChecks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SASubmissionAnswers_SAQuestions" Association="Self.FK_SASubmissionAnswers_SAQuestions">
+            <End Role="SAQuestions" EntitySet="SAQuestions" />
+            <End Role="SASubmissionAnswers" EntitySet="SASubmissionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SASubmissionAnswers_SASubmission" Association="Self.FK_SASubmissionAnswers_SASubmission">
+            <End Role="SASubmission" EntitySet="SASubmission" />
+            <End Role="SASubmissionAnswers" EntitySet="SASubmissionAnswers" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreOpeningTimes" Association="Self.FK_StoreOpeningTimes">
             <End Role="StoreOpeningTimes" EntitySet="StoreOpeningTimes" />
@@ -2113,6 +2331,34 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="vw_DailyDeployment_Top100" EntityType="WFMMContext.vw_DailyDeployment_Top100" />
           <EntitySet Name="vw_DashboardData_v2_Top100" EntityType="WFMMContext.vw_DashboardData_v2_Top100" />
           <EntitySet Name="vw_Top100CreditSummary" EntityType="WFMMContext.vw_Top100CreditSummary" />
+          <EntitySet Name="SACheckAnswers" EntityType="WFMMContext.SACheckAnswer" />
+          <EntitySet Name="SAChecks" EntityType="WFMMContext.SACheck" />
+          <EntitySet Name="SAQuestions" EntityType="WFMMContext.SAQuestion" />
+          <EntitySet Name="SASubmissions" EntityType="WFMMContext.SASubmission" />
+          <AssociationSet Name="FK_SACheckAnswers_SAChecks" Association="WFMMContext.FK_SACheckAnswers_SAChecks">
+            <End Role="SACheck" EntitySet="SAChecks" />
+            <End Role="SACheckAnswer" EntitySet="SACheckAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SAChecks_SAQuestions" Association="WFMMContext.FK_SAChecks_SAQuestions">
+            <End Role="SAQuestion" EntitySet="SAQuestions" />
+            <End Role="SACheck" EntitySet="SAChecks" />
+          </AssociationSet>
+          <EntitySet Name="vw_SelfAssessmentRequired" EntityType="WFMMContext.vw_SelfAssessmentRequired" />
+          <EntitySet Name="SAActionsRequireds" EntityType="WFMMContext.SAActionsRequired" />
+          <EntitySet Name="SASubmissionAnswers" EntityType="WFMMContext.SASubmissionAnswer" />
+          <AssociationSet Name="FK_SAActionsRequired_SAQuestions" Association="WFMMContext.FK_SAActionsRequired_SAQuestions">
+            <End Role="SAQuestion" EntitySet="SAQuestions" />
+            <End Role="SAActionsRequired" EntitySet="SAActionsRequireds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SASubmissionAnswers_SAQuestions" Association="WFMMContext.FK_SASubmissionAnswers_SAQuestions">
+            <End Role="SAQuestion" EntitySet="SAQuestions" />
+            <End Role="SASubmissionAnswer" EntitySet="SASubmissionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SASubmissionAnswers_SASubmission" Association="WFMMContext.FK_SASubmissionAnswers_SASubmission">
+            <End Role="SASubmission" EntitySet="SASubmissions" />
+            <End Role="SASubmissionAnswer" EntitySet="SASubmissionAnswers" />
+          </AssociationSet>
+          <EntitySet Name="vw_ActionPlan" EntityType="WFMMContext.vw_ActionPlan" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -3375,6 +3621,167 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="FinalTarget" Type="Double" />
           <Property Name="SOH" Type="Double" />
         </EntityType>
+        <EntityType Name="SACheckAnswer">
+          <Key>
+            <PropertyRef Name="CheckAnswerID" />
+          </Key>
+          <Property Name="CheckAnswerID" Type="Int32" Nullable="false" />
+          <Property Name="CheckID" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Correct" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SACheck" Relationship="WFMMContext.FK_SACheckAnswers_SAChecks" FromRole="SACheckAnswer" ToRole="SACheck" />
+        </EntityType>
+        <EntityType Name="SACheck">
+          <Key>
+            <PropertyRef Name="CheckID" />
+          </Key>
+          <Property Name="CheckID" Type="Int32" Nullable="false" />
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SACheckAnswers" Relationship="WFMMContext.FK_SACheckAnswers_SAChecks" FromRole="SACheck" ToRole="SACheckAnswer" />
+          <NavigationProperty Name="SAQuestion" Relationship="WFMMContext.FK_SAChecks_SAQuestions" FromRole="SACheck" ToRole="SAQuestion" />
+        </EntityType>
+        <EntityType Name="SAQuestion">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SAChecks" Relationship="WFMMContext.FK_SAChecks_SAQuestions" FromRole="SAQuestion" ToRole="SACheck" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="SAActionsRequireds" Relationship="WFMMContext.FK_SAActionsRequired_SAQuestions" FromRole="SAQuestion" ToRole="SAActionsRequired" />
+          <NavigationProperty Name="SASubmissionAnswers" Relationship="WFMMContext.FK_SASubmissionAnswers_SAQuestions" FromRole="SAQuestion" ToRole="SASubmissionAnswer" />
+        </EntityType>
+        <EntityType Name="SASubmission">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PersonName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="DateTimeSubmitted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActionPlan" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SASubmissionAnswers" Relationship="WFMMContext.FK_SASubmissionAnswers_SASubmission" FromRole="SASubmission" ToRole="SASubmissionAnswer" />
+        </EntityType>
+        <Association Name="FK_SACheckAnswers_SAChecks">
+          <End Type="WFMMContext.SACheck" Role="SACheck" Multiplicity="1" />
+          <End Type="WFMMContext.SACheckAnswer" Role="SACheckAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SACheck">
+              <PropertyRef Name="CheckID" />
+            </Principal>
+            <Dependent Role="SACheckAnswer">
+              <PropertyRef Name="CheckID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SAChecks_SAQuestions">
+          <End Type="WFMMContext.SAQuestion" Role="SAQuestion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WFMMContext.SACheck" Role="SACheck" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAQuestion">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="SACheck">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_SelfAssessmentRequired">
+          <Key>
+            <PropertyRef Name="CaseID" />
+          </Key>
+          <Property Name="CaseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PersonName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="Stage" Type="Byte" Nullable="false" />
+          <Property Name="Override" Type="Boolean" Nullable="false" />
+          <Property Name="Reassign" Type="Boolean" Nullable="false" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Confirmed" Type="Boolean" Nullable="false" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="Period" Type="Byte" />
+          <Property Name="Show" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SAActionsRequired">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SAQuestion" Relationship="WFMMContext.FK_SAActionsRequired_SAQuestions" FromRole="SAActionsRequired" ToRole="SAQuestion" />
+        </EntityType>
+        <EntityType Name="SASubmissionAnswer">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmissionId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SAQuestion" Relationship="WFMMContext.FK_SASubmissionAnswers_SAQuestions" FromRole="SASubmissionAnswer" ToRole="SAQuestion" />
+          <NavigationProperty Name="SASubmission" Relationship="WFMMContext.FK_SASubmissionAnswers_SASubmission" FromRole="SASubmissionAnswer" ToRole="SASubmission" />
+        </EntityType>
+        <Association Name="FK_SAActionsRequired_SAQuestions">
+          <End Type="WFMMContext.SAQuestion" Role="SAQuestion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WFMMContext.SAActionsRequired" Role="SAActionsRequired" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAQuestion">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="SAActionsRequired">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SASubmissionAnswers_SAQuestions">
+          <End Type="WFMMContext.SAQuestion" Role="SAQuestion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WFMMContext.SASubmissionAnswer" Role="SASubmissionAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAQuestion">
+              <PropertyRef Name="QuestionID" />
+            </Principal>
+            <Dependent Role="SASubmissionAnswer">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SASubmissionAnswers_SASubmission">
+          <End Type="WFMMContext.SASubmission" Role="SASubmission" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="WFMMContext.SASubmissionAnswer" Role="SASubmissionAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SASubmission">
+              <PropertyRef Name="EntryId" />
+            </Principal>
+            <Dependent Role="SASubmissionAnswer">
+              <PropertyRef Name="SubmissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_ActionPlan">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="EntryId" Type="Int32" Nullable="false" />
+          <Property Name="DateTimeSubmitted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4590,6 +4997,97 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SACheckAnswers">
+            <EntityTypeMapping TypeName="WFMMContext.SACheckAnswer">
+              <MappingFragment StoreEntitySet="SACheckAnswers">
+                <ScalarProperty Name="Correct" ColumnName="Correct" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="CheckID" ColumnName="CheckID" />
+                <ScalarProperty Name="CheckAnswerID" ColumnName="CheckAnswerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SAChecks">
+            <EntityTypeMapping TypeName="WFMMContext.SACheck">
+              <MappingFragment StoreEntitySet="SAChecks">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="CheckID" ColumnName="CheckID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SAQuestions">
+            <EntityTypeMapping TypeName="WFMMContext.SAQuestion">
+              <MappingFragment StoreEntitySet="SAQuestions">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SASubmissions">
+            <EntityTypeMapping TypeName="WFMMContext.SASubmission">
+              <MappingFragment StoreEntitySet="SASubmission">
+                <ScalarProperty Name="ActionPlan" ColumnName="ActionPlan" />
+                <ScalarProperty Name="DateTimeSubmitted" ColumnName="DateTimeSubmitted" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_SelfAssessmentRequired">
+            <EntityTypeMapping TypeName="WFMMContext.vw_SelfAssessmentRequired">
+              <MappingFragment StoreEntitySet="vw_SelfAssessmentRequired">
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="Reassign" ColumnName="Reassign" />
+                <ScalarProperty Name="Override" ColumnName="Override" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="PersonNumber" ColumnName="PersonNumber" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SAActionsRequireds">
+            <EntityTypeMapping TypeName="WFMMContext.SAActionsRequired">
+              <MappingFragment StoreEntitySet="SAActionsRequired">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SASubmissionAnswers">
+            <EntityTypeMapping TypeName="WFMMContext.SASubmissionAnswer">
+              <MappingFragment StoreEntitySet="SASubmissionAnswers">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="SubmissionId" ColumnName="SubmissionId" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ActionPlan">
+            <EntityTypeMapping TypeName="WFMMContext.vw_ActionPlan">
+              <MappingFragment StoreEntitySet="vw_ActionPlan">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="DateTimeSubmitted" ColumnName="DateTimeSubmitted" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

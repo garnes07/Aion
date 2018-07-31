@@ -206,6 +206,7 @@
     <Compile Include="Areas\WFM\Models\Deployment\SOHBudgetView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\CompSummaryView.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
+    <Compile Include="Areas\WFM\Models\RFTP\SAAnswers.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\AvlbltySummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailECVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailPilotVm.cs" />
@@ -236,6 +237,8 @@
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\EditedClocksVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\SelfAssessmentFormVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTP\SelfAssessmentVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\TimecardSignOffVm.cs" />
     <Compile Include="Areas\WFM\WFMAreaRegistration.cs" />
     <Compile Include="Areas\Workflow\Controllers\FormController.cs" />
@@ -376,6 +379,24 @@
     </Compile>
     <Compile Include="DAL\Entities\RoleReference.cs">
       <DependentUpon>ROIDashModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\SAActionsRequired.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\SACheck.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\SACheckAnswer.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\SAQuestion.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\SASubmission.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\SASubmissionAnswer.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\sp_AllChainDashboardData_v2_Result.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -527,6 +548,9 @@
     <Compile Include="DAL\Entities\vw_4WeekSummary_Pilot.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_ActionPlan.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_AvailabilityCompletionRate.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -609,6 +633,9 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_ScheduleData.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_SelfAssessmentRequired.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_SFOpenVacancies.cs">
@@ -714,12 +741,14 @@
     <Compile Include="DAL\IManagers\IVacancyManager.cs" />
     <Compile Include="DAL\IManagers\IAdminDashManager.cs" />
     <Compile Include="DAL\IManagers\IAvlbltyManager.cs" />
+    <Compile Include="DAL\IManagers\ISelfAssessmentManager.cs" />
     <Compile Include="DAL\Managers\KronosManager.cs" />
     <Compile Include="DAL\Managers\OpeningTimesManager.cs" />
     <Compile Include="DAL\Managers\PayCalendarManager.cs" />
     <Compile Include="DAL\Managers\ProfitLossManager.cs" />
     <Compile Include="DAL\Managers\RFTPTrackingManager.cs" />
     <Compile Include="DAL\Managers\ScheduleManager.cs" />
+    <Compile Include="DAL\Managers\SelfAssessmentManager.cs" />
     <Compile Include="DAL\Managers\SOHBudgetsManager.cs" />
     <Compile Include="DAL\Managers\StoreManager.cs" />
     <Compile Include="DAL\Managers\TicketManager.cs" />
@@ -1112,6 +1141,9 @@
     <Content Include="Areas\WFM\Views\Deployment\DetailEC.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailStoreEC.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\ECSummary.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\SelfAssessment.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\ActionPlan.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\SelfAssessmentForm.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

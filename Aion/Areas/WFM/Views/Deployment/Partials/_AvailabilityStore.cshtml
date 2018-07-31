@@ -3,6 +3,7 @@
 @{ 
     int? open = 0;
     int? close = 0;
+    DateTime newLimit = DateTime.Now.Date.AddDays(-7);
 }
 
 <div class="card">
@@ -49,7 +50,14 @@
                             <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 5)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 5)?.EndTime)</td>
                             <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 6)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 6)?.EndTime)</td>
                             <td class="text-center">@string.Format("{0:hhmm}-{1:hhmm}", item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 7)?.StartTime, item.AvailabilityDays.FirstOrDefault(x => x.DayNum == 7)?.EndTime)</td>
-                            <td class="text-center @(item.LastConfirmedDate.AddDays(90) < DateTime.Now ? "table-danger" : "")">@item.LastConfirmedDate.ToShortDateString()</td>
+                            <td class="text-center @(item.LastConfirmedDate.AddDays(90) < DateTime.Now ? "table-danger" : "")">
+                                @item.LastConfirmedDate.ToShortDateString()
+                                @if(item.LastConfirmedDate.Date >= newLimit)
+                                {
+                                    <br />
+                                    <span class="badge badge-pill badge-success">Updated</span>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

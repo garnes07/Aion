@@ -26,6 +26,7 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IEditedClockManager _editedClockManager;
         private readonly IPayCalendarManager _payCalendarManager;
         private readonly IAvlbltyManager _avlbltyManager;
+        private readonly ISelfAssessmentManager _selfAsessmentManager;
 
         public RFTPController()
         {
@@ -39,6 +40,7 @@ namespace Aion.Areas.WFM.Controllers
             _editedClockManager = new EditedClockManager();
             _payCalendarManager = new PayCalendarManager();
             _avlbltyManager = new AvlbltyManager();
+            _selfAsessmentManager = new SelfAssessmentManager();
         }
         
         //Summary
@@ -327,6 +329,92 @@ namespace Aion.Areas.WFM.Controllers
         public ActionResult Fallback()
         {
             return View();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> SelfAssessment()
+        {
+            SelfAssessmentVm vm = new SelfAssessmentVm();
+
+            string personNum = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
+            if (personNum != "e")
+            {
+                if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+                {
+                    personNum = "UK" + personNum.PadLeft(6, '0');
+                }
+                else
+                {
+                    var result = _empSummaryManager.CheckROIRemap(personNum);
+                    personNum = result == null ? personNum : result.Kronos_ID;
+                }
+                vm.PastSubmissions = await _selfAsessmentManager.GetSubmissionsPerson(personNum);
+                vm.Requirement = await _selfAsessmentManager.GetRequirementPerson(personNum);
+                if (vm.Requirement != null)
+                    vm.Summary = mapper.Map<List<CompSummaryView>>(await _dashDataManager.GetCompSummaryStore(vm.Requirement.Year, (byte)vm.Requirement.Period, vm.Requirement.StoreNumber.ToString()));
+            }
+            else
+            {
+                vm.errorPayroll = true;
+            }
+
+            return View(vm);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> SelfAssessmentForm()
+        {
+            SelfAssessmentFormVm vm = new SelfAssessmentFormVm();
+
+            string personNum = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
+            if (personNum != "e")
+            {
+                if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+                {
+                    personNum = "UK" + personNum.PadLeft(6, '0');
+                }
+                else
+                {
+                    var result = _empSummaryManager.CheckROIRemap(personNum);
+                    personNum = result == null ? personNum : result.Kronos_ID;
+                }
+                vm.Questions = await _selfAsessmentManager.GetQuestions();
+            }
+            else
+            {
+                vm.errorPayroll = true;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> SelfAssessmentForm(List<SAAnswers> a)
+        {
+            string personNum = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
+            if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+            {
+                personNum = "UK" + personNum.PadLeft(6, '0');
+            }
+            else
+            {
+                var newNum = _empSummaryManager.CheckROIRemap(personNum);
+                personNum = newNum == null ? personNum : newNum.Kronos_ID;
+            }
+            var result = await _selfAsessmentManager.AddSubmission(personNum, a.Where(x => !x.Val).ToList());
+
+            TempData["NewSubmission"] = true;
+            return RedirectToAction("ActionPlan");
+        }
+
+        public async Task<ActionResult> ActionPlan(int s)
+        {
+            var result = await _selfAsessmentManager.GetActionPlan(s);
+
+            ViewBag.NewSubmission = TempData["NewSubmission"] ?? false;
+
+            return View(result);
         }
     }
 }

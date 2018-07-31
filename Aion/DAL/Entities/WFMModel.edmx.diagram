@@ -63,6 +63,19 @@
         <EntityTypeShape EntityType="WFMMContext.vw_DailyDeployment_Top100" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_DashboardData_v2_Top100" Width="1.5" PointX="23.375" PointY="7.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_Top100CreditSummary" Width="1.5" PointX="7.375" PointY="23.75" />
+        <EntityTypeShape EntityType="WFMMContext.SACheckAnswer" Width="1.5" PointX="31.5" PointY="0.875" />
+        <EntityTypeShape EntityType="WFMMContext.SACheck" Width="1.5" PointX="27" PointY="2.75" />
+        <EntityTypeShape EntityType="WFMMContext.SAQuestion" Width="1.5" PointX="24.375" PointY="1.125" />
+        <EntityTypeShape EntityType="WFMMContext.SASubmission" Width="1.5" PointX="26.5" PointY="7.5" />
+        <AssociationConnector Association="WFMMContext.FK_SACheckAnswers_SAChecks" />
+        <AssociationConnector Association="WFMMContext.FK_SAChecks_SAQuestions" />
+        <EntityTypeShape EntityType="WFMMContext.vw_SelfAssessmentRequired" Width="1.5" PointX="18.375" PointY="23.75" />
+        <EntityTypeShape EntityType="WFMMContext.SAActionsRequired" Width="1.5" PointX="26.625" PointY="0.75" />
+        <EntityTypeShape EntityType="WFMMContext.SASubmissionAnswer" Width="1.5" PointX="29.5" PointY="5.75" />
+        <AssociationConnector Association="WFMMContext.FK_SAActionsRequired_SAQuestions" />
+        <AssociationConnector Association="WFMMContext.FK_SASubmissionAnswers_SAQuestions" />
+        <AssociationConnector Association="WFMMContext.FK_SASubmissionAnswers_SASubmission" />
+        <EntityTypeShape EntityType="WFMMContext.vw_ActionPlan" Width="1.5" PointX="9.375" PointY="23.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

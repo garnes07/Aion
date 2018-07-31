@@ -1,0 +1,43 @@
+﻿@model List<Aion.DAL.Entities.vw_ActionPlan>
+
+@{
+    ViewBag.Title = "Action Plan";
+}
+
+<div class="container-fluid">
+    @if (ViewBag.NewSubmission)
+    {
+        <div class="card mb-3 d-print-none">
+            <div class="card-body text-center">
+
+                <h4>Thank you for your submission!</h4>
+                @if (Model.Any())
+                {
+                    <p>From your responses you have indicated that additional support is required to help you pay your colleagues correctly and remain compliant across the 3 Right First Time Pay control measures, so we have generated the below action plan to support you in getting this right.  Make sure you complete all of the actions as further non-compliance will result in and IDD and could lead to disciplinary action.  Your TPC and WFM lead are also available for any additional support you may require.</p>
+                    <p>A copy of your action plan will be made available to your RM.</p>
+                }
+                else
+                {
+                    <p>From your responses you have indicated that you have a good understanding of Right First Time Pay and your responsibilities to ensure that you pay your colleagues correctly and remain compliant across the 3 control measures, so no action plan has been generated.  Please reach out to your TPC or WFM lead if at any point you are unsure of what is expected of you, as further non-compliance will result in an IDD and could lead to disciplinary action.</p>
+                }
+            </div>
+        </div>
+    }
+    @if (Model.Any())
+    {
+        <div class="card">
+            <div class="card">
+                <div class="card-header text-center">
+                    <strong>Action Plan</strong>
+                </div>
+                <div class="card-body">
+                    @foreach (var item in Model)
+                    {
+                        @Html.Raw(item.Text)
+                        <hr />
+                    }
+                </div>
+            </div>
+        </div>
+    }    
+</div>

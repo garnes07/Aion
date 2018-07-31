@@ -11,8 +11,8 @@
             <th class="text-center" colspan="3">Actions Required</th>
         </tr>
         <tr>
+            <th class="text-center" style="width: 10%;">GM</th>
             <th class="text-center" style="width: 10%;">RM</th>
-            <th class="text-center" style="width: 10%;">TPC</th>
             <th class="text-center" style="width: 10%;">WFM</th>
         </tr>
         </thead>
@@ -91,6 +91,21 @@
                 {
                     var actionsNeeded = Model.Actions.Where(x => x.Stage == item.Stage).ToList();
                     <td>
+                        @if (actionsNeeded.Any(x => x.Owner == "GM"))
+                        {
+                            if (item.RFTPCaseAudits.Any(x => x.ActionType.Contains(actionsNeeded.First(c => c.Owner == "GM").ActionType)))
+                            {
+                                <a class="btn btn-info disabled" style="width: 100%;">
+                                    <s>@actionsNeeded.First(x => x.Owner == "GM").ActionType</s>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn disabled btn-info" style="width:100%;">@actionsNeeded.First(x => x.Owner == "GM").ActionType</a>
+                            }
+                        }
+                    </td>
+                    <td>
                         @if (actionsNeeded.Any(x => x.Owner == "RM"))
                         {
                             if (item.RFTPCaseAudits.Any(x => x.ActionType.Contains(actionsNeeded.First(c => c.Owner == "RM").ActionType)))
@@ -102,21 +117,6 @@
                             else
                             {
                                 <a class="btn @(Model.AccessLevel != 3 ? "disabled btn-info" : "btn-primary")" style="width:100%;" data-toggle="modal" data-target="#aModal" data-caseid="@item.CaseID" data-action="@actionsNeeded.First(x => x.Owner == "RM").ActionType">@actionsNeeded.First(x => x.Owner == "RM").ActionType</a>
-                            }
-                        }
-                    </td>
-                    <td>
-                        @if (actionsNeeded.Any(x => x.Owner == "TPC"))
-                        {
-                            if (item.RFTPCaseAudits.Any(x => x.ActionType.Contains(actionsNeeded.First(c => c.Owner == "TPC").ActionType)))
-                            {
-                                <a class="btn btn-info disabled" style="width: 100%;">
-                                    <s>@actionsNeeded.First(x => x.Owner == "TPC").ActionType</s>
-                                </a>
-                            }
-                            else
-                            {
-                                <a class="btn @(Model.AccessLevel != 6 ? "disabled btn-info" : "btn-primary")" style="width: 100%;" data-toggle="modal" data-target="#aModal" data-caseid="@item.CaseID" data-action="@actionsNeeded.First(x => x.Owner == "TPC").ActionType">@actionsNeeded.First(x => x.Owner == "TPC").ActionType</a>
                             }
                         }
                     </td>

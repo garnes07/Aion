@@ -80,6 +80,14 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_DailyDeployment_Top100> vw_DailyDeployment_Top100 { get; set; }
         public virtual DbSet<vw_DashboardData_v2_Top100> vw_DashboardData_v2_Top100 { get; set; }
         public virtual DbSet<vw_Top100CreditSummary> vw_Top100CreditSummary { get; set; }
+        public virtual DbSet<SACheckAnswer> SACheckAnswers { get; set; }
+        public virtual DbSet<SACheck> SAChecks { get; set; }
+        public virtual DbSet<SAQuestion> SAQuestions { get; set; }
+        public virtual DbSet<SASubmission> SASubmissions { get; set; }
+        public virtual DbSet<vw_SelfAssessmentRequired> vw_SelfAssessmentRequired { get; set; }
+        public virtual DbSet<SAActionsRequired> SAActionsRequireds { get; set; }
+        public virtual DbSet<SASubmissionAnswer> SASubmissionAnswers { get; set; }
+        public virtual DbSet<vw_ActionPlan> vw_ActionPlan { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {

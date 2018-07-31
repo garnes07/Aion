@@ -45,7 +45,12 @@ namespace Aion.Areas.WFM.Controllers
 
             if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
             {
-                vm.avlbltyPattern = await _avlbltyManager.GetAllPatternsPerson(System.Web.HttpContext.Current.Session["_EmpNum"].ToString());
+                var empNum = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
+                if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+                {
+                    empNum = "UK" + empNum.PadLeft(6, '0');
+                }
+                vm.avlbltyPattern = await _avlbltyManager.GetAllPatternsPerson(empNum);
                 vm.avlbltlyPilot = true;
             }
 

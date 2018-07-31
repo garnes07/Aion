@@ -1,0 +1,78 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.SelfAssessmentVm
+
+@{
+    ViewBag.Title = "Self Assessment";
+}
+
+<div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <strong>RFTP - Self Assessment</strong>
+        </div>
+        <div class="card-body">
+            <p>As a business it’s really important to us that we pay all our colleague correctly first time – as a Store manager you are accountable for certain actions to make sure this happens and this is something you need to always get right in order to run one of our stores.</p>
+            <p>We also have legal obligations around paying our colleagues correctly and keeping accurate records, which include clocks in and out.</p>
+            @if (Model.Requirement != null)
+            {
+                <p>In <strong>P@(Model.Requirement.Period)</strong> you were non-compliant against the Right First Time Pay controls that ensure you’re getting this right. As this is the first time this has happened, to help you prevent this happening again we now need you need to take this self-assessment which will help you identify what support you need and generate an action plan to help you find it.  You will need to complete all the questions but pay special attention to the highlighted ones as these are specific to the control that you failed.</p>
+                <p>
+                    The controls you were non-compliant with are:
+                    <ul>
+                        @if (Model.PeriodSummary.TCComp == 1)
+                        {
+                            <li>Timecards Sign Off</li>
+                        }
+                        @if (Model.PeriodSummary.PunchCompliance != 1)
+                        {
+                            <li>Punch Compliance</li>
+                        }
+                        @if (Model.PeriodSummary.ShortShiftCompliance == 1)
+                        {
+                            <li>Edited Clocks</li>
+                        }
+                    </ul>
+                </p>
+                <p>It’s important that you take the necessary action to address these issues - continued non-compliance can result in an investigation and could potential lead to you being removed from a store manager position if you cannot get your team paid correctly -  so make sure you answer the survey accurately so that you get the right support early on.</p>
+            }
+            <div class="row justify-content-center">
+                <a href="/WFM/RFTP/SelfAssessmentForm" class="btn btn-success btn-lg">Self Assessment</a>
+            </div>
+        </div>
+    </div>
+    @if (Model.PastSubmissions.Any())
+    {
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>Previous Submissions</strong>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th>Submitted</th>
+                            <th>Action Plan?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PastSubmissions.OrderByDescending(x => x.DateTimeSubmitted))
+                        {
+                            <tr>
+                                <td>@item.DateTimeSubmitted</td>
+                                <td>
+                                    @if (item.ActionPlan)
+                                    {
+                                        <a class="btn btn-info" href="@Url.Action("ActionPlan", "RFTP", new { s = item.EntryId})" target="_blank">Show</a>
+                                    }
+                                    else
+                                    {
+                                        <strong>No</strong>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }    
+</div>

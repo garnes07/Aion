@@ -87,13 +87,13 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> Detail(string selectedDate = "Last Week")
         {
-            if (selectArea == "S")
-            {
-                if (await _dashDataManager.CheckTop100(selectCrit))
-                {
-                    return RedirectToAction("DetailEC", new { selectedDate = selectedDate });
-                }
-            }
+            //if (selectArea == "S")
+            //{
+            //    if (await _dashDataManager.CheckTop100(selectCrit))
+            //    {
+            //        return RedirectToAction("DetailEC", new { selectedDate = selectedDate });
+            //    }
+            //}
             if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
             {
                 return RedirectToAction("DetailPilot", new { selectedDate = selectedDate });

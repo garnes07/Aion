@@ -1,0 +1,152 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.SelfAssessmentFormVm
+
+@{
+    ViewBag.Title = "Self Assessment";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>Self-Assessment Questionnaire</strong>
+        </div>
+        <div class="card-body" id="qContainer">
+            <form id="response" action="/WFM/RFTP/SelfAssessmentForm" method="post">
+                @foreach (var category in Model.CatList)
+                {
+                    <div class="card mb-2">
+                        <div class="card-header">
+                            <strong>@category</strong>
+                        </div>
+                        <div class="card-body">
+                            @foreach (var question in Model.Questions.Where(x => x.Category == category).ToList())
+                            {
+                                <div class="qRow">
+                                    <p>@question.Text</p>
+                                    <strong class="text-danger d-none required"><u>Please make a selection</u><br /></strong>
+                                    <strong class="text-danger d-none checkFailed">We don't think you know this so we've added it to your action plan</strong>
+                                    <div class="yesNo">
+                                        <div class="form-check form-check-inline">
+                                            <input required class="form-check-input checkShow" type="radio" name="q_@(question.QuestionID)" id="q_@(question.QuestionID)" value="1" data-target="@(question.QuestionID)" />
+                                            <label class="form-check-label" for="q_@(question.QuestionID)">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input required class="form-check-input" type="radio" name="q_@(question.QuestionID)" id="q_@(question.QuestionID)" value="0" />
+                                            <label class="form-check-label" for="q_@(question.QuestionID)">No</label>
+                                        </div>
+                                    </div>
+                                    @if (question.SAChecks.Count > 0)
+                                    {
+                                        <div id="c_@(question.QuestionID)" style="display:none;">
+                                            @{ var check = Model.GetRandomCheck(question.SAChecks.ToList());}
+                                            <strong>Check: </strong><u>@check.Text</u><br />
+                                            <div class="list-group mt-2" id="chk_@(check.CheckID)">
+                                                @foreach (var answer in check.SACheckAnswers)
+                                                {
+                                                    <button type="button" class="list-group-item list-group-item-action checkAnswer" data-c="@answer.Correct" data-selected="0" data-target="@question.QuestionID">@answer.Text</button>
+                                                }
+                                            </div>
+                                        </div>
+                                                }
+                                </div>
+                                <hr />
+                                                }
+                        </div>
+                    </div>
+                                                }
+
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    <input hidden name="a[@i].Id" id="a_@(Model.Questions[i].QuestionID)_id" value="@Model.Questions[i].QuestionID" />
+                    <input hidden name="a[@i].Val" id="a_@(Model.Questions[i].QuestionID)_val" value="false" />
+                }
+            </form>
+            <hr />
+            <div id="checklistContainer">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" value="" id="Check1">
+                    <label class="form-check-label" for="defaultCheck1">
+                        As a Store Manager I understand that I am accountable for ensuring my team are paid correctly.
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" value="" id="Check2">
+                    <label class="form-check-label" for="defaultCheck2">
+                        I understand that non-compliance in any of the Right First Time Pay controls means I do not have the basic control is place to pay my team accurately and I need to address this urgently.
+                    </label>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-2"><button id="submit" type="button" class="btn btn-primary btn-lg disabled">Submit</button></div>
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+    <script>
+    $(function () {
+        var checklistComplete = false;
+
+        $('.checkShow').click(function () {
+            var $toShow = $('#c_' + $(this).data('target'));
+            if($toShow.length)
+                $toShow.slideDown();
+            else
+                $('#a_' + $(this).data('target') + '_val').val(true);
+        });
+
+        $('#qContainer').on('click','.checkAnswer', function () {
+            if ($(this).data('c') === 'True') {
+                $(this).addClass('list-group-item-success');
+
+                var questionID = $(this).data('target');
+                $('#a_' + questionID + '_val').val(true);
+            }
+            else {
+                $(this).addClass('list-group-item-danger');
+                $(this).parent().find('.checkAnswer').each(function () {
+                    if ($(this).data('c') === 'True') {
+                        $(this).addClass('list-group-item-success');
+                    };
+                });
+                var $qRow = $(this).parent().parent().parent();
+                $qRow.find('.yesNo').addClass('d-none');
+                $qRow.find('.checkFailed').removeClass('d-none');
+            };
+            $(this).parent().find('.checkAnswer').each(function () {
+                $(this).removeClass('checkAnswer');
+            });
+        });
+
+        $('#checklistContainer').on('click', '.form-check', function () {
+            if ($('#Check1').is(':checked') && $('#Check2').is(':checked')) {
+                checklistComplete = true;
+                $('#submit').removeClass('disabled');
+            }
+            else {
+                checklistComplete = false;
+                $('#submit').addClass('disabled');
+            }
+        });
+
+        $('#submit').click(function () {
+            var rowsComplete = true;
+            $('#response').find('.qRow').each(function () {
+                var rowComplete = false;
+                $(this).find('.form-check-input').each(function () {
+                    if ($(this).is(':checked'))
+                        rowComplete = true;
+                });
+                if (!rowComplete){
+                    $(this).find('.required').removeClass('d-none');
+                    rowsComplete = false;
+                }
+                else
+                    $(this).find('.required').addClass('d-none');
+            });
+
+            if (checklistComplete && rowsComplete) {
+                $('#response').submit();
+            };
+        });
+    });
+    </script>
+}
