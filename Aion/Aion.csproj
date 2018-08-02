@@ -629,6 +629,9 @@
     <Compile Include="DAL\Entities\vw_PublishedBudgetsUK.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_RFTP_Notifications.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_ROIMismatch.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -1144,6 +1147,7 @@
     <Content Include="Areas\WFM\Views\RFTP\SelfAssessment.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\ActionPlan.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\SelfAssessmentForm.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_rftpNotifications.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

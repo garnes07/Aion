@@ -46,6 +46,135 @@
                     </p>
                 </div>
             </div>
+            if (Model.PeakTimes.Count != 0)
+            {
+                <div id="peakTimes" class="card">
+                    <div class="card-header text-center">
+                        <strong>Peak Trading Hours</strong>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Make any corrections to the opening times by clicking the date for the relevant week, then confirm they are correct by clicking 'Accept'.<br />
+                            Making a change to a previously confirmed week will 'unconfirm' the hours for that week, so they must again be confirmed by clicking 'Accept'.
+                        </p>
+                        <div class="table-responsive-lg">
+                            <table class="table table-sm table-bordered table-smtxt">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" rowspan="2" class="text-center">Week<br />Commencing</th>
+                                        <th colspan="2" class="text-center">Sunday</th>
+                                        <th colspan="2" class="text-center">Monday</th>
+                                        <th colspan="2" class="text-center">Tuesday</th>
+                                        <th colspan="2" class="text-center">Wednesday</th>
+                                        <th colspan="2" class="text-center">Thursday</th>
+                                        <th colspan="2" class="text-center">Friday</th>
+                                        <th colspan="2" class="text-center">Saturday</th>
+                                        <th rowspan="2" class="text-center"><br />Confirm</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Open</th>
+                                        <th class="text-center">Close</th>
+                                        <th class="text-center">Open</th>
+                                        <th class="text-center">Close</th>
+                                        <th class="text-center">Open</th>
+                                        <th class="text-center">Close</th>
+                                        <th class="text-center">Open</th>
+                                        <th class="text-center">Close</th>
+                                        <th class="text-center">Open</th>
+                                        <th class="text-center">Close</th>
+                                        <th class="text-center">Open</th>
+                                        <th class="text-center">Close</th>
+                                        <th class="text-center">Open</th>
+                                        <th class="text-center">Close</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    @foreach (var item in Model.PeakTimes)
+                                    {
+                                        <tr>
+                                            <td colspan="2" style=@(item.EffectiveDate.ToShortDateString() == "25/03/2018" || item.EffectiveDate.ToShortDateString() == "01/04/2018" || item.EffectiveDate.ToShortDateString() == "24/12/2017" ? "" : "padding:15px")>
+                                                @Html.ActionLink(item.EffectiveDate.ToShortDateString(), "EditPeak", new { id = item.EntryID })
+                                                <br />
+                                                @if (item.EffectiveDate.ToShortDateString() == "25/03/2018")
+                                                {
+                                                    @:<small>Good Friday</small>
+                                    }
+                                                else if (item.EffectiveDate.ToShortDateString() == "01/04/2018")
+                                                {
+                                                    @:<small>Easter Sunday</small>
+                                    }
+                                                else if (item.EffectiveDate.ToShortDateString() == "24/12/2017")
+                                                {
+                                                    @:<small>Xmas Week 2</small>
+                                    }
+                                            </td>
+
+                                            <td>
+                                                @(item.SundayOpen.ToString() == "00:00:00" ? "Closed" : item.SundayOpen.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.SundayClose.ToString() == "00:00:00" ? "Closed" : item.SundayClose.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.MondayOpen.ToString() == "00:00:00" ? "Closed" : item.MondayOpen.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.MondayClose.ToString() == "00:00:00" ? "Closed" : item.MondayClose.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.TuesdayOpen.ToString() == "00:00:00" ? "Closed" : item.TuesdayOpen.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.TuesdayClose.ToString() == "00:00:00" ? "Closed" : item.TuesdayClose.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.WednesdayOpen.ToString() == "00:00:00" ? "Closed" : item.WednesdayOpen.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.WednesdayClose.ToString() == "00:00:00" ? "Closed" : item.WednesdayClose.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.ThursdayOpen.ToString() == "00:00:00" ? "Closed" : item.ThursdayOpen.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.ThursdayClose.ToString() == "00:00:00" ? "Closed" : item.ThursdayClose.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.FridayOpen.ToString() == "00:00:00" ? "Closed" : item.FridayOpen.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.FridayClose.ToString() == "00:00:00" ? "Closed" : item.FridayClose.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.SaturdayOpen.ToString() == "00:00:00" ? "Closed" : item.SaturdayOpen.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+                                                @(item.SaturdayClose.ToString() == "00:00:00" ? "Closed" : item.SaturdayClose.ToString("hh\\:mm"))
+                                            </td>
+                                            <td>
+
+                                                @if (item.Status == "PeakPending")
+                                                {
+                                                    using (Html.BeginForm("AcceptPeak", "MyStore", FormMethod.Post, new { id = "acceptForm" + item.EntryID }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.Hidden("id", item.EntryID)
+                                                        <a onclick="ScrollSave" class="btn btn-warning btn-sm" href='@string.Format("javascript:document.getElementById('acceptForm{0}').submit()", item.EntryID)' , new { id=@item.EntryID })">Accept</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="btn btn-success btn-sm">Confirmed</div>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        }
             <div class="card mb-3">
                 <div class="card-header text-center">
                     <strong>Standard Trading Hours</strong>
@@ -238,135 +367,7 @@
                     </div>
                 </div>
             }
-            if (Model.PeakTimes.Count != 0)
-            {
-                <div id="peakTimes" class="card">
-                    <div class="card-header text-center">
-                        <strong>Peak Trading Hours</strong>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            Make any corrections to the opening times by clicking the date for the relevant week, then confirm they are correct by clicking 'Accept'.<br />
-                            Making a change to a previously confirmed week will 'unconfirm' the hours for that week, so they must again be confirmed by clicking 'Accept'.
-                        </p>
-                        <div class="table-responsive-lg">
-                            <table class="table table-sm table-bordered table-smtxt">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2" rowspan="2" class="text-center">Week<br />Commencing</th>
-                                        <th colspan="2" class="text-center">Sunday</th>
-                                        <th colspan="2" class="text-center">Monday</th>
-                                        <th colspan="2" class="text-center">Tuesday</th>
-                                        <th colspan="2" class="text-center">Wednesday</th>
-                                        <th colspan="2" class="text-center">Thursday</th>
-                                        <th colspan="2" class="text-center">Friday</th>
-                                        <th colspan="2" class="text-center">Saturday</th>
-                                        <th rowspan="2" class="text-center"><br />Confirm</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center">
-                                    @foreach (var item in Model.PeakTimes)
-                                    {
-                                        <tr>
-                                            <td colspan="2" style=@(item.EffectiveDate.ToShortDateString() == "25/03/2018" || item.EffectiveDate.ToShortDateString() == "01/04/2018" || item.EffectiveDate.ToShortDateString() == "24/12/2017" ? "" : "padding:15px")>
-                                                @Html.ActionLink(item.EffectiveDate.ToShortDateString(), "EditPeak", new { id = item.EntryID })
-                                                <br />
-                                                @if (item.EffectiveDate.ToShortDateString() == "25/03/2018")
-                                                {
-                                                    @:<small>Good Friday</small>
-                                    }
-                                                else if (item.EffectiveDate.ToShortDateString() == "01/04/2018")
-                                                {
-                                                    @:<small>Easter Sunday</small>
-                                    }
-                                                else if (item.EffectiveDate.ToShortDateString() == "24/12/2017")
-                                                {
-                                                    @:<small>Xmas Week 2</small>
-                                    }
-                                            </td>
-
-                                            <td>
-                                                @(item.SundayOpen.ToString() == "00:00:00" ? "Closed" : item.SundayOpen.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.SundayClose.ToString() == "00:00:00" ? "Closed" : item.SundayClose.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.MondayOpen.ToString() == "00:00:00" ? "Closed" : item.MondayOpen.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.MondayClose.ToString() == "00:00:00" ? "Closed" : item.MondayClose.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.TuesdayOpen.ToString() == "00:00:00" ? "Closed" : item.TuesdayOpen.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.TuesdayClose.ToString() == "00:00:00" ? "Closed" : item.TuesdayClose.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.WednesdayOpen.ToString() == "00:00:00" ? "Closed" : item.WednesdayOpen.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.WednesdayClose.ToString() == "00:00:00" ? "Closed" : item.WednesdayClose.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.ThursdayOpen.ToString() == "00:00:00" ? "Closed" : item.ThursdayOpen.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.ThursdayClose.ToString() == "00:00:00" ? "Closed" : item.ThursdayClose.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.FridayOpen.ToString() == "00:00:00" ? "Closed" : item.FridayOpen.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.FridayClose.ToString() == "00:00:00" ? "Closed" : item.FridayClose.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.SaturdayOpen.ToString() == "00:00:00" ? "Closed" : item.SaturdayOpen.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-                                                @(item.SaturdayClose.ToString() == "00:00:00" ? "Closed" : item.SaturdayClose.ToString("hh\\:mm"))
-                                            </td>
-                                            <td>
-
-                                                @if (item.Status == "PeakPending")
-                                                {
-                                                    using (Html.BeginForm("AcceptPeak", "MyStore", FormMethod.Post, new { id = "acceptForm" + item.EntryID }))
-                                                    {
-                                                        @Html.AntiForgeryToken()
-                                                        @Html.Hidden("id", item.EntryID)
-                                                        <a onclick="ScrollSave" class="btn btn-warning btn-sm" href='@string.Format("javascript:document.getElementById('acceptForm{0}').submit()", item.EntryID)' , new { id=@item.EntryID })">Accept</a>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <div class="btn btn-success btn-sm">Confirmed</div>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-        }
+            
     }
 
 }

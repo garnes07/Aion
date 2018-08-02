@@ -199,5 +199,11 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+
+        public async Task<PartialViewResult> _getNotifications()
+        {
+            HttpContext.Session.Remove("_RFTPpopup");
+            return PartialView("~/Areas/WFM/Views/RFTPTracking/Partials/_rftpNotifications.cshtml", await _RFTPTrackingManager.GetRFTPNotifications(User.Identity.Name, System.Web.HttpContext.Current.Session["_EmpNum"].ToString()));
+        }
     }
 }

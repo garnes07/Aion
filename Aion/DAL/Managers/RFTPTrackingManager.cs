@@ -249,5 +249,13 @@ namespace Aion.DAL.Managers
                 return await context.RFTPCaseStubs.Where(x => x.PersonNumber == personNum).Include("RFTPCaseAudits").OrderByDescending(x => x.DateTimeCreated).ToListAsync();
             }
         }
+
+        public async Task<vw_RFTP_Notifications> GetRFTPNotifications(string username, string personNum)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_RFTP_Notifications.FirstOrDefaultAsync(x => x.Username == username || x.Username == personNum);
+            }
+        }
     }
 }

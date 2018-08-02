@@ -435,6 +435,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ActionPlan' does not have a prima
         <EntityType Name="vw_ActionPlan">
           <Key>
             <PropertyRef Name="RowId" />
+            
+            
           </Key>
           <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="EntryId" Type="int" Nullable="false" />
@@ -1120,6 +1122,21 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
           <Property Name="OriginalTarget" Type="real" />
           <Property Name="Type" Type="nvarchar" MaxLength="100" />
           <Property Name="Hours" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_RFTP_Notifications' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_RFTP_Notifications">
+          <Key>
+            <PropertyRef Name="Region" />
+            
+            
+            
+          </Key>
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="255" />
+          <Property Name="Confirms" Type="int" Nullable="false" />
+          <Property Name="Outstanding" Type="int" Nullable="false" />
+          <Property Name="SAOverdue" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_ROIMismatch' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2041,6 +2058,15 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_PublishedBudgetsUK].[Hours] AS [Hours]
     FROM [dbo].[vw_PublishedBudgetsUK] AS [vw_PublishedBudgetsUK]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_RFTP_Notifications" EntityType="Self.vw_RFTP_Notifications" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_RFTP_Notifications].[Region] AS [Region], 
+    [vw_RFTP_Notifications].[Username] AS [Username], 
+    [vw_RFTP_Notifications].[Confirms] AS [Confirms], 
+    [vw_RFTP_Notifications].[Outstanding] AS [Outstanding], 
+    [vw_RFTP_Notifications].[SAOverdue] AS [SAOverdue]
+    FROM [dbo].[vw_RFTP_Notifications] AS [vw_RFTP_Notifications]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_ROIMismatch" EntityType="Self.vw_ROIMismatch" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_ROIMismatch].[RowNum] AS [RowNum], 
@@ -2359,6 +2385,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
             <End Role="SASubmissionAnswer" EntitySet="SASubmissionAnswers" />
           </AssociationSet>
           <EntitySet Name="vw_ActionPlan" EntityType="WFMMContext.vw_ActionPlan" />
+          <EntitySet Name="vw_RFTP_Notifications" EntityType="WFMMContext.vw_RFTP_Notifications" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -3782,6 +3809,16 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="DateTimeSubmitted" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="vw_RFTP_Notifications">
+          <Key>
+            <PropertyRef Name="Region" />
+          </Key>
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="Confirms" Type="Int32" Nullable="false" />
+          <Property Name="Outstanding" Type="Int32" Nullable="false" />
+          <Property Name="SAOverdue" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5088,6 +5125,17 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="DateTimeSubmitted" ColumnName="DateTimeSubmitted" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
                 <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_RFTP_Notifications">
+            <EntityTypeMapping TypeName="WFMMContext.vw_RFTP_Notifications">
+              <MappingFragment StoreEntitySet="vw_RFTP_Notifications">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="SAOverdue" ColumnName="SAOverdue" />
+                <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
+                <ScalarProperty Name="Confirms" ColumnName="Confirms" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -18,5 +18,6 @@ namespace Aion.DAL.Managers
         Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesRegion(string region);
         Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesStore(string store);
         Task<List<RFTPCaseStub>> GetAllCasesForPerson(string personNum);
+        Task<vw_RFTP_Notifications> GetRFTPNotifications(string username, string personNum);
     }
 }

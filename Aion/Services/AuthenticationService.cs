@@ -208,9 +208,12 @@ namespace Aion.Services
                 HttpContext.Current.Session["_AreaLevel"] = (byte)0;
                 return false;
             }
+            else if(UserAccess.AccessLevel > 0 && UserAccess.AccessLevel <=3)
+                HttpContext.Current.Session["_RFTPpopup"] = true;
 
             HttpContext.Current.Session["_AccessLevel"] = UserAccess.AccessLevel;
             HttpContext.Current.Session["_AreaLevel"] = UserAccess.AreaLevel;
+
             return await LoadStoreMenu(UserAccess.AreaLevel, UserAccess.UserAccessAreas.Select(x => x.AreaName).ToArray());
         }
 

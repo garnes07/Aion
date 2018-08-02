@@ -1,0 +1,31 @@
+﻿@model Aion.DAL.Entities.vw_RFTP_Notifications
+
+@if(Model != null)
+{
+    if ((Model.Outstanding + Model.Confirms + Model.SAOverdue) > 0)
+    {
+        <h4>You have some outstanding RFTP actions that should be handled as a priority:</h4>
+        <ul>
+            @if (Model.Confirms > 0)
+            {
+                <li><strong>@Model.Confirms </strong> confirmations outstanding</li>
+            }
+            @if (Model.Outstanding > 0)
+            {
+                <li><strong>@Model.Outstanding </strong> actions outstanding</li>
+            }
+            @if (Model.SAOverdue > 0)
+            {
+                <li><strong>@Model.SAOverdue </strong> GM self assessment(s) overdue</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div id="noPopup"></div>
+    }
+}
+else
+{
+    <div id="noPopup"></div>
+}

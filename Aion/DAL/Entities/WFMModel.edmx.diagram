@@ -76,6 +76,7 @@
         <AssociationConnector Association="WFMMContext.FK_SASubmissionAnswers_SAQuestions" />
         <AssociationConnector Association="WFMMContext.FK_SASubmissionAnswers_SASubmission" />
         <EntityTypeShape EntityType="WFMMContext.vw_ActionPlan" Width="1.5" PointX="9.375" PointY="23.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_RFTP_Notifications" Width="1.5" PointX="25.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

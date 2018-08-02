@@ -20,12 +20,11 @@
                     <th class="text-center" rowspan="2" style="width: 10%;">Issue Store</th>
                     <th class="text-center" rowspan="2" style="width: 10%;">Period</th>
                     <th class="text-center" rowspan="2" style="width: 25%;"></th>
-                    <th class="text-center" colspan="3">Actions Required</th>
+                    <th class="text-center" colspan="2">Actions Required</th>
                 </tr>
                 <tr>
-                    <th class="text-center" style="width: 10%;">RM</th>
-                    <th class="text-center" style="width: 10%;">TPC</th>
-                    <th class="text-center" style="width: 10%;">WFM</th>
+                    <th class="text-center" style="width: 15%;">GM</th>
+                    <th class="text-center" style="width: 15%;">RM</th>                    
                 </tr>
                 </thead>
                 <tbody>
@@ -38,9 +37,9 @@
                             </a>
                         </td>
                         <td class="text-center">@item.StoreNumber</td>
-                        <td class="text-center @(item.Period < 10 ? "table-danger" : "")">@item.Period</td>
+                        <td class="text-center @(item.Period < 3 ? "table-danger" : "")">@item.Period</td>
                         <td class="text-center">
-                            @if (!item.Confirmed)
+                            @if (!item.Confirmed && !item.Override)
                             {
                                 <div class="btn-group d-none d-lg-block" role="group">
                                     <button class="btn btn-light disabled">Reassign</button>
@@ -103,25 +102,9 @@
                                     }
                                 }
                             </td>
-                            <td>
-                                @if (actionsNeeded.Any(x => x.Owner == "WFM"))
-                                {
-                                    if (item.RFTPCaseAudits.Any(x => x.ActionType.Contains(actionsNeeded.First(c => c.Owner == "WFM").ActionType)))
-                                    {
-                                        <a class="btn btn-info disabled" style="width: 100%;">
-                                            <s>@actionsNeeded.First(x => x.Owner == "WFM").ActionType</s>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn disabled btn-info">@actionsNeeded.First(x => x.Owner == "WFM").ActionType</a>
-                                    }
-                                }
-                            </td>
                         }
                         else
                         {
-                            <td></td>
                             <td></td>
                             <td></td>
                         }
