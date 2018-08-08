@@ -38,7 +38,7 @@
                                     {
                                         <div id="c_@(question.QuestionID)" style="display:none;">
                                             @{ var check = Model.GetRandomCheck(question.SAChecks.ToList());}
-                                            <strong>Check: </strong><u>@check.Text</u><br />
+                                            <strong>Knowledge Check: </strong><u>@check.Text</u><br />
                                             <div class="list-group mt-2" id="chk_@(check.CheckID)">
                                                 @foreach (var answer in check.SACheckAnswers)
                                                 {

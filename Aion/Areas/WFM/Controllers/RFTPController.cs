@@ -4,7 +4,6 @@ using Aion.Controllers;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.Helpers;
-using Aion.Models.Kronos;
 using Aion.ViewModels;
 using System;
 using System.Collections.Generic;

@@ -11,7 +11,7 @@ using Aion.ViewModels;
 
 namespace Aion.Areas.WFM.Controllers
 {
-    [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+    
     public class RFTPTrackingController : BaseController
     {
         private readonly IRFTPTrackingManager _RFTPTrackingManager;
@@ -24,7 +24,8 @@ namespace Aion.Areas.WFM.Controllers
             _empSummaryManager = new EmpSummaryManager();
             _weeksManager = new WeeksManager();
         }
-        
+
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<ActionResult> ManagerTracking()
         {
             RFTPManagerSummaryVm vm = new RFTPManagerSummaryVm();
@@ -61,6 +62,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpGet]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<PartialViewResult> _employeeSearch(string crit)
         {
             var searchResult = new List<KronosEmployeeSummary>();
@@ -72,6 +74,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<ActionResult> CaseConfirm(int caseID)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -91,6 +94,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<ActionResult> CaseOverride(int caseID, string reason, string comment)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -110,6 +114,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<ActionResult> CaseReassign(int caseID, string empNumber, string comment)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -138,6 +143,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<ActionResult> CaseSubmitAction(int caseID, string actionType, string comment)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -155,7 +161,8 @@ namespace Aion.Areas.WFM.Controllers
 
             return RedirectToAction("ManagerTracking");
         }
-        
+
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<ActionResult> ManagerTrend()
         {
             RFTPManagerTrendVm vm = new RFTPManagerTrendVm();
@@ -180,7 +187,8 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
-        
+
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
         public async Task<ActionResult> ManagerDetail(string personNum)
         {
             if(personNum == null)
@@ -200,6 +208,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        [Authorize]
         public async Task<PartialViewResult> _getNotifications()
         {
             HttpContext.Session.Remove("_RFTPpopup");

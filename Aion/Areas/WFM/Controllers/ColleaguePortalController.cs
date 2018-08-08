@@ -35,7 +35,7 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     var empNum = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
                     var person = await _empSummaryManager.GetEmployeeMatchingNumber(empNum == "" ? "e" : "UK" + empNum.PadLeft(6, '0'));
-                    System.Web.HttpContext.Current.Session["_PTFlag"] = person?.EmployeeStandardHours != 45 ? "PT" : "FT";
+                    System.Web.HttpContext.Current.Session["_PTFlag"] = "PT";//person?.EmployeeStandardHours != 45 ? "PT" : "FT";
                 }
                 else
                 {
