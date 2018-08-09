@@ -89,6 +89,8 @@ namespace Aion.DAL.Entities
         public virtual DbSet<SASubmissionAnswer> SASubmissionAnswers { get; set; }
         public virtual DbSet<vw_ActionPlan> vw_ActionPlan { get; set; }
         public virtual DbSet<vw_RFTP_Notifications> vw_RFTP_Notifications { get; set; }
+        public virtual DbSet<vw_CPCWSchedules> vw_CPCWSchedules { get; set; }
+        public virtual DbSet<vw_CPCWStoreList> vw_CPCWStoreList { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {

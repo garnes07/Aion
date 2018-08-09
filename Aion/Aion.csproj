@@ -208,6 +208,7 @@
     <Compile Include="Areas\WFM\Models\RFTP\ClockAggregate.cs" />
     <Compile Include="Areas\WFM\Models\RFTP\SAAnswers.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\AvlbltySummaryVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\CPCWScheduleVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailECVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailPilotVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
@@ -564,6 +565,12 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_ContractBaseDetail.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_CPCWSchedules.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_CPCWStoreList.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_CPW_Clocking_Data.cs">
@@ -1148,6 +1155,7 @@
     <Content Include="Areas\WFM\Views\RFTP\ActionPlan.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\SelfAssessmentForm.cshtml" />
     <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_rftpNotifications.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\CPCWSchedules.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

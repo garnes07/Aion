@@ -1,0 +1,81 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.Deployment.CPCWScheduleVm
+
+@{
+    ViewBag.Title = "CPCW Schedules";
+}
+
+<div class="container-fluid">
+    @using (Html.BeginForm("CPCWSchedules", "Deployment", FormMethod.Get, new { id = "selectForm" }))
+    {
+        <div class="row justify-content-center d-print-none my-3">
+            <div class="col-2 text-right" style="padding-top:7px;"><strong>Select Store</strong></div>
+            <div class="col-5">
+                <select class="form-control" data-val="true" data-val-required="The Select Store field is required." id="SelectedStore" name="s" onchange="this.form.submit();">
+                    @foreach (var item in Model.storeList)
+                    {
+                        <option value=@item.Value selected=@(item.Selected)>@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        if (Model.storeSelected)
+        {
+            <div class="row justify-content-center d-print-none my-3">
+                <div class="col-2 text-right" style="padding-top:7px;"><strong>Select Date</strong></div>
+                <div class="col-5">
+                    <select class="form-control" data-val="true" data-val-required="The Select Date field is required." id="SelectedDate" name="SelectedDate" onchange="this.form.submit();">
+                        @foreach (var item in Model.WeeksOfYear)
+                    {
+                            <option value=@item.Value selected=@(item.Selected)>@item.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+    }
+
+    @if (Model.storeSelected)
+    {
+        if (Model.collection.Any())
+        {
+            <table class="table table-bordered table-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center" style="width:25%">Name</th>
+                        <th class="text-center" style="width:10%">Sun</th>
+                        <th class="text-center" style="width:10%">Mon</th>
+                        <th class="text-center" style="width:10%">Tue</th>
+                        <th class="text-center" style="width:10%">Wed</th>
+                        <th class="text-center" style="width:10%">Thu</th>
+                        <th class="text-center" style="width:10%">Fri</th>
+                        <th class="text-center" style="width:10%">Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in Model.TaskList)
+                    {
+                        <tr><td colspan="8"><strong>@task</strong></td></tr>
+                        foreach (var item in Model.collection.Where(x => x.TASKDESC == task))
+                        {
+                            <tr>
+                                <td>@string.Format("{0}, {1}", item.SURNAME, item.FORENAMES)</td>
+                                <td class="text-center"><small>@(item.D1_START == null ? "" : string.Format("{0} - {1}", item.D1_START, item.D1_END))</small></td>
+                                <td class="text-center"><small>@(item.D2_START == null ? "" : string.Format("{0} - {1}", item.D2_START, item.D2_END))</small></td>
+                                <td class="text-center"><small>@(item.D3_START == null ? "" : string.Format("{0} - {1}", item.D3_START, item.D3_END))</small></td>
+                                <td class="text-center"><small>@(item.D4_START == null ? "" : string.Format("{0} - {1}", item.D4_START, item.D4_END))</small></td>
+                                <td class="text-center"><small>@(item.D5_START == null ? "" : string.Format("{0} - {1}", item.D5_START, item.D5_END))</small></td>
+                                <td class="text-center"><small>@(item.D6_START == null ? "" : string.Format("{0} - {1}", item.D6_START, item.D6_END))</small></td>
+                                <td class="text-center"><small>@(item.D7_START == null ? "" : string.Format("{0} - {1}", item.D7_START, item.D7_END))</small></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-danger text-center"><strong>No schedules found for the selected period!</strong></div>
+        }
+    }
+</div>

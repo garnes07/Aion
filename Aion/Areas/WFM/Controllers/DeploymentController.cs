@@ -589,5 +589,25 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+
+        [UserFilter(MinLevel = 7)]
+        public async Task<ActionResult> CPCWSchedules(int s = 0, string selectedDate = "This Week")
+        {
+            CPCWScheduleVm vm = new CPCWScheduleVm();
+            int weekNum = selectedDate.GetWeekNumber();
+
+            vm.SetStoreList(await _scheduleManager.GetCPCWStoreList());
+            if (s != 0)
+            {
+                vm.collection = await _scheduleManager.GetCPCWSchedule(s, weekNum);
+                vm.storeSelected = true;
+                vm.storeList.ForEach(x => x.Selected = x.Value == s.ToString());
+            }
+            
+            vm.SetWeeksOfYear(DateTime.Now.FirstDayOfWeek().AddDays(42), await _weeksManager.GetMultipleWeeks(DateTime.Now.FirstDayOfWeek().AddDays(-28), DateTime.Now.FirstDayOfWeek().AddDays(42).FirstDayOfWeek()));
+            vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == weekNum.ToString());            
+
+            return View(vm);
+        }
     }
 }

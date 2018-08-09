@@ -8,5 +8,7 @@ namespace Aion.DAL.Managers
     {
         Task<List<vw_ScheduleData>> GetStoreSchedule(string store, int weekNumber);
         Task<List<vw_ScheduleData>> GetRegionGMScheduleData(string region, int weekNumber);
+        Task<List<vw_CPCWStoreList>> GetCPCWStoreList();
+        Task<List<vw_CPCWSchedules>> GetCPCWSchedule(int storeNum, int weekNum);
     }
 }

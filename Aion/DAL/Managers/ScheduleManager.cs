@@ -31,5 +31,21 @@ namespace Aion.DAL.Managers
                     .ToListAsync();
             }
         }
+
+        public async Task<List<vw_CPCWStoreList>> GetCPCWStoreList()
+        {
+            using(var context = new WFMModel())
+            {
+                return await context.vw_CPCWStoreList.OrderBy(x => x.CST_CNTR_INT).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_CPCWSchedules>> GetCPCWSchedule(int storeNum, int weekNum)
+        {
+            using(var context = new WFMModel())
+            {
+                return await context.vw_CPCWSchedules.Where(x => x.CST_CNTR_INT == storeNum && x.FNCL_WK == weekNum).ToListAsync();
+            }
+        }
     }
 }

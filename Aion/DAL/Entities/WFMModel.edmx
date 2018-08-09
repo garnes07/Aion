@@ -556,6 +556,43 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ContractBaseDetail' does not have
           <Property Name="TotalHoliday" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_CPCWSchedules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CPCWSchedules">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="CST_CNTR_INT" Type="int" />
+          <Property Name="BRANCH" Type="varchar" MaxLength="100" />
+          <Property Name="FNCL_WK" Type="int" />
+          <Property Name="FORENAMES" Type="varchar" MaxLength="50" />
+          <Property Name="SURNAME" Type="varchar" MaxLength="50" />
+          <Property Name="TASKDESC" Type="varchar" MaxLength="50" />
+          <Property Name="D1_START" Type="nvarchar" MaxLength="5" />
+          <Property Name="D1_END" Type="nvarchar" MaxLength="5" />
+          <Property Name="D2_START" Type="nvarchar" MaxLength="5" />
+          <Property Name="D2_END" Type="nvarchar" MaxLength="5" />
+          <Property Name="D3_START" Type="nvarchar" MaxLength="5" />
+          <Property Name="D3_END" Type="nvarchar" MaxLength="5" />
+          <Property Name="D4_START" Type="nvarchar" MaxLength="5" />
+          <Property Name="D4_END" Type="nvarchar" MaxLength="5" />
+          <Property Name="D5_START" Type="nvarchar" MaxLength="5" />
+          <Property Name="D5_END" Type="nvarchar" MaxLength="5" />
+          <Property Name="D6_START" Type="nvarchar" MaxLength="5" />
+          <Property Name="D6_END" Type="nvarchar" MaxLength="5" />
+          <Property Name="D7_START" Type="nvarchar" MaxLength="5" />
+          <Property Name="D7_END" Type="nvarchar" MaxLength="5" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_CPCWStoreList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_CPCWStoreList">
+          <Key>
+            <PropertyRef Name="CST_CNTR_INT" />
+          </Key>
+          <Property Name="CST_CNTR_INT" Type="int" Nullable="false" />
+          <Property Name="BRANCH" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_CPW_Clocking_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_CPW_Clocking_Data">
           <Key>
@@ -1127,10 +1164,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_PublishedBudgetsUK' does not have
 warning 6002: The table/view '99999_WFM.dbo.vw_RFTP_Notifications' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_RFTP_Notifications">
           <Key>
+            
+            
+            
             <PropertyRef Name="Region" />
-            
-            
-            
           </Key>
           <Property Name="Region" Type="smallint" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="255" />
@@ -1636,6 +1673,37 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_ContractBaseDetail].[P12] AS [P12], 
     [vw_ContractBaseDetail].[TotalHoliday] AS [TotalHoliday]
     FROM [dbo].[vw_ContractBaseDetail] AS [vw_ContractBaseDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_CPCWSchedules" EntityType="Self.vw_CPCWSchedules" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_CPCWSchedules].[RowId] AS [RowId], 
+    [vw_CPCWSchedules].[CST_CNTR_INT] AS [CST_CNTR_INT], 
+    [vw_CPCWSchedules].[BRANCH] AS [BRANCH], 
+    [vw_CPCWSchedules].[FNCL_WK] AS [FNCL_WK], 
+    [vw_CPCWSchedules].[FORENAMES] AS [FORENAMES], 
+    [vw_CPCWSchedules].[SURNAME] AS [SURNAME], 
+    [vw_CPCWSchedules].[TASKDESC] AS [TASKDESC], 
+    [vw_CPCWSchedules].[D1_START] AS [D1_START], 
+    [vw_CPCWSchedules].[D1_END] AS [D1_END], 
+    [vw_CPCWSchedules].[D2_START] AS [D2_START], 
+    [vw_CPCWSchedules].[D2_END] AS [D2_END], 
+    [vw_CPCWSchedules].[D3_START] AS [D3_START], 
+    [vw_CPCWSchedules].[D3_END] AS [D3_END], 
+    [vw_CPCWSchedules].[D4_START] AS [D4_START], 
+    [vw_CPCWSchedules].[D4_END] AS [D4_END], 
+    [vw_CPCWSchedules].[D5_START] AS [D5_START], 
+    [vw_CPCWSchedules].[D5_END] AS [D5_END], 
+    [vw_CPCWSchedules].[D6_START] AS [D6_START], 
+    [vw_CPCWSchedules].[D6_END] AS [D6_END], 
+    [vw_CPCWSchedules].[D7_START] AS [D7_START], 
+    [vw_CPCWSchedules].[D7_END] AS [D7_END]
+    FROM [dbo].[vw_CPCWSchedules] AS [vw_CPCWSchedules]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_CPCWStoreList" EntityType="Self.vw_CPCWStoreList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_CPCWStoreList].[CST_CNTR_INT] AS [CST_CNTR_INT], 
+    [vw_CPCWStoreList].[BRANCH] AS [BRANCH]
+    FROM [dbo].[vw_CPCWStoreList] AS [vw_CPCWStoreList]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_CPW_Clocking_Data" EntityType="Self.vw_CPW_Clocking_Data" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2386,6 +2454,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           </AssociationSet>
           <EntitySet Name="vw_ActionPlan" EntityType="WFMMContext.vw_ActionPlan" />
           <EntitySet Name="vw_RFTP_Notifications" EntityType="WFMMContext.vw_RFTP_Notifications" />
+          <EntitySet Name="vw_CPCWSchedules" EntityType="WFMMContext.vw_CPCWSchedules" />
+          <EntitySet Name="vw_CPCWStoreList" EntityType="WFMMContext.vw_CPCWStoreList" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -3819,6 +3889,39 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="SAOverdue" Type="Int32" Nullable="false" />
           <Property Name="Username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="vw_CPCWSchedules">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="CST_CNTR_INT" Type="Int32" />
+          <Property Name="BRANCH" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FNCL_WK" Type="Int32" />
+          <Property Name="FORENAMES" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SURNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="D1_START" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D1_END" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D2_START" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D2_END" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D3_START" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D3_END" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D4_START" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D4_END" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D5_START" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D5_END" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D6_START" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D6_END" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D7_START" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="D7_END" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="TASKDESC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_CPCWStoreList">
+          <Key>
+            <PropertyRef Name="CST_CNTR_INT" />
+          </Key>
+          <Property Name="CST_CNTR_INT" Type="Int32" Nullable="false" />
+          <Property Name="BRANCH" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5136,6 +5239,41 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
                 <ScalarProperty Name="Confirms" ColumnName="Confirms" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CPCWSchedules">
+            <EntityTypeMapping TypeName="WFMMContext.vw_CPCWSchedules">
+              <MappingFragment StoreEntitySet="vw_CPCWSchedules">
+                <ScalarProperty Name="TASKDESC" ColumnName="TASKDESC" />
+                <ScalarProperty Name="D7_END" ColumnName="D7_END" />
+                <ScalarProperty Name="D7_START" ColumnName="D7_START" />
+                <ScalarProperty Name="D6_END" ColumnName="D6_END" />
+                <ScalarProperty Name="D6_START" ColumnName="D6_START" />
+                <ScalarProperty Name="D5_END" ColumnName="D5_END" />
+                <ScalarProperty Name="D5_START" ColumnName="D5_START" />
+                <ScalarProperty Name="D4_END" ColumnName="D4_END" />
+                <ScalarProperty Name="D4_START" ColumnName="D4_START" />
+                <ScalarProperty Name="D3_END" ColumnName="D3_END" />
+                <ScalarProperty Name="D3_START" ColumnName="D3_START" />
+                <ScalarProperty Name="D2_END" ColumnName="D2_END" />
+                <ScalarProperty Name="D2_START" ColumnName="D2_START" />
+                <ScalarProperty Name="D1_END" ColumnName="D1_END" />
+                <ScalarProperty Name="D1_START" ColumnName="D1_START" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="FORENAMES" ColumnName="FORENAMES" />
+                <ScalarProperty Name="FNCL_WK" ColumnName="FNCL_WK" />
+                <ScalarProperty Name="BRANCH" ColumnName="BRANCH" />
+                <ScalarProperty Name="CST_CNTR_INT" ColumnName="CST_CNTR_INT" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_CPCWStoreList">
+            <EntityTypeMapping TypeName="WFMMContext.vw_CPCWStoreList">
+              <MappingFragment StoreEntitySet="vw_CPCWStoreList">
+                <ScalarProperty Name="BRANCH" ColumnName="BRANCH" />
+                <ScalarProperty Name="CST_CNTR_INT" ColumnName="CST_CNTR_INT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
