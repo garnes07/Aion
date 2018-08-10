@@ -462,6 +462,9 @@
     <Compile Include="DAL\Entities\StoreReference.cs">
       <DependentUpon>ROIDashModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\StoreSessionLog.cs">
+      <DependentUpon>WebMasterModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\tempRegionLookup.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
     </Compile>

@@ -51,6 +51,7 @@ namespace Aion.DAL.Entities
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<ActivityType> ActivityTypes { get; set; }
         public virtual DbSet<MinervaAccess> MinervaAccesses { get; set; }
+        public virtual DbSet<StoreSessionLog> StoreSessionLogs { get; set; }
     
         public virtual ObjectResult<sp_CheckHelpTickets_Result> sp_CheckHelpTickets(Nullable<short> branchNum)
         {

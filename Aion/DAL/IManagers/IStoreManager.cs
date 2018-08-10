@@ -17,5 +17,6 @@ namespace Aion.DAL.IManagers
         Task<List<StoreMaster>> GetAllMenu();
         Task<List<vw_StoreLocations>> GetAllStoreLocations();
         Task<List<StoreMaster>> GetStoresInRegion(string region);
+        Task<bool> LogStoreSession(short storeNum);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -98,6 +99,28 @@ namespace Aion.DAL.Managers
             {
                 short crit = short.Parse(region);
                 return await context.StoreMasters.Where(x => x.Region == crit).ToListAsync();
+            }
+        }
+
+        public async Task<bool> LogStoreSession(short storeNum)
+        {
+            using(var context = new WebMasterModel())
+            {
+                try
+                {
+                    context.StoreSessionLogs.Add(new StoreSessionLog
+                    {
+                        StoreNumber = storeNum,
+                        Timestamp = DateTime.Now
+                    });
+
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
     }

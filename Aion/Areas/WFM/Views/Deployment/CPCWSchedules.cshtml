@@ -12,6 +12,7 @@
             <div class="col-2 text-right" style="padding-top:7px;"><strong>Select Store</strong></div>
             <div class="col-5">
                 <select class="form-control" data-val="true" data-val-required="The Select Store field is required." id="SelectedStore" name="s" onchange="this.form.submit();">
+                    <option value="">- Please select a Store -</option>
                     @foreach (var item in Model.storeList)
                     {
                         <option value=@item.Value selected=@(item.Selected)>@item.Text</option>
@@ -26,7 +27,7 @@
                 <div class="col-5">
                     <select class="form-control" data-val="true" data-val-required="The Select Date field is required." id="SelectedDate" name="SelectedDate" onchange="this.form.submit();">
                         @foreach (var item in Model.WeeksOfYear)
-                    {
+                        {
                             <option value=@item.Value selected=@(item.Selected)>@item.Text</option>
                         }
                     </select>

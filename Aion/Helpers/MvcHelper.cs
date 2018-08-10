@@ -66,6 +66,9 @@ namespace Aion.Helpers
                     }
                 }
 
+#if !DEBUG
+                var s = Task.Run(() => _storeManager.LogStoreSession(storeList.First().StoreNumber));
+#endif
                 var u = Task.Run(() => _storeManager.GetStoreMenu(storeList.Select(x => x.StoreNumber).ToArray()));
                 var menuList = u.Result;
 
