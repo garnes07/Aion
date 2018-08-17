@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
-    public class ECSummaryVm : BaseVm
+    public class TOWSummaryVm : BaseVm
     {
         public List<vw_Top100CreditSummary> collection { get; set; }
 

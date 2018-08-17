@@ -35,11 +35,11 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_IncorrectVacancies> vw_IncorrectVacancies { get; set; }
         public virtual DbSet<IncorrectVacancy> IncorrectVacancies { get; set; }
         public virtual DbSet<vw_VacancyRequestsAdmin> vw_VacancyRequestsAdmin { get; set; }
-        public virtual DbSet<WFM_EMPLOYEE_INFO_UNEDITED> WFM_EMPLOYEE_INFO_UNEDITED { get; set; }
-        public virtual DbSet<WFM_FUTURE_DATED> WFM_FUTURE_DATED { get; set; }
         public virtual DbSet<vw_OfferApprovals> vw_OfferApprovals { get; set; }
         public virtual DbSet<OfferApproval> OfferApprovals { get; set; }
         public virtual DbSet<OfferComment> OfferComments { get; set; }
+        public virtual DbSet<WFM_EMPLOYEE_INFO_UNEDITED> WFM_EMPLOYEE_INFO_UNEDITED { get; set; }
+        public virtual DbSet<WFM_FUTURE_DATED> WFM_FUTURE_DATED { get; set; }
     
         public virtual ObjectResult<sp_GetRecruitmentDetailCPW_Result> sp_GetRecruitmentDetailCPW(Nullable<short> storeNum)
         {

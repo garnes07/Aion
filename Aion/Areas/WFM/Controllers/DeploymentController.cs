@@ -48,6 +48,51 @@ namespace Aion.Areas.WFM.Controllers
             _openingTimesManager = new OpeningTimesManager();
         }
 
+        public async Task<ActionResult> Dashboard(string c = "e_0")
+        {
+            string[] input = c.Split('_');
+            byte period = byte.Parse(input[1]);
+            DeploymentDashVm vm = new DeploymentDashVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashByStore(input[0], period, selectCrit);
+                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankByStore(input[0], period, selectCrit);
+                    if (vm.storeCollection.Any())
+                    {
+                        vm.selectedDate = string.Format("{0}_{1}", vm.storeCollection.FirstOrDefault().Year,
+                            vm.storeCollection.FirstOrDefault().Period);
+                        vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == vm.selectedDate);
+                        vm.setMenus(2);
+                    }
+                    vm.DisplayLevel = 2;
+                    break;
+                case "R":
+                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashByRegion(input[0], period, selectCrit);
+                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankByRegion(input[0], period, selectCrit);
+                    if (vm.storeCollection.Any())
+                    {
+                        vm.selectedDate = string.Format("{0}_{1}", vm.storeCollection.FirstOrDefault().Year,
+                            vm.storeCollection.FirstOrDefault().Period);
+                        vm.WeeksOfYear.ForEach(x => x.Selected = x.Value == vm.selectedDate);
+                        vm.setMenus(2);
+                    }
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+                case "C":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }                      
+
+            return View(vm);
+        }
+
         public async Task<ActionResult> Summary(string c = "e_0")
         {
             string[] input = c.Split('_');
@@ -58,7 +103,7 @@ namespace Aion.Areas.WFM.Controllers
             {
                 case "S":
                     vm.collection = await _dashDataManager.GetDeploymentSummaryStore(input[0], period, selectCrit);
-                    vm.DisplayLevel = 1;
+                    vm.DisplayLevel = 2;
                     break;
                 case "R":
                     vm.collection = await _dashDataManager.GetDeploymentSummaryRegion(input[0], period, selectCrit);
@@ -87,13 +132,13 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> Detail(string selectedDate = "Last Week")
         {
-            //if (selectArea == "S")
-            //{
-            //    if (await _dashDataManager.CheckTop100(selectCrit))
-            //    {
-            //        return RedirectToAction("DetailEC", new { selectedDate = selectedDate });
-            //    }
-            //}
+            if (selectArea == "S")
+            {
+                if (await _dashDataManager.CheckTop100(selectCrit))
+                {
+                    return RedirectToAction("DetailTOW", new { selectedDate = selectedDate });
+                }
+            }
             if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
             {
                 return RedirectToAction("DetailPilot", new { selectedDate = selectedDate });
@@ -167,7 +212,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> DetailEC(string selectedDate = "Last Week")
+        public async Task<ActionResult> DetailTOW(string selectedDate = "Last Week")
         {
             if(selectArea != "S")
             {
@@ -178,7 +223,7 @@ namespace Aion.Areas.WFM.Controllers
                 return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }
 
-            DeploymentDetailECVm vm = new DeploymentDetailECVm();
+            DeploymentDetailTOWVm vm = new DeploymentDetailTOWVm();
             int weekNum = selectedDate.GetWeekNumber();
             
             vm.WeekData = await _dashDataManager.GetStoreDashDataTop100(selectCrit, weekNum);
@@ -194,9 +239,9 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> ECSummary(string selectedDate = "Next Week")
+        public async Task<ActionResult> TOWSummary(string selectedDate = "Next Week")
         {
-            ECSummaryVm vm = new ECSummaryVm();
+            TOWSummaryVm vm = new TOWSummaryVm();
 
             int weekNum = selectedDate.GetWeekNumber();
 

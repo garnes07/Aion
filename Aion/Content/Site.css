@@ -381,3 +381,7 @@ i.info-button{
 .no-border td{
     border-top: 0px;
 }
+
+.btn-circle{
+    border-radius: 50%;
+}

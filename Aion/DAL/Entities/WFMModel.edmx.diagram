@@ -43,7 +43,6 @@
         <EntityTypeShape EntityType="WFMMContext.vw_4WeekSummary_Pilot" Width="1.5" PointX="7.375" PointY="19.75" />
         <EntityTypeShape EntityType="WFMMContext.OpeningTimesComment" Width="1.5" PointX="9.625" PointY="20.625" />
         <AssociationConnector Association="WFMMContext.FK_StoreOpeningTimes" />
-        <EntityTypeShape EntityType="WFMMContext.WFM_EMPLOYEE_INFO" Width="1.5" PointX="19.375" PointY="12.75" />
         <EntityTypeShape EntityType="WFMMContext.AvailabilityDay" Width="1.5" PointX="22.25" PointY="20.25" />
         <EntityTypeShape EntityType="WFMMContext.AvailabilityPattern" Width="1.5" PointX="20" PointY="20" />
         <EntityTypeShape EntityType="WFMMContext.vw_AvailabilityPattern" Width="1.5" PointX="25" PointY="19.875" />
@@ -79,6 +78,11 @@
         <EntityTypeShape EntityType="WFMMContext.vw_RFTP_Notifications" Width="1.5" PointX="25.375" PointY="11.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_CPCWSchedules" Width="1.5" PointX="14.375" PointY="25.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_CPCWStoreList" Width="1.5" PointX="25.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_DivisionDeploymentDash" Width="1.5" PointX="0.75" PointY="26.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_RegionDeploymentDash" Width="1.5" PointX="2.75" PointY="26.75" />
+        <EntityTypeShape EntityType="WFMMContext.WFM_EMPLOYEE_INFO" Width="1.5" PointX="20.375" PointY="26.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_StoreDeploymentDash" Width="1.5" PointX="9.375" PointY="26.75" />
+        <EntityTypeShape EntityType="WFMMContext.vw_StoreDeploymentRank" Width="1.5" PointX="11.375" PointY="26.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

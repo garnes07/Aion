@@ -1,8 +1,8 @@
 ﻿@using Aion.ViewModels
-@model Aion.Areas.WFM.ViewModels.Deployment.ECSummaryVm
+@model Aion.Areas.WFM.ViewModels.Deployment.TOWSummaryVm
 
 @{
-    ViewBag.Title = "Every Customer";
+    ViewBag.Title = "Top 100 Weekend";
 
     Func<string, string> GetRAGClass = (i) =>
     {
@@ -27,16 +27,16 @@
             </div>
         </div>
     }
-    <div class="card">
+    @*<div class="card">
         <div class="card-header text-center">
             <strong>Every Customer Credits</strong>
         </div>
         <div class="card-body">
             <p>Stuff...</p>
         </div>
-    </div>
+    </div>*@
 
-    @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "ECSummary", Controller = "Deployment", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
+    @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "TOWSummary", Controller = "Deployment", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
 
     <table class="table table-bordered table-sm table-smtxtperm">
         <thead class="thead-blue text-center">
@@ -49,13 +49,13 @@
                 <th colspan="2">Overall</th>
             </tr>
             <tr>
-                <th>Required<br />Hours</th>
-                <th>Max Credit<br />Available</th>
+                <th>Normal<br />Hours<br />Required</th>
+                <th>Extra<br />Credit<br />Available</th>
                 <th>Actual<br />Hours</th>
                 <th>Actual Credit<br />Used</th>
                 <th>RAG</th>
-                <th>Required<br />Hours</th>
-                <th>Max Credit<br />Available</th>
+                <th>Normal<br />Hours<br />Required</th>
+                <th>Extra<br />Credit<br />Available</th>
                 <th>Actual<br />Hours</th>
                 <th>Actual Credit<br />Used</th>
                 <th>RAG</th>

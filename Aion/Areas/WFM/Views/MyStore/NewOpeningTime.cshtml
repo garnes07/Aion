@@ -10,7 +10,7 @@
             <strong>Submit Change</strong>
         </div>
         <div class="card-body">
-            <div class="alert alert-info text-center"><strong>Do not use this form for submitting peak trading hours. Please go back and review the time shown at the bottom of the page.</strong></div>
+            <div class="alert alert-info text-center"><strong>Do not use this form for submitting peak/exceptional trading hours. Please go back and review the time shown at the bottom of the page.</strong></div>
             @using (Html.BeginForm("SubmitChange", "MyStore", null, FormMethod.Post, new { id = "changeTimeDateForm" }))
             {
             @Html.AntiForgeryToken()

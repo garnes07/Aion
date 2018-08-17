@@ -169,7 +169,7 @@ function checkTotals(position) {
             $('#notesError').addClass('d-none');
             $('#notes').removeClass('border-danger');
         }
-        else if (positionTotal > allowance || warningBase) {
+        else if (positionTotal > allowance * 1.15 || warningBase) {
             approvalResult = 'ion-alert text-warning';
             approvalVal = "review";
             if (rowErrors.indexOf(position) != -1) {

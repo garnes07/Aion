@@ -209,11 +209,12 @@
     <Compile Include="Areas\WFM\Models\RFTP\SAAnswers.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\AvlbltySummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\CPCWScheduleVm.cs" />
-    <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailECVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDashVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailTOWVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailPilotVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentSummaryVm.cs" />
-    <Compile Include="Areas\WFM\ViewModels\Deployment\ECSummaryVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\TOWSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\FootfallVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\SOHBudgetsVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\UpdateAvlbltyVm.cs" />
@@ -606,6 +607,9 @@
     <Compile Include="DAL\Entities\vw_DeploymentStatus.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_DivisionDeploymentDash.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_EditedClocks.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -639,6 +643,9 @@
     <Compile Include="DAL\Entities\vw_PublishedBudgetsUK.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_RegionDeploymentDash.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_RFTP_Notifications.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -658,6 +665,12 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_StoreContractStatus.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_StoreDeploymentDash.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_StoreDeploymentRank.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_StoreLocations.cs">
@@ -1151,14 +1164,16 @@
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsChain.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsDivision.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_DeploymentSwingsRegion.cshtml" />
-    <Content Include="Areas\WFM\Views\Deployment\DetailEC.cshtml" />
-    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailStoreEC.cshtml" />
-    <Content Include="Areas\WFM\Views\Deployment\ECSummary.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\DetailTOW.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DetailStoreTOW.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\TOWSummary.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\SelfAssessment.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\ActionPlan.cshtml" />
     <Content Include="Areas\WFM\Views\RFTP\SelfAssessmentForm.cshtml" />
     <Content Include="Areas\WFM\Views\RFTPTracking\Partials\_rftpNotifications.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\CPCWSchedules.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Dashboard.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DashRegion.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1453,6 +1468,7 @@
     <Content Include="Views\Home\STARHandbook.cshtml" />
     <Content Include="Uploads\NewWebsiteNavigation.pdf" />
     <Content Include="Uploads\RFTPSecondUserBrief.pdf" />
+    <Content Include="Uploads\HolidayGuidance.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\WFM\Views\MyStore\Partials\" />

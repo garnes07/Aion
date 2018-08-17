@@ -49,6 +49,9 @@ namespace Aion.DAL.Entities
         public string ReviewedBy { get; set; }
         public Nullable<System.DateTime> ReviewedDate { get; set; }
         public bool Archived { get; set; }
+        public bool Emailed { get; set; }
+        public string Applicant_Email { get; set; }
+        public Nullable<int> Candidate_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OfferComment> OfferComments { get; set; }

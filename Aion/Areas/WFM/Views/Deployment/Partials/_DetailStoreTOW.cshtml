@@ -1,4 +1,4 @@
-﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDetailECVm
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDetailTOWVm
 
 @{
     DateTime Today = Model.StoreData.LastUpdated ?? DateTime.Today;
@@ -174,7 +174,7 @@
                     <td class="text-center">@Model.GetAdvice(Model.DailyData.SaturdayMove, 7)</td>
                 </tr>
                 <tr class="table-success font-weight-bold">
-                    <td>Every Customer Credits Available</td>
+                    <td>TOW Credits Available</td>
                     <td class="text-center">@(Model.DailyData.SundayReq - (double?)Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit > Model.DailyData.SundayCredit ? Model.DailyData.SundayCredit : (Model.DailyData.SundayReq - (double?)Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit < 0 ? 0 : Math.Round(((double)Model.DailyData.SundayReq - (double)Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit) *4,0)/4))</td>
                     <td></td>
                     <td></td>

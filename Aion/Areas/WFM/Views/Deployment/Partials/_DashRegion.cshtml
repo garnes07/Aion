@@ -1,0 +1,71 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDashVm
+
+<div class="row justify-content-center my-2">
+    <ul class="nav nav-pills nav-fill" role="tablist" id="dTabs">
+        @foreach (var week in Model.WeekNumbers)
+        {
+            <li role="presentation" class="nav-item">
+                <a class="nav-link @(week == Model.MaxWeek ? "active" : "")" href="#@(week != null ? week.ToString() : "period")" aria-controls="home" role="tab" data-toggle="tab">
+                    @(week != null ? string.Format("Wk {0}", week.ToString().Substring(4)) : "Period")
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+<div class="tab-content">
+    @foreach (var week in Model.WeekNumbers)
+    {
+        <div role="tabpanel" id="@(week != null ? week.ToString() : "period")" class="tab-pane fade @(week == Model.MaxWeek ? "show active" : "")">
+            <div class="container-fluid mt-1">
+                <table class="table table-bordered table-sm" id="@("table_" + week)">
+                    <thead class="thead-blue">
+                        <tr>
+                            <th style="width:30%;" class="text-center" rowspan="3"></th>
+                            <th class="sort text-center" data-target="@("table_" + week)" style="width:10%;" rowspan="3">Rank</th>
+                            <th style="width:10%;" class="text-center" rowspan="3">Budget<br />Fit</th>
+                            <th style="width:10%;" class="text-center" rowspan="3">Customer<br />Fit</th>
+                            <th class="text-center" colspan="4">Opportunities</th>
+                        </tr>
+                        <tr>
+                            <th style="width:10%;" class="text-center"><small>Planning Ahead</small></th>
+                            <th style="width:10%;" class="text-center"><small>Recruitment</small></th>
+                            <th style="width:10%;" class="text-center"><small>Absence</small></th>
+                            <th style="width:10%;" class="text-center"><small>GM Working</small></th>
+                        </tr>
+                        <tr>
+                            <th class="text-center"><small>Scheduled SOH</small></th>
+                            <th class="text-center"><small>Contract base &amp; open vacancies</small></th>
+                            <th class="text-center"><small>Holidays approved</small></th>
+                            <th class="text-center"><small>Power Hours</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var store in Model.StoreList)
+                        {
+                            var storeData = Model.storeCollection.FirstOrDefault(x => x.WeekNumber == week && x.StoreNumber == store);
+                            var storeRank = Model.storeRankCollection.FirstOrDefault(x => x.WeekNumber == week && x.StoreNumber == store);
+                            <tr class="text-center">
+                                <td data-storenum="@storeData.StoreNumber" class="text-left">@string.Format("{0} - {1}", storeData.StoreNumber, storeData.StoreName)</td>
+                                <td>@storeRank.Rank</td>
+                                <td>@storeRank.BudgetFit</td>
+                                <td>@storeRank.CustomerFit</td>
+                                <td>
+                                    <a href="/WFM/FuturePlanning/DeploymentStatus" class="btn btn-sm btn-circle @(storeData.PlanningAhead == "R" ? "btn-danger" : (storeData.PlanningAhead == "A" ? "btn-warning" : "btn-success"))">&emsp;</a>
+                                </td>
+                                <td>
+                                    <a href="/WFM/FuturePlanning/RecruitmentStatus" class="btn btn-sm btn-circle @(storeData.Recruitment == "R" ? "btn-danger" : (storeData.Recruitment == "A" ? "btn-warning" : "btn-success"))">&emsp;</a>
+                                </td>
+                                <td>
+                                    <a href="/WFM/Deployment/HolidayPlanning" class="btn btn-sm btn-circle @(storeData.Absence == "R" ? "btn-danger" : (storeData.Absence == "A" ? "btn-warning" : "btn-success"))">&emsp;</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-circle @(storeData.GMWorking == "R" ? "btn-danger" : (storeData.GMWorking == "A" ? "btn-warning" : "btn-success"))">&emsp;</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

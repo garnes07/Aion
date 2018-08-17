@@ -45,5 +45,9 @@ namespace Aion.DAL.IManagers
         Task<List<vw_SOHSwings>> GetSOHSwingsRegion(string region);
         Task<bool> CheckTop100(string store);
         Task<List<vw_Top100CreditSummary>> GetCreditSummaryWeek(int weekOfYr);
+        Task<List<vw_StoreDeploymentDash>> GetStoreDeploymentDashByStore(string year, byte period, string store);
+        Task<List<vw_StoreDeploymentDash>> GetStoreDeploymentDashByRegion(string year, byte period, string region);
+        Task<List<vw_StoreDeploymentRank>> GetStoreDeploymentRankByStore(string year, byte period, string store);
+        Task<List<vw_StoreDeploymentRank>> GetStoreDeploymentRankByRegion(string year, byte period, string region);
     }
 }

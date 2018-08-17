@@ -81,6 +81,9 @@
           <Property Name="ReviewedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ReviewedDate" Type="datetime" />
           <Property Name="Archived" Type="bit" Nullable="false" />
+          <Property Name="Emailed" Type="bit" Nullable="false" />
+          <Property Name="Applicant Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Candidate ID" Type="int" />
         </EntityType>
         <EntityType Name="OfferComments">
           <Key>
@@ -165,7 +168,7 @@
           <Property Name="Perm/Temp" Type="nvarchar" MaxLength="50" />
           <Property Name="Emp Class" Type="nvarchar" MaxLength="25" />
           <Property Name="Retail Old TCs" Type="nvarchar" MaxLength="10" />
-          <Property Name="NewDeptID" Type="smallint" />
+          <Property Name="NewDeptID" Type="int" />
           <Property Name="CostCentre" Type="smallint" />
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="250" />
         </EntityType>
@@ -575,8 +578,6 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
             <End Role="VacancyPosition" EntitySet="VacancyPositions" />
             <End Role="vw_VacancyRequestsAdmin" EntitySet="vw_VacancyRequestsAdmin" />
           </AssociationSet>
-          <EntitySet Name="WFM_EMPLOYEE_INFO_UNEDITED" EntityType="VacancyModel.WFM_EMPLOYEE_INFO_UNEDITED" />
-          <EntitySet Name="WFM_FUTURE_DATED" EntityType="VacancyModel.WFM_FUTURE_DATED" />
           <EntitySet Name="vw_OfferApprovals" EntityType="VacancyModel.vw_OfferApprovals" />
           <EntitySet Name="OfferApprovals" EntityType="VacancyModel.OfferApproval" />
           <EntitySet Name="OfferComments" EntityType="VacancyModel.OfferComment" />
@@ -588,6 +589,8 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
             <End Role="OfferComment" EntitySet="OfferComments" />
             <End Role="vw_OfferApprovals" EntitySet="vw_OfferApprovals" />
           </AssociationSet>
+          <EntitySet Name="WFM_EMPLOYEE_INFO_UNEDITED" EntityType="VacancyModel.WFM_EMPLOYEE_INFO_UNEDITED" />
+          <EntitySet Name="WFM_FUTURE_DATED" EntityType="VacancyModel.WFM_FUTURE_DATED" />
         </EntityContainer>
         <EntityType Name="RequestComment">
           <Key>
@@ -843,62 +846,6 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="WFM_EMPLOYEE_INFO_UNEDITED">
-          <Key>
-            <PropertyRef Name="Alternate_ID" />
-          </Key>
-          <Property Name="Legal_Entity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Chain" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Alternate_ID" Type="Int32" Nullable="false" />
-          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Birthdate" Type="DateTime" Precision="0" />
-          <Property Name="Grade" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="JobCode" Type="Int16" />
-          <Property Name="Job_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Std_Hrs_Wk" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="Hrly_Rate" Type="Double" />
-          <Property Name="Annual_Rt" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="Hire_Date" Type="DateTime" Precision="0" />
-          <Property Name="Perm_Temp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Emp_Class" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Retail_Old_TCs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="NewDeptID" Type="Int16" />
-          <Property Name="CostCentre" Type="Int16" />
-          <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="WFM_FUTURE_DATED">
-          <Key>
-            <PropertyRef Name="EntryId" />
-          </Key>
-          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Legal_Entity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Chain" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Alternate_ID" Type="Int32" />
-          <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Birthdate" Type="DateTime" Precision="0" />
-          <Property Name="Grade" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Job_Code" Type="Int16" />
-          <Property Name="Job_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Std_Hrs_Wk" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="Hrly_Rate" Type="Double" />
-          <Property Name="Annual_Rt" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="Hire_Date" Type="DateTime" Precision="0" />
-          <Property Name="Termination_Date" Type="DateTime" Precision="0" />
-          <Property Name="Perm_Temp" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Effective_Date_of_Change" Type="DateTime" Precision="0" />
-          <Property Name="NewDeptID" Type="Int16" />
-          <Property Name="CostCentre" Type="Int16" />
-          <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="vw_OfferApprovals">
           <Key>
             <PropertyRef Name="Application_ID" />
@@ -968,6 +915,9 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           <Property Name="ReviewedDate" Type="DateTime" Precision="3" />
           <Property Name="Archived" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="OfferComments" Relationship="VacancyModel.FK_OfferComments_OfferApprovals" FromRole="OfferApproval" ToRole="OfferComment" />
+          <Property Name="Emailed" Type="Boolean" Nullable="false" />
+          <Property Name="Applicant_Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Candidate_ID" Type="Int32" />
         </EntityType>
         <EntityType Name="OfferComment">
           <Key>
@@ -1008,6 +958,62 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WFM_EMPLOYEE_INFO_UNEDITED">
+          <Key>
+            <PropertyRef Name="Alternate_ID" />
+          </Key>
+          <Property Name="Legal_Entity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Chain" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Alternate_ID" Type="Int32" Nullable="false" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthdate" Type="DateTime" Precision="0" />
+          <Property Name="Grade" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="JobCode" Type="Int16" />
+          <Property Name="Job_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Std_Hrs_Wk" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="Hrly_Rate" Type="Double" />
+          <Property Name="Annual_Rt" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Hire_Date" Type="DateTime" Precision="0" />
+          <Property Name="Perm_Temp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Emp_Class" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Retail_Old_TCs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="NewDeptID" Type="Int32" />
+          <Property Name="CostCentre" Type="Int16" />
+          <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="WFM_FUTURE_DATED">
+          <Key>
+            <PropertyRef Name="EntryId" />
+          </Key>
+          <Property Name="EntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Legal_Entity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Chain" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Alternate_ID" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthdate" Type="DateTime" Precision="0" />
+          <Property Name="Grade" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Job_Code" Type="Int16" />
+          <Property Name="Job_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Std_Hrs_Wk" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="Hrly_Rate" Type="Double" />
+          <Property Name="Annual_Rt" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Hire_Date" Type="DateTime" Precision="0" />
+          <Property Name="Termination_Date" Type="DateTime" Precision="0" />
+          <Property Name="Perm_Temp" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Effective_Date_of_Change" Type="DateTime" Precision="0" />
+          <Property Name="NewDeptID" Type="Int16" />
+          <Property Name="CostCentre" Type="Int16" />
+          <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1225,6 +1231,91 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="vw_OfferApprovals">
+            <EntityTypeMapping TypeName="VacancyModel.vw_OfferApprovals">
+              <MappingFragment StoreEntitySet="vw_OfferApprovals">
+                <ScalarProperty Name="ReviewedDate" ColumnName="ReviewedDate" />
+                <ScalarProperty Name="ReviewedBy" ColumnName="ReviewedBy" />
+                <ScalarProperty Name="Rejected" ColumnName="Rejected" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="Applicant_Name" ColumnName="Applicant Name" />
+                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
+                <ScalarProperty Name="Contract_End_Date" ColumnName="Contract End Date" />
+                <ScalarProperty Name="Contracted_Hours" ColumnName="Contracted Hours" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
+                <ScalarProperty Name="Application_ID" ColumnName="Application ID" />
+                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
+                <ScalarProperty Name="Contract_Type" ColumnName="Contract Type" />
+                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
+                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
+                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
+                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
+                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
+                <ScalarProperty Name="Job_Req_Id" ColumnName="Job Req Id" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OfferApprovals">
+            <EntityTypeMapping TypeName="VacancyModel.OfferApproval">
+              <MappingFragment StoreEntitySet="OfferApprovals">
+                <ScalarProperty Name="Candidate_ID" ColumnName="Candidate ID" />
+                <ScalarProperty Name="Applicant_Email" ColumnName="Applicant Email" />
+                <ScalarProperty Name="Emailed" ColumnName="Emailed" />
+                <ScalarProperty Name="Archived" ColumnName="Archived" />
+                <ScalarProperty Name="ReviewedDate" ColumnName="ReviewedDate" />
+                <ScalarProperty Name="ReviewedBy" ColumnName="ReviewedBy" />
+                <ScalarProperty Name="Rejected" ColumnName="Rejected" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="Applicant_Name" ColumnName="Applicant Name" />
+                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
+                <ScalarProperty Name="Contract_End_Date" ColumnName="Contract End Date" />
+                <ScalarProperty Name="Contracted_Hours" ColumnName="Contracted Hours" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
+                <ScalarProperty Name="Application_ID" ColumnName="Application ID" />
+                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
+                <ScalarProperty Name="Contract_Type" ColumnName="Contract Type" />
+                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
+                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
+                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
+                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
+                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
+                <ScalarProperty Name="Job_Req_Id" ColumnName="Job Req Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OfferComments">
+            <EntityTypeMapping TypeName="VacancyModel.OfferComment">
+              <MappingFragment StoreEntitySet="OfferComments">
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredOn" ColumnName="EnteredOn" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CommentType" ColumnName="CommentType" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="WFM_EMPLOYEE_INFO_UNEDITED">
             <EntityTypeMapping TypeName="VacancyModel.WFM_EMPLOYEE_INFO_UNEDITED">
               <MappingFragment StoreEntitySet="WFM_EMPLOYEE_INFO_UNEDITED">
@@ -1279,88 +1370,6 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
                 <ScalarProperty Name="Dept" ColumnName="Dept" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="Legal_Entity" ColumnName="Legal Entity" />
-                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vw_OfferApprovals">
-            <EntityTypeMapping TypeName="VacancyModel.vw_OfferApprovals">
-              <MappingFragment StoreEntitySet="vw_OfferApprovals">
-                <ScalarProperty Name="ReviewedDate" ColumnName="ReviewedDate" />
-                <ScalarProperty Name="ReviewedBy" ColumnName="ReviewedBy" />
-                <ScalarProperty Name="Rejected" ColumnName="Rejected" />
-                <ScalarProperty Name="Approved" ColumnName="Approved" />
-                <ScalarProperty Name="Applicant_Name" ColumnName="Applicant Name" />
-                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
-                <ScalarProperty Name="Contract_End_Date" ColumnName="Contract End Date" />
-                <ScalarProperty Name="Contracted_Hours" ColumnName="Contracted Hours" />
-                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
-                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
-                <ScalarProperty Name="Application_ID" ColumnName="Application ID" />
-                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
-                <ScalarProperty Name="Contract_Type" ColumnName="Contract Type" />
-                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
-                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
-                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
-                <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
-                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
-                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
-                <ScalarProperty Name="Job_Req_Id" ColumnName="Job Req Id" />
-                <ScalarProperty Name="RowId" ColumnName="RowId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OfferApprovals">
-            <EntityTypeMapping TypeName="VacancyModel.OfferApproval">
-              <MappingFragment StoreEntitySet="OfferApprovals">
-                <ScalarProperty Name="Archived" ColumnName="Archived" />
-                <ScalarProperty Name="ReviewedDate" ColumnName="ReviewedDate" />
-                <ScalarProperty Name="ReviewedBy" ColumnName="ReviewedBy" />
-                <ScalarProperty Name="Rejected" ColumnName="Rejected" />
-                <ScalarProperty Name="Approved" ColumnName="Approved" />
-                <ScalarProperty Name="Applicant_Name" ColumnName="Applicant Name" />
-                <ScalarProperty Name="Last_Modified" ColumnName="Last Modified" />
-                <ScalarProperty Name="Contract_End_Date" ColumnName="Contract End Date" />
-                <ScalarProperty Name="Contracted_Hours" ColumnName="Contracted Hours" />
-                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
-                <ScalarProperty Name="Date_Created" ColumnName="Date Created" />
-                <ScalarProperty Name="Application_ID" ColumnName="Application ID" />
-                <ScalarProperty Name="Hiring_Manager" ColumnName="Hiring Manager" />
-                <ScalarProperty Name="Contract_Type" ColumnName="Contract Type" />
-                <ScalarProperty Name="Job_Role" ColumnName="Job Role" />
-                <ScalarProperty Name="Job_Code" ColumnName="Job Code" />
-                <ScalarProperty Name="Cost_Centre" ColumnName="Cost Centre" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Store_Number" ColumnName="Store Number" />
-                <ScalarProperty Name="Department" ColumnName="Department" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="Division" ColumnName="Division" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Business_Unit" ColumnName="Business Unit" />
-                <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="Reason_for_Vacancy" ColumnName="Reason for Vacancy" />
-                <ScalarProperty Name="Colleague_Classification" ColumnName="Colleague Classification" />
-                <ScalarProperty Name="Position_Number" ColumnName="Position Number" />
-                <ScalarProperty Name="Job_Req_Id" ColumnName="Job Req Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OfferComments">
-            <EntityTypeMapping TypeName="VacancyModel.OfferComment">
-              <MappingFragment StoreEntitySet="OfferComments">
-                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
-                <ScalarProperty Name="EnteredOn" ColumnName="EnteredOn" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="CommentType" ColumnName="CommentType" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
               </MappingFragment>
             </EntityTypeMapping>

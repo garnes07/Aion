@@ -33,7 +33,7 @@ namespace Aion.DAL.Entities
         public string Perm_Temp { get; set; }
         public string Emp_Class { get; set; }
         public string Retail_Old_TCs { get; set; }
-        public Nullable<short> NewDeptID { get; set; }
+        public Nullable<int> NewDeptID { get; set; }
         public Nullable<short> CostCentre { get; set; }
         public string EmailAddress { get; set; }
     }

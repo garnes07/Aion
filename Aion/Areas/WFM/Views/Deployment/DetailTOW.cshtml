@@ -1,5 +1,5 @@
 ﻿@using Aion.ViewModels
-@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDetailECVm
+@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDetailTOWVm
 
 @{
     ViewBag.Title = "Deployment Detail";
@@ -24,6 +24,9 @@
                 When looking at the current and future weeks in the below report the SOH spend is calculated based on your schedules as they currently exist in STAR. Schedule information is refreshed overnight each day so if you have made improvements to these schedules check back the following day to see your new score.<br />
                 <strong>Note: </strong>The SOH spend for the previous week is not published until <u>Tuesday AM</u> to allow for sign off and data validation, before this time the schedule information will continue to be shown.
             </p>
+            <div class="row justify-content-center">
+                <a class="btn btn-info btn-lg" href="/WFM/Deployment/TOWSummary">Top 100 Weekend Summary</a>
+            </div>
         </div>
     </div>
 
@@ -35,7 +38,7 @@
     }
     else
     {
-        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DetailStoreEC.cshtml")
+        @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DetailStoreTOW.cshtml")
     }
 </div>
 

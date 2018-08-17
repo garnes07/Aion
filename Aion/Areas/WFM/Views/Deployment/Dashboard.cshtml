@@ -1,0 +1,123 @@
+﻿@using Aion.ViewModels
+@model Aion.Areas.WFM.ViewModels.Deployment.DeploymentDashVm
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    <div class="card">
+        <div class="card-header text-center">
+            <div class="row justify-content-end">
+                <strong class="col-4">Deployment Dashboard</strong>
+                <div class="col-4">
+                    <label class="switch float-right">
+                        <input type="checkbox" id="advView" />
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="float-right adv-label">Sort by Rank</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-center mb-1">
+                <div class="col-sm-4 col-11">
+                    @using (Html.BeginForm("Dashboard", "Deployment", new { crit = Model.selectedDate }, FormMethod.Get))
+                    {
+                        @Html.DropDownList("c", Model.WeeksOfYear, new { onchange = "this.form.submit();", @class = "form-control" })
+                    }                                     
+                </div>
+            </div>
+            @if (Model.MessageType == MessageType.Error)
+            {
+                <div class="alert alert-warning text-center mt-3"><strong>@Model.Message</strong></div>
+            }
+            else
+            {
+                if (Model.DisplayLevel == 2)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DashRegion.cshtml")
+                }
+                else if (Model.DisplayLevel == 3)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DashDivision.cshtml")
+                }
+                else if (Model.DisplayLevel == 4)
+                {
+                    @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_DashChain.cshtml")
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section myScripts{
+<script>
+    var sorted = false;
+    
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById(n);
+        switching = true;
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 3; i < (rows.length - 1) ; i++) {
+                if (!sorted) {
+                    // Start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = rows[i].getElementsByTagName("TD")[1];
+                    y = rows[i + 1].getElementsByTagName("TD")[1];
+                    // Check if the two rows should switch place:
+                    if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                else {
+                    // Start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = rows[i].getElementsByTagName("TD")[0];
+                    y = rows[i + 1].getElementsByTagName("TD")[0];
+                    // Check if the two rows should switch place:
+                    if (Number(x.getAttribute('data-storenum')) > Number(y.getAttribute('data-storenum'))) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    };
+    $(function () {
+        $('#advView').click(function () {
+            $('table').each(function () {
+                sortTable(this.id);
+            });
+            sorted = !sorted;
+        });
+    });
+</script>   
+}

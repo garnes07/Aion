@@ -177,7 +177,7 @@ namespace Aion.DAL.Managers
                         Rejected = false,
                         RaisedBy = userName,
                         RaisedDate = DateTime.Now,
-                        Repost = x.Repost,
+                        Repost = true,
                         Replace = x.Action == "replace",
                         Chain = "CPW",
                         Show = true

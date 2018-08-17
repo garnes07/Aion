@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
-    public class DeploymentDetailECVm : BaseVm
+    public class DeploymentDetailTOWVm : BaseVm
     {
         public List<vw_DashboardData_v2_Top100> WeekData { get; set; }
         public vw_DailyDeployment_Top100 DailyData { get; set; }
@@ -170,7 +170,7 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
             return rtn;
         }
 
-        public DeploymentDetailECVm()
+        public DeploymentDetailTOWVm()
         {
             _customerFitScore = -1;
             _totalUnders = -1;

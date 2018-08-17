@@ -1,5 +1,6 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -384,6 +385,116 @@ namespace Aion.DAL.Managers
             using(var context = new WFMModel())
             {
                 return await context.vw_Top100CreditSummary.Where(x => x.WeekNumber == weekOfYr).OrderBy(x => x.Region).ThenBy(x => x.StoreNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_StoreDeploymentDash>> GetStoreDeploymentDashByStore(string year, byte period, string store)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                string _year = year;
+                byte _period = period;
+
+                if(year == "e")
+                {
+                    using(var weekContext = new WebMasterModel())
+                    {
+                        var today = DateTime.Now.ToShortDateString();
+                        var result = await weekContext.WeekRefs.FirstOrDefaultAsync(x => x.DateString == today);
+                        _year = result.FY;
+                        _period = (byte)result.Period;
+                    }
+                }
+
+                var region = (await context.vw_DashboardData_v2.FirstOrDefaultAsync(y => y.StoreNumber == crit)).Region;
+
+                return await context.vw_StoreDeploymentDash
+                .Where(x => x.Region == region && x.Year == _year && x.Period == _period)
+                .OrderBy(x => x.StoreNumber)
+                .ThenBy(x => x.WeekNumber)
+                .ToListAsync();            
+            }
+        }
+
+        public async Task<List<vw_StoreDeploymentDash>> GetStoreDeploymentDashByRegion(string year, byte period, string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                string _year = year;
+                byte _period = period;
+
+                if (year == "e")
+                {
+                    using (var weekContext = new WebMasterModel())
+                    {
+                        var today = DateTime.Now.ToShortDateString();
+                        var result = await weekContext.WeekRefs.FirstOrDefaultAsync(x => x.DateString == today);
+                        _year = result.FY;
+                        _period = (byte)result.Period;
+                    }
+                }
+
+                return await context.vw_StoreDeploymentDash
+                .Where(x => x.Region == crit && x.Year == _year && x.Period == _period)
+                .OrderBy(x => x.StoreNumber)
+                .ThenBy(x => x.WeekNumber)
+                .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_StoreDeploymentRank>> GetStoreDeploymentRankByStore(string year, byte period, string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                string _year = year;
+                byte _period = period;
+
+                if (year == "e")
+                {
+                    using (var weekContext = new WebMasterModel())
+                    {
+                        var today = DateTime.Now.ToShortDateString();
+                        var result = await weekContext.WeekRefs.FirstOrDefaultAsync(x => x.DateString == today);
+                        _year = result.FY;
+                        _period = (byte)result.Period;
+                    }
+                }                
+
+                return await context.vw_StoreDeploymentRank
+                .Where(x => x.Region == context.vw_DashboardData_v2.FirstOrDefault(y => y.StoreNumber == crit).Region && x.Year == _year && x.Period == _period)
+                .OrderBy(x => x.StoreNumber)
+                .ThenBy(x => x.WeekNumber)
+                .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_StoreDeploymentRank>> GetStoreDeploymentRankByRegion(string year, byte period, string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                string _year = year;
+                byte _period = period;
+
+                if (year == "e")
+                {
+                    using (var weekContext = new WebMasterModel())
+                    {
+                        var today = DateTime.Now.ToShortDateString();
+                        var result = await weekContext.WeekRefs.FirstOrDefaultAsync(x => x.DateString == today);
+                        _year = result.FY;
+                        _period = (byte)result.Period;
+                    }
+                }
+
+                return await context.vw_StoreDeploymentRank
+                .Where(x => x.Region == crit && x.Year == _year && x.Period == _period)
+                .OrderBy(x => x.StoreNumber)
+                .ThenBy(x => x.WeekNumber)
+                .ToListAsync();
             }
         }
     }

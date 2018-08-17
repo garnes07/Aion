@@ -62,7 +62,6 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_DashboardData_v2_Pilot> vw_DashboardData_v2_Pilot { get; set; }
         public virtual DbSet<vw_4WeekSummary_Pilot> vw_4WeekSummary_Pilot { get; set; }
         public virtual DbSet<OpeningTimesComment> OpeningTimesComments { get; set; }
-        public virtual DbSet<WFM_EMPLOYEE_INFO> WFM_EMPLOYEE_INFO { get; set; }
         public virtual DbSet<AvailabilityDay> AvailabilityDays { get; set; }
         public virtual DbSet<AvailabilityPattern> AvailabilityPatterns { get; set; }
         public virtual DbSet<vw_AvailabilityPattern> vw_AvailabilityPattern { get; set; }
@@ -91,6 +90,11 @@ namespace Aion.DAL.Entities
         public virtual DbSet<vw_RFTP_Notifications> vw_RFTP_Notifications { get; set; }
         public virtual DbSet<vw_CPCWSchedules> vw_CPCWSchedules { get; set; }
         public virtual DbSet<vw_CPCWStoreList> vw_CPCWStoreList { get; set; }
+        public virtual DbSet<vw_DivisionDeploymentDash> vw_DivisionDeploymentDash { get; set; }
+        public virtual DbSet<vw_RegionDeploymentDash> vw_RegionDeploymentDash { get; set; }
+        public virtual DbSet<WFM_EMPLOYEE_INFO> WFM_EMPLOYEE_INFO { get; set; }
+        public virtual DbSet<vw_StoreDeploymentDash> vw_StoreDeploymentDash { get; set; }
+        public virtual DbSet<vw_StoreDeploymentRank> vw_StoreDeploymentRank { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {
