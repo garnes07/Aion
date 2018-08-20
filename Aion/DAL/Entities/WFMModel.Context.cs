@@ -95,6 +95,7 @@ namespace Aion.DAL.Entities
         public virtual DbSet<WFM_EMPLOYEE_INFO> WFM_EMPLOYEE_INFO { get; set; }
         public virtual DbSet<vw_StoreDeploymentDash> vw_StoreDeploymentDash { get; set; }
         public virtual DbSet<vw_StoreDeploymentRank> vw_StoreDeploymentRank { get; set; }
+        public virtual DbSet<GMPowerHour> GMPowerHours { get; set; }
     
         public virtual ObjectResult<sp_ComplianceSummary_Result> sp_ComplianceSummary(string chain, Nullable<int> period, string year)
         {

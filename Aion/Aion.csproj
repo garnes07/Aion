@@ -242,6 +242,7 @@
     <Compile Include="Areas\WFM\ViewModels\RFTP\SelfAssessmentFormVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\SelfAssessmentVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\TimecardSignOffVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\GMPowerHoursVm.cs" />
     <Compile Include="Areas\WFM\WFMAreaRegistration.cs" />
     <Compile Include="Areas\Workflow\Controllers\FormController.cs" />
     <Compile Include="Areas\Workflow\Controllers\WorkflowController.cs" />
@@ -288,6 +289,9 @@
     </Compile>
     <Compile Include="DAL\Entities\fn_UnmatchedStores_Result.cs">
       <DependentUpon>ROIDashModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\GMPowerHour.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\Group.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -1174,6 +1178,7 @@
     <Content Include="Areas\WFM\Views\Deployment\CPCWSchedules.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Dashboard.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DashRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\GMPowerHours.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

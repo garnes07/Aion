@@ -654,5 +654,14 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+
+        public async Task<ActionResult> GMPowerHours (int weekNum, string store)
+        {
+            GMPowerHoursVm vm = new GMPowerHoursVm();
+
+            vm.collection = await _gmWeWorkingManager.GetGMPowerHours(store, weekNum);
+
+            return View(vm);
+        }
     }
 }

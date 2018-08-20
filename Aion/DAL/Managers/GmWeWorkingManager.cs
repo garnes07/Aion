@@ -45,5 +45,14 @@ namespace Aion.DAL.Managers
                 return await context.vw_GmWeWorking.Where(x => x.Chain == chain && x.StoreNumber == null).ToListAsync();
             }
         }
+
+        public async Task<List<GMPowerHour>> GetGMPowerHours(string store, int weekNum)
+        {
+            using(var context = new WFMModel())
+            {
+                var crit = short.Parse(store);
+                return await context.GMPowerHours.Where(x => x.StoreNumber == crit && x.Week == weekNum).ToListAsync();
+            }
+        }
     }
 }

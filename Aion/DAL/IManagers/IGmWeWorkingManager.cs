@@ -10,5 +10,6 @@ namespace Aion.DAL.Managers
         Task<List<vw_GmWeWorking>> GetGmWorkingRegion(string regionNo);
         Task<List<vw_GmWeWorking>> GetGmWorkingDivision(string division);
         Task<List<vw_GmWeWorking>> GetGmWorkingChain(string chain);
+        Task<List<GMPowerHour>> GetGMPowerHours(string store, int weekNum);
     }
 }

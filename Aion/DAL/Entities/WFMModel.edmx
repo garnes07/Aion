@@ -104,6 +104,24 @@
           <Property Name="WorkedHours" Type="numeric" Precision="6" Scale="2" Nullable="false" />
           <Property Name="ZeroHourFlag" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="GMPowerHours">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="Week" />
+            <PropertyRef Name="Days" />
+            <PropertyRef Name="Hour" />
+          </Key>
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Week" Type="int" Nullable="false" />
+          <Property Name="Days" Type="smallint" Nullable="false" />
+          <Property Name="WeekType" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Hour" Type="time" Precision="0" Nullable="false" />
+          <Property Name="Trade" Type="real" Nullable="false" />
+          <Property Name="Rank" Type="smallint" Nullable="false" />
+          <Property Name="Working" Type="int" Nullable="false" />
+          <Property Name="Holiday" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="HolidayPlanningEmp">
           <Key>
             <PropertyRef Name="EntryId" />
@@ -1361,8 +1379,9 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentRank' does not hav
             <PropertyRef Name="Division" />
             <PropertyRef Name="Region" />
             <PropertyRef Name="StoreName" />
-            <PropertyRef Name="WeekNumber" />
+            
             <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="WeekNumber" />
           </Key>
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -1635,6 +1654,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="DailyDeployment" EntityType="Self.DailyDeployment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EditedClocks" EntityType="Self.EditedClocks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpComplianceDetail" EntityType="Self.EmpComplianceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GMPowerHours" EntityType="Self.GMPowerHours" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HolidayPlanningEmp" EntityType="Self.HolidayPlanningEmp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HrFeed" EntityType="Self.HrFeed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KronosEmployeeSummary" EntityType="Self.KronosEmployeeSummary" Schema="dbo" store:Type="Tables" />
@@ -2615,6 +2635,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="WFM_EMPLOYEE_INFO" EntityType="WFMMContext.WFM_EMPLOYEE_INFO" />
           <EntitySet Name="vw_StoreDeploymentDash" EntityType="WFMMContext.vw_StoreDeploymentDash" />
           <EntitySet Name="vw_StoreDeploymentRank" EntityType="WFMMContext.vw_StoreDeploymentRank" />
+          <EntitySet Name="GMPowerHours" EntityType="WFMMContext.GMPowerHour" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -4167,6 +4188,24 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="CustomerFit" Type="Double" />
           <Property Name="Rank" Type="Int64" />
         </EntityType>
+        <EntityType Name="GMPowerHour">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="Week" />
+            <PropertyRef Name="Days" />
+            <PropertyRef Name="Hour" />
+          </Key>
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Week" Type="Int32" Nullable="false" />
+          <Property Name="Days" Type="Int16" Nullable="false" />
+          <Property Name="WeekType" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Hour" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="Trade" Type="Single" Nullable="false" />
+          <Property Name="Rank" Type="Int16" Nullable="false" />
+          <Property Name="Working" Type="Int32" Nullable="false" />
+          <Property Name="Holiday" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5588,6 +5627,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GMPowerHours">
+            <EntityTypeMapping TypeName="WFMMContext.GMPowerHour">
+              <MappingFragment StoreEntitySet="GMPowerHours">
+                <ScalarProperty Name="Holiday" ColumnName="Holiday" />
+                <ScalarProperty Name="Working" ColumnName="Working" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Trade" ColumnName="Trade" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
+                <ScalarProperty Name="WeekType" ColumnName="WeekType" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Week" ColumnName="Week" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

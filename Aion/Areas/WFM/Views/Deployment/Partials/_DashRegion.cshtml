@@ -59,7 +59,7 @@
                                     <a href="/WFM/Deployment/HolidayPlanning" class="btn btn-sm btn-circle @(storeData.Absence == "R" ? "btn-danger" : (storeData.Absence == "A" ? "btn-warning" : "btn-success"))">&emsp;</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-sm btn-circle @(storeData.GMWorking == "R" ? "btn-danger" : (storeData.GMWorking == "A" ? "btn-warning" : "btn-success"))">&emsp;</a>
+                                    <a href="@Url.Action("GMPowerHours", "Deployment", new { area = "WFM", store = store, weekNum = week })" class="btn btn-sm btn-circle @(storeData.GMWorking == "R" ? "btn-danger" : (storeData.GMWorking == "A" ? "btn-warning" : "btn-success"))">&emsp;</a>
                                 </td>
                             </tr>
                         }
