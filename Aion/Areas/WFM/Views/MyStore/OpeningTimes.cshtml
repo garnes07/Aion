@@ -5,6 +5,31 @@
     ViewBag.Title = "Opening Times";
 }
 
+<!-- Modal -->
+<div class="modal fade" id="standardCheckModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Please Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you need to submit a change to your standard opening hours or an exceptional week? (ie. Peak, Bank Holiday)</p>
+                <div id="chkQ" class="row justify-content-center">
+                    <button id="chkYes" class="btn btn-info col-3 mr-3">Standard</button>
+                    <button id="chkNo" class="btn btn-info col-3">Exceptional</button>
+                </div>
+                <h5 id="chkIncorrect" class="text-danger text-center mt-2" style="display:none;">This is not the correct form to use, please close this pop-up and use the options under the <u>'Exceptional Trading Hours'</u> header</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
     @if (Request.IsAuthenticated)
     {
@@ -48,7 +73,7 @@
             </div>
             if (Model.PeakTimes.Count != 0)
             {
-                <div id="peakTimes" class="card">
+                <div id="peakTimes" class="card mb-3">
                     <div class="card-header text-center">
                         <strong>Exceptional Trading Hours</strong>
                     </div>
@@ -258,7 +283,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <a class="btn btn-primary" href="@Url.Action("NewOpeningTime", "MyStore")">Change Standard Trading Hours</a>
+                            <btn id="standardSubmit" class="btn btn-primary">Change Standard Trading Hours</btn> @*href="@Url.Action("NewOpeningTime", "MyStore")"*@
                         </div>
                     }
                 </div>
@@ -372,3 +397,29 @@
 
 }
 </div>
+
+@section myScripts{
+<script>
+    $(function () {
+        var peakExists = $('#peakTimes').length;
+
+        $('#standardSubmit').click(function () {
+            if (peakExists) {
+                $('#standardCheckModal').modal('show');
+            }
+            else {
+                window.location.href = '/WFM/MyStore/NewOpeningTime';
+            };
+        });
+
+        $('#chkYes').click(function () {
+            window.location.href = '/WFM/MyStore/NewOpeningTime';
+        });
+
+        $('#chkNo').click(function () {
+            $('#chkQ').toggle();
+            $('#chkIncorrect').toggle();
+        });
+    });
+</script>    
+}
