@@ -8,6 +8,8 @@ namespace Aion.ViewModels
     {
         public string Message { get; set; }
 
+        public string ManualSelect { get; set; }
+
         public short DisplayLevel { get; set; } = -1;
 
         public MessageType MessageType { get; set; }

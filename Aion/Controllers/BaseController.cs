@@ -9,7 +9,7 @@ namespace Aion.Controllers
     public class BaseController : Controller
     {
         protected StoreStub _store = System.Web.HttpContext.Current.GetSessionObject<StoreStub>("_store");
-        private readonly string[] _selection = System.Web.HttpContext.Current.Session["_menuSelection"] != null ? System.Web.HttpContext.Current.Session["_menuSelection"].ToString().Split('_') : new[] { "e", "e" };
+        protected string[] _selection = System.Web.HttpContext.Current.Session["_menuSelection"] != null ? System.Web.HttpContext.Current.Session["_menuSelection"].ToString().Split('_') : new[] { "e", "e" };
         protected IMapper mapper;
         private MapperConfiguration config = AutoMapperWebConfiguration.MapperConfig;
 
@@ -28,6 +28,19 @@ namespace Aion.Controllers
 
             if (selectArea == "e")
                 filterContext.Result = new RedirectResult(Url.Action("UnknownStore", "Profile"));
+        }
+
+        public string CheckStoreAuth(string s)
+        {
+            StoreMenu _menu = (StoreMenu)System.Web.HttpContext.Current.Session["_storeMenu"];
+
+            var result = _menu.selectCheck(s);
+            if (result != "e")
+            {
+                _selection = s.Split('_');
+            }
+
+            return result;
         }
     }
 }

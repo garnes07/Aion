@@ -107,6 +107,7 @@ namespace Aion.Models.Utils
                 {
                     selected = StoreSearch(b[1]);
 
+                    result = true;
                     _menuSelection = "S_" + i.First().storeNum;
                     _menuSearch = i.First().text;
                 }
@@ -118,6 +119,7 @@ namespace Aion.Models.Utils
                 {
                     selected = RegionSearch(b[1]);
 
+                    result = true;
                     _menuSelection = "R_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
@@ -128,7 +130,8 @@ namespace Aion.Models.Utils
                 if (i.Count > 0)
                 {
                     selected = DivisionSearch(b[1]);
-                    
+
+                    result = true;
                     _menuSelection = "D_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
@@ -139,7 +142,8 @@ namespace Aion.Models.Utils
                 if (i.Count > 0)
                 {
                     selected = ChainSearch(b[1]);
-                    
+
+                    result = true;
                     _menuSelection = "C_" + i.First().text;
                     _menuSearch = i.First().text;
                 }
@@ -161,6 +165,51 @@ namespace Aion.Models.Utils
                 HttpContext.Current.Session["_PilotFlag"] = false;
             }
             return result;
+        }
+
+        public string selectCheck(string a)
+        {
+            if (a == _menuSelection)
+            {
+                return "e";
+            }
+
+            string[] b = a.Split('_');
+
+            if (b[0] == "S")
+            {
+                var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.storeNum == b[1]);
+                if (i.Any())
+                {
+                    return i.First().text;
+                }
+            }
+            else if (b[0] == "R")
+            {
+                var i = Channels.SelectMany(x => x.nodes).SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
+                if (i.Count > 0)
+                {
+                    return i.First().text;
+                }
+            }
+            else if (b[0] == "D")
+            {
+                var i = Channels.SelectMany(x => x.nodes).Where(x => x.text == b[1]).ToList();
+                if (i.Count > 0)
+                {
+                    return i.First().text;
+                }
+            }
+            else if (b[0] == "C")
+            {
+                var i = Channels.Where(x => x.text == b[1]).ToList();
+                if (i.Count > 0)
+                {
+                    return i.First().text;
+                }
+            }
+            
+            return "e";
         }
 
         public bool menuReset()

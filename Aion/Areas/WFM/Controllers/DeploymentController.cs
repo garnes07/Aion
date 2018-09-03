@@ -130,7 +130,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> Detail(string selectedDate = "Last Week")
+        public async Task<ActionResult> Detail(string selectedDate = "Last Week", string s = "e")
         {
             if (selectArea == "S")
             {
@@ -146,6 +146,19 @@ namespace Aion.Areas.WFM.Controllers
 
             DeploymentDetailVm vm = new DeploymentDetailVm();
             int weekNum = selectedDate.GetWeekNumber();
+
+            if(s != "e")
+            {
+                var authCheckResult = CheckStoreAuth(s);
+                if (authCheckResult == "e")
+                {
+                    return Redirect(Request.UrlReferrer.PathAndQuery);
+                }
+                else
+                {
+                    vm.ManualSelect = authCheckResult;
+                }
+            }            
 
             switch (selectArea)
             {
@@ -655,11 +668,21 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> GMPowerHours (int weekNum, string store)
+        public async Task<ActionResult> GMPowerHours (int weekNum, string s)
         {
             GMPowerHoursVm vm = new GMPowerHoursVm();
 
-            vm.collection = await _gmWeWorkingManager.GetGMPowerHours(store, weekNum);
+            var authCheckResult = CheckStoreAuth(s);
+            if (authCheckResult == "e")
+            {
+                return Redirect(Request.UrlReferrer.PathAndQuery);
+            }
+            else
+            {
+                vm.ManualSelect = authCheckResult;
+            }
+
+            vm.collection = await _gmWeWorkingManager.GetGMPowerHours(selectCrit, weekNum);
 
             return View(vm);
         }
