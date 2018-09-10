@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Aion.Areas.WFM.Controllers
 {
-    [UserFilter(MinLevel=2)]
+    [UserFilter(MinLevel=3)]
     public class FuturePlanningController : BaseController
     {
         private readonly IContractStatusManager _contractStatusManager;

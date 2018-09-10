@@ -409,11 +409,23 @@ namespace Aion.Areas.WFM.Controllers
 
         public async Task<ActionResult> ActionPlan(int s)
         {
-            var result = await _selfAsessmentManager.GetActionPlan(s);
+            ActionPlanVm vm = new ActionPlanVm();
 
-            ViewBag.NewSubmission = TempData["NewSubmission"] ?? false;
+            vm.actions = await _selfAsessmentManager.GetActionPlan(s);
+            vm.newSubmission = (bool?)TempData["NewSubmission"] ?? false;
 
-            return View(result);
+            if (vm.newSubmission)
+            {
+                string payroll = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
+                if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
+                {
+                    payroll = "UK" + payroll.PadLeft(6, '0');
+                }
+                var empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(payroll);
+                vm.SWAS = empDetails == null ? false : (empDetails.Channel == "SIS");
+            }
+
+            return View(vm);
         }
     }
 }

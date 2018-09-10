@@ -62,7 +62,7 @@
                         @if (Model.PositionDetail.ContractBase == 0)
                         {
                             <td>@string.Format("{0:C}", Model.PositionDetail.TotalBase)</td>
-                            <td>@string.Format("{0:C}", Model.PositionDetail.CurrentBase)</td>
+                            <td>@string.Format("{0:C}", Model.PositionDetail.CurrentBase - Model.PositionDetail.OpenVacancies)</td>
                         }
                         else
                         {
@@ -80,7 +80,7 @@
                         }
                         @if (Model.PositionDetail.ContractBase == 0)
                         {
-                            <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract) + Model.PositionDetail.OpenVacancies)</td>
+                            <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract))</td>
                         }
                         else
                         {
@@ -142,7 +142,7 @@
                                 {
                                     <tr>
                                         <td>@item.Alternate_ID</td>
-                                        <td>@string.Format("{0}, {1}", item.Last_Name, item.First_Name.Substring(0, 1))</td>
+                                        <td>@string.Format("{0}, {1}", item.Last_Name != null ? item.Last_Name : "null", item.First_Name != null ? item.First_Name.Substring(0, 1) : "null")</td>
                                         <td>@item.Job_Title</td>
                                         <td>@item.Std_Hrs_Wk</td>
                                         <td>@item.Effective_Date_of_Change</td>

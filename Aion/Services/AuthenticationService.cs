@@ -208,11 +208,16 @@ namespace Aion.Services
                 HttpContext.Current.Session["_AreaLevel"] = (byte)0;
                 return false;
             }
-            else if(UserAccess.AccessLevel > 0 && UserAccess.AccessLevel <=3)
+            else if(UserAccess.AccessLevel > 0 && UserAccess.AccessLevel <=4)
                 HttpContext.Current.Session["_RFTPpopup"] = true;
 
             HttpContext.Current.Session["_AccessLevel"] = UserAccess.AccessLevel;
             HttpContext.Current.Session["_AreaLevel"] = UserAccess.AreaLevel;
+
+            if (UserAccess.AccessLevel == 2)
+            {
+                HttpContext.Current.Session["_SWASGMStore"] = (UserAccess.UserAccessAreas.First() == null ? null : UserAccess.UserAccessAreas.First().AreaName);
+            }
 
             return await LoadStoreMenu(UserAccess.AreaLevel, UserAccess.UserAccessAreas.Select(x => x.AreaName).ToArray());
         }
@@ -253,7 +258,7 @@ namespace Aion.Services
             {
                 menuList = await _storeManager.GetAllMenu();
                 _default = "C_" + (accessArea.Any() ? accessArea[0] : "SAS");
-            }
+            }            
 
             StoreMenu _menu = new StoreMenu(menuList, _default, accessLevel);
 

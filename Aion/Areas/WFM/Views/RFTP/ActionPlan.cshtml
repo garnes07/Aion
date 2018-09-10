@@ -1,19 +1,23 @@
-﻿@model List<Aion.DAL.Entities.vw_ActionPlan>
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.ActionPlanVm
 
 @{
     ViewBag.Title = "Action Plan";
 }
 
 <div class="container-fluid">
-    @if (ViewBag.NewSubmission)
+    @if (Model.newSubmission)
     {
         <div class="card mb-3 d-print-none">
             <div class="card-body text-center">
 
                 <h4>Thank you for your submission!</h4>
-                @if (Model.Any())
+                @if (Model.actions.Any())
                 {
                     <p>From your responses you have indicated that additional support is required to help you pay your colleagues correctly and remain compliant across the 3 Right First Time Pay control measures, so we have generated the below action plan to support you in getting this right.  Make sure you complete all of the actions as further non-compliance will result in and IDD and could lead to disciplinary action.  Your TPC and WFM lead are also available for any additional support you may require.</p>
+                    if (Model.SWAS)
+                    {
+                        <p>A copy of your action plan will be made available to your GM and RM. <strong>You are also advised to have a conversation with your GM about the actions that have been generated and to email your TPC to schedule a support call to talk through.</strong></p>
+                    }
                     <p>A copy of your action plan will be made available to your RM.</p>
 
                 }
@@ -24,7 +28,7 @@
             </div>
         </div>
     }
-    @if (Model.Any())
+    @if (Model.actions.Any())
     {
         <div class="card">
             <div class="card">
@@ -32,7 +36,7 @@
                     <strong>Action Plan</strong>
                 </div>
                 <div class="card-body">
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.actions)
                     {
                         @Html.Raw(item.Text)
                         <hr />
@@ -40,5 +44,5 @@
                 </div>
             </div>
         </div>
-    }    
+    }
 </div>

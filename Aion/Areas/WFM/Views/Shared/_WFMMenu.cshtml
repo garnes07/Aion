@@ -11,7 +11,7 @@
         <a class="dropdown-item" href="@Url.Action("Detail", "Deployment", new { area = "WFM" })">Detail</a>
         <a class="dropdown-item" href="@Url.Action("SOHBudgets", "Deployment", new { area = "WFM" })">SOH Budgets</a>
         <a class="dropdown-item" href="@Url.Action("Footfall", "Deployment", new { area = "WFM" })">Footfall</a>
-        @if (accessLvl >= 2)
+        @if (accessLvl >= 3)
         {
         <a class="dropdown-item" href="@Url.Action("WeekendWorking", "Deployment", new { area = "WFM" })">GM Weekend Working</a>
         }
@@ -25,7 +25,7 @@
         }
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="@Url.Action("Schedules", "Deployment", new { area = "WFM" })">Schedules</a>
-        @if (accessLvl >= 7)
+        @if (accessLvl >= 8)
         {
             <a class="dropdown-item" href="@Url.Action("CPCWSchedules", "Deployment", new { area = "WFM" })">CPCW Schedules</a>
         }
@@ -34,7 +34,7 @@
 <li class="nav-item dropdown mx-1">
     <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-android-checkbox-outline m-1"></i> Right First Time Pay</a>
     <div class="dropdown-menu">
-        @if (accessLvl >= 2 && accessLvl != 7)
+        @if (accessLvl >= 2 && accessLvl != 8)
         {
             <a class="dropdown-item" href="@Url.Action("ManagerTracking", "RFTPTracking", new {area = "WFM"})">Manager Tracking</a>
             <div class="dropdown-divider"></div>

@@ -9,6 +9,22 @@ namespace Aion.DAL.Managers
 {
     public class RFTPTrackingManager : IRFTPTrackingManager
     {
+        public async Task<List<RFTPCaseStub>> GetRFTPCaseSWAS(string store)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.RFTPCaseStubs
+                    .Where(x =>
+                        context.KronosEmployeeSummaries.Where(y =>
+                            y.HomeBranch == crit
+                        ).Any(y => y.PersonNumber == x.PersonNumber)
+                        && x.Show)
+                    .Include("RFTPCaseAudits")
+                    .ToListAsync();
+            }
+        }
+
         public async Task<List<RFTPCaseStub>> GetRFTPCasesStore(string store)
         {
             using (var context = new WFMModel())
@@ -236,6 +252,21 @@ namespace Aion.DAL.Managers
                     .Where(x =>
                         context.KronosEmployeeSummaries.Where(y =>
                             y.Region == context.KronosEmployeeSummaries.FirstOrDefault(z => z.HomeBranch == storeNo).Region
+                        ).Any(y => y.PersonNumber == x.PersonNumber)
+                        && x.Confirmed)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_Last12MonthRFTPCases>> GetLast12MonthRFTPCasesSWAS(string store)
+        {
+            var storeNo = int.Parse(store);
+            using (var context = new WFMModel())
+            {
+                return await context.vw_Last12MonthRFTPCases
+                    .Where(x =>
+                        context.KronosEmployeeSummaries.Where(y =>
+                            y.HomeBranch == storeNo
                         ).Any(y => y.PersonNumber == x.PersonNumber)
                         && x.Confirmed)
                     .ToListAsync();

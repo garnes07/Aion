@@ -360,7 +360,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        [UserFilter(MinLevel = 2)]
+        [UserFilter(MinLevel = 3)]
         public async Task<ActionResult> WeekendWorking()
         {
             WeekendWorkingVm vm = new WeekendWorkingVm();
@@ -648,7 +648,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        [UserFilter(MinLevel = 7)]
+        [UserFilter(MinLevel = 8)]
         public async Task<ActionResult> CPCWSchedules(int s = 0, string selectedDate = "This Week")
         {
             CPCWScheduleVm vm = new CPCWScheduleVm();
@@ -674,13 +674,9 @@ namespace Aion.Areas.WFM.Controllers
 
             var authCheckResult = CheckStoreAuth(s);
             if (authCheckResult == "e")
-            {
                 return Redirect(Request.UrlReferrer.PathAndQuery);
-            }
             else
-            {
                 vm.ManualSelect = authCheckResult;
-            }
 
             vm.collection = await _gmWeWorkingManager.GetGMPowerHours(selectCrit, weekNum);
 

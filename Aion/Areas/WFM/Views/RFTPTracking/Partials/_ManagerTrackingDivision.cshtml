@@ -23,8 +23,16 @@
                     <th class="text-center" colspan="2">Actions Required</th>
                 </tr>
                 <tr>
-                    <th class="text-center" style="width: 15%;">GM</th>
-                    <th class="text-center" style="width: 15%;">RM</th>                    
+                    @if (Model.SWAS)
+                    {
+                        <th class="text-center" style="width: 15%;">SWAS BM</th>
+                        <th class="text-center" style="width: 15%;">Currys GM</th>
+                    }
+                    else
+                    {
+                        <th class="text-center" style="width: 15%;">GM</th>
+                        <th class="text-center" style="width: 15%;">RM</th>
+                    }                    
                 </tr>
                 </thead>
                 <tbody>

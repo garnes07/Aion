@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using Aion.Areas.WFM.ViewModels.RFTPTracking;
+﻿using Aion.Areas.WFM.ViewModels.RFTPTracking;
 using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Entities;
 using Aion.DAL.Managers;
 using Aion.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Aion.Areas.WFM.Controllers
 {
-    
+
     public class RFTPTrackingController : BaseController
     {
         private readonly IRFTPTrackingManager _RFTPTrackingManager;
@@ -25,35 +25,45 @@ namespace Aion.Areas.WFM.Controllers
             _weeksManager = new WeeksManager();
         }
 
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<ActionResult> ManagerTracking()
         {
-            RFTPManagerSummaryVm vm = new RFTPManagerSummaryVm();
+            RFTPManagerSummaryVm vm = new RFTPManagerSummaryVm(_store.Chain);
 
-            switch (selectArea)
+            if (System.Web.HttpContext.Current.Session["_AccessLevel"].ToString() == "2")
             {
-                case "S":
-                    vm.Cases = await _RFTPTrackingManager.GetRFTPCasesStore(selectCrit);
-                    vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
-                    vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegionUsingStore(selectCrit);
-                    vm.DisplayLevel = 2;
-                    break;
-                case "R":
-                    vm.Cases = await _RFTPTrackingManager.GetRFTPCasesRegion(selectCrit);
-                    vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
-                    vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegion(selectCrit);
-                    vm.DisplayLevel = 2;
-                    break;
-                case "D":
-                    vm.Cases = await _RFTPTrackingManager.GetRFTPCasesDivision(selectCrit);
-                    vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
-                    vm.RegionManagers = await _empSummaryManager.GetEmployeeDetails(vm.Cases.Select(x => x.PersonNumber).ToList());
-                    vm.DisplayLevel = 3;
-                    break;
-                case "C":
-                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
-                    vm.MessageType = MessageType.Error;
-                    break;
+                vm.Cases = await _RFTPTrackingManager.GetRFTPCaseSWAS(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
+                vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
+                vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegionUsingStore(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
+                vm.DisplayLevel = 2;
+            }
+            else
+            {
+                switch (selectArea)
+                {
+                    case "S":
+                        vm.Cases = await _RFTPTrackingManager.GetRFTPCasesStore(selectCrit);
+                        vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
+                        vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegionUsingStore(selectCrit);
+                        vm.DisplayLevel = 2;
+                        break;
+                    case "R":
+                        vm.Cases = await _RFTPTrackingManager.GetRFTPCasesRegion(selectCrit);
+                        vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
+                        vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegion(selectCrit);
+                        vm.DisplayLevel = 2;
+                        break;
+                    case "D":
+                        vm.Cases = await _RFTPTrackingManager.GetRFTPCasesDivision(selectCrit);
+                        vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
+                        vm.RegionManagers = await _empSummaryManager.GetEmployeeDetails(vm.Cases.Select(x => x.PersonNumber).ToList());
+                        vm.DisplayLevel = 3;
+                        break;
+                    case "C":
+                        vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                        vm.MessageType = MessageType.Error;
+                        break;
+                }
             }
 
             ViewBag.UpdateError = TempData["error"] != null;
@@ -62,7 +72,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpGet]
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<PartialViewResult> _employeeSearch(string crit)
         {
             var searchResult = new List<KronosEmployeeSummary>();
@@ -74,7 +84,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<ActionResult> CaseConfirm(int caseID)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -94,7 +104,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<ActionResult> CaseOverride(int caseID, string reason, string comment)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -114,7 +124,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<ActionResult> CaseReassign(int caseID, string empNumber, string comment)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -143,7 +153,7 @@ namespace Aion.Areas.WFM.Controllers
         }
 
         [HttpPost]
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<ActionResult> CaseSubmitAction(int caseID, string actionType, string comment)
         {
             if (await _RFTPTrackingManager.CheckCaseAuth(caseID, selectArea, selectCrit))
@@ -162,36 +172,46 @@ namespace Aion.Areas.WFM.Controllers
             return RedirectToAction("ManagerTracking");
         }
 
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<ActionResult> ManagerTrend()
         {
             RFTPManagerTrendVm vm = new RFTPManagerTrendVm();
 
-            if (selectArea == "S" || selectArea == "R")
+            if (System.Web.HttpContext.Current.Session["_AccessLevel"].ToString() == "2")
             {
-                vm.Cases = selectArea == "S" ? await _RFTPTrackingManager.GetLast12MonthRFTPCasesStore(selectCrit) : await _RFTPTrackingManager.GetLast12MonthRFTPCasesRegion(selectCrit);
+                vm.Cases = await _RFTPTrackingManager.GetLast12MonthRFTPCasesSWAS(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
                 vm.PeriodList = await _weeksManager.GetLast12MonthList();
                 vm.EmployeeList = await _empSummaryManager.GetEmployeeDetails(vm.Cases.GroupBy(x => x.PersonNumber).Select(x => x.Key).ToList());
                 vm.DisplayLevel = 2;
             }
-            else if (selectArea == "D")
+            else
             {
-                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
-                vm.MessageType = MessageType.Error;
-            }
-            else if (selectArea == "C")
-            {
-                vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
-                vm.MessageType = MessageType.Error;
+                if (selectArea == "S" || selectArea == "R")
+                {
+                    vm.Cases = selectArea == "S" ? await _RFTPTrackingManager.GetLast12MonthRFTPCasesStore(selectCrit) : await _RFTPTrackingManager.GetLast12MonthRFTPCasesRegion(selectCrit);
+                    vm.PeriodList = await _weeksManager.GetLast12MonthList();
+                    vm.EmployeeList = await _empSummaryManager.GetEmployeeDetails(vm.Cases.GroupBy(x => x.PersonNumber).Select(x => x.Key).ToList());
+                    vm.DisplayLevel = 2;
+                }
+                else if (selectArea == "D")
+                {
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.MessageType = MessageType.Error;
+                }
+                else if (selectArea == "C")
+                {
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.MessageType = MessageType.Error;
+                }
             }
 
             return View(vm);
         }
 
-        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 7 })]
+        [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<ActionResult> ManagerDetail(string personNum)
         {
-            if(personNum == null)
+            if (personNum == null)
                 return RedirectToAction("ManagerTracking");
 
             RFTPManagerDetailVm vm = new RFTPManagerDetailVm
