@@ -24,9 +24,7 @@
 }
 @if (Model.StoreData.TotalHeadCount == null)
 {
-    <p class="text-center">
-        <strong>@(string.Format("Last Update: {0}", Today.ToString())) &emsp; @(string.Format("Next Update: {0}", nextUpdate.ToString()))</strong>
-    </p>
+    <p class="text-center"><strong><u>Note: This report is updated at 7AM, 9AM, 12PM and 3PM each day</u></strong></p>
 }
 
 <div class="card mb-3">
@@ -79,13 +77,6 @@
                 </table>
             </div>
         </div>
-        @*<div class="col-12">
-                <div class="box-body">
-                    <div class="chart">
-                        <canvas id="spend-bar-chart" style="height:200px"></canvas>
-                    </div>
-                </div>
-            </div>*@
         <p>The deployment score given is from <strong>0</strong> to <strong>5</strong> based on the variation between the SOH target and the SOH spend. 1 point is lost for every 2.5% <u>underspent</u>.</p>
     </div>
 </div>

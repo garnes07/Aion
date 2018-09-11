@@ -72,19 +72,19 @@
                         <td>@string.Format("{0:0.00}", Model.PositionDetail.AverageContract)</td>
                         @if (Model.PositionDetail.ContractBase == 0)
                         {
-                            <td>@string.Format("{0:C}", Model.PositionDetail.OpenVacancies)</td>
-                        }
+                            <td>@string.Format("{0:C}", Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs * x.VacancyPosition.RateOfPay) : Model.PositionDetail.OpenVacancies)</td>
+                        } 
                         else
                         {
-                            <td>@string.Format("{0:0.00}", Model.PositionDetail.OpenVacancies)</td>
+                            <td>@string.Format("{0:0.00}", Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs) : Model.PositionDetail.OpenVacancies)</td>
                         }
                         @if (Model.PositionDetail.ContractBase == 0)
                         {
-                            <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract))</td>
+                            <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase - (Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs * x.VacancyPosition.RateOfPay) : 0) : Model.PositionDetail.CurrentContract - (Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs) : 0)))</td>
                         }
                         else
                         {
-                            <td>@string.Format("{0:0.00}", (Model.PositionDetail.CurrentContract + Model.PositionDetail.OpenVacancies))</td>
+                            <td>@string.Format("{0:0.00}", Model.PositionDetail.CurrentContract + (Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs) : Model.PositionDetail.OpenVacancies))</td>
                         }
                     </tr>
                 </tbody>

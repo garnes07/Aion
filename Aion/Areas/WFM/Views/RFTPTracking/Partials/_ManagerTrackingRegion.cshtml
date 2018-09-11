@@ -39,7 +39,7 @@
                     @if (!item.Confirmed && !item.Override)
                     {
                         <div class="btn-group d-none d-lg-block" role="group">
-                            @if (Model.AccessLevel <= 3)
+                            @if (Model.AccessLevel <= 4)
                             {
                                 <button type="button" data-toggle="modal" data-target="#rModal" data-caseid="@item.CaseID" class="btn btn-light">Reassign</button>
                                 <button type="button" data-toggle="modal" data-target="#cModal" data-caseid="@item.CaseID" data-name="@item.PersonName" class="btn btn-success">Confirm</button>
@@ -53,7 +53,7 @@
                         <div class="btn-group d-lg-none">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action required... </button>
                             <ul class="dropdown-menu">
-                                @if (Model.AccessLevel <= 3)
+                                @if (Model.AccessLevel <= 4)
                                 {
                                     <li>
                                         <a href="#" data-toggle="modal" data-target="#oModal" data-caseid="@item.CaseID">Reassign</a>
@@ -79,7 +79,7 @@
                     }
                     else if (!item.Override)
                     {
-                        if (Model.AccessLevel <= 3)
+                        if (Model.AccessLevel <= 4)
                         {
                             <button type="button" data-toggle="modal" data-target="#oModal" data-caseid="@item.CaseID" class="btn btn-warning">Override</button>
                         }
@@ -124,7 +124,7 @@
                             }
                             else
                             {
-                                <a class="btn @(Model.AccessLevel != 3 ? "disabled btn-info" : "btn-primary")" style="width:100%;" data-toggle="modal" data-target="#aModal" data-caseid="@item.CaseID" data-action="@actionsNeeded.First(x => x.Owner == "RM").ActionType">@actionsNeeded.First(x => x.Owner == "RM").ActionType</a>
+                                <a class="btn @(Model.AccessLevel != 4 || Model.AccessLevel != 2 ? "disabled btn-info" : "btn-primary")" style="width:100%;" data-toggle="modal" data-target="#aModal" data-caseid="@item.CaseID" data-action="@actionsNeeded.First(x => x.Owner == "RM").ActionType">@actionsNeeded.First(x => x.Owner == "RM").ActionType</a>
                             }
                         }
                     </td>

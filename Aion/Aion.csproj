@@ -1475,6 +1475,10 @@
     <Content Include="Uploads\NewWebsiteNavigation.pdf" />
     <Content Include="Uploads\RFTPSecondUserBrief.pdf" />
     <Content Include="Uploads\HolidayGuidance.pdf" />
+    <Content Include="Uploads\ClockingContingencyProcess.pdf" />
+    <Content Include="Uploads\ProcessingCrossRegionShifts.pdf" />
+    <Content Include="Uploads\ProcessingIGNITEonSTAR.pdf" />
+    <Content Include="Uploads\UnderstandingEditedClocks.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\WFM\Views\MyStore\Partials\" />

@@ -202,7 +202,7 @@ namespace Aion.DAL.Managers
         {
             using (var context = new WFMModel())
             {
-                var ownerLevel = accessLevel == "2" ? byte.Parse(accessLevel) + 1: byte.Parse(accessLevel);
+                var ownerLevel = accessLevel == "3" ? byte.Parse(accessLevel) + 1 : (accessLevel == "2" ? (byte)4 : byte.Parse(accessLevel));
                 if (context.RFTPCaseActions.Any(x => x.ActionType == actionType && x.OwnerLevel == ownerLevel))
                 {
                     var originalCase = context.RFTPCaseStubs.Find(caseId);
@@ -221,11 +221,8 @@ namespace Aion.DAL.Managers
                         });
                         return await context.SaveChangesAsync();
                     }
-
                     return -5;
-
                 }
-
                 return -5;
             }
         }

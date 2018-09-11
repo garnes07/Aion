@@ -91,22 +91,6 @@
                     </div>
                 </div>
             </nav>
-            @*<div class="row">
-                    <nav aria-label="breadcrumb" role="navigation" class="col-9">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active">@ViewContext.RouteData.DataTokens["area"].ToString()</li>
-                            @if (ViewContext.RouteData.Values["controller"].ToString() != "Home")
-                            {
-                                <li class="breadcrumb-item active">@ViewContext.RouteData.Values["controller"].ToString()</li>
-                            }
-                            @if (ViewContext.RouteData.Values["action"].ToString() != "Index")
-                            {
-                                <li class="breadcrumb-item active">@ViewContext.RouteData.Values["action"].ToString()</li>
-                            }
-                        </ol>
-                    </nav>
-                </div>*@
-
             @RenderBody()
         </div>
     }
