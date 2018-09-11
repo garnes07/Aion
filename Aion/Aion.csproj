@@ -1195,6 +1195,9 @@
     <Content Include="DAL\Entities\WFMModel.edmx.diagram">
       <DependentUpon>WFMModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Scripts\bootstrap-treeview.min.js">
+      <DependentUpon>bootstrap-treeview.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.min.js" />

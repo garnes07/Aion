@@ -68,22 +68,22 @@
         <tbody>
             @foreach (var item in Model.collection)
             {
-                <tr>
+                <tr class="text-center">
                     <td>@item.Division</td>
                     <td>@item.Region</td>
-                    <td>@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</td>
-                    <td class="text-center">@item.SundayReq</td>
-                    <td class="text-center">@item.SundayAvailable</td>
-                    <td class="text-center">@item.SundayDeployed</td>
-                    <td class="text-center">@item.SundayCredit</td>
-                    <td class="text-center @GetRAGClass(item.SundayRAG)">@item.SundayRAG</td>
-                    <td class="text-center">@item.SaturdayReq</td>
-                    <td class="text-center">@item.SaturdayAvailable</td>
-                    <td class="text-center">@item.SaturdayDeployed</td>
-                    <td class="text-center">@item.SaturdayCredit</td>
-                    <td class="text-center @GetRAGClass(item.SaturdayRAG)">@item.SaturdayRAG</td>
-                    <td class="text-center @GetRAGClass(item.TotalRAG)">@item.TotalRAG</td>
-                    <td class="text-center">@string.Format("{0:0.0}%", item.SOH / item.FinalTarget * 100)</td>
+                    <td class="text-left"><a class="clickthrough" data-selector="@item.StoreNumber" href="@Url.Action("Detail","Deployment", new { area = "WFM", s = "S_" + item.StoreNumber, selectedDate = Model.SelectedDate ?? "Next Week"})">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</a></td>
+                    <td>@item.SundayReq</td>
+                    <td>@item.SundayAvailable</td>
+                    <td>@item.SundayDeployed</td>
+                    <td>@item.SundayCredit</td>
+                    <td class="@GetRAGClass(item.SundayRAG)">@item.SundayRAG</td>
+                    <td >@item.SaturdayReq</td>
+                    <td >@item.SaturdayAvailable</td>
+                    <td >@item.SaturdayDeployed</td>
+                    <td >@item.SaturdayCredit</td>
+                    <td class="@GetRAGClass(item.SaturdayRAG)">@item.SaturdayRAG</td>
+                    <td class="@GetRAGClass(item.TotalRAG)">@item.TotalRAG</td>
+                    <td>@string.Format("{0:0.0}%", item.SOH / item.FinalTarget * 100)</td>
                 </tr>
             }
         </tbody>

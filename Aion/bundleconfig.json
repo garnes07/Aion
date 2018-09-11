@@ -100,5 +100,11 @@
     "inputFiles": [
       "Scripts/site/Recruitment.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/bootstrap-treeview.min.js",
+    "inputFiles": [
+      "Scripts/bootstrap-treeview.js"
+    ]
   }
 ]

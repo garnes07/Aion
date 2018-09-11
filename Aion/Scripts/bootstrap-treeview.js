@@ -1111,8 +1111,9 @@
 		@param {optional Object} options - Search criteria options
 		@return {Array} nodes - Matching nodes
 	*/
-	Tree.prototype.search = function (pattern, options) {
+	Tree.prototype.search = function (pattern, options, attribute) {
 		options = $.extend({}, _default.searchOptions, options);
+		attribute = attribute || 'text';
 
 		this.clearSearch({ render: false });
 

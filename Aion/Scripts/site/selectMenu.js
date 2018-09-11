@@ -42,4 +42,24 @@
     $('#hSearchbtn').click(function () {
         $('#hSearch').slideToggle();
     });
+
+    $('.clickthrough').click(function (e) {
+        var href = this.href;
+        event.preventDefault();
+        var result = clickThrough($tree, $(this).data('selector'))
+        if (result.length) {
+            window.location = href;
+        };
+    });
 });
+
+function clickThrough(t, s) {
+    var result = t.treeview('search'
+        ['145', {
+            ignoreCase: true,
+            exactMatch: true,
+            revealResults: false
+        }],
+        'storeNum');
+    return result.length;
+}

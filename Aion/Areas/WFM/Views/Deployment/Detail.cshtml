@@ -14,10 +14,13 @@
             </div>
         </div>
     }
-    @*@if (Model.ManualSelect.Length > 0)
+    @if (Model.ManualSelect != null)
     {
-        <h4>@Model.ManualSelect</h4>
-    }*@
+        <div class="row mb-2">
+            <button onclick="window.history.back()" class="btn btn-light"><i class="icon ion-arrow-left-b"></i> Back</button>
+            <h4>@Model.ManualSelect</h4>
+        </div>
+    }
     <div class="card">
         <div class="card-header text-center">
             <strong>WFM Deployment</strong>
@@ -25,14 +28,14 @@
         <div class="card-body">
             <p>WFM deployment is a measure of how well you are utilising the hours that have been made available to your store. Good deployment ensures appropriate shop floor coverage in order to take full advantage of the customer opportunity.</p>
             <p>
-                When looking at the current and future weeks in the below report the SOH spend is calculated based on your schedules as they currently exist in STAR. Schedule information is refreshed overnight each day so if you have made improvements to these schedules check back the following day to see your new score.<br/>
+                When looking at the current and future weeks in the below report the SOH spend is calculated based on your schedules as they currently exist in STAR. Schedule information is refreshed overnight each day so if you have made improvements to these schedules check back the following day to see your new score.<br />
                 <strong>Note: </strong>The SOH spend for the previous week is not published until <u>Tuesday AM</u> to allow for sign off and data validation, before this time the schedule information will continue to be shown.
             </p>
         </div>
     </div>
 
     @Html.Partial("~/Views/Shared/_WeekPicker.cshtml", new WeekPickerVm { Action = "Detail", Controller = "Deployment", WeeksOfYear = Model.WeeksOfYear, SelectedDate = Model.SelectedDate })
-    
+
     @if (Model.MessageType == MessageType.Warning || (Model.WeekData == null && Model.ChainData == null))
     {
         <div class="alert alert-danger text-center"><strong>Reporting for the selected period has not yet been finalised, check back later.</strong></div>
@@ -104,7 +107,7 @@
                 });
             });
         </script>
-    }   
+    }
     @if (Model.DisplayLevel == 1 && Model.MessageType != MessageType.Warning)
     {
         <script>
