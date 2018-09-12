@@ -25,7 +25,7 @@
                     <td>@item.StoreNumber</td>
                     <td>@item.EntryId</td>
                     <td>@item.SFRefNo</td>
-                    <td>@(item.Approved ? "Approved" : "Rejected" )</td>
+                    <td>@(item.Approved ? "Approved" : (item.Rejected ? "Rejected" : "Pending") )</td>
                     <td>@item.Heads</td>
                     <td>@item.ContractHrs</td>
                     <td>@item.RaisedBy</td>
