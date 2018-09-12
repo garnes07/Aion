@@ -21,7 +21,7 @@ namespace Aion
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/bootstrap/js/bootstrap.bundle.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap-treeview.min.js",
+                      "~/Scripts/bootstrap-treeview.js",
                       "~/Scripts/site/selectMenu.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

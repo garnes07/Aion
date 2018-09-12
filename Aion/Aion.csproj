@@ -221,6 +221,7 @@
     <Compile Include="Areas\WFM\ViewModels\Deployment\WeekendWorkingVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\DeploymentStatusVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\DeploymentSwingsVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\PeakPlanningVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\FuturePlanning\RecruitmentStatusVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Minerva\MinervaVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\HolidayPlanningVm.cs" />
@@ -334,6 +335,9 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\PayCalendarRef.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\PeakData.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\PowerHoursProfile.cs">
@@ -1180,6 +1184,7 @@
     <Content Include="Areas\WFM\Views\Deployment\Dashboard.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DashRegion.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\GMPowerHours.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\PeakPlanning.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

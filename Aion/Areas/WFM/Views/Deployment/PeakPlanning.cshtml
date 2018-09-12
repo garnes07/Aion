@@ -1,0 +1,106 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.PeakPlanningVm
+
+@{
+    ViewBag.Title = "Peak Planning";
+}
+
+<div class="container-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="row justify-content-end mb-2">
+            <div>
+                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
+            </div>
+        </div>
+    }
+    @if (Model.MessageType == Aion.ViewModels.MessageType.Error)
+    {
+        <div class="alert alert-warning text-center">
+            <strong>@Model.Message</strong>
+        </div>
+    }
+    else
+    {
+        if (Model.collection.Any())
+        {
+            <div class="card">
+                <div class="card-header text-center">
+                    <strong>Peak Planning</strong>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr class="text-center">
+                                <th style="width:15.5%;" class="text-left">Week</th>
+                                <th style="width:6.5%;">27</th>
+                                <th style="width:6.5%;">28</th>
+                                <th style="width:6.5%;">29</th>
+                                <th style="width:6.5%;">30</th>
+                                <th style="width:6.5%;">31</th>
+                                <th style="width:6.5%;">32</th>
+                                <th style="width:6.5%;">33</th>
+                                <th style="width:6.5%;">34</th>
+                                <th style="width:6.5%;">35</th>
+                                <th style="width:6.5%;">36</th>
+                                <th style="width:6.5%;">37</th>
+                                <th style="width:6.5%;">38</th>
+                                <th style="width:6.5%;">39</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td class="text-left"><strong>SOH Budget</strong></td>
+                                @foreach (var item in Model.collection)
+                                {
+                                    <td>@item.Budget</td>
+                                }
+                            </tr>
+                            <tr class="text-center">
+                                <td class="text-left"><strong>Contract Hrs</strong></td>
+                                @foreach (var item in Model.collection)
+                                {
+                                    <td>@item.Contract</td>
+                                }
+                            </tr>
+                            <tr class="text-center">
+                                <td class="text-left"><strong>Holiday Booked</strong></td>
+                                @foreach (var item in Model.collection)
+                                {
+                                    <td>@item.Holiday</td>
+                                }
+                            </tr>
+                            <tr class="text-center">
+                                <td class="text-left"><strong>Flex Required</strong></td>
+                                @foreach (var item in Model.collection)
+                                {
+                                    <td>@(item.Budget - item.Contract - item.Holiday)</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr />
+                    <h3>Peak Temps</h3>
+                    <p><strong><u>@(Model.tempsReq ? Model.collection.FirstOrDefault().Temps + " recommended" : "None required")</u></strong></p>
+                    @if (Model.tempsReq)
+                    {
+                        <p>
+                            <strong>Start Date: </strong>Week 26 (21st Oct 2018)<br />
+                            <strong>End Date: </strong>End of Week 36 (5th Jan 2019)<br />
+                            <strong>Contract Hrs: </strong>8 hours per week, available to flex as needed
+                        </p>
+                    }
+                    <p>
+                        <strong>What if I need to recruit more heads than has been advised?</strong><br />
+                        You should consult with your RM for queries relating to any of the recommendations shown here, they will be able to raise with the relevant teams if changes are required.
+                    </p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger text-center">
+                <strong>We can find no detail for your store, please raise with Medics</strong>
+            </div>
+        }
+    }
+</div>

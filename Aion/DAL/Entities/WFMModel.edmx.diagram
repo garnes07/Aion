@@ -84,6 +84,7 @@
         <EntityTypeShape EntityType="WFMMContext.vw_StoreDeploymentDash" Width="1.5" PointX="9.375" PointY="26.75" />
         <EntityTypeShape EntityType="WFMMContext.vw_StoreDeploymentRank" Width="1.5" PointX="11.375" PointY="26.75" />
         <EntityTypeShape EntityType="WFMMContext.GMPowerHour" Width="1.5" PointX="22.375" PointY="26.75" />
+        <EntityTypeShape EntityType="WFMMContext.PeakData" Width="1.5" PointX="24.375" PointY="26.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

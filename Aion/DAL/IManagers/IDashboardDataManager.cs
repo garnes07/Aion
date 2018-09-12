@@ -49,5 +49,6 @@ namespace Aion.DAL.IManagers
         Task<List<vw_StoreDeploymentDash>> GetStoreDeploymentDashByRegion(string year, byte period, string region);
         Task<List<vw_StoreDeploymentRank>> GetStoreDeploymentRankByStore(string year, byte period, string store);
         Task<List<vw_StoreDeploymentRank>> GetStoreDeploymentRankByRegion(string year, byte period, string region);
+        Task<List<PeakData>> GetStorePeakData(string store);
     }
 }

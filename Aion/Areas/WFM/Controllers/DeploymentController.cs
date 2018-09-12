@@ -682,5 +682,31 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+        
+        public async Task<ActionResult> PeakPlanning()
+        {
+            PeakPlanningVm vm = new PeakPlanningVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.collection = await _dashDataManager.GetStorePeakData(selectCrit);
+                    break;
+                case "R":
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.MessageType = MessageType.Error;
+                    break;
+                case "D":
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.MessageType = MessageType.Error;
+                    break;
+                case "C":
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.MessageType = MessageType.Error;
+                    break;
+            }
+
+            return View(vm);
+        }
     }
 }

@@ -5,14 +5,7 @@
 
     $('#h-side-open').click(function () {
         if (!loaded) {
-            $.get('/Profile/GetMenu', function (result) {
-                $tree.treeview({
-                    data: result,
-                    levels: 1,
-                    enableLinks: true,
-                    defaultSelection: crit
-                })
-            });
+            loadTree();
         };
         $('#h-side').addClass('show');
         $('.overlay').fadeIn();
@@ -45,21 +38,47 @@
 
     $('.clickthrough').click(function (e) {
         var href = this.href;
+        var result = undefined;
+        var crit = $(this).data('selector');
+
         event.preventDefault();
-        var result = clickThrough($tree, $(this).data('selector'))
-        if (result.length) {
-            window.location = href;
+        if (loaded) {
+            result = clickThrough(crit);
+            if (result) {
+                window.location = href;
+            };
+        }
+        else {
+            loadTree(function () {
+                result = clickThrough(crit);
+                if (result) {
+                    window.location = href;
+                };
+            });
         };
     });
-});
-
-function clickThrough(t, s) {
-    var result = t.treeview('search'
-        ['145', {
+    
+    function clickThrough(s) {
+        var result = $tree.treeview('search',
+        [String(s), {
             ignoreCase: true,
             exactMatch: true,
             revealResults: false
-        }],
-        'storeNum');
-    return result.length;
-}
+        },
+        'storeNum']);
+        return result.length;
+    };
+
+    function loadTree(callback) {
+        $.get('/Profile/GetMenu', function (result) {
+            $tree.treeview({
+                data: result,
+                levels: 1,
+                enableLinks: true,
+                defaultSelection: crit
+            });
+            loaded = true;
+            callback();
+        });
+    };
+});

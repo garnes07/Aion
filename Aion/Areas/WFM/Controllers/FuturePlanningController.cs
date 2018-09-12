@@ -4,6 +4,7 @@ using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
+using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;

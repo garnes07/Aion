@@ -497,5 +497,14 @@ namespace Aion.DAL.Managers
                 .ToListAsync();
             }
         }
+
+        public async Task<List<PeakData>> GetStorePeakData(string store)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+                return await context.PeakDatas.Where(x => x.StoreNumber == crit).OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
     }
 }

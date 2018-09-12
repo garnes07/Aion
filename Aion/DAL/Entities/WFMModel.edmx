@@ -218,6 +218,19 @@
           <Property Name="Period" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="PayDate" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="PeakData">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="WeekNumber" />
+          </Key>
+          <Property Name="StoreNumber" Type="int" Nullable="false" />
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="Budget" Type="float" />
+          <Property Name="Contract" Type="float" />
+          <Property Name="Holiday" Type="float" />
+          <Property Name="Temps" Type="tinyint" />
+          <Property Name="TempsOption" Type="tinyint" />
+        </EntityType>
         <EntityType Name="PowerHoursProfile">
           <Key>
             <PropertyRef Name="EntryID" />
@@ -1661,6 +1674,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="OpeningTimesComments" EntityType="Self.OpeningTimesComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayCalendarDates" EntityType="Self.PayCalendarDates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayCalendarRef" EntityType="Self.PayCalendarRef" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PeakData" EntityType="Self.PeakData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PowerHoursProfile" EntityType="Self.PowerHoursProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseActions" EntityType="Self.RFTPCaseActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RFTPCaseAudit" EntityType="Self.RFTPCaseAudit" Schema="dbo" store:Type="Tables" />
@@ -2636,6 +2650,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="vw_StoreDeploymentDash" EntityType="WFMMContext.vw_StoreDeploymentDash" />
           <EntitySet Name="vw_StoreDeploymentRank" EntityType="WFMMContext.vw_StoreDeploymentRank" />
           <EntitySet Name="GMPowerHours" EntityType="WFMMContext.GMPowerHour" />
+          <EntitySet Name="PeakDatas" EntityType="WFMMContext.PeakData" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -4206,6 +4221,19 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="Working" Type="Int32" Nullable="false" />
           <Property Name="Holiday" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="PeakData">
+          <Key>
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="WeekNumber" />
+          </Key>
+          <Property Name="StoreNumber" Type="Int32" Nullable="false" />
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="Budget" Type="Double" />
+          <Property Name="Contract" Type="Double" />
+          <Property Name="Holiday" Type="Double" />
+          <Property Name="Temps" Type="Byte" />
+          <Property Name="TempsOption" Type="Byte" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5642,6 +5670,19 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Days" ColumnName="Days" />
                 <ScalarProperty Name="Week" ColumnName="Week" />
                 <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeakDatas">
+            <EntityTypeMapping TypeName="WFMMContext.PeakData">
+              <MappingFragment StoreEntitySet="PeakData">
+                <ScalarProperty Name="TempsOption" ColumnName="TempsOption" />
+                <ScalarProperty Name="Temps" ColumnName="Temps" />
+                <ScalarProperty Name="Holiday" ColumnName="Holiday" />
+                <ScalarProperty Name="Contract" ColumnName="Contract" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
               </MappingFragment>
             </EntityTypeMapping>
