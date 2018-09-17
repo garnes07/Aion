@@ -30,7 +30,7 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IHolidayPlanningManager _holidayPlanningManager;
         private readonly IScheduleManager _scheduleManager;
         private readonly IOpeningTimesManager _openingTimesManager;
-
+        
         public DeploymentController()
         {
             _dashDataManager = new DashboardDataManager();
@@ -130,7 +130,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> Detail(string selectedDate = "Last Week", string s = "e")
+        public async Task<ActionResult> Detail(string selectedDate = "This Week", string s = "e")
         {
             if (selectArea == "S")
             {
@@ -179,6 +179,7 @@ namespace Aion.Areas.WFM.Controllers
                     break;
                 case "C":
                     vm.ChainData = await _dashDataManager.GetAllChainDashData(selectCrit, weekNum);
+                    
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -189,7 +190,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> DetailPilot(string selectedDate = "Last Week")
+        public async Task<ActionResult> DetailPilot(string selectedDate = "This Week")
         {
             if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == false)
             {
@@ -225,7 +226,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> DetailTOW(string selectedDate = "Last Week")
+        public async Task<ActionResult> DetailTOW(string selectedDate = "This Week")
         {
             if(selectArea != "S")
             {
@@ -252,7 +253,7 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> TOWSummary(string selectedDate = "Next Week")
+        public async Task<ActionResult> TOWSummary(string selectedDate = "This Week")
         {
             TOWSummaryVm vm = new TOWSummaryVm();
 

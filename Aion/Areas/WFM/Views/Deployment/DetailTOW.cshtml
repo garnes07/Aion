@@ -25,7 +25,7 @@
                 <strong>Note: </strong>The SOH spend for the previous week is not published until <u>Tuesday AM</u> to allow for sign off and data validation, before this time the schedule information will continue to be shown.
             </p>
             <div class="row justify-content-center">
-                <a class="btn btn-info btn-lg" href="/WFM/Deployment/TOWSummary">Top 100 Weekend Summary</a>
+                <a class="btn btn-info btn-lg" href="@Url.Action("TOWSummary", "Deployment", new { area = "WFM", selectedDate = Model.WeeksOfYear.FirstOrDefault(x => x.Selected).Value})">Top 100 Weekend Summary</a>
             </div>
         </div>
     </div>

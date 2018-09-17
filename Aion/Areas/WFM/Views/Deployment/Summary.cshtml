@@ -55,3 +55,14 @@
         </div>
     </div>
 </div>
+
+@*@section myScripts{
+    <script type="text/javascript">
+    $(function (){
+        //Disable full page
+        $('body').bind('cut copy paste', function (e) {
+            e.preventDefault();
+        });
+    });
+    </script>
+}*@

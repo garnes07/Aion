@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Top 100 Weekend";
+    var selectedDate = Model.WeeksOfYear.Where(x => x.Selected).FirstOrDefault().Value;
 
     Func<string, string> GetRAGClass = (i) =>
     {
@@ -43,8 +44,33 @@
     <table class="table table-bordered table-sm table-smtxtperm">
         <thead class="thead-blue text-center">
             <tr>
-                <th rowspan="2">Division</th>
-                <th rowspan="2">Region</th>
+                <th rowspan="2">
+                    <div class="dropdown" data-toggle="dropdown">
+                        Division <i class="icon ion-funnel"></i>
+                        <div id="dSearch" data-column="0" class="dropdown-menu">
+                            <button class="dropdown-item" type="button" data-selection="clear">Clear Filter</button>
+                            <div class="dropdown-divider"></div>                            
+                            <button class="dropdown-item" type="button" data-selection="DCPW01">DCPW01</button>
+                            <button class="dropdown-item" type="button" data-selection="DCPW02">DCPW02</button>
+                            <button class="dropdown-item" type="button" data-selection="DCPW03">DCPW03</button>
+                            <button class="dropdown-item" type="button" data-selection="DCPW04">DCPW04</button>
+                            <button class="dropdown-item" type="button" data-selection="DCPW05">DCPW05</button>
+                        </div>
+                    </div>
+                </th>
+                <th rowspan="2">
+                    <div class="dropdown" data-toggle="dropdown">
+                        Region <i class="icon ion-funnel"></i>
+                        <div id="rSearch" data-column="1" class="dropdown-menu" style="max-height:200px; overflow-y:auto;">
+                            <button class="dropdown-item" type="button" data-selection="clear">Clear Filter</button>
+                            <div class="dropdown-divider"></div>
+                            @foreach (var item in Model.collection.GroupBy(x => x.Region).OrderBy(x => x.Key))
+                            {
+                                <button class="dropdown-item" type="button" data-selection="@item.Key">@item.Key</button>
+                            }
+                        </div>
+                    </div>
+                </th>
                 <th rowspan="2">Store</th>
                 <th colspan="5">Sunday <small>(@Model.SundayDate)</small></th>
                 <th colspan="5">Saturday <small>(@Model.SaturdayDate)</small></th>
@@ -65,13 +91,13 @@
                 <th>To <br />Budget</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tableBody">
             @foreach (var item in Model.collection)
             {
                 <tr class="text-center">
                     <td>@item.Division</td>
                     <td>@item.Region</td>
-                    <td class="text-left"><a class="clickthrough" data-selector="@item.StoreNumber" href="@Url.Action("Detail","Deployment", new { area = "WFM", s = "S_" + item.StoreNumber, selectedDate = Model.SelectedDate ?? "Next Week"})">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</a></td>
+                    <td class="text-left"><a class="clickthrough" data-selector="@item.StoreNumber" href="@Url.Action("Detail","Deployment", new { area = "WFM", s = "S_" + item.StoreNumber, selectedDate = selectedDate})">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</a></td>
                     <td>@item.SundayReq</td>
                     <td>@item.SundayAvailable</td>
                     <td>@item.SundayDeployed</td>
@@ -89,3 +115,33 @@
         </tbody>
     </table>
 </div>
+
+@section myScripts{
+<script>
+    $(function () {
+        $('th .dropdown-item').click(function () {
+            var selected = String($(this).data('selection'));
+            var column = $(this).parent().data('column');
+            if (selected.length > 0) {
+                var table = document.getElementById('tableBody');
+                var rows = table.rows;
+                
+                if (selected === "clear") {
+                    for (i = 0; i < rows.length ; i++) {
+                        rows[i].classList.remove('d-none');
+                    };
+                } else {
+                    for (i = 0; i < rows.length ; i++) {
+                        if (rows[i].getElementsByTagName('TD')[column].innerHTML !== selected) {
+                            rows[i].classList.add('d-none');
+                        }
+                        else {
+                            rows[i].classList.remove('d-none');
+                        };
+                    };
+                };
+            };
+        });
+    });
+</script>
+}

@@ -52,7 +52,7 @@ else
                                 var storeRank = Model.storeRankCollection.FirstOrDefault(x => x.WeekNumber == week && x.StoreNumber == store);
                                 <tr class="text-center">
                                     <td data-storenum="@storeData.StoreNumber" class="text-left">@string.Format("{0} - {1}", storeData.StoreNumber, storeData.StoreName)</td>
-                                    <td>@storeRank.Rank</td>
+                                    <td class="font-weight-bold">@storeRank.Rank</td>
                                     <td>@storeRank.BudgetFit</td>
                                     <td>@storeRank.CustomerFit</td>
                                     <td>
