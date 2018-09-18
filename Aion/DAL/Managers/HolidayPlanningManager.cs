@@ -40,6 +40,16 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<vw_HolidayPlanningStore>> GetHolidayChain(string chain, int startWeek, int endWeek)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_HolidayPlanningStore
+                    .Where(x => x.Chain == chain && x.Division == null && x.WeekNumber >= startWeek && x.WeekNumber <= endWeek)
+                    .OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
         public async Task<List<HolidayPlanningEmp>> GetHolidayStoreEmp(string store, int startWeek)
         {
             using (var context = new WFMModel())
@@ -65,6 +75,15 @@ namespace Aion.DAL.Managers
             using (var context = new WFMModel())
             {
                 return await context.vw_HolidayPlanningRollup.Where(x => x.Division == division && x.StoreNumber == null && x.YearStart == startWeek)
+                    .OrderBy(x => x.StoreNumber).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_HolidayPlanningRollup>> GetHolidayChainRollup(string chain, int startWeek)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_HolidayPlanningRollup.Where(x => x.Chain == chain && x.Region == null && x.YearStart == startWeek)
                     .OrderBy(x => x.StoreNumber).ToListAsync();
             }
         }

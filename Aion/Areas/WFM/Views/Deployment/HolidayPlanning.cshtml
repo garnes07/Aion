@@ -102,6 +102,10 @@
         {
             @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_HolidayPlanningDivision.cshtml")
         }
+        else if (Model.DisplayLevel == 4)
+        {
+            @Html.Partial("~/Areas/WFM/Views/Deployment/Partials/_HolidayPlanningChain.cshtml")
+        }
     }
 </div>
 

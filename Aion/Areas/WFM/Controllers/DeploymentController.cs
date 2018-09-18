@@ -613,8 +613,10 @@ namespace Aion.Areas.WFM.Controllers
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.MessageType = MessageType.Error;
-                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayChain(selectCrit, year + 1, year + 52);
+                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayChainRollup(selectCrit, year + 1);
+                    vm.DashCollection = await _dashDataManager.GetChainDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.DisplayLevel = 4;
                     break;
             }
             return View(vm);

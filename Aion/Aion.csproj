@@ -1194,6 +1194,7 @@
     <Content Include="Areas\WFM\Views\Deployment\PeakPlanning.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\DashboardTrend.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DashTrendRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_HolidayPlanningChain.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

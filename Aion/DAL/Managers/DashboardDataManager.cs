@@ -168,6 +168,16 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<vw_DashboardData_v2>> GetChainDetailBetween(string chain, int startWeek, int endWeek)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_DashboardData_v2
+                    .Where(x => x.StoreFlag == chain && x.WeekNumber >= startWeek && x.WeekNumber <= endWeek)
+                    .OrderBy(x => x.WeekNumber).ToListAsync();
+            }
+        }
+
         public async Task<List<vw_4WeekSummary>> Get4WeekSummaryStore(string store)
         {
             using (var context = new WFMModel())

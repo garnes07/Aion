@@ -23,6 +23,7 @@ namespace Aion.DAL.IManagers
         Task<List<vw_DashboardData_v2>> GetStoreDetailBetween(string store, int startWeek, int endWeek);
         Task<List<vw_DashboardData_v2>> GetRegionDetailBetween(string region, int startWeek, int endWeek);
         Task<List<vw_DashboardData_v2>> GetDivisionDetailBetween(string division, int startWeek, int endWeek);
+        Task<List<vw_DashboardData_v2>> GetChainDetailBetween(string chain, int startWeek, int endWeek);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryStore(string store);
         Task<List<vw_4WeekSummary_Pilot>> Get4WeekSummaryStorePilot(string store);
         Task<List<vw_4WeekSummary>> Get4WeekSummaryRegion(string region);
