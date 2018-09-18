@@ -209,6 +209,7 @@
     <Compile Include="Areas\WFM\Models\RFTP\SAAnswers.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\AvlbltySummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\CPCWScheduleVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\Deployment\DashboardTrendVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDashVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailTOWVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\Deployment\DeploymentDetailPilotVm.cs" />
@@ -679,7 +680,13 @@
     <Compile Include="DAL\Entities\vw_StoreDeploymentDash.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_StoreDeploymentDashTrend.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_StoreDeploymentRank.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_StoreDeploymentRankTrend.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_StoreLocations.cs">
@@ -1185,6 +1192,8 @@
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DashRegion.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\GMPowerHours.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\PeakPlanning.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\DashboardTrend.cshtml" />
+    <Content Include="Areas\WFM\Views\Deployment\Partials\_DashTrendRegion.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

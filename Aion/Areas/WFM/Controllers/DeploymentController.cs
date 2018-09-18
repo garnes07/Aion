@@ -93,6 +93,35 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
+        public async Task<ActionResult> DashboardTrend()
+        {
+            DashboardTrendVm vm = new DashboardTrendVm();
+
+            switch (selectArea)
+            {
+                case "S":
+                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashTrendByStore(selectCrit);
+                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankTrendByStore(selectCrit);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "R":
+                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashTrendByRegion(selectCrit);
+                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankTrendByRegion(selectCrit);
+                    vm.DisplayLevel = 2;
+                    break;
+                case "D":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+                case "C":
+                    vm.MessageType = MessageType.Error;
+                    vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";
+                    break;
+            }
+
+            return View(vm);
+        }
+
         public async Task<ActionResult> Summary(string c = "e_0")
         {
             string[] input = c.Split('_');

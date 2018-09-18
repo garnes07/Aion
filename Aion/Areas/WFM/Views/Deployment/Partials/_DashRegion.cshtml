@@ -6,17 +6,26 @@
 }
 else
 {
-    <div class="row justify-content-center my-2">
-        <ul class="nav nav-pills nav-fill" role="tablist" id="dTabs">
-            @foreach (var week in Model.WeekNumbers)
-            {
-                <li role="presentation" class="nav-item">
-                    <a class="nav-link @(week == Model.MaxWeek ? "active" : "")" href="#@(week != null ? week.ToString() : "period")" aria-controls="home" role="tab" data-toggle="tab">
-                        @(week != null ? string.Format("Wk {0}", week.ToString().Substring(4)) : "Period")
-                    </a>
-                </li>
-            }
-        </ul>
+    <div class="row justify-content-end my-2">
+        <div class="col-4">
+            <div class="row justify-content-center">
+                <ul class="nav nav-pills nav-fill" role="tablist" id="dTabs">
+                    @foreach (var week in Model.WeekNumbers)
+                {
+                        <li role="presentation" class="nav-item">
+                            <a class="nav-link @(week == Model.MaxWeek ? "active" : "")" href="#@(week != null ? week.ToString() : "period")" aria-controls="home" role="tab" data-toggle="tab">
+                                @(week != null ? string.Format("Wk {0}", week.ToString().Substring(4)) : "Period")
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row justify-content-end mr-4">
+                <button class="btn btn-info">3 Month Trend</button>
+            </div>
+        </div>
     </div>
     <div class="tab-content">
         @foreach (var week in Model.WeekNumbers)

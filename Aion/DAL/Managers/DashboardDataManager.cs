@@ -498,6 +498,62 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<vw_StoreDeploymentDashTrend>> GetStoreDeploymentDashTrendByStore(string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+
+                var region = (await context.vw_DashboardData_v2.FirstOrDefaultAsync(y => y.StoreNumber == crit)).Region;
+
+                return await context.vw_StoreDeploymentDashTrend
+                .Where(x => x.Region == region)
+                .OrderBy(x => x.StoreNumber)
+                .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_StoreDeploymentDashTrend>> GetStoreDeploymentDashTrendByRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+
+                return await context.vw_StoreDeploymentDashTrend
+                .Where(x => x.Region == crit)
+                .OrderBy(x => x.StoreNumber)
+                .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_StoreDeploymentRankTrend>> GetStoreDeploymentRankTrendByStore(string store)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(store);
+
+                var region = (await context.vw_DashboardData_v2.FirstOrDefaultAsync(y => y.StoreNumber == crit)).Region;
+
+                return await context.vw_StoreDeploymentRankTrend
+                .Where(x => x.Region == region)
+                .OrderBy(x => x.StoreNumber)
+                .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_StoreDeploymentRankTrend>> GetStoreDeploymentRankTrendByRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+
+                return await context.vw_StoreDeploymentRankTrend
+                .Where(x => x.Region == crit)
+                .OrderBy(x => x.StoreNumber)
+                .ToListAsync();
+            }
+        }
+
         public async Task<List<PeakData>> GetStorePeakData(string store)
         {
             using(var context = new WFMModel())

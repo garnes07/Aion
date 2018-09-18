@@ -1,0 +1,69 @@
+﻿@model Aion.Areas.WFM.ViewModels.Deployment.DashboardTrendVm
+
+@{ 
+    var i = 1;
+}
+
+<table class="table table-bordered table-sm">
+    <thead class="thead-blue text-center">
+        <tr>
+            <th style="width:30%;" rowspan="3"></th>
+            <th style="width:8%;" class="sort" rowspan="3">Rank</th>
+            <th style="width:11%;" colspan="@Model.PeriodList.Count" rowspan="2">Budget<br />Fit</th>
+            <th style="width:11%;" colspan="@Model.PeriodList.Count" rowspan="2">Customer<br />Fit</th>
+            <th colspan="4">Opportunities</th>
+        </tr>
+        <tr>            
+            <th style="width:10%;"><small>Planning Ahead</small></th>
+            <th style="width:10%;"><small>Recruitment</small></th>
+            <th style="width:10%;"><small>Absence</small></th>
+            <th style="width:10%;"><small>GM Working</small></th>
+        </tr>
+        <tr>
+            @foreach (var item in Model.PeriodList)
+            {
+                <th>P@(item)</th>
+            }
+            @foreach (var item in Model.PeriodList)
+            {
+                <th>P@(item)</th>
+            }
+            <th><small>Scheduled SOH</small></th>
+            <th><small>Contract base &amp; open vacancies</small></th>
+            <th><small>Holidays approved</small></th>
+            <th><small>Power Hours</small></th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var store in Model.StoreList)
+        {
+            var storeData = Model.storeCollection.FirstOrDefault(x => x.StoreNumber == store);
+            var storeRank = Model.storeRankCollection.Where(x => x.StoreNumber == store).ToList();
+            <tr>
+                <td data-storenum="@storeData.StoreNumber" class="text-left">@string.Format("{0} - {1}", storeData.StoreNumber, storeData.StoreName)</td>
+                <td><strong>@i</strong></td>
+                @foreach (var period in Model.PeriodList)
+                {
+                    <td>@storeRank.FirstOrDefault(x => x.Period == period).BudgetFit</td>
+                }
+                @foreach (var period in Model.PeriodList)
+                {
+                    <td>@storeRank.FirstOrDefault(x =>  x.Period == period).CustomerFit</td>
+                }
+                <td>
+                    <a href="#" class="btn btn-sm btn-circle @((double)storeData.PlanningAhead/storeData.WeekCount < 0.75 ? "btn-danger" : ((double)storeData.PlanningAhead/storeData.WeekCount < 0.85 ? "btn-warning" : "btn-success"))">&emsp;</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-circle @((double)storeData.Recruitment/storeData.WeekCount < 0.75 ? "btn-danger" : ((double)storeData.Recruitment/storeData.WeekCount < 0.85 ? "btn-warning" : "btn-success"))">&emsp;</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-circle @((double)storeData.Absence/storeData.WeekCount < 0.75 ? "btn-danger" : ((double)storeData.Absence/storeData.WeekCount < 0.85 ? "btn-warning" : "btn-success"))">&emsp;</a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-circle @((double)storeData.GMWorking/storeData.WeekCount < 0.75 ? "btn-danger" : ((double)storeData.GMWorking/storeData.WeekCount < 0.85 ? "btn-warning" : "btn-success"))">&emsp;</a>
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

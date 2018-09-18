@@ -112,6 +112,97 @@
                 </p>
             </div>
         </div>
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                <strong>Existing Vacancies</strong>
+            </div>
+            <div class="card-body">
+                <i data-container="body"
+                   data-toggle="popover"
+                   data-placement="bottom"
+                   data-trigger="hover"
+                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>Raising - The WFM Team is raising this vacancy in MyHub</li><li>To Post - The vacancy has been raised, awaiting posting by HR Shared Services</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
+                   class="icon ion-information-circled info-button">
+                </i>
+                @if (!Model.PendingRequests.Any() && !Model.LiveRequests.Any())
+                {
+                    <h5>No existing vacancies...</h5>
+                }
+                else
+                {
+                    <p>To edit a vacancy, complete the “Request” form above. When you select a position that already has a “Live” or “Pending” vacancy you will be asked whether you wish to “Replace” or “Add To” the vacancy.</p>
+                    <p>To cancel a “Live” vacancy please contact HR Shared Services, HRSharedServices@dixonscarphone.com</p>
+                    <hr />
+                }
+                @if (Model.PendingRequests.Any())
+                {
+                    <h3>Pending</h3>
+                    <table class="table table-bordered table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th style="width:14%;">Request Id</th>
+                                <th style="width:30%;">Position</th>
+                                <th style="width:14%;">Heads</th>
+                                <th style="width:14%;">Total Hours</th>
+                                <th style="width:12%;">Status</th>
+                                <th style="width:16%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PendingRequests)
+                            {
+                                <tr>
+                                    <td>@item.EntryId</td>
+                                    <td>@item.VacancyPosition.FriendlyName</td>
+                                    <td>@item.Heads</td>
+                                    <td>@(item.ContractHrs * item.Heads)</td>
+                                    <td>
+                                        @(!item.Approved ? "Under review" : (item.SFRefNo != null ? "Raising" : "To Post"))
+                                    </td>
+                                    <td>
+                                        @if (item.SFRefNo == null)
+                                        {
+                                            <button type="button" data-toggle="modal" data-target="#cp_modal" class="btn btn-sm btn-danger" data-refid="@item.EntryId">Cancel</button>
+                                        }
+                                        else
+                                        {
+                                            <i data-container="body" data-toggle="popover" data-placement="top" data-content="This vacancy is currently in the process of being made live and cannot be cancelled. Please check back in 24 hours time." data-trigger="hover" class="icon ion-information-circled"></i>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                @if (Model.LiveRequests.Any())
+                {
+                    <h3>Live</h3>
+                    <table class="table table-bordered table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th style="width:21%;">Vacancy No.</th>
+                                <th style="width:31%;">Position</th>
+                                <th style="width:24%;">Heads</th>
+                                <th style="width:24%;">Total Hours</th>
+                                @*<th style="width:18%;">Actions</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.LiveRequests)
+                            {
+                                <tr>
+                                    <td>@item.JobReqId</td>
+                                    <td>@item.FriendlyName</td>
+                                    <td>@item.Headcount</td>
+                                    <td>@item.TotalVacantHours</td>
+                                    @*<td><button type="button" data-toggle="modal" data-target="#cl_modal" class="btn btn-sm btn-danger" data-refid="@item.JobReqId">Cancel</button></td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
         <div id="formCard" class="card mb-3">
             <div class="card-header text-center">
                 <strong>New Vacancy Request</strong>
@@ -203,98 +294,7 @@
                     <button type="button" id="btnSubmit" class="btn btn-lg btn-success disabled" disabled>Submit</button>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header text-center">
-                <strong>Existing Vacancies</strong>
-            </div>
-            <div class="card-body">
-                <i data-container="body"
-                   data-toggle="popover"
-                   data-placement="bottom"
-                   data-trigger="hover"
-                   data-content="<p>The lists below show you the current status of your requested and open vacancies:<ul><li>Under Review - The vacancy is pending review by the WFM Team.</li><li>Raising - The WFM Team is raising this vacancy in MyHub</li><li>To Post - The vacancy has been raised, awaiting posting by HR Shared Services</li><li>Live - the vacancy is live in MyHub to be recruited against</li></ul></p>"
-                   class="icon ion-information-circled info-button">
-                </i>
-                @if (!Model.PendingRequests.Any() && !Model.LiveRequests.Any())
-                {
-                    <h5>No existing vacancies...</h5>
-                }
-                else
-                {
-                    <p>To edit a vacancy, complete the “Request” form above. When you select a position that already has a “Live” or “Pending” vacancy you will be asked whether you wish to “Replace” or “Add To” the vacancy.</p>
-                    <p>To cancel a “Live” vacancy please contact HR Shared Services, HRSharedServices@dixonscarphone.com</p>
-                    <hr />
-                }
-                @if (Model.PendingRequests.Any())
-                {
-                    <h3>Pending</h3>
-                    <table class="table table-bordered table-sm text-center">
-                        <thead>
-                            <tr>
-                                <th style="width:14%;">Request Id</th>
-                                <th style="width:30%;">Position</th>
-                                <th style="width:14%;">Heads</th>
-                                <th style="width:14%;">Total Hours</th>
-                                <th style="width:12%;">Status</th>
-                                <th style="width:16%;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.PendingRequests)
-                            {
-                                <tr>
-                                    <td>@item.EntryId</td>
-                                    <td>@item.VacancyPosition.FriendlyName</td>
-                                    <td>@item.Heads</td>
-                                    <td>@(item.ContractHrs * item.Heads)</td>
-                                    <td>
-                                        @(!item.Approved ? "Under review" : (item.SFRefNo != null ? "Raising" : "To Post"))
-                                    </td>
-                                    <td>
-                                        @if (item.SFRefNo == null)
-                                        {
-                                            <button type="button" data-toggle="modal" data-target="#cp_modal" class="btn btn-sm btn-danger" data-refid="@item.EntryId">Cancel</button>
-                                        }
-                                        else
-                                        {
-                                            <i data-container="body" data-toggle="popover" data-placement="top" data-content="This vacancy is currently in the process of being made live and cannot be cancelled. Please check back in 24 hours time." data-trigger="hover" class="icon ion-information-circled"></i>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                @if (Model.LiveRequests.Any())
-                {
-                    <h3>Live</h3>
-                    <table class="table table-bordered table-sm text-center">
-                        <thead>
-                            <tr>
-                                <th style="width:21%;">Vacancy No.</th>
-                                <th style="width:31%;">Position</th>
-                                <th style="width:24%;">Heads</th>
-                                <th style="width:24%;">Total Hours</th>
-                                @*<th style="width:18%;">Actions</th>*@
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.LiveRequests)
-                            {
-                                <tr>
-                                    <td>@item.JobReqId</td>
-                                    <td>@item.FriendlyName</td>
-                                    <td>@item.Headcount</td>
-                                    <td>@item.TotalVacantHours</td>
-                                    @*<td><button type="button" data-toggle="modal" data-target="#cl_modal" class="btn btn-sm btn-danger" data-refid="@item.JobReqId">Cancel</button></td>*@
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-            </div>
-        </div>
+        </div>        
     }
 </div>
 

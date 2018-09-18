@@ -1366,10 +1366,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentDash' does not hav
             <PropertyRef Name="StoreNumber" />
             <PropertyRef Name="StoreName" />
             <PropertyRef Name="WeekNumber" />
-            <PropertyRef Name="PlanningAhead" />
-            <PropertyRef Name="Recruitment" />
-            <PropertyRef Name="Absence" />
-            <PropertyRef Name="GMWorking" />
           </Key>
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -1383,6 +1379,27 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentDash' does not hav
           <Property Name="Recruitment" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Absence" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="GMWorking" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentDashTrend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_StoreDeploymentDashTrend">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PlanningAhead" Type="int" />
+          <Property Name="Recruitment" Type="int" />
+          <Property Name="Absence" Type="int" />
+          <Property Name="GMWorking" Type="int" />
+          <Property Name="WeekCount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1407,6 +1424,27 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentRank' does not hav
           <Property Name="BudgetFit" Type="int" Nullable="false" />
           <Property Name="CustomerFit" Type="float" />
           <Property Name="Rank" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentRankTrend' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_StoreDeploymentRankTrend">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Year" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Period" Type="tinyint" Nullable="false" />
+          <Property Name="BudgetFit" Type="float" />
+          <Property Name="CustomerFit" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_StoreLocations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2386,6 +2424,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_StoreDeploymentDash].[GMWorking] AS [GMWorking]
     FROM [dbo].[vw_StoreDeploymentDash] AS [vw_StoreDeploymentDash]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_StoreDeploymentDashTrend" EntityType="Self.vw_StoreDeploymentDashTrend" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_StoreDeploymentDashTrend].[Chain] AS [Chain], 
+    [vw_StoreDeploymentDashTrend].[Division] AS [Division], 
+    [vw_StoreDeploymentDashTrend].[Region] AS [Region], 
+    [vw_StoreDeploymentDashTrend].[StoreNumber] AS [StoreNumber], 
+    [vw_StoreDeploymentDashTrend].[StoreName] AS [StoreName], 
+    [vw_StoreDeploymentDashTrend].[PlanningAhead] AS [PlanningAhead], 
+    [vw_StoreDeploymentDashTrend].[Recruitment] AS [Recruitment], 
+    [vw_StoreDeploymentDashTrend].[Absence] AS [Absence], 
+    [vw_StoreDeploymentDashTrend].[GMWorking] AS [GMWorking], 
+    [vw_StoreDeploymentDashTrend].[WeekCount] AS [WeekCount]
+    FROM [dbo].[vw_StoreDeploymentDashTrend] AS [vw_StoreDeploymentDashTrend]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_StoreDeploymentRank" EntityType="Self.vw_StoreDeploymentRank" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_StoreDeploymentRank].[Chain] AS [Chain], 
@@ -2400,6 +2452,19 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_StoreDeploymentRank].[CustomerFit] AS [CustomerFit], 
     [vw_StoreDeploymentRank].[Rank] AS [Rank]
     FROM [dbo].[vw_StoreDeploymentRank] AS [vw_StoreDeploymentRank]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_StoreDeploymentRankTrend" EntityType="Self.vw_StoreDeploymentRankTrend" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_StoreDeploymentRankTrend].[Chain] AS [Chain], 
+    [vw_StoreDeploymentRankTrend].[Division] AS [Division], 
+    [vw_StoreDeploymentRankTrend].[Region] AS [Region], 
+    [vw_StoreDeploymentRankTrend].[StoreNumber] AS [StoreNumber], 
+    [vw_StoreDeploymentRankTrend].[StoreName] AS [StoreName], 
+    [vw_StoreDeploymentRankTrend].[Year] AS [Year], 
+    [vw_StoreDeploymentRankTrend].[Period] AS [Period], 
+    [vw_StoreDeploymentRankTrend].[BudgetFit] AS [BudgetFit], 
+    [vw_StoreDeploymentRankTrend].[CustomerFit] AS [CustomerFit]
+    FROM [dbo].[vw_StoreDeploymentRankTrend] AS [vw_StoreDeploymentRankTrend]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_StoreLocations" EntityType="Self.vw_StoreLocations" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2651,6 +2716,8 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="vw_StoreDeploymentRank" EntityType="WFMMContext.vw_StoreDeploymentRank" />
           <EntitySet Name="GMPowerHours" EntityType="WFMMContext.GMPowerHour" />
           <EntitySet Name="PeakDatas" EntityType="WFMMContext.PeakData" />
+          <EntitySet Name="vw_StoreDeploymentDashTrend" EntityType="WFMMContext.vw_StoreDeploymentDashTrend" />
+          <EntitySet Name="vw_StoreDeploymentRankTrend" EntityType="WFMMContext.vw_StoreDeploymentRankTrend" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -4164,10 +4231,6 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
             <PropertyRef Name="StoreNumber" />
             <PropertyRef Name="StoreName" />
             <PropertyRef Name="WeekNumber" />
-            <PropertyRef Name="PlanningAhead" />
-            <PropertyRef Name="Recruitment" />
-            <PropertyRef Name="Absence" />
-            <PropertyRef Name="GMWorking" />
           </Key>
           <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
@@ -4233,6 +4296,44 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="Holiday" Type="Double" />
           <Property Name="Temps" Type="Byte" />
           <Property Name="TempsOption" Type="Byte" />
+        </EntityType>
+        <EntityType Name="vw_StoreDeploymentDashTrend">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="StoreName" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PlanningAhead" Type="Int32" />
+          <Property Name="Recruitment" Type="Int32" />
+          <Property Name="Absence" Type="Int32" />
+          <Property Name="GMWorking" Type="Int32" />
+          <Property Name="WeekCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_StoreDeploymentRankTrend">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="Division" />
+            <PropertyRef Name="Region" />
+            <PropertyRef Name="StoreName" />
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="Period" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Period" Type="Byte" Nullable="false" />
+          <Property Name="BudgetFit" Type="Double" />
+          <Property Name="CustomerFit" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -5684,6 +5785,37 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Budget" ColumnName="Budget" />
                 <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
                 <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_StoreDeploymentDashTrend">
+            <EntityTypeMapping TypeName="WFMMContext.vw_StoreDeploymentDashTrend">
+              <MappingFragment StoreEntitySet="vw_StoreDeploymentDashTrend">
+                <ScalarProperty Name="WeekCount" ColumnName="WeekCount" />
+                <ScalarProperty Name="GMWorking" ColumnName="GMWorking" />
+                <ScalarProperty Name="Absence" ColumnName="Absence" />
+                <ScalarProperty Name="Recruitment" ColumnName="Recruitment" />
+                <ScalarProperty Name="PlanningAhead" ColumnName="PlanningAhead" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_StoreDeploymentRankTrend">
+            <EntityTypeMapping TypeName="WFMMContext.vw_StoreDeploymentRankTrend">
+              <MappingFragment StoreEntitySet="vw_StoreDeploymentRankTrend">
+                <ScalarProperty Name="CustomerFit" ColumnName="CustomerFit" />
+                <ScalarProperty Name="BudgetFit" ColumnName="BudgetFit" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
