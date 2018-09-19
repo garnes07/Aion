@@ -8,86 +8,99 @@
 
 <div class="container-fluid">
     @*<div class="alert alert-info">
-            <strong>GM Access: </strong>
-            We are currently aware of an issue affecting Store Manager's ability to access restricted pages. This is currently being investigated, we apologise for any inconvenience.
-        </div>*@
+    <strong>GM Access: </strong>
+    We are currently aware of an issue affecting Store Manager's ability to access restricted pages. This is currently being investigated, we apologise for any inconvenience.
+    </div>*@
     @if (Request.IsAuthenticated)
     {
-        <div class="row justify-content-end mb-2">
-            <div>
-                @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
-            </div>
+    <div class="row justify-content-end mb-2">
+        <div>
+            @Html.Partial("~/Views/Shared/_selectMenu.cshtml")
         </div>
+    </div>
     }
     @Html.Partial("~/Views/Home/Partials/_ScoreSummary.cshtml")
 
     @if (accessLvl >= 3)
     {
+    <div class="card mb-2">
+        <div class="card-header text-center">
+            <strong>Future Planning</strong>
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-center mb-3">
+                <a class="btn btn-primary btn-lg" href="/WFM/Deployment/TOWSummary">Top 100 Weekend Summary</a>
+            </div>
+            <hr />
+            <div class="row mx-0 justify-content-center">
+                <div class="col-12 col-md-6 col-lg-4 mb-2">
+                    <div class="row">
+                        <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Are we planning well?</strong></p></div>
+                        <div class="col-4"><a class="btn btn-info" href="@Url.Action("DeploymentSwings", "FuturePlanning", new { area = "WFM" })">Show me</a></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 mb-2">
+                    <div class="row">
+                        <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Are we deployed well?</strong></p></div>
+                        <div class="col-4"><a class="btn btn-info" href="@Url.Action("DeploymentStatus", "FuturePlanning", new { area = "WFM" })">Show me</a></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 mb-2">
+                    <div class="row">
+                        <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Is holiday controlled?</strong></p></div>
+                        <div class="col-4"><a class="btn btn-info" href="@Url.Action("DeploymentStatus", "FuturePlanning", new { area = "WFM", adv = true })">Show me</a></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 mb-2">
+                    <div class="row">
+                        <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Are we recruited right?</strong></p></div>
+                        <div class="col-4"><a class="btn btn-info" href="@Url.Action("RecruitmentStatus", "FuturePlanning", new { area = "WFM" })">Show me</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @*else
+    {
         <div class="card mb-2">
             <div class="card-header text-center">
-                <strong>Future Planning</strong>
+                <strong>Peak Planning</strong>
             </div>
             <div class="card-body">
                 <div class="row justify-content-center mb-3">
-                    <a class="btn btn-primary btn-lg" href="/WFM/Deployment/TOWSummary">Top 100 Weekend Summary</a>
-                </div>
-                <hr />
-                <div class="row mx-0 justify-content-center">
-                    <div class="col-12 col-md-6 col-lg-4 mb-2">
-                        <div class="row">
-                            <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Are we planning well?</strong></p></div>
-                            <div class="col-4"><a class="btn btn-info" href="@Url.Action("DeploymentSwings", "FuturePlanning", new { area = "WFM" })">Show me</a></div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 mb-2">
-                        <div class="row">
-                            <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Are we deployed well?</strong></p></div>
-                            <div class="col-4"><a class="btn btn-info" href="@Url.Action("DeploymentStatus", "FuturePlanning", new { area = "WFM" })">Show me</a></div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 mb-2">
-                        <div class="row">
-                            <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Is holiday controlled?</strong></p></div>
-                            <div class="col-4"><a class="btn btn-info" href="@Url.Action("DeploymentStatus", "FuturePlanning", new { area = "WFM", adv = true })">Show me</a></div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 mb-2">
-                        <div class="row">
-                            <div class="col-8 text-center"><p class="mb-0" style="font-size:large;"><strong>Are we recruited right?</strong></p></div>
-                            <div class="col-4"><a class="btn btn-info" href="@Url.Action("RecruitmentStatus", "FuturePlanning", new { area = "WFM" })">Show me</a></div>
-                        </div>
-                    </div>
+                    <a class="btn btn-primary btn-lg" href="/WFM/Deployment/PeakPlanning">Peak One Pager</a>
                 </div>
             </div>
         </div>
-    }
+    }*@
 
     @if (Model.TopNews.Any() && !(bool)HttpContext.Current.Session["_ROIFlag"])
     {
-        <div class="card">
-            <div class="card-header text-center">
-                <strong>News</strong>
-            </div>
-            <div class="card-body">
-                @foreach (var item in Model.TopNews)
-                {
-                    if (firstNews == false)
-                    {
-                        <hr />
-                    }
-                    <h4 style="color:#279399"><u><strong>@string.Format("{0} - {1:d}", item.ActivityName, item.ActivityDate)</strong></u></h4>
-                    @Html.Raw(item.Detail)
-                    firstNews = false;
-                }
-                <a href="@Url.Action("NewsArchive", "Home", new { area = "" })" class="btn btn-info btn-lg float-right mt-2" role="button">View Archive</a>
-            </div>
+    <div class="card">
+        <div class="card-header text-center">
+            <strong>News</strong>
         </div>
+        <div class="card-body">
+            @foreach (var item in Model.TopNews)
+            {
+            if (firstNews == false)
+            {
+            <hr />
+            }
+            <h4 style="color:#279399"><u><strong>@string.Format("{0} - {1:d}", item.ActivityName, item.ActivityDate)</strong></u></h4>
+            @Html.Raw(item.Detail)
+            firstNews = false;
+            }
+            <a href="@Url.Action("NewsArchive", "Home", new { area = "" })" class="btn btn-info btn-lg float-right mt-2" role="button">View Archive</a>
+        </div>
+    </div>
     }
 </div>
 
 @if(accessLvl >= 4)
 {
-    <a href="@Url.Action("Index", "Minerva", new { area = "WFM" })" style="position:fixed; bottom:0; left:0; height:50px; width:50px;"></a>
+<a href="@Url.Action("Index", "Minerva", new { area = "WFM" })" style="position:fixed; bottom:0; left:0; height:50px; width:50px;"></a>
 }
 
 @section myScripts{
@@ -98,11 +111,11 @@
             if ((bool)HttpContext.Current.Session["_showHelper"])
             {
                 HttpContext.Current.Session["_showHelper"] = false;
-                <script>
-                $(function () {
-                    $('#newHelper').modal('show');
-                });
-                </script>
+<script>
+    $(function () {
+        $('#newHelper').modal('show');
+    });
+</script>
             }
         }
     }
