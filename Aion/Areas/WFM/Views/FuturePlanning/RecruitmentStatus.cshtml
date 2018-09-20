@@ -21,12 +21,26 @@
             This report is an indicative view of a regions recruitment position. Small factors and a constant fluctuation in teams will effect the actual figures but will not fundamental effect the position of the region/store or the action to be taken. For example known leavers are currently not factored in and there is a gap between an offer been made (a vacancy closed) and the applicant actually being on-boarded.
         </div>
         <div class="card-footer text-center">
-            <strong><u>Note</u>: This report is updated at 11 AM each day</strong>
+            <strong><u>Note</u>: This report is updated at 7 AM each day</strong>
         </div>
     </div>
+
+    @if (Model.DisplayLevel <= 2)
+    {
+        @Html.Partial("~/Areas/WFM/Views/FuturePlanning/Partials/_RecruitmentStatusRegion.cshtml")
+    }
+    else if (Model.DisplayLevel == 3)
+    {
+        @Html.Partial("~/Areas/WFM/Views/FuturePlanning/Partials/_RecruitmentStatusDivision.cshtml")
+    }
+    else if (Model.DisplayLevel == 4)
+    {
+        @Html.Partial("~/Areas/WFM/Views/FuturePlanning/Partials/_RecruitmentStatusChain.cshtml")
+    }
+
     <div class="row">
         <div class="col-12" id="chtContainer">
-            <canvas id="chart" style="height:500px;"></canvas>
+            <canvas id="chart" style="height:400px;"></canvas>
         </div>
     </div>
 </div>

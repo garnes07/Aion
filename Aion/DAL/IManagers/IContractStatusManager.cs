@@ -10,5 +10,9 @@ namespace Aion.DAL.Managers
         Task<List<vw_StoreContractStatus>> GetContractStatusDivision(string division);
         Task<List<vw_StoreContractStatus>> GetContractStatusRegion(string region);
         Task<List<vw_StoreContractStatus>> GetContractStatusStore(string storeNumber);
+        Task<List<vw_ContractStatusDetail>> GetContractDetailStore(string storeNumber);
+        Task<List<vw_ContractStatusDetail>> GetContractDetailRegion(string region);
+        Task<List<vw_ContractStatusDetail>> GetContractDetailDivision(string division);
+        Task<List<vw_ContractStatusDetail>> GetContractDetailChain(string chain);
     }
 }

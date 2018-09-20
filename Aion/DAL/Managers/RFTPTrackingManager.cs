@@ -208,18 +208,18 @@ namespace Aion.DAL.Managers
                     var originalCase = context.RFTPCaseStubs.Find(caseId);
                     if (originalCase != null)
                     {
-                        //originalCase.LastUpdated = DateTime.Now;
-                        //originalCase.LastUpdatedBy = username;
+                        originalCase.LastUpdated = DateTime.Now;
+                        originalCase.LastUpdatedBy = username;
 
-                        //originalCase.RFTPCaseAudits.Add(new RFTPCaseAudit
-                        //{
-                        //    CaseID = caseId,
-                        //    ActionType = actionType,
-                        //    Comment = comment,
-                        //    CompletedBy = username,
-                        //    DateTimeCreated = DateTime.Now
-                        //});
-                        //return await context.SaveChangesAsync();
+                        originalCase.RFTPCaseAudits.Add(new RFTPCaseAudit
+                        {
+                            CaseID = caseId,
+                            ActionType = actionType,
+                            Comment = comment,
+                            CompletedBy = username,
+                            DateTimeCreated = DateTime.Now
+                        });
+                        return await context.SaveChangesAsync();
                         return -5;
                     }
                     return -5;

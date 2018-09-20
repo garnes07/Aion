@@ -53,5 +53,51 @@ namespace Aion.DAL.Managers
                     .ToListAsync();
             }
         }
+
+        public async Task<List<vw_ContractStatusDetail>> GetContractDetailStore(string storeNumber)
+        {
+            using(var context = new WFMModel())
+            {
+                short crit = short.Parse(storeNumber);
+                return await context.vw_ContractStatusDetail
+                    .Where(x => x.Region == context.vw_ContractStatusDetail.FirstOrDefault(y => y.StoreNumber == crit).Region)
+                    .OrderBy(x => x.StoreNumber)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_ContractStatusDetail>> GetContractDetailRegion(string region)
+        {
+            using (var context = new WFMModel())
+            {
+                short crit = short.Parse(region);
+                return await context.vw_ContractStatusDetail
+                    .Where(x => x.Region == crit)
+                    .OrderBy(x => x.StoreNumber)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_ContractStatusDetail>> GetContractDetailDivision(string division)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_ContractStatusDetail
+                    .Where(x => x.Division == division && x.StoreNumber == null)
+                    .OrderBy(x => x.StoreNumber)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_ContractStatusDetail>> GetContractDetailChain(string chain)
+        {
+            using (var context = new WFMModel())
+            {
+                return await context.vw_ContractStatusDetail
+                    .Where(x => x.Chain == chain && x.Region == null)
+                    .OrderBy(x => x.StoreNumber)
+                    .ToListAsync();
+            }
+        }
     }
 }

@@ -581,6 +581,9 @@
     <Compile Include="DAL\Entities\vw_ContractBaseDetail.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Entities\vw_ContractStatusDetail.cs">
+      <DependentUpon>WFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Entities\vw_CPCWSchedules.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
@@ -1195,6 +1198,9 @@
     <Content Include="Areas\WFM\Views\Deployment\DashboardTrend.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_DashTrendRegion.cshtml" />
     <Content Include="Areas\WFM\Views\Deployment\Partials\_HolidayPlanningChain.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_RecruitmentStatusRegion.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_RecruitmentStatusDivision.cshtml" />
+    <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_RecruitmentStatusChain.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

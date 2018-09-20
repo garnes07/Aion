@@ -31,18 +31,22 @@ namespace Aion.Areas.WFM.Controllers
             {
                 case "S":
                     vm.collection = await _contractStatusManager.GetContractStatusStore(selectCrit);
+                    vm.ContractDetail = await _contractStatusManager.GetContractDetailStore(selectCrit);
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
                     vm.collection = await _contractStatusManager.GetContractStatusRegion(selectCrit);
+                    vm.ContractDetail = await _contractStatusManager.GetContractDetailRegion(selectCrit);
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
                     vm.collection = await _contractStatusManager.GetContractStatusDivision(selectCrit);
+                    vm.ContractDetail = await _contractStatusManager.GetContractDetailDivision(selectCrit);
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
                     vm.collection = await _contractStatusManager.GetContractStatusChain(selectCrit);
+                    vm.ContractDetail = await _contractStatusManager.GetContractDetailChain(selectCrit);
                     vm.DisplayLevel = 4;
                     break;
             }

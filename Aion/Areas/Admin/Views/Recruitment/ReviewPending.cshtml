@@ -76,7 +76,7 @@
                         } 
                         else
                         {
-                            <td>@string.Format("{0:0.00}", Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs) : Model.PositionDetail.OpenVacancies)</td>
+                            <td>@string.Format("{0:0.00}", Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs) : Model.PositionDetail.OpenVacancies / Model.PositionDetail.RateOfPay)</td>
                         }
                         @if (Model.PositionDetail.ContractBase == 0)
                         {
@@ -84,7 +84,7 @@
                         }
                         else
                         {
-                            <td>@string.Format("{0:0.00}", Model.PositionDetail.CurrentContract + (Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs) : Model.PositionDetail.OpenVacancies))</td>
+                            <td>@string.Format("{0:0.00}", Model.PositionDetail.CurrentContract + (Model.VacancyRequests.First().Replace ? Model.VacancyRequests.Sum(x => x.Heads * x.ContractHrs) : Model.PositionDetail.OpenVacancies / Model.PositionDetail.RateOfPay))</td>
                         }
                     </tr>
                 </tbody>

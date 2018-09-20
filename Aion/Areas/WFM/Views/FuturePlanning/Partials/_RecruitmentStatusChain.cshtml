@@ -1,0 +1,45 @@
+﻿@model Aion.Areas.WFM.ViewModels.FuturePlanning.RecruitmentStatusVm
+
+@{
+    var topLine = Model.ContractDetail.FirstOrDefault(x => x.Division == null);
+}
+
+<div class="card">
+    <div class="card-body">
+        <p class="text-center">The below exludes all Minerva stores</p>
+        <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
+            <thead class="thead-blue">
+                <tr>
+                    <th></th>
+                    @*<th>Rank</th>*@
+                    <th># Stores Under Base</th>
+                    <th>Hours Under Base</th>
+                    <th># Stores Under without enough vacancies</th>
+                    <th>Hours to Raise</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ContractDetail.Where(x => x.Division != null))
+                {
+                    <tr>
+                        <td class="text-left">@item.Division</td>
+                        @*<td>-</td>*@
+                        <td>@item.UnderBase</td>
+                        <td>@item.HoursUnderBase</td>
+                        <td>@item.VacancyUnderBase</td>
+                        <td>@item.VacancyHoursToRaise</td>
+                    </tr>
+                }
+                <tr>
+                    <td class="text-left"><strong>@topLine.Chain Total</strong></td>
+                    @*<td><strong>-</strong></td>*@
+                    <td><strong>@topLine.UnderBase</strong></td>
+                    <td><strong>@topLine.HoursUnderBase</strong></td>
+                    <td><strong>@topLine.VacancyUnderBase</strong></td>
+                    <td><strong>@topLine.VacancyHoursToRaise</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

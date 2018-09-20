@@ -9,6 +9,7 @@ namespace Aion.Areas.WFM.ViewModels.FuturePlanning
     public class RecruitmentStatusVm : BaseVm
     {
         public List<vw_StoreContractStatus> collection { get; set; }
+        public List<vw_ContractStatusDetail> ContractDetail { get; set; }
 
         public string Legend
         {

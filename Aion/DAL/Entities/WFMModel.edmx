@@ -587,6 +587,23 @@ warning 6002: The table/view '99999_WFM.dbo.vw_ContractBaseDetail' does not have
           <Property Name="TotalHoliday" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view '99999_WFM.dbo.vw_ContractStatusDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_ContractStatusDetail">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" />
+          <Property Name="Division" Type="nvarchar" MaxLength="25" />
+          <Property Name="Region" Type="smallint" />
+          <Property Name="StoreNumber" Type="smallint" />
+          <Property Name="StoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UnderBase" Type="int" />
+          <Property Name="HoursUnderBase" Type="float" />
+          <Property Name="VacancyUnderBase" Type="int" />
+          <Property Name="VacancyHoursToRaise" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view '99999_WFM.dbo.vw_CPCWSchedules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_CPCWSchedules">
           <Key>
@@ -1366,6 +1383,10 @@ warning 6002: The table/view '99999_WFM.dbo.vw_StoreDeploymentDash' does not hav
             <PropertyRef Name="StoreNumber" />
             <PropertyRef Name="StoreName" />
             <PropertyRef Name="WeekNumber" />
+            
+            
+            
+            
           </Key>
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Division" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -1839,6 +1860,20 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     [vw_ContractBaseDetail].[P12] AS [P12], 
     [vw_ContractBaseDetail].[TotalHoliday] AS [TotalHoliday]
     FROM [dbo].[vw_ContractBaseDetail] AS [vw_ContractBaseDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_ContractStatusDetail" EntityType="Self.vw_ContractStatusDetail" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ContractStatusDetail].[RowId] AS [RowId], 
+    [vw_ContractStatusDetail].[Chain] AS [Chain], 
+    [vw_ContractStatusDetail].[Division] AS [Division], 
+    [vw_ContractStatusDetail].[Region] AS [Region], 
+    [vw_ContractStatusDetail].[StoreNumber] AS [StoreNumber], 
+    [vw_ContractStatusDetail].[StoreName] AS [StoreName], 
+    [vw_ContractStatusDetail].[UnderBase] AS [UnderBase], 
+    [vw_ContractStatusDetail].[HoursUnderBase] AS [HoursUnderBase], 
+    [vw_ContractStatusDetail].[VacancyUnderBase] AS [VacancyUnderBase], 
+    [vw_ContractStatusDetail].[VacancyHoursToRaise] AS [VacancyHoursToRaise]
+    FROM [dbo].[vw_ContractStatusDetail] AS [vw_ContractStatusDetail]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_CPCWSchedules" EntityType="Self.vw_CPCWSchedules" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2718,6 +2753,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySet Name="PeakDatas" EntityType="WFMMContext.PeakData" />
           <EntitySet Name="vw_StoreDeploymentDashTrend" EntityType="WFMMContext.vw_StoreDeploymentDashTrend" />
           <EntitySet Name="vw_StoreDeploymentRankTrend" EntityType="WFMMContext.vw_StoreDeploymentRankTrend" />
+          <EntitySet Name="vw_ContractStatusDetail" EntityType="WFMMContext.vw_ContractStatusDetail" />
         </EntityContainer>
         <ComplexType Name="sp_ComplianceSummary_Result">
           <Property Type="String" Name="Chain" Nullable="true" MaxLength="25" />
@@ -4335,6 +4371,21 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="BudgetFit" Type="Double" />
           <Property Name="CustomerFit" Type="Double" />
         </EntityType>
+        <EntityType Name="vw_ContractStatusDetail">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="RowId" Type="Int64" Nullable="false" />
+          <Property Name="Chain" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="Int16" />
+          <Property Name="StoreNumber" Type="Int16" />
+          <Property Name="StoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnderBase" Type="Int32" />
+          <Property Name="HoursUnderBase" Type="Double" />
+          <Property Name="VacancyUnderBase" Type="Int32" />
+          <Property Name="VacancyHoursToRaise" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5816,6 +5867,22 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
                 <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="Division" ColumnName="Division" />
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ContractStatusDetail">
+            <EntityTypeMapping TypeName="WFMMContext.vw_ContractStatusDetail">
+              <MappingFragment StoreEntitySet="vw_ContractStatusDetail">
+                <ScalarProperty Name="VacancyHoursToRaise" ColumnName="VacancyHoursToRaise" />
+                <ScalarProperty Name="VacancyUnderBase" ColumnName="VacancyUnderBase" />
+                <ScalarProperty Name="HoursUnderBase" ColumnName="HoursUnderBase" />
+                <ScalarProperty Name="UnderBase" ColumnName="UnderBase" />
+                <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

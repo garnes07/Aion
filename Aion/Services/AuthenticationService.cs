@@ -154,7 +154,12 @@ namespace Aion.Services
                 {
                     HttpContext.Current.Session["Email"] = entry.Properties["userPrincipalName"].Value.ToString();
                 }
-                if (entry.Properties.Contains("employeeNumber"))
+                if (entry.Properties.Contains("employeeID"))
+                {
+                    string empNum = entry.Properties["employeeID"].Value.ToString();
+                    HttpContext.Current.Session.Add("_EmpNum", empNum);
+                }
+                else if (entry.Properties.Contains("employeeNumber"))
                 {
                     string empNum = entry.Properties["employeeNumber"].Value.ToString();
                     HttpContext.Current.Session.Add("_EmpNum", empNum);
