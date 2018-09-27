@@ -1,0 +1,23 @@
+﻿@media print{
+       .table-bordered th,
+       .table-bordered td {
+        border: 1px solid #000 !important;
+      }
+       .thead-teal th{
+           color: white !important;
+           background-color: RGB(0,140,168) !important;
+      }
+       td.table-teal{
+        color: white !important;
+        background-color: RGB(0,140,168) !important;
+      }
+}
+
+.thead-teal th{
+    color: white;
+    background-color: RGB(0,140,168);
+}
+td.table-teal{
+    color: white;
+    background-color: RGB(0,140,168);
+}

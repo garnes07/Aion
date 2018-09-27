@@ -230,6 +230,7 @@
           <Property Name="Holiday" Type="float" />
           <Property Name="Temps" Type="tinyint" />
           <Property Name="TempsOption" Type="tinyint" />
+          <Property Name="ContractBase" Type="smallint" />
         </EntityType>
         <EntityType Name="PowerHoursProfile">
           <Key>
@@ -4332,6 +4333,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <Property Name="Holiday" Type="Double" />
           <Property Name="Temps" Type="Byte" />
           <Property Name="TempsOption" Type="Byte" />
+          <Property Name="ContractBase" Type="Int16" />
         </EntityType>
         <EntityType Name="vw_StoreDeploymentDashTrend">
           <Key>
@@ -5829,6 +5831,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
           <EntitySetMapping Name="PeakDatas">
             <EntityTypeMapping TypeName="WFMMContext.PeakData">
               <MappingFragment StoreEntitySet="PeakData">
+                <ScalarProperty Name="ContractBase" ColumnName="ContractBase" />
                 <ScalarProperty Name="TempsOption" ColumnName="TempsOption" />
                 <ScalarProperty Name="Temps" ColumnName="Temps" />
                 <ScalarProperty Name="Holiday" ColumnName="Holiday" />

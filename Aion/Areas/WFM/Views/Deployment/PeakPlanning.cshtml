@@ -78,6 +78,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    @if(Model.collection.FirstOrDefault().Contract < Model.collection.FirstOrDefault().ContractBase - 8)
+                    {
+                        <div class="alert alert-info text-center">You are currently below your maximum contract base of @Model.collection.FirstOrDefault().ContractBase which may affect your ability to achieve the required flex</div>
+                    }
                     <hr />
                     <h3>Peak Temps</h3>
                     <p><strong><u>@(Model.tempsReq ? Model.collection.FirstOrDefault().Temps + " recommended" : "None required")</u></strong></p>

@@ -21,5 +21,6 @@ namespace Aion.DAL.Entities
         public Nullable<byte> AccessLvl { get; set; }
         public Nullable<byte> AreaLevel { get; set; }
         public string IP { get; set; }
+        public string Domain { get; set; }
     }
 }

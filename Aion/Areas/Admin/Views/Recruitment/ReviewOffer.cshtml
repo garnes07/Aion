@@ -33,7 +33,11 @@
             <strong>Current Position</strong>
         </div>
         <div class="card-body">
-            @if (Model.PositionDetail != null)
+            @if(Model.OfferToReview.FirstOrDefault().Job_Code == 1434)
+            {
+                <div class="alert alert-info text-center"><strong>Peak Temp - Please approve</strong></div>
+            }
+            else if (Model.PositionDetail != null)
             {
                 <table class="table table-bordered table-sm table-smtxtperm text-center">
                     <thead>
@@ -197,31 +201,34 @@
                 </tbody>
             </table>
 
-            <table id="requestTbl" class="table table-bordered table-sm table-smtxtperm text-center mb-3">
-                <thead>
-                    <tr class="thead-light">
-                        <th colspan="5">
-                            <strong>Open Vacancy</strong>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Ref#</th>
-                        <th>Position</th>
-                        <th>Created</th>
-                        <th>Total Vacant Hrs</th>
-                        <th>Headcount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>@Model.OpenVacancy.JobReqId</td>
-                        <td>@Model.OpenVacancy.FriendlyName</td>
-                        <td>@string.Format("{0:d}", Model.OpenVacancy.DateCreated)</td>
-                        <td>@Model.OpenVacancy.TotalVacantHours</td>
-                        <td>@Model.OpenVacancy.Headcount</td>
-                    </tr>
-                </tbody>
-            </table>
+            @if (Model.OfferToReview.FirstOrDefault().Job_Code != 1434)
+            {
+                <table id="requestTbl" class="table table-bordered table-sm table-smtxtperm text-center mb-3">
+                    <thead>
+                        <tr class="thead-light">
+                            <th colspan="5">
+                                <strong>Open Vacancy</strong>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Ref#</th>
+                            <th>Position</th>
+                            <th>Created</th>
+                            <th>Total Vacant Hrs</th>
+                            <th>Headcount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.OpenVacancy.JobReqId</td>
+                            <td>@Model.OpenVacancy.FriendlyName</td>
+                            <td>@string.Format("{0:d}", Model.OpenVacancy.DateCreated)</td>
+                            <td>@Model.OpenVacancy.TotalVacantHours</td>
+                            <td>@Model.OpenVacancy.Headcount</td>
+                        </tr>
+                    </tbody>
+                </table>
+            }            
             <form id="frm" method="post" class="d-none">
                 @for (int i = 0; i < Model.OfferToReview.Count; i++)
                 {

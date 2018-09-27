@@ -21,5 +21,6 @@ namespace Aion.DAL.Entities
         public Nullable<double> Holiday { get; set; }
         public Nullable<byte> Temps { get; set; }
         public Nullable<byte> TempsOption { get; set; }
+        public Nullable<short> ContractBase { get; set; }
     }
 }

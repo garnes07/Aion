@@ -427,5 +427,10 @@ namespace Aion.Areas.WFM.Controllers
 
             return View(vm);
         }
+
+        public async Task<ActionResult> IDD()
+        {
+            return View();
+        }
     }
 }

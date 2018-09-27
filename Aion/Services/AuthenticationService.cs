@@ -137,7 +137,8 @@ namespace Aion.Services
                 EmpNum = authResult.EmpNum,
                 AccessLvl = authResult.AccessLevel,
                 AreaLevel = authResult.AreaLevel,
-                IP = MvcHelper.GetIPHelper()
+                IP = MvcHelper.GetIPHelper(),
+                Domain = Domain
             });
 
             HttpContext.Current.Session.Add("_LoginID", loginID);
@@ -154,17 +155,17 @@ namespace Aion.Services
                 {
                     HttpContext.Current.Session["Email"] = entry.Properties["userPrincipalName"].Value.ToString();
                 }
-                if (entry.Properties.Contains("employeeID"))
+                if (entry.Properties.Contains("employeeID") && entry.Properties["employeeID"].Value.ToString() != "")
                 {
                     string empNum = entry.Properties["employeeID"].Value.ToString();
                     HttpContext.Current.Session.Add("_EmpNum", empNum);
                 }
-                else if (entry.Properties.Contains("employeeNumber"))
+                else if (entry.Properties.Contains("employeeNumber") && entry.Properties["employeeNumber"].Value.ToString() != "")
                 {
                     string empNum = entry.Properties["employeeNumber"].Value.ToString();
                     HttpContext.Current.Session.Add("_EmpNum", empNum);
                 }
-                else if (entry.Properties.Contains("dcgWorkforceID"))
+                else if (entry.Properties.Contains("dcgWorkforceID") && entry.Properties["dcgWorkforceID"].Value.ToString() != "")
                 {
                     string empNum = entry.Properties["dcgWorkforceID"].Value.ToString().Replace('A', '1').Replace('B', '2').Replace('C', '3');
                     HttpContext.Current.Session.Add("_EmpNum", empNum);

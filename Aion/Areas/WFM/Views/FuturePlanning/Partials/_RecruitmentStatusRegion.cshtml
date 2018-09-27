@@ -4,7 +4,7 @@
     var topLine = Model.ContractDetail.FirstOrDefault(x => x.StoreNumber == null);
 }
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-body">
         <p class="text-center">The below exludes all Minerva stores</p>
         <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
@@ -12,9 +12,9 @@
                 <tr>
                     <th></th>
                     @*<th>Rank</th>*@
-                    <th># Stores Under Base</th>
+                    <th>Under Base</th>
                     <th>Hours Under Base</th>
-                    <th># Stores Under without enough vacancies</th>
+                    <th>Under without enough vacancies</th>
                     <th>Hours to Raise</th>
                 </tr>
             </thead>
@@ -24,9 +24,9 @@
                     <tr>
                         <td class="text-left">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</td>
                         @*<td>-</td>*@
-                        <td>@item.UnderBase</td>
+                        <td class="@(item.UnderBase == 1 ? "table-warning" : "")">@item.UnderBase</td>
                         <td>@item.HoursUnderBase</td>
-                        <td>@item.VacancyUnderBase</td>
+                        <td class="@(item.VacancyUnderBase == 1 ? "table-danger" : "")">@item.VacancyUnderBase</td>
                         <td>@item.VacancyHoursToRaise</td>
                     </tr>
                 }                

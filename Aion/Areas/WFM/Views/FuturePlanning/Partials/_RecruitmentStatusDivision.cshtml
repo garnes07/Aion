@@ -4,7 +4,7 @@
     var topLine = Model.ContractDetail.FirstOrDefault(x => x.Region == null);
 }
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-body">
         <p class="text-center">The below exludes all Minerva stores</p>
         <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
@@ -12,9 +12,9 @@
                 <tr>
                     <th></th>
                     @*<th>Rank</th>*@
-                    <th># Stores Under Base</th>
+                    <th>Under Base</th>
                     <th>Hours Under Base</th>
-                    <th># Stores Under without enough vacancies</th>
+                    <th>Under without enough vacancies</th>
                     <th>Hours to Raise</th>
                 </tr>
             </thead>

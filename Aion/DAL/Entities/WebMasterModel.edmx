@@ -117,6 +117,7 @@
           <Property Name="AccessLvl" Type="tinyint" />
           <Property Name="AreaLevel" Type="tinyint" />
           <Property Name="IP" Type="nvarchar" MaxLength="20" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="WeekRef">
           <Key>
@@ -682,6 +683,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Name="AccessLvl" Type="Byte" />
           <Property Name="AreaLevel" Type="Byte" />
           <Property Name="IP" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Domain" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UnknownIpLog">
           <Key>
@@ -1107,6 +1109,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <EntitySetMapping Name="UserLogs">
             <EntityTypeMapping TypeName="WebMasterContext.UserLog">
               <MappingFragment StoreEntitySet="UserLog">
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="IP" ColumnName="IP" />
                 <ScalarProperty Name="AreaLevel" ColumnName="AreaLevel" />
                 <ScalarProperty Name="AccessLvl" ColumnName="AccessLvl" />

@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "RFTP Detail";
+    var roi = (bool)HttpContext.Current.Session["_ROIFlag"];
 }
 
 <div class="container-fluid">
@@ -28,7 +29,14 @@
                         Please see below a reminder of the weekly control &amp; tolerance levels:
                         <ul>
                             <li>Clocking compliance - 90%+</li>
-                            <li>Timecard Sign Off - 100% (Extended <strong>3PM Monday</strong> deadline)</li>
+                            @if (roi)
+                            {
+                                <li>Timecard Sign Off - 100% <strong>11AM Monday</strong> deadline</li>
+                            }
+                            else
+                            {
+                                <li>Timecard Sign Off - 100% (Extended <strong>3PM Monday</strong> deadline)</li>
+                            }
                             <li>Editing of clocks - No more than 1 reduced clock per store per week</li>
                         </ul>
                     </p>

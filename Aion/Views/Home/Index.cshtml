@@ -61,7 +61,7 @@
         </div>
     </div>
     }
-    @*else
+    else
     {
         <div class="card mb-2">
             <div class="card-header text-center">
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-    }*@
+    }
 
     @if (Model.TopNews.Any() && !(bool)HttpContext.Current.Session["_ROIFlag"])
     {
