@@ -1,7 +1,9 @@
-﻿using Aion.Areas.WFM.ViewModels.RFTPTracking;
+﻿using Aion.Areas.WFM.Models.RFTP;
+using Aion.Areas.WFM.ViewModels.RFTPTracking;
 using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Entities;
+using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.ViewModels;
 using System.Collections.Generic;
@@ -17,12 +19,14 @@ namespace Aion.Areas.WFM.Controllers
         private readonly IRFTPTrackingManager _RFTPTrackingManager;
         private readonly IEmpSummaryManager _empSummaryManager;
         private readonly IWeeksManager _weeksManager;
+        private readonly IDashboardDataManager _dashDataManager;
 
         public RFTPTrackingController()
         {
             _RFTPTrackingManager = new RFTPTrackingManager();
             _empSummaryManager = new EmpSummaryManager();
             _weeksManager = new WeeksManager();
+            _dashDataManager = new DashboardDataManager();
         }
 
         [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
@@ -223,6 +227,26 @@ namespace Aion.Areas.WFM.Controllers
             {
                 vm.Message = "No case details for the selected colleague.";
                 vm.MessageType = MessageType.Error;
+            }
+
+            return View(vm);
+        }
+
+        public async Task<ActionResult> IDD(string personNum)
+        {
+            if(personNum == null)
+            {
+                return RedirectToAction("ManagerTracking");
+            }
+
+            IDDVm vm = new IDDVm();
+
+            vm.historicCases = await _RFTPTrackingManager.GetAllCasesForPerson(personNum);
+            if (vm.historicCases.Any())
+            {
+                var lastCase = vm.historicCases.OrderBy(x => x.Year).ThenBy(x => x.Period).First();
+                vm.lastPeriod = mapper.Map<CompSummaryView>((await _dashDataManager.GetCompSummaryStore(lastCase.Year, (byte)lastCase.Period, lastCase.StoreNumber.ToString())).FirstOrDefault(x => x.WeekNumber == null));
+                vm.empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(personNum);
             }
 
             return View(vm);

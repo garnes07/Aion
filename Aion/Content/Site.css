@@ -1,4 +1,10 @@
-﻿body {
+﻿@media print{
+    .txt-continuous{
+        page-break-inside: avoid;
+    }
+}
+
+body {
     padding-top: 100px;
     padding-bottom: 20px;
 }

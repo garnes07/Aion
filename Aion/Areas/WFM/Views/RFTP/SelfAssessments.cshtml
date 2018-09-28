@@ -1,0 +1,51 @@
+﻿@model Aion.Areas.WFM.ViewModels.RFTP.SelfAssessmentVm
+
+@{
+    ViewBag.Title = "Self Assessment";
+}
+
+<div class="container-fluid">
+    @if (Model.PastSubmissions.Any())
+    {
+        <div class="card">
+            <div class="card-header text-center">
+                <strong>Previous Submissions</strong>
+            </div>
+            <div class="card-body">
+                <h4>The below self assessments have been found for this colleague.</h4>
+                <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th>Submitted</th>
+                            <th>Action Plan?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PastSubmissions.OrderByDescending(x => x.DateTimeSubmitted))
+                        {
+                            <tr>
+                                <td>@item.DateTimeSubmitted</td>
+                                <td>
+                                    @if (item.ActionPlan)
+                                    {
+                                        <a class="btn btn-info" href="@Url.Action("ActionPlan", "RFTP", new { s = item.EntryId})" target="_blank">Show</a>
+                                    }
+                                    else
+                                    {
+                                        <strong>No</strong>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">
+            <strong>No self-assessments found for this colleague</strong>
+        </div>
+    }
+</div>

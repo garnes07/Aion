@@ -1,4 +1,7 @@
 ﻿@media print{
+    body{
+        -webkit-print-color-adjust: exact;
+    }
        .table-bordered th,
        .table-bordered td {
         border: 1px solid #000 !important;

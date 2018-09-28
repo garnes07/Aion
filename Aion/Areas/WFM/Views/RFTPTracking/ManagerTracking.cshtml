@@ -163,6 +163,10 @@
                         <h4 class="modal-title" id="oModalLabel">Confirm Action</h4>
                     </div>
                     <div class="modal-body">
+                        <div id="iddrow" class="row justify-content-center d-none mb-2">
+                            <a id="aIDD" href="#" class="btn btn-info col-4 mx-3" target="_blank">Print IDD</a>
+                            <a id="aAP" href="#" class="btn btn-info col-4 mx-3" target="_blank">Print Action Plan</a>
+                        </div>
                         <p>Please confirm the <strong id="aActionText"></strong> for this colleague is completed. Add any relevant comments below.</p>
                         <form action="/WFM/RFTPTracking/caseSubmitAction" method="post">
                             <input id="aCaseID" name="caseID" hidden value="e"/>

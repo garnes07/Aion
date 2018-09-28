@@ -428,9 +428,17 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> IDD()
+        public async Task<ActionResult> SelfAssessments(string personNum)
         {
-            return View();
+            if(personNum == null)
+            {
+                return RedirectToAction("ManagerTracking", "RFTPTracking");
+            }
+            SelfAssessmentVm vm = new SelfAssessmentVm();
+
+            vm.PastSubmissions = await _selfAsessmentManager.GetSubmissionsPerson(personNum);
+
+            return View(vm);
         }
     }
 }

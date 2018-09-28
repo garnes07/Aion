@@ -1,6 +1,43 @@
-﻿
+﻿@model Aion.Areas.WFM.ViewModels.RFTPTracking.IDDVm
+
 @{
     ViewBag.Title = "IDD";
+    string historicList = "";
+    string failList = "";
+    bool actionPlan = false;
+
+    if (Model.historicCases.Any())
+    {
+        foreach (var item in Model.historicCases.Where(x => !x.Reassign).OrderBy(x => x.Year).ThenBy(x => x.Period))
+        {
+            historicList += string.Format("P{0} {1}", item.Period, item.Year);
+            if (item.Override)
+            {
+                historicList += " <small>(Overridden)</small>";
+            }
+            historicList += ", ";
+        }
+        historicList = historicList.Substring(0, historicList.Length - 2);
+
+        actionPlan = Model.historicCases.Where(x => !x.Override && x.Stage == 1).FirstOrDefault().Year == "18/19";
+    }
+
+    if (Model.lastPeriod != null)
+    {
+        if (Model.lastPeriod.PunchCompliance == 0)
+        {
+            failList += "Clocking, ";
+        }
+        if (Model.lastPeriod.TCComp == 0)
+        {
+            failList += "Timecard Sign Off, ";
+        }
+        if (Model.lastPeriod.ShortShiftCompliance == 0)
+        {
+            failList += "Edited Clocks, ";
+        }
+        failList = failList.Substring(0, failList.Length - 2);
+    }
 }
 
 @section myStyles{
@@ -8,8 +45,12 @@
 }
 
 <div class="container-fluid">
+    <div class="row justify-content-center d-print-none mt-3">
+        <button onclick="window.print()" class="btn btn-lg btn-primary">Print IDD</button>
+    </div>
+    <hr class="d-print-none" />
     <div class="row d-none d-print-flex mb-3">
-        <img class="mr-5" src="~/Images/dixons-logo.png"/>
+        <img class="mr-5" src="~/Images/dixons-logo.png" />
         <h2>Right First Time Pay - Informal Discussion Document</h2>
     </div>
     <div class="w-100 p-1" style="background-color:RGB(0,140,168); color:white;"><h4>Informal Discussion Document</h4></div>
@@ -63,15 +104,15 @@
         <tbody>
             <tr style="height:80px;">
                 <td class="w-25 table-teal"><strong>Colleague Name:</strong></td>
-                <td class="w-75"></td>
+                <td class="w-75">@Model.empDetails.PersonName</td>
             </tr>
             <tr style="height:80px;">
                 <td class="table-teal"><strong>Colleague Payroll Number:</strong></td>
-                <td></td>
+                <td>@Model.empDetails.PersonNumber</td>
             </tr>
             <tr style="height:80px;">
                 <td class="table-teal"><strong>Colleague Job Title:</strong></td>
-                <td></td>
+                <td>@Model.empDetails.JobRole</td>
             </tr>
             <tr style="height:80px;">
                 <td class="table-teal"><strong>Line Manager Name and Job Title:</strong></td>
@@ -90,7 +131,7 @@
     <table class="table table-bordered table-sm">
         <tbody>
             <tr>
-                <td class="w-25 table-teal"><strong>Reason for discussion:<br /><br />(full details)</strong></td>
+                <td class="w-25 table-teal"><h5><strong>Reason for discussion:<br /><br />(full details)</strong></h5></td>
                 <td class="w-75">
                     <ul>
                         <li>As a store manager the responsibility sits fully with you to ensure that your team is paid correctly by meeting all 3 of the Right First Time Pay controls each week (including periods of planned absence).</li>
@@ -115,23 +156,37 @@
                             </ul>
                         </li>
                         <li>Last period, you were non-compliant against the Right First Time Pay controls for a 2nd period.</li>
-                        <li>
-                            The controls you failed to meet last period were:<br /><strong>Clocking, Timecard Signoff, Edited Clocks</strong>
-                        </li>
-                        <li>
-                            You were previously non-compliant during:<br /><strong>P1, P2, P3</strong>
-                        </li>
-                        <li>
-                            The actions that were generated from the self-assessment you completed after your last period of non-compliance are attached. Have these all been completed?  If not, what have been the barriers to completion?
-                        </li>
+                        @if (Model.lastPeriod != null)
+                        {
+                            <li>
+                                The controls you failed to meet last period were:<br />
+                                <strong>@failList</strong>
+                            </li>
+                        }
+                        @if (Model.historicCases.Any())
+                        {
+                            <li>
+                                You were non-compliant during:<br />
+                                <strong>@Html.Raw(historicList)</strong>
+                            </li>
+                        }
+                        @if (actionPlan)
+                        {
+                            <li>The actions that were generated from the self-assessment you completed after your last period of non-compliance are attached. Have these all been completed? If not, what have been the barriers to completion ?</li>
+                        }
+                        else
+                        {
+                            <li>When you were previously non-compliant you would have had a support phone call with your TPC to help you resolve any challenges you might have had.  Can you recall this conversation?</li>
+                        }
                     </ul>
                 </td>
             </tr>
             <tr>
-                <td class="w-25 table-teal"><strong>Outcome / Next steps:<br /><br />(full details)</strong></td>
+                <td class="w-25 table-teal"><h5><strong>Outcome / Next steps:<br /><br />(full details)</strong></h5></td>
                 <td class="w-75">
-                    <p style="margin-bottom:200px;"><i><strong>What are the challenges that are preventing you from being compliant for Right First Time Pay?</strong></i></p>
-                    <p style="margin-bottom:75px;"><i><strong>Agreed next steps:</strong></i></p>
+                    <i><strong>What are the challenges that are preventing you from being compliant for Right First Time Pay?</strong></i>
+                    <p style="height:200px;"></p>
+                    <p class="mb-3"><i><strong>Agreed next steps:</strong></i></p>
                     <table class="table table-bordered table-sm">
                         <thead>
                             <tr>
@@ -156,17 +211,27 @@
                                 <td></td>
                                 <td></td>
                             </tr>
+                            <tr>
+                                <td>&emsp;</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>&emsp;</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td class="table-teal"><strong>Outcome Review:<br /><br />(set date)</strong></td>
+                <td class="table-teal"><h5><strong>Outcome Review:<br /><br />(set date)</strong></h5></td>
                 <td></td>
             </tr>
         </tbody>
     </table>
     <p>This is an accurate reflection of the conversation:</p>
-    <p>Manager signature: .......................................................</p>
+    <p>Manager signature: .........................................................</p>
     <p>Colleague signature: .......................................................</p>
 </div>

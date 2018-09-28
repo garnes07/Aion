@@ -124,7 +124,7 @@
                             }
                             else
                             {
-                                <a class="btn @(Model.AccessLevel > 4 || Model.AccessLevel < 2 ? "disabled btn-info" : "btn-primary")" style="width:100%;" data-toggle="modal" data-target="#aModal" data-caseid="@item.CaseID" data-action="@actionsNeeded.First(x => x.Owner == "RM").ActionType">@actionsNeeded.First(x => x.Owner == "RM").ActionType</a>
+                                <a class="btn @(Model.AccessLevel > 4 || Model.AccessLevel < 2 ? "disabled btn-info" : "btn-primary")" style="width:100%;" data-toggle="modal" data-target="#aModal" data-caseid="@item.CaseID" data-person="@item.PersonNumber" data-action="@actionsNeeded.First(x => x.Owner == "RM").ActionType">@actionsNeeded.First(x => x.Owner == "RM").ActionType</a>
                             }
                         }
                     </td>

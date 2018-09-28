@@ -242,6 +242,7 @@
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompSummaryVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\CompDetailVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\EditedClocksVm.cs" />
+    <Compile Include="Areas\WFM\ViewModels\RFTPTracking\IDDVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\SelfAssessmentFormVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\SelfAssessmentVm.cs" />
     <Compile Include="Areas\WFM\ViewModels\RFTP\TimecardSignOffVm.cs" />
@@ -1203,7 +1204,8 @@
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_RecruitmentStatusRegion.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_RecruitmentStatusDivision.cshtml" />
     <Content Include="Areas\WFM\Views\FuturePlanning\Partials\_RecruitmentStatusChain.cshtml" />
-    <Content Include="Areas\WFM\Views\RFTP\IDD.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTPTracking\IDD.cshtml" />
+    <Content Include="Areas\WFM\Views\RFTP\SelfAssessments.cshtml" />
     <None Include="bundleconfig.json" />
     <EntityDeploy Include="DAL\Entities\WebMasterModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

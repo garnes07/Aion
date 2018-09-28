@@ -35,12 +35,22 @@ $(function () {
     $('#aModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var id = button.data('caseid');
-        var action = button.data('action');
+        var action = button.data('action');        
 
         var modal = $(this);
         modal.find('#aCaseID').val(id);
         modal.find('#aActionType').val(action);
         modal.find('#aActionText').html(action);
+
+        if (action === "IDD") {
+            var person = button.data('person');
+            modal.find('#aIDD').attr('href', '/WFM/RFTPTracking/IDD?personNum=' + person);
+            modal.find('#aAP').attr('href', '/WFM/RFTP/SelfAssessments?personNum=' + person);
+            modal.find('#iddrow').removeClass('d-none');
+        }
+        else {
+            modal.find('#iddrow').addClass('d-none');
+        }
     });
 
     $('#empNumber').change(function () {

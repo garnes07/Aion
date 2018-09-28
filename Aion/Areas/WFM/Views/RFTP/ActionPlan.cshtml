@@ -38,8 +38,10 @@
                 <div class="card-body">
                     @foreach (var item in Model.actions)
                     {
-                        @Html.Raw(item.Text)
-                        <hr />
+                        <div class="txt-continuous">
+                            @Html.Raw(item.Text)
+                            <hr />
+                        </div>
                     }
                 </div>
             </div>
