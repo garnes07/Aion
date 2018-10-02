@@ -9,114 +9,118 @@
     };
 }
 
-<p>
-    <strong>This pay packet includes these weeks:</strong>
-</p>
-<table class="table table-bordered table-sm" style="table-layout:fixed;">
-    <tr>
-        <td class="active"><strong>CPW Week</strong></td>
-        @foreach (var item in Model.payDates)
-        {
-            <td class="active text-center"><strong>@item.Week.ToString().Substring(4)</strong></td>
-        }
-    </tr>
-    <tr>
-        <td class="active"><strong>w/c Date:</strong></td>
-        @foreach (var item in Model.payDates)
-        {
-            <td class="text-center">@string.Format("{0:m}", item.WCDate)</td>
-        }
-    </tr>
-</table>
-<div>
-    <strong>These hours have currently been processed for you:</strong>
-    <p>The below reflects the hours submitted on STAR - please see your manager as soon as possible if you are unsure about anything shown below. Pay queries should be raised to your store manager in the first instance.</p>
-</div>
 @if (Model.errorPayroll)
 {
-    <div class="alert alert-warning text-center"><strong>We are unable to confirm your payroll number, please contact the IT service desk and inform them the payroll number on your active directory account is incorrect/missing.</strong></div>
-}
-else if (Model.tSheet.Any())
-{
-    <table class="table table-bordered table-sm" style="table-layout:fixed;">
-        <tr>
-            <td class="active">
-                <strong>Signed Off</strong>
-                <span class="float-right text-center"><i tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="Weeks that are not yet signed off can be subject to change, consult your BM for more information." style="color:black"></i></span>
-            </td>
-            @foreach (var item in Model.payDates)
-            {
-                <td class="text-center">@(item.WCDate <= DateTime.Parse(Model.tSheet.First().ManagerSignoffDateTime) ? "Yes" : "")</td>
-            }
-        </tr>
-        <tr>
-            <td class="active">
-                <strong>Worked Hours</strong>
-                <span class="float-right text-center"><i tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="Worked time will also include meetings and training." style="color:black"></i></span>
-            </td>
-            @foreach (var item in Model.payDates)
-            {
-                var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Worked Hours");
-
-                <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
-            }
-        </tr>
-        <tr>
-            <td class="active"><strong>Holiday</strong></td>
-            @foreach (var item in Model.payDates)
-            {
-                var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Holiday");
-                <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
-            }
-        </tr>
-        <tr>
-            <td class="active">
-                <strong>Sickness</strong>
-                <span class="float-right text-center"><i tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="These are the hours that have been processed on STAR as sickness. We are unable to determine whether these hours will be paid or unpaid at this point as they will be subject to the companies sickness rules which are applied in the payroll system before you receive your pay cheque." style="color:black"></i></span>
-            </td>
-            @foreach (var item in Model.payDates)
-            {
-                var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Sick");
-                <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
-            }
-        </tr>
-        <tr>
-            <td class="active"><strong>Other Paid Absence</strong></td>
-            @foreach (var item in Model.payDates)
-            {
-                var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Paid Absence");
-                <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
-            }
-        </tr>
-        <tr>
-            <td class="active"><strong>Other Unpaid Absence</strong></td>
-            @foreach (var item in Model.payDates)
-            {
-                var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Unpaid Absence");
-                <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
-            }
-        </tr>
-        <tr style="border:0px;">
-            <td style="border: 0px;">&emsp;</td>
-        </tr>
-        <tr>
-            <td class="active"><strong>Clocking Compliance</strong></td>
-            @foreach (var item in Model.payDates)
-            {
-                var a = Model.punch.Where(x => x.FNCL_WK_NUM == item.Week);
-                if (a.Count() != 0)
-                {
-                    <td class="text-center @(a.Sum(x => x.Count_In_Missing + x.Count_Out_Missing) > 1 ? "table-danger" : "")">@(string.Format("{0:0.0}%", 100 - a.Sum(x => x.Count_In_Missing + x.Count_Out_Missing) / (decimal)(a.Count() * 2) * 100))</td>
-                }
-                else
-                {
-                    <td></td>
-                }
-            }
-        </tr>
-    </table>
+    <div class="alert alert-warning text-center mt-3"><strong>We are unable to confirm your payroll number, please contact the IT service desk and inform them the payroll number on your active directory account is incorrect/missing.</strong></div>
 }
 else
 {
-    <div class="alert alert-info text-center"><strong>No data found for selected period</strong></div>
+    <p>
+        <strong>This pay packet includes these weeks:</strong>
+    </p>
+    <table class="table table-bordered table-sm" style="table-layout:fixed;">
+        <tr>
+            <td class="active"><strong>CPW Week</strong></td>
+            @foreach (var item in Model.payDates)
+            {
+                <td class="active text-center"><strong>@item.Week.ToString().Substring(4)</strong></td>
+            }
+        </tr>
+        <tr>
+            <td class="active"><strong>w/c Date:</strong></td>
+            @foreach (var item in Model.payDates)
+            {
+                <td class="text-center">@string.Format("{0:m}", item.WCDate)</td>
+            }
+        </tr>
+    </table>
+    <div>
+        <strong>These hours have currently been processed for you:</strong>
+        <p>The below reflects the hours submitted on STAR - please see your manager as soon as possible if you are unsure about anything shown below. Pay queries should be raised to your store manager in the first instance.</p>
+    </div>
+
+    if (Model.tSheet.Any())
+    {
+        <table class="table table-bordered table-sm" style="table-layout:fixed;">
+            <tr>
+                <td class="active">
+                    <strong>Signed Off</strong>
+                    <span class="float-right text-center"><i tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="Weeks that are not yet signed off can be subject to change, consult your BM for more information." style="color:black"></i></span>
+                </td>
+                @foreach (var item in Model.payDates)
+                {
+                    <td class="text-center">@(item.WCDate <= DateTime.Parse(Model.tSheet.First().ManagerSignoffDateTime) ? "Yes" : "")</td>
+                }
+            </tr>
+            <tr>
+                <td class="active">
+                    <strong>Worked Hours</strong>
+                    <span class="float-right text-center"><i tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="Worked time will also include meetings and training." style="color:black"></i></span>
+                </td>
+                @foreach (var item in Model.payDates)
+                {
+                    var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Worked Hours");
+
+                    <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
+                }
+            </tr>
+            <tr>
+                <td class="active"><strong>Holiday</strong></td>
+                @foreach (var item in Model.payDates)
+                {
+                    var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Holiday");
+                    <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
+                }
+            </tr>
+            <tr>
+                <td class="active">
+                    <strong>Sickness</strong>
+                    <span class="float-right text-center"><i tabindex="0" role="button" class="icon ion-information-circled" data-toggle="popover" data-placement="right" data-content="These are the hours that have been processed on STAR as sickness. We are unable to determine whether these hours will be paid or unpaid at this point as they will be subject to the companies sickness rules which are applied in the payroll system before you receive your pay cheque." style="color:black"></i></span>
+                </td>
+                @foreach (var item in Model.payDates)
+                {
+                    var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Sick");
+                    <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
+                }
+            </tr>
+            <tr>
+                <td class="active"><strong>Other Paid Absence</strong></td>
+                @foreach (var item in Model.payDates)
+                {
+                    var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Paid Absence");
+                    <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
+                }
+            </tr>
+            <tr>
+                <td class="active"><strong>Other Unpaid Absence</strong></td>
+                @foreach (var item in Model.payDates)
+                {
+                    var a = Model.tSheet.Where(x => x.Period.TimeFramePeriod.PeriodDateSpan.Contains(item.WCDate.ToShortDateString())).FirstOrDefault().PeriodTotalData.PeriodTotals.Totals.Total.Where(x => x.PayCodeName == "UK IE @WFM Unpaid Absence");
+                    <td class="text-center">@(a.Count() > 0 ? GetTime(a.Sum(x => x.amtHour), a.Sum(x => x.amtMinute)) : "")</td>
+                }
+            </tr>
+            <tr style="border:0px;">
+                <td style="border: 0px;">&emsp;</td>
+            </tr>
+            <tr>
+                <td class="active"><strong>Clocking Compliance</strong></td>
+                @foreach (var item in Model.payDates)
+                {
+                    var a = Model.punch.Where(x => x.FNCL_WK_NUM == item.Week);
+                    if (a.Count() != 0)
+                    {
+                        <td class="text-center @(a.Sum(x => x.Count_In_Missing + x.Count_Out_Missing) > 1 ? "table-danger" : "")">@(string.Format("{0:0.0}%", 100 - a.Sum(x => x.Count_In_Missing + x.Count_Out_Missing) / (decimal)(a.Count() * 2) * 100))</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+            </tr>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center"><strong>No data found for selected period</strong></div>
+    }
 }

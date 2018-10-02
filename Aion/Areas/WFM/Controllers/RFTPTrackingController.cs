@@ -244,7 +244,7 @@ namespace Aion.Areas.WFM.Controllers
             vm.historicCases = await _RFTPTrackingManager.GetAllCasesForPerson(personNum);
             if (vm.historicCases.Any())
             {
-                var lastCase = vm.historicCases.OrderBy(x => x.Year).ThenBy(x => x.Period).First();
+                var lastCase = vm.historicCases.OrderByDescending(x => x.Year).ThenByDescending(x => x.Period).First();
                 vm.lastPeriod = mapper.Map<CompSummaryView>((await _dashDataManager.GetCompSummaryStore(lastCase.Year, (byte)lastCase.Period, lastCase.StoreNumber.ToString())).FirstOrDefault(x => x.WeekNumber == null));
                 vm.empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(personNum);
             }

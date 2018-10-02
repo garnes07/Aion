@@ -19,81 +19,69 @@
     <meta name="description" content="Dixons Carphone Reporting" />
 </head>
 <body>
-    @if (Request.Browser.Browser == "IE" || Request.Browser.Browser == "InternetExplorer")
-    {
-        <div class="row">
-            <div class="alert alert-danger text-center" style="position:absolute; top:50%; width:80%; left:10%"><strong>The site is not optimised for older versions of Internet Explorer, please reopen in Chrome.</strong></div>
-        </div>
-        <div style="display:none;">
-            @RenderBody()
-        </div>
-    }
-    else
-    {
-        <div class="modal fade" id="notification" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div id="notificationBody" class="modal-body">
+    <div class="modal fade" id="notification" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="notificationBody" class="modal-body">
                         
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-        <div class="container body-content">
-            <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light p-0">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/"><img src="~/Images/WFMHeader_V6.gif" style="height:40px;" /></a>
-                    <div class="float-right d-none d-md-block">
-                        @Html.Partial("~/Views/Shared/_LoginPartial.cshtml")
-                    </div>
+    </div>
+    <div class="container body-content">
+        <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light p-0">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/"><img src="~/Images/WFMHeader_V6.gif" style="height:40px;" /></a>
+                <div class="float-right d-none d-md-block">
+                    @Html.Partial("~/Views/Shared/_LoginPartial.cshtml")
                 </div>
-            </nav>
-            <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light border border-right-0 p-0" style="top:50px;">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-                        <i class="icon ion-navicon-round"></i>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            @if (ViewContext.RouteData.DataTokens["area"] == null)
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light border border-right-0 p-0" style="top:50px;">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <i class="icon ion-navicon-round"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        @if (ViewContext.RouteData.DataTokens["area"] == null)
+                        {
+                            Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
+                        }
+                        else if (ViewContext.RouteData.DataTokens["area"].ToString() == "WFM")
+                        {
+                            Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
+                        }
+                        else
+                        {
+                            Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
+                        }
+                        <li class="d-none d-sm-block d-md-none" role="separator"></li>
+                        <li class="nav-item dropdown m-x-1 d-md-none">
+                            @if (Request.IsAuthenticated)
                             {
-                                Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
-                            }
-                            else if (ViewContext.RouteData.DataTokens["area"].ToString() == "WFM")
-                            {
-                                Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
+                                <a class="nav-link text-danger" href="@Url.Action("Logoff","Profile", new { area = "" })"><strong><i class="icon ion-log-out m-1"></i> Log Off</strong></a>
                             }
                             else
                             {
-                                Html.RenderPartial("~/Areas/WFM/Views/Shared/_WFMMenu.cshtml");
+                                <a class="nav-link text-success" href="@Url.Action("Login","Profile", new { area = "" })"><strong><i class="icon ion-log-in m-1"></i> Log In</strong></a>
                             }
-                            <li class="d-none d-sm-block d-md-none" role="separator"></li>
-                            <li class="nav-item dropdown m-x-1 d-md-none">
-                                @if (Request.IsAuthenticated)
-                                {
-                                    <a class="nav-link text-danger" href="@Url.Action("Logoff","Profile", new { area = "" })"><strong><i class="icon ion-log-out m-1"></i> Log Off</strong></a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link text-success" href="@Url.Action("Login","Profile", new { area = "" })"><strong><i class="icon ion-log-in m-1"></i> Log In</strong></a>
-                                }
-                            </li>
-                        </ul>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-            @RenderBody()
-        </div>
-    }
+            </div>
+        </nav>
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
