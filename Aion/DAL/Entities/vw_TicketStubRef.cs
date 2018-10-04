@@ -26,5 +26,6 @@ namespace Aion.DAL.Entities
         public string RaisedBy { get; set; }
         public byte EscalationLevel { get; set; }
         public Nullable<short> BranchNumber { get; set; }
+        public short Region { get; set; }
     }
 }

@@ -56,13 +56,13 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<List<vw_TicketStubRef>> GetTicketsTPC(string userName, bool open)
+        public async Task<List<vw_TicketStubRef>> GetTicketsTPC(string userName, bool open, int region = 101)
         {
             using (var context = new WebMasterModel())
             {
                 return open ?
-                    await context.vw_TicketStubRef.Where(x => x.GroupId == 3 && x.Status == "Open" && x.TPCUsername == userName).ToListAsync() :
-                    await context.vw_TicketStubRef.Where(x => x.GroupId == 3 && x.Status != "Open" && x.TPCUsername == userName).ToListAsync();
+                    await context.vw_TicketStubRef.Where(x => x.GroupId == 3 && x.Status == "Open" && x.Region == region).ToListAsync():
+                    await context.vw_TicketStubRef.Where(x => x.GroupId == 3 && x.Status != "Open" && x.Region == region).ToListAsync();
             }
         }
 

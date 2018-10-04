@@ -64,7 +64,7 @@
                             @if (Model.PositionDetail.ContractBase == 0)
                             {
                                 <td>@string.Format("{0:C}", Model.PositionDetail.TotalBase)</td>
-                                <td>@string.Format("{0:C}", Model.PositionDetail.CurrentBase)</td>
+                                <td>@string.Format("{0:C}", Model.PositionDetail.CurrentBase - Model.RecruitmentDetail.Sum(x => x.OpenVacancies))</td>
                             }
                             else
                             {
@@ -74,7 +74,7 @@
                             <td>@string.Format("{0:0.00}", Model.NewAvgContract)</td>
                             @if (Model.PositionDetail.ContractBase == 0)
                             {
-                                <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase : Model.PositionDetail.CurrentContract) + Model.PositionDetail.RateOfPay * Model.OfferToReview.Sum(x => x.Contracted_Hours))</td>
+                                <td>@string.Format("{0:C}", (Model.PositionDetail.CurrentContract == 0 ? Model.PositionDetail.CurrentBase - Model.RecruitmentDetail.Sum(x => x.OpenVacancies) : Model.PositionDetail.CurrentContract) + Model.PositionDetail.RateOfPay * Model.OfferToReview.Sum(x => x.Contracted_Hours))</td>
                             }
                             else
                             {

@@ -30,22 +30,22 @@ namespace Aion.Areas.Workflow.Controllers
 
                 _userGroup = (int)System.Web.HttpContext.Current.Session["_wfUserGroup"];
                 _userName = System.Web.HttpContext.Current.Session["_TPCOverride"] == null ? System.Web.HttpContext.Current.Session["_UserName"].ToString() : System.Web.HttpContext.Current.Session["_TPCOverride"].ToString();
-            }            
+            }
         }
 
         // GET: Workflow/Workflow
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int region = 101)
         {
             TicketSummaryVM vm = new TicketSummaryVM();
-
+            
             switch (_userGroup)
             {
                 case 0:
                     vm.TicketCollection = await _ticketManager.GetTicketsSelf(_userName, true);
                     break;
                 case 3:
-                    vm.TicketCollection = await _ticketManager.GetTicketsTPC(_userName, true);
-                    vm._TPCMenu = (await _ticketManager.GetTPCList()).Select(x => new SelectListItem { Value = x.UserName, Text = x.FriendlyName, Selected = x.UserName == _userName }).ToList();
+                    vm.TicketCollection = await _ticketManager.GetTicketsTPC(_userName, true, region);
+                    //vm._TPCMenu = (await _ticketManager.GetTPCList()).Select(x => new SelectListItem { Value = x.UserName, Text = x.FriendlyName, Selected = x.UserName == _userName }).ToList();
                     break;
                 default:
                     vm.TicketCollection = await _ticketManager.GetTicketsByAuth(_userGroup, true);
@@ -146,7 +146,7 @@ namespace Aion.Areas.Workflow.Controllers
                     toReturn = await _ticketManager.GetTicketsSelf(_userName, bStatus);
                     break;
                 case 3:
-                    toReturn = await _ticketManager.GetTicketsTPC(_userName, bStatus);
+                    toReturn = await _ticketManager.GetTicketsTPC(_userName, bStatus, int.Parse(TPC));
                     break;
                 default:
                     toReturn = await _ticketManager.GetTicketsByAuth(_userGroup, bStatus);

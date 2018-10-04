@@ -11,7 +11,7 @@ namespace Aion.DAL.Managers
         int GetUserGroup(string _userName);
         Task<List<sp_CheckHelpTickets_Result>> GetHelpTickets(string storeNumber);
         Task<List<vw_TicketStubRef>> GetTicketsSelf(string userName, bool open);
-        Task<List<vw_TicketStubRef>> GetTicketsTPC(string userName, bool open);
+        Task<List<vw_TicketStubRef>> GetTicketsTPC(string userName, bool open, int region = 101);
         Task<List<vw_TicketStubRef>> GetTicketsByAuth(int groupId, bool open);
         Task<TicketStub> GetSingleTicket(int ticketId, int groupId, string userName);
         int ChkInteractLvl(int level, int ticketTypeId);

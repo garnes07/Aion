@@ -268,6 +268,7 @@ warning 6002: The table/view '99999_WebMaster.tck.vw_TicketStubRef' does not hav
             <PropertyRef Name="LastUpdate" />
             <PropertyRef Name="RaisedBy" />
             <PropertyRef Name="EscalationLevel" />
+            <PropertyRef Name="Region" />
           </Key>
           <Property Name="TicketId" Type="int" Nullable="false" />
           <Property Name="GroupId" Type="int" Nullable="false" />
@@ -281,6 +282,7 @@ warning 6002: The table/view '99999_WebMaster.tck.vw_TicketStubRef' does not hav
           <Property Name="RaisedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="EscalationLevel" Type="tinyint" Nullable="false" />
           <Property Name="BranchNumber" Type="smallint" />
+          <Property Name="Region" Type="smallint" Nullable="false" />
         </EntityType>
         <Association Name="FK_Activity_ActivityType">
           <End Role="ActivityType" Type="Self.ActivityType" Multiplicity="0..1" />
@@ -493,7 +495,8 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
     [vw_TicketStubRef].[LastUpdate] AS [LastUpdate], 
     [vw_TicketStubRef].[RaisedBy] AS [RaisedBy], 
     [vw_TicketStubRef].[EscalationLevel] AS [EscalationLevel], 
-    [vw_TicketStubRef].[BranchNumber] AS [BranchNumber]
+    [vw_TicketStubRef].[BranchNumber] AS [BranchNumber], 
+    [vw_TicketStubRef].[Region] AS [Region]
     FROM [tck].[vw_TicketStubRef] AS [vw_TicketStubRef]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Activity_ActivityType" Association="Self.FK_Activity_ActivityType">
@@ -1001,6 +1004,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             <PropertyRef Name="LastUpdate" />
             <PropertyRef Name="RaisedBy" />
             <PropertyRef Name="EscalationLevel" />
+            <PropertyRef Name="Region" />
           </Key>
           <Property Name="TicketId" Type="Int32" Nullable="false" />
           <Property Name="GroupId" Type="Int32" Nullable="false" />
@@ -1014,6 +1018,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <Property Name="RaisedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="EscalationLevel" Type="Byte" Nullable="false" />
           <Property Name="BranchNumber" Type="Int16" />
+          <Property Name="Region" Type="Int16" Nullable="false" />
         </EntityType>
         <ComplexType Name="sp_EscalationOptions_Result">
           <Property Type="Int32" Name="Level" Nullable="true" />
@@ -1314,6 +1319,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
           <EntitySetMapping Name="vw_TicketStubRef">
             <EntityTypeMapping TypeName="WebMasterContext.vw_TicketStubRef">
               <MappingFragment StoreEntitySet="vw_TicketStubRef">
+                <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="BranchNumber" ColumnName="BranchNumber" />
                 <ScalarProperty Name="EscalationLevel" ColumnName="EscalationLevel" />
                 <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
