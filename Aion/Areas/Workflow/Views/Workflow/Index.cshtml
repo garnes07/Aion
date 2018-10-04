@@ -65,4 +65,16 @@
 @section myScripts{
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
     <script id="wf1" src="~/Scripts/workflow/WorkflowSummary.min.js"></script>
+    <script>
+        $(function () {
+            var regionValue = localStorage.getItem("regionValue");
+            if (regionValue != null) {
+                $("select[name=TPCFilter]").val(regionValue);
+            }
+
+            $("select[name=TPCFilter]").on("change", function () {
+                localStorage.setItem("regionValue", $(this).val());
+            });
+        })
+    </script>
 }
