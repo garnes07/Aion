@@ -119,13 +119,7 @@ namespace Aion.Services
                 HttpContext.Current.Session["Email"] = userPrincipal.EmailAddress;
             }            
 
-            await CheckAccessLevel(authResult);
-
-            var result = CheckForRemap(authResult.EmpNum);
-            if (!result.Equals("none"))
-            {
-                HttpContext.Current.Session["_EmpNum"] = result;
-            }
+            await CheckAccessLevel(authResult);            
 
 #if DEBUG
             HttpContext.Current.Session.Add("_LoginID", 0);
@@ -195,13 +189,6 @@ namespace Aion.Services
             }
 
             return identity;
-        }
-
-        //Check for ROI remap
-        public string CheckForRemap(string payrollNum)
-        {
-            var result = _authManager.CheckROIRemap(payrollNum);
-            return result == null ? "none" : result.Kronos_ID;
         }
 
         //Check access level from WebMaster

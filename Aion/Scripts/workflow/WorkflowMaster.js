@@ -41,7 +41,7 @@
     $grp.prepend('<hr/ class="w-100">');
 
     $('.branchValidate').blur(function(){
-        if($(this).val() !== 0){
+        if($(this).val() !== 0 && $(this).val().length){
             var criteria = $(this).val();
             var action = '/Workflow/Form/_branchValidate?storeNum='+criteria;
             $.get(action, function(result){

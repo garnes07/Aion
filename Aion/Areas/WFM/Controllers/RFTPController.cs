@@ -342,11 +342,6 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     personNum = "UK" + personNum.PadLeft(6, '0');
                 }
-                else
-                {
-                    var result = _empSummaryManager.CheckROIRemap(personNum);
-                    personNum = result == null ? personNum : result.Kronos_ID;
-                }
                 vm.PastSubmissions = await _selfAsessmentManager.GetSubmissionsPerson(personNum);
                 vm.Requirement = await _selfAsessmentManager.GetRequirementPerson(personNum);
                 if (vm.Requirement != null)
@@ -372,11 +367,6 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     personNum = "UK" + personNum.PadLeft(6, '0');
                 }
-                else
-                {
-                    var result = _empSummaryManager.CheckROIRemap(personNum);
-                    personNum = result == null ? personNum : result.Kronos_ID;
-                }
                 vm.Questions = await _selfAsessmentManager.GetQuestions();
             }
             else
@@ -395,11 +385,6 @@ namespace Aion.Areas.WFM.Controllers
             if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
             {
                 personNum = "UK" + personNum.PadLeft(6, '0');
-            }
-            else
-            {
-                var newNum = _empSummaryManager.CheckROIRemap(personNum);
-                personNum = newNum == null ? personNum : newNum.Kronos_ID;
             }
             var result = await _selfAsessmentManager.AddSubmission(personNum, a.Where(x => !x.Val).ToList());
 

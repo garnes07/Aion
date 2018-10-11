@@ -156,7 +156,7 @@ namespace Aion.Models.Utils
                 Division = selected.Division,
                 Region = selected.Region
             };
-            if(selected.Region == "114" || selected.Region == "121")
+            if(selected.Region == "114" || selected.Region == "121" || selected.Region == "119")
             {
                 HttpContext.Current.Session["_PilotFlag"] = true;
             }
