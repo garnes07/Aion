@@ -140,10 +140,10 @@
             var current = '@ViewBag.current';
 
             if (current === 'All') {
-                $('#SAS').remove();
-                $('#row_SAS').prepend('<td id="SAS"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=C_SAS">SAS</a></td>');
-                $('#SWAS').remove();
-                $('#row_SWAS').prepend('<td id="SWAS"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=C_SWAS">SWAS</a></td>');
+                $('#CPW').remove();
+                $('#row_CPW').prepend('<td id="CPW"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=C_CPW">CPW</a></td>');
+                @*$('#SWAS').remove();
+                $('#row_SWAS').prepend('<td id="SWAS"><a href="/ProfitLoss?selectedYear=@Model.SelectedYear&selectedMonth=@Model.SelectedMonth&a=true&select=C_SWAS">SWAS</a></td>');*@
             }
             else {
                 $('#@ViewBag.current').remove();

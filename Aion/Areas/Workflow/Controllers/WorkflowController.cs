@@ -45,7 +45,7 @@ namespace Aion.Areas.Workflow.Controllers
                     break;
                 case 3:
                     vm.TicketCollection = await _ticketManager.GetTicketsTPC(_userName, true, region);
-                    //vm._TPCMenu = (await _ticketManager.GetTPCList()).Select(x => new SelectListItem { Value = x.UserName, Text = x.FriendlyName, Selected = x.UserName == _userName }).ToList();
+                    vm.TPCView = true;
                     break;
                 default:
                     vm.TicketCollection = await _ticketManager.GetTicketsByAuth(_userGroup, true);

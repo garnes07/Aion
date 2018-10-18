@@ -7,13 +7,17 @@
 <li class="nav-item dropdown mx-1">
     <a class="nav-link dropdown-toggle text-menu" href="#" id="navbarDrop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-stats-bars m-1"></i> Deployment</a>
     <div class="dropdown-menu">
+        @if (pilot)
+        {
+            <a class="dropdown-item" href="@Url.Action("Dashboard", "Deployment", new { area = "WFM" })">Dashboard</a>
+        }
         <a class="dropdown-item" href="@Url.Action("Summary", "Deployment", new { area = "WFM" })">Summary</a>
         <a class="dropdown-item" href="@Url.Action("Detail", "Deployment", new { area = "WFM" })">Detail</a>
         <a class="dropdown-item" href="@Url.Action("SOHBudgets", "Deployment", new { area = "WFM" })">SOH Budgets</a>
         <a class="dropdown-item" href="@Url.Action("Footfall", "Deployment", new { area = "WFM" })">Footfall</a>
         @if (accessLvl >= 3)
         {
-        <a class="dropdown-item" href="@Url.Action("WeekendWorking", "Deployment", new { area = "WFM" })">GM Weekend Working</a>
+            <a class="dropdown-item" href="@Url.Action("WeekendWorking", "Deployment", new { area = "WFM" })">GM Weekend Working</a>
         }
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="@Url.Action("MyTeam", "Deployment", new {area = "WFM"})">My Team</a>

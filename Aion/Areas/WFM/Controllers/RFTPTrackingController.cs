@@ -39,6 +39,7 @@ namespace Aion.Areas.WFM.Controllers
                 vm.Cases = await _RFTPTrackingManager.GetRFTPCaseSWAS(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
                 vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
                 vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegionUsingStore(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
+                vm.SWAS = true;
                 vm.DisplayLevel = 2;
             }
             else
