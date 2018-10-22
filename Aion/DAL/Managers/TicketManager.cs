@@ -193,6 +193,15 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<string> GetRegionTemp(int storeNumber)
+        {
+            using(var context = new WebMasterModel())
+            {
+                var result = await context.tempRegionLookups.FirstOrDefaultAsync(x => x.Store == storeNumber);
+                return result.Area.ToString();
+            }
+        }
+
         public async Task<StoreMaster> GetStore(string storeNumber)
         {
             using (var context = new WebMasterModel())

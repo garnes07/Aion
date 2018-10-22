@@ -198,5 +198,11 @@ namespace Aion.Areas.Workflow.Controllers
         {
             return await _ticketManager.GetRegion(storeNum);
         }
+
+        [HttpGet]
+        public async Task<string> _getRegionTemp(int storeNum)
+        {
+            return await _ticketManager.GetRegionTemp(storeNum);
+        }
     }
 }

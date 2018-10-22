@@ -21,6 +21,7 @@ namespace Aion.DAL.Managers
         Task<int> CompleteTicket(int ticketId, string userName, int groupId);
         Task<int> SendTicket(int ticketId, string userName, int lvlAction, int groupId);
         Task<string> GetRegion(int storeNumber);
+        Task<string> GetRegionTemp(int storeNumber);
         Task<List<TicketTemplate>> GetFormTemplate(int _TicketTypeId);
         Task<string> GetFormName(int _TicketTypeId);
         Task<StoreMaster> GetStore(string storeNumber);

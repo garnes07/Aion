@@ -12,9 +12,8 @@
         var current = $toChange.html();
         $toChange.html(current + " - ...");
 
-        $.get('/Workflow/Workflow/_getRegion', { storeNum : branch}, function (result) {
+        $.get('/Workflow/Workflow/_getRegionTemp', { storeNum : branch}, function (result) {
             $toChange.html(current + " - Region " + result);
         });
     };
-
 });
