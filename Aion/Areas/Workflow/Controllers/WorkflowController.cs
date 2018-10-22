@@ -34,7 +34,7 @@ namespace Aion.Areas.Workflow.Controllers
         }
 
         // GET: Workflow/Workflow
-        public async Task<ActionResult> Index(int region = 101)
+        public async Task<ActionResult> Index()
         {
             TicketSummaryVM vm = new TicketSummaryVM();
             
@@ -44,7 +44,7 @@ namespace Aion.Areas.Workflow.Controllers
                     vm.TicketCollection = await _ticketManager.GetTicketsSelf(_userName, true);
                     break;
                 case 3:
-                    vm.TicketCollection = await _ticketManager.GetTicketsTPC(_userName, true, region);
+                    vm.TicketCollection = await _ticketManager.GetTicketsTPC(_userName, true, int.Parse(vm.TPCSelected));
                     vm.TPCView = true;
                     break;
                 default:
@@ -136,6 +136,7 @@ namespace Aion.Areas.Workflow.Controllers
             if(TPC != "")
             {
                 System.Web.HttpContext.Current.Session["_TPCOverride"] = TPC;
+                System.Web.HttpContext.Current.Session["_WFTPCSelect"] = TPC;
                 _userName = TPC;
             }
 

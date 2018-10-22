@@ -1,6 +1,7 @@
 ﻿using Aion.DAL.Entities;
 using Aion.ViewModels;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Aion.Areas.Workflow.ViewModels
@@ -11,6 +12,14 @@ namespace Aion.Areas.Workflow.ViewModels
         public List<SelectListItem> _TypeMenu { get; set; }
         public bool TPCView { get; set; }
 
+        public string TPCSelected
+        {
+            get
+            {
+                return HttpContext.Current.Session["_WFTPCSelect"].ToString();
+            }
+        }
+
         public TicketSummaryVM()
         {
             _TypeMenu = new List<SelectListItem>
@@ -18,6 +27,11 @@ namespace Aion.Areas.Workflow.ViewModels
                 new SelectListItem {Value = "0", Text = "All", Selected = true }
             };
             TPCView = false;
+
+            if(HttpContext.Current.Session["_WFTPCSelect"] == null)
+            {
+                HttpContext.Current.Session["_WFTPCSelect"] = "101";
+            }
         }
 
         public List<SelectListItem> _TPCMenu
@@ -41,6 +55,7 @@ namespace Aion.Areas.Workflow.ViewModels
                     toReturn.Add(new SelectListItem { Value = (i).ToString(), Text = "ROI " + i.ToString() });
                 }
 
+                toReturn.ForEach(x => x.Selected = x.Value == TPCSelected);
                 return toReturn;
             }
         }
