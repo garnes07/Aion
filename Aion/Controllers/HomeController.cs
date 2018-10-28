@@ -29,22 +29,22 @@ namespace Aion.Controllers
                 case "S":
                     if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
                     {
-                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
+                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryStorePilot(selectCrit));
                     }
                     else
-                    {
-                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryStorePilot(selectCrit));                        
+                    {                        
+                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryStore(selectCrit);
                     }                        
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
                     if (System.Web.HttpContext.Current.Session["_PilotFlag"] != null && (bool)System.Web.HttpContext.Current.Session["_PilotFlag"] == true)
                     {
-                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);
+                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryRegionPilot(selectCrit));
                     }
                     else
                     {
-                        vm.ScoreSummary = mapper.Map<List<vw_4WeekSummary>>(await _dashManager.Get4WeekSummaryRegionPilot(selectCrit));
+                        vm.ScoreSummary = await _dashManager.Get4WeekSummaryRegion(selectCrit);                        
                     }
                     vm.DisplayLevel = 2;
                     break;
