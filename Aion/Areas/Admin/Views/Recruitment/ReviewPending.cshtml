@@ -89,6 +89,37 @@
                     </tr>
                 </tbody>
             </table>
+            @if (Model.OpenVacancies.Count > 0)
+            {
+                <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                Existing Vacancy
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Total HC</th>
+                            <th>Remaining</th>
+                            <th>Offered</th>
+                            <th>Onboarding</th>
+                            <th>Started</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OpenVacancies)
+                        {
+                            <tr>
+                                <td>@(item.Remaining + item.Offer + item.Onboarding + item.Started)</td>
+                                <td>@item.Remaining</td>
+                                <td>@item.Offer</td>
+                                <td>@item.Onboarding</td>
+                                <td>@item.Started</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
             <h4>MyHub Detail <button id="HRShow" class="btn btn-info btn-sm ml-2"><i class="icon ion-plus-round m-1"></i></button></h4>
             <div id="HRDetail" style="display:none;">
                 <div class="table-responsive" style="max-height:300px;">

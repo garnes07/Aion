@@ -33,9 +33,36 @@
             <strong>Current Position</strong>
         </div>
         <div class="card-body">
-            @if(Model.OfferToReview.FirstOrDefault().Job_Code == 1434)
+            @if (Model.OfferToReview.FirstOrDefault().Job_Code == 1434)
             {
-                <div class="alert alert-info text-center"><strong>Peak Temp - Please approve</strong></div>
+                <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                Peak Vacancy Details
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Total HC</th>
+                            <th>Remaining</th>
+                            <th>Offered</th>
+                            <th>Onboarding</th>
+                            <th>Started</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PeakVacancySummary)
+                        {
+                            <tr>
+                                <td>@(item.Remaining + item.Offer + item.Onboarding + item.Started)</td>
+                                <td>@item.Remaining</td>
+                                <td>@item.Offer</td>
+                                <td>@item.Onboarding</td>
+                                <td>@item.Started</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
             else if (Model.PositionDetail != null)
             {

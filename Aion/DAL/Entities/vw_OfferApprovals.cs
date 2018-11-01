@@ -45,8 +45,8 @@ namespace Aion.DAL.Entities
         public Nullable<System.DateTime> Contract_End_Date { get; set; }
         public Nullable<System.DateTime> Last_Modified { get; set; }
         public string Applicant_Name { get; set; }
-        public Nullable<bool> Approved { get; set; }
-        public Nullable<bool> Rejected { get; set; }
+        public bool Approved { get; set; }
+        public bool Rejected { get; set; }
         public string ReviewedBy { get; set; }
         public Nullable<System.DateTime> ReviewedDate { get; set; }
     

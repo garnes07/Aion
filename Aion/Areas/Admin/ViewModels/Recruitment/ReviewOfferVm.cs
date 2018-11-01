@@ -12,6 +12,7 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
         public List<RecruitmentDetail> RecruitmentDetail { get; set; }
         public List<WFM_EMPLOYEE_INFO_UNEDITED> HRCurrent { get; set; }
         public List<WFM_FUTURE_DATED> HRChanges { get; set; }
+        public List<vw_OpenVacancySummary> PeakVacancySummary { get; set; }
 
         private RecruitmentDetail _PositionDetail;
         public RecruitmentDetail PositionDetail => _PositionDetail ?? (_PositionDetail = RecruitmentDetail.FirstOrDefault(x => x.PositionId == OfferToReview.First().Job_Code));

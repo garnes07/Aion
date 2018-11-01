@@ -513,6 +513,22 @@ namespace Aion.DAL.Managers
             }
         }
 
+        public async Task<List<vw_OpenVacancySummary>> GetOpenVacancySummary(string chain, int store, int jobcode)
+        {
+            using(var context = new VacanciesModel())
+            {
+                return await context.vw_OpenVacancySummary.Where(x => x.Chain == chain && x.StoreNumber == store && x.JobCode == jobcode).ToListAsync();
+            }
+        }
+
+        public async Task<List<vw_OpenVacancySummary>> GetOpenPeakVacancySummary(string chain, int store)
+        {
+            using(var context = new VacanciesModel())
+            {
+                return await context.vw_OpenVacancySummary.Where(x => x.Chain == chain && x.StoreNumber == store && x.JobCode == 1434).ToListAsync();
+            }
+        }
+
         public async Task<bool> OfferOnHold(int JobReqId)
         {
             using (var context = new VacanciesModel())

@@ -184,6 +184,7 @@
     <Compile Include="Areas\Admin\ViewModels\Recruitment\RecruitmentSummaryVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewOfferVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewPendingVm.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Recruitment\ToPostVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\UKDashboard\DashboardErrors.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
     <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
@@ -646,6 +647,9 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_OfferApprovals.cs">
+      <DependentUpon>VacancyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Entities\vw_OpenVacancySummary.cs">
       <DependentUpon>VacancyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\vw_PilotDailyUnders.cs">

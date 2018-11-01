@@ -52,6 +52,7 @@ namespace Aion.DAL.Entities
         public bool Emailed { get; set; }
         public string Applicant_Email { get; set; }
         public Nullable<int> Candidate_ID { get; set; }
+        public Nullable<int> HiringManagerID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OfferComment> OfferComments { get; set; }

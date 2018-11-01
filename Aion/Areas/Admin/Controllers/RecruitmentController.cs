@@ -44,6 +44,7 @@ namespace Aion.Areas.Admin.Controllers
                 mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(StoreNumber.ToString()));
             vm.HRCurrent = await _vacancyManager.GetHrCurrent(Chain, StoreNumber);
             vm.HRChanges = await _vacancyManager.GetHrChanges(Chain, StoreNumber);
+            vm.OpenVacancies = await _vacancyManager.GetOpenVacancySummary(Chain, StoreNumber, PositionCode);
             
             System.Web.HttpContext.Current.Session["RefIds"] = vm.VacancyRequests.Select(x => x.EntryId).ToArray();
 
@@ -90,9 +91,11 @@ namespace Aion.Areas.Admin.Controllers
 
         public async Task<PartialViewResult> _GetToPost(string chain, int store, int jobcode)
         {
-            var result = await _vacancyManager.GetToPostForAdmin(chain, store, jobcode);
+            ToPostVm vm = new ToPostVm();
+            vm.RequestDetail = await _vacancyManager.GetToPostForAdmin(chain, store, jobcode);
+            vm.OpenVacancys = await _vacancyManager.GetOpenVacancySummary(chain, store, jobcode);
 
-            return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_ToPost.cshtml", result);
+            return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_ToPost.cshtml", vm);
         }
 
         [HttpPost]
@@ -127,6 +130,10 @@ namespace Aion.Areas.Admin.Controllers
             vm.HRCurrent = await _vacancyManager.GetHrCurrent(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
             vm.HRChanges = await _vacancyManager.GetHrChanges(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
             vm.OpenVacancy = await _vacancyManager.GetOpenVacancyByRef(JobReqId);
+            if(vm.OfferToReview.First().Job_Code == 1434)
+            {
+                vm.PeakVacancySummary = await _vacancyManager.GetOpenPeakVacancySummary(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
+            }
 
             System.Web.HttpContext.Current.Session["RefIds"] = vm.OfferToReview.Select(x => x.Application_ID).ToArray();
 

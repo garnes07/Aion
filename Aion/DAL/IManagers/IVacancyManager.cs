@@ -35,6 +35,8 @@ namespace Aion.DAL.Managers
         Task<List<WFM_EMPLOYEE_INFO_UNEDITED>> GetHrCurrent(string chain, int storenumber);
         Task<List<WFM_FUTURE_DATED>> GetHrChanges(string chain, int storenumber);
         Task<List<vw_OfferApprovals>> GetOfferToReview(int JobReqId);
+        Task<List<vw_OpenVacancySummary>> GetOpenVacancySummary(string chain, int store, int jobcode);
+        Task<List<vw_OpenVacancySummary>> GetOpenPeakVacancySummary(string chain, int store);
         Task<bool> OfferOnHold(int JobReqId);
         Task<bool> AddOfferOutcome(List<ReviewOutcome> outcomes, string username);
         Task<bool> RejectedToReview(int entryId);

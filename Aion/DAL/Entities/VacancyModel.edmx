@@ -84,6 +84,7 @@
           <Property Name="Emailed" Type="bit" Nullable="false" />
           <Property Name="Applicant Email" Type="nvarchar" MaxLength="255" />
           <Property Name="Candidate ID" Type="int" />
+          <Property Name="HiringManagerID" Type="int" />
         </EntityType>
         <EntityType Name="OfferComments">
           <Key>
@@ -244,6 +245,8 @@ warning 6002: The table/view '01002_People.dbo.vw_OfferApprovals' does not have 
             
             
             <PropertyRef Name="Application ID" />
+            
+            
           </Key>
           <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="Job Req Id" Type="int" Nullable="false" />
@@ -270,10 +273,31 @@ warning 6002: The table/view '01002_People.dbo.vw_OfferApprovals' does not have 
           <Property Name="Contract End Date" Type="datetime" />
           <Property Name="Last Modified" Type="datetime" />
           <Property Name="Applicant Name" Type="nvarchar" MaxLength="255" />
-          <Property Name="Approved" Type="bit" />
-          <Property Name="Rejected" Type="bit" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="Rejected" Type="bit" Nullable="false" />
           <Property Name="ReviewedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ReviewedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '01002_People.dbo.vw_OpenVacancySummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_OpenVacancySummary">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="StoreNumber" />
+            
+            
+            
+            
+            <PropertyRef Name="JobCode" />
+          </Key>
+          <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="StoreNumber" Type="smallint" Nullable="false" />
+          <Property Name="JobCode" Type="smallint" Nullable="false" />
+          <Property Name="FriendlyName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Remaining" Type="smallint" Nullable="false" />
+          <Property Name="Onboarding" Type="int" Nullable="false" />
+          <Property Name="Offer" Type="int" Nullable="false" />
+          <Property Name="Started" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view '01002_People.dbo.vw_SFOpenVacancies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -489,6 +513,18 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
     [vw_OfferApprovals].[ReviewedDate] AS [ReviewedDate]
     FROM [dbo].[vw_OfferApprovals] AS [vw_OfferApprovals]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_OpenVacancySummary" EntityType="Self.vw_OpenVacancySummary" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_OpenVacancySummary].[Chain] AS [Chain], 
+    [vw_OpenVacancySummary].[StoreNumber] AS [StoreNumber], 
+    [vw_OpenVacancySummary].[JobCode] AS [JobCode], 
+    [vw_OpenVacancySummary].[FriendlyName] AS [FriendlyName], 
+    [vw_OpenVacancySummary].[Remaining] AS [Remaining], 
+    [vw_OpenVacancySummary].[Onboarding] AS [Onboarding], 
+    [vw_OpenVacancySummary].[Offer] AS [Offer], 
+    [vw_OpenVacancySummary].[Started] AS [Started]
+    FROM [dbo].[vw_OpenVacancySummary] AS [vw_OpenVacancySummary]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_SFOpenVacancies" EntityType="Self.vw_SFOpenVacancies" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_SFOpenVacancies].[EntryId] AS [EntryId], 
@@ -591,6 +627,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           </AssociationSet>
           <EntitySet Name="WFM_EMPLOYEE_INFO_UNEDITED" EntityType="VacancyModel.WFM_EMPLOYEE_INFO_UNEDITED" />
           <EntitySet Name="WFM_FUTURE_DATED" EntityType="VacancyModel.WFM_FUTURE_DATED" />
+          <EntitySet Name="vw_OpenVacancySummary" EntityType="VacancyModel.vw_OpenVacancySummary" />
         </EntityContainer>
         <EntityType Name="RequestComment">
           <Key>
@@ -875,8 +912,8 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           <Property Name="Contract_End_Date" Type="DateTime" Precision="3" />
           <Property Name="Last_Modified" Type="DateTime" Precision="3" />
           <Property Name="Applicant_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Approved" Type="Boolean" />
-          <Property Name="Rejected" Type="Boolean" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="Rejected" Type="Boolean" Nullable="false" />
           <Property Name="ReviewedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ReviewedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="OfferComments" Relationship="VacancyModel.OfferCommentvw_OfferApprovals" FromRole="vw_OfferApprovals" ToRole="OfferComment" />
@@ -918,6 +955,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           <Property Name="Emailed" Type="Boolean" Nullable="false" />
           <Property Name="Applicant_Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Candidate_ID" Type="Int32" />
+          <Property Name="HiringManagerID" Type="Int32" />
         </EntityType>
         <EntityType Name="OfferComment">
           <Key>
@@ -1013,6 +1051,21 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           <Property Name="NewDeptID" Type="Int16" />
           <Property Name="CostCentre" Type="Int16" />
           <Property Name="EmailAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vw_OpenVacancySummary">
+          <Key>
+            <PropertyRef Name="Chain" />
+            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="JobCode" />
+          </Key>
+          <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="StoreNumber" Type="Int16" Nullable="false" />
+          <Property Name="JobCode" Type="Int16" Nullable="false" />
+          <Property Name="FriendlyName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Remaining" Type="Int16" Nullable="false" />
+          <Property Name="Onboarding" Type="Int32" Nullable="false" />
+          <Property Name="Offer" Type="Int32" Nullable="false" />
+          <Property Name="Started" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1269,6 +1322,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           <EntitySetMapping Name="OfferApprovals">
             <EntityTypeMapping TypeName="VacancyModel.OfferApproval">
               <MappingFragment StoreEntitySet="OfferApprovals">
+                <ScalarProperty Name="HiringManagerID" ColumnName="HiringManagerID" />
                 <ScalarProperty Name="Candidate_ID" ColumnName="Candidate ID" />
                 <ScalarProperty Name="Applicant_Email" ColumnName="Applicant Email" />
                 <ScalarProperty Name="Emailed" ColumnName="Emailed" />
@@ -1371,6 +1425,20 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
                 <ScalarProperty Name="Chain" ColumnName="Chain" />
                 <ScalarProperty Name="Legal_Entity" ColumnName="Legal Entity" />
                 <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_OpenVacancySummary">
+            <EntityTypeMapping TypeName="VacancyModel.vw_OpenVacancySummary">
+              <MappingFragment StoreEntitySet="vw_OpenVacancySummary">
+                <ScalarProperty Name="Started" ColumnName="Started" />
+                <ScalarProperty Name="Offer" ColumnName="Offer" />
+                <ScalarProperty Name="Onboarding" ColumnName="Onboarding" />
+                <ScalarProperty Name="Remaining" ColumnName="Remaining" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="StoreNumber" ColumnName="StoreNumber" />
+                <ScalarProperty Name="Chain" ColumnName="Chain" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -34,7 +34,7 @@
                     </a>
                 </td>
                 <td class="text-center">@item.StoreNumber</td>
-                <td class="text-center @(item.Period < 4 ? "table-danger" : "")">@item.Period</td>
+                <td class="text-center @(item.Period < 6 ? "table-danger" : "")">@item.Period</td>
                 <td class="text-center">
                     @if (!item.Confirmed && !item.Override)
                     {

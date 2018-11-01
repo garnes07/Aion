@@ -1,15 +1,15 @@
-﻿@model List<Aion.DAL.Entities.vw_VacancyRequestsAdmin>
+﻿@model Aion.Areas.Admin.ViewModels.Recruitment.ToPostVm
 
-@if (Model.Count == 0)
+@if (Model.RequestDetail.Count == 0)
 {
     <div class="alert alert-info text-center"><strong>This request has already been completed</strong></div>
 }
 else
 {
-    if (Model.FirstOrDefault().PostedBy == "On Hold")
+    if (Model.RequestDetail.FirstOrDefault().PostedBy == "On Hold")
     {
         <div class="row justify-content-center mb-2">
-            <strong style="font-size:large;" class="text-warning">On Hold Since: @Model.FirstOrDefault().PostedDate</strong>
+            <strong style="font-size:large;" class="text-warning">On Hold Since: @Model.RequestDetail.FirstOrDefault().PostedDate</strong>
         </div>
     }
     <table class="table table-bordered table-sm table-smtxtperm text-center">
@@ -27,7 +27,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.RequestDetail)
             {
                 <tr>
                     <td>@item.Chain</td>
@@ -41,16 +41,16 @@ else
                     <td>@(item.Repost ? "Yes" : "No")</td>
                 </tr>
             }
-            @if (Model.Count > 1)
+            @if (Model.RequestDetail.Count > 1)
             {
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><strong>@Model.Sum(x => x.Heads)</strong></td>
-                    <td><strong>@string.Format("{0}-{1}", Model.Min(x => x.ContractHrs), Model.Max(x => x.ContractHrs))</strong></td>
-                    <td><strong>@Model.Sum(x => x.Heads * x.ContractHrs)</strong></td>
+                    <td><strong>@Model.RequestDetail.Sum(x => x.Heads)</strong></td>
+                    <td><strong>@string.Format("{0}-{1}", Model.RequestDetail.Min(x => x.ContractHrs), Model.RequestDetail.Max(x => x.ContractHrs))</strong></td>
+                    <td><strong>@Model.RequestDetail.Sum(x => x.Heads * x.ContractHrs)</strong></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -58,24 +58,56 @@ else
         </tbody>
     </table>
     <strong>
-        Raised by: @Model.FirstOrDefault().RaisedBy
+        Raised by: @Model.RequestDetail.FirstOrDefault().RaisedBy
     </strong>
-    if (Model.First().RequestComments.Count() > 0)
+    if (Model.RequestDetail.First().RequestComments.Count() > 0)
     {
         <br />
         <strong>Supporting Comments:</strong>
         <p class="border border-left p-2 mt-1 rounded">
-            @foreach (var item in Model.First().RequestComments.Where(x => x.CommentType == "Notes"))
+            @foreach (var item in Model.RequestDetail.First().RequestComments.Where(x => x.CommentType == "Notes"))
             {
                 <span>@item.Comment</span>
             }
         </p>
     }
     <hr />
+    if (Model.OpenVacancys.Count > 0)
+    {
+        <table class="table table-bordered table-sm text-center" style="table-layout:fixed;">
+            <thead>
+                <tr>
+                    <th colspan="5">
+                        Existing Vacancy
+                    </th>
+                </tr>
+                <tr>
+                    <th>Total HC</th>
+                    <th>Remaining</th>
+                    <th>Offered</th>
+                    <th>Onboarding</th>
+                    <th>Started</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OpenVacancys)
+                {
+                    <tr>
+                        <td>@(item.Remaining + item.Offer + item.Onboarding + item.Started)</td>
+                        <td>@item.Remaining</td>
+                        <td>@item.Offer</td>
+                        <td>@item.Onboarding</td>
+                        <td>@item.Started</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+    }
     <form id="frm">
-        <input id="mChain" value="@Model.FirstOrDefault().Chain" hidden/>
-        <input id="mStore" value="@Model.FirstOrDefault().StoreNumber" hidden/>
-        <input id="mJobCode" value="@Model.FirstOrDefault().PositionCode" hidden/>
+        <input id="mChain" value="@Model.RequestDetail.FirstOrDefault().Chain" hidden/>
+        <input id="mStore" value="@Model.RequestDetail.FirstOrDefault().StoreNumber" hidden/>
+        <input id="mJobCode" value="@Model.RequestDetail.FirstOrDefault().PositionCode" hidden/>
         <div class="form-group">
             <label>SF Reference #</label>
             <input id="mRef"/>
@@ -91,11 +123,11 @@ else
         </div>
     </form>
     <form id="frmUnapprove" action="/Admin/Recruitment/UnapproveToPost" method="post">
-        @foreach (var item in Model)
+        @foreach (var item in Model.RequestDetail)
         {
-            <input name="chain" value="@Model.FirstOrDefault().Chain" hidden />
-            <input name="store" value="@Model.FirstOrDefault().StoreNumber" hidden />
-            <input name="jobcode" value="@Model.FirstOrDefault().PositionCode" hidden />
+            <input name="chain" value="@Model.RequestDetail.FirstOrDefault().Chain" hidden />
+            <input name="store" value="@Model.RequestDetail.FirstOrDefault().StoreNumber" hidden />
+            <input name="jobcode" value="@Model.RequestDetail.FirstOrDefault().PositionCode" hidden />
         }
     </form>
 }
