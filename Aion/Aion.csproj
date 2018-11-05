@@ -187,9 +187,9 @@
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ToPostVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\UKDashboard\DashboardErrors.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
-    <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
-    <Compile Include="Areas\ProfitLoss\Models\ProfitLossView.cs" />
-    <Compile Include="Areas\ProfitLoss\Models\Subtotal.cs" />
+    <Compile Include="Models\ProfitLoss\ProfitLossSummaryView.cs" />
+    <Compile Include="Models\ProfitLoss\ProfitLossView.cs" />
+    <Compile Include="Models\ProfitLoss\Subtotal.cs" />
     <Compile Include="Areas\ProfitLoss\ProfitLossAreaRegistration.cs" />
     <Compile Include="Areas\ProfitLoss\ViewModels\Home\ProfitLossSummaryVm.cs" />
     <Compile Include="Areas\ProfitLoss\ViewModels\Home\ProfitLossVm.cs" />
@@ -1517,6 +1517,7 @@
   <ItemGroup>
     <Folder Include="Areas\WFM\Views\MyStore\Partials\" />
     <Folder Include="Areas\Workflow\Views\Shared\" />
+    <Folder Include="Models\ROIDash\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

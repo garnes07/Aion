@@ -1,4 +1,4 @@
-﻿using Aion.Areas.ProfitLoss.Models;
+﻿using Aion.Models.ProfitLoss;
 using Aion.Areas.ProfitLoss.ViewModels.Home;
 using Aion.Attributes;
 using Aion.Controllers;

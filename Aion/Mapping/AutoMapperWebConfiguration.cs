@@ -1,10 +1,10 @@
 ﻿using Aion.Areas.WFM.Models.MyStore;
 using Aion.Areas.WFM.Models.Deployment;
 using AutoMapper;
+using Aion.Models.ProfitLoss;
 using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
 using Aion.Areas.Workflow.Models;
-using Aion.Areas.ProfitLoss.Models;
 using Aion.Areas.WFM.Models.FuturePlanning;
 
 namespace Aion.Mapping
@@ -27,12 +27,34 @@ namespace Aion.Mapping
         {
             _mapperConfig = new MapperConfiguration(cfg =>
             {
+                cfg.AddProfile(new ProfitLossProfile());
                 cfg.AddProfile(new DashboardProfile());
                 cfg.AddProfile(new MyStoreProfile());
                 cfg.AddProfile(new TicketProfile());
-                cfg.AddProfile(new ProfitLossProfile());
                 cfg.AddProfile(new AdminProfile());
             });
+        }
+    }
+    
+    public class ProfitLossProfile : Profile
+    {
+        public ProfitLossProfile()
+        {
+            CreateMap<sp_GetPandL_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLRegion_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLDivision_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLChannel_Result, ProfitLossView>();
+            CreateMap<sp_GetPandLRegionSummary_Result, ProfitLossSummaryView>();
+            CreateMap<sp_GetPandLDivisionSummary_Result, ProfitLossSummaryView>();
+            CreateMap<sp_GetPandLChannelSummary_Result, ProfitLossSummaryView>();
+        }
+    }
+
+    public class ROIDashModel : Profile
+    {
+        public ROIDashModel()
+        {
+
         }
     }
 
@@ -66,20 +88,6 @@ namespace Aion.Mapping
         public TicketProfile()
         {
             CreateMap<TicketQ_A, TicketAnswer>();
-        }
-    }
-
-    public class ProfitLossProfile : Profile
-    {
-        public ProfitLossProfile()
-        {
-            CreateMap<sp_GetPandL_Result, ProfitLossView>();
-            CreateMap<sp_GetPandLRegion_Result, ProfitLossView>();
-            CreateMap<sp_GetPandLDivision_Result, ProfitLossView>();
-            CreateMap<sp_GetPandLChannel_Result, ProfitLossView>();
-            CreateMap<sp_GetPandLRegionSummary_Result, ProfitLossSummaryView>();
-            CreateMap<sp_GetPandLDivisionSummary_Result, ProfitLossSummaryView>();
-            CreateMap<sp_GetPandLChannelSummary_Result, ProfitLossSummaryView>();
         }
     }
 
