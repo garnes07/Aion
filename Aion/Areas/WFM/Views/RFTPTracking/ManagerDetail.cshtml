@@ -21,7 +21,7 @@
         <div class="card-accordion" id="cases">
             @foreach (var item in Model.caseDetails)
             {
-                <div class="card my-2 @(item.Confirmed || item.Reassign ? "" : "card-danger")">
+                <div class="card my-2 @(item.Confirmed || item.Reassign || item.Override ? "" : "card-danger")">
                     <div class="card-header text-center">
                         <button class="btn btn-link" data-toggle="collapse" data-target="#@(item.CaseID)"><strong>@(string.Format("{0} P{1} - Stage {2}", item.Year, item.Period, item.Stage))@(item.Override ? " - Overridden" : "")</strong></button>
                     </div>
@@ -52,6 +52,10 @@
                                     else if (item.Reassign)
                                     {
                                         <h4>Reassigned to different colleague</h4>
+                                    }
+                                    else if (item.Override)
+                                    {
+                                        <h4>Overriden</h4>
                                     }
                                     else
                                     {
