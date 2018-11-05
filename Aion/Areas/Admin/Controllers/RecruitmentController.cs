@@ -5,6 +5,7 @@ using Aion.Areas.WFM.ViewModels.Deployment;
 using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Managers;
+using Aion.Models.Vacancy;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,9 @@ namespace Aion.Areas.Admin.Controllers
         {
             RecruitmentSummaryVm vm = new RecruitmentSummaryVm();
 
-            vm.IncorrectVacancies = await _vacancyManager.GetIncorrectVacancies();
-            vm.OfferApprovals = await _vacancyManager.GetOfferApprovals();
-            vm.AllPending = await _vacancyManager.GetPendingForAdmin();
+            vm.IncorrectVacancies = mapper.Map<List<IncorrectVacanciesView>>(await _vacancyManager.GetIncorrectVacancies());
+            vm.OfferApprovals = mapper.Map<List<OfferApprovalsView>>(await _vacancyManager.GetOfferApprovals());
+            vm.AllPending = mapper.Map<List<VacancyRequestsAdminView>>(await _vacancyManager.GetPendingForAdmin());
 
             return View(vm);
         }

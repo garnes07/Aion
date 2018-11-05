@@ -3,6 +3,7 @@ using Aion.Areas.WFM.Models.Deployment;
 using AutoMapper;
 using Aion.Models.ProfitLoss;
 using Aion.Models.Shared;
+using Aion.Models.Vacancy;
 using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
 using Aion.Areas.Workflow.Models;
@@ -30,6 +31,7 @@ namespace Aion.Mapping
             {
                 cfg.AddProfile(new ProfitLossProfile());
                 cfg.AddProfile(new AdminDashProfile());
+                cfg.AddProfile(new VacancyProfile());
                 cfg.AddProfile(new DashboardProfile());
                 cfg.AddProfile(new MyStoreProfile());
                 cfg.AddProfile(new TicketProfile());
@@ -58,6 +60,19 @@ namespace Aion.Mapping
         {
             CreateMap<StoreReference, StoreReferenceView>();
             CreateMap<RoleReference, RoleReferenceView>();
+        }
+    }
+
+    public class VacancyProfile : Profile
+    {
+        public VacancyProfile()
+        {
+            CreateMap<vw_IncorrectVacancies, IncorrectVacanciesView>();
+            CreateMap<vw_OfferApprovals, OfferApprovalsView>();
+            CreateMap<OfferComment, OfferCommentView>();
+            CreateMap<RequestComment, RequestCommentView>();
+            CreateMap<VacancyPosition, VacancyPositionView>();
+            CreateMap<vw_VacancyRequestsAdmin, VacancyRequestsAdminView>();
         }
     }
 

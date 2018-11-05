@@ -74,7 +74,7 @@
           <Property Name="MaxYear" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MaxMonth" Type="Int16" />
         </ComplexType>
-        <EntityContainer Name="ProfitLossModel" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ProfitLossModel" annotation:LazyLoadingEnabled="false">
           <FunctionImport Name="fn_LatestPLRecord" IsComposable="true" ReturnType="Collection(ProfitLossContext.fn_LatestPLRecord_Result)" />
           <FunctionImport Name="sp_GetPandL" ReturnType="Collection(ProfitLossContext.sp_GetPandL_Result)">
             <Parameter Name="StoreNumber" Mode="In" Type="Int32" />

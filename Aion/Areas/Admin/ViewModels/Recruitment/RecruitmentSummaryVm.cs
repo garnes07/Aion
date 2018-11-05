@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.Vacancy;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,12 +6,12 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
 {
     public class RecruitmentSummaryVm
     {
-        public List<vw_OfferApprovals> OfferApprovals { get; set; }
-        public List<vw_IncorrectVacancies> IncorrectVacancies { get; set; }
-        public List<vw_VacancyRequestsAdmin> AllPending { get; set; }
+        public List<OfferApprovalsView> OfferApprovals { get; set; }
+        public List<IncorrectVacanciesView> IncorrectVacancies { get; set; }
+        public List<VacancyRequestsAdminView> AllPending { get; set; }
 
-        private List<vw_VacancyRequestsAdmin> _ToReview;
-        public List<vw_VacancyRequestsAdmin> ToReview => _ToReview ?? (_ToReview = AllPending.Where(x => !x.Approved).ToList());
+        private List<VacancyRequestsAdminView> _ToReview;
+        public List<VacancyRequestsAdminView> ToReview => _ToReview ?? (_ToReview = AllPending.Where(x => !x.Approved).ToList());
 
         private List<ToRaiseStub> _ToRaise;
         public List<ToRaiseStub> ToRaise => _ToRaise ?? (_ToRaise = 

@@ -828,6 +828,12 @@
     <Compile Include="Models\Utils\AuthenticationResult.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\RecruitmentRequest.cs" />
     <Compile Include="Models\Utils\StoreStub.cs" />
+    <Compile Include="Models\Vacancy\IncorrectVacanciesView.cs" />
+    <Compile Include="Models\Vacancy\OfferApprovalsView.cs" />
+    <Compile Include="Models\Vacancy\OfferCommentView.cs" />
+    <Compile Include="Models\Vacancy\RequestCommentView.cs" />
+    <Compile Include="Models\Vacancy\VacancyPositionView.cs" />
+    <Compile Include="Models\Vacancy\VacancyRequestsAdminView.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
     <Compile Include="Models\Utils\StoreMenu.cs" />

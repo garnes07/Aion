@@ -20,6 +20,7 @@ namespace Aion.DAL.Entities
         public ProfitLossModel()
             : base("name=ProfitLossModel")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
