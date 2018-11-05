@@ -1,7 +1,10 @@
-﻿using Aion.Attributes;
-using Aion.DAL.Entities;
+﻿using Aion.Areas.Admin.ViewModels.Shared;
+using Aion.Attributes;
+using Aion.Controllers;
+using Aion.Models.Shared;
 using Aion.DAL.Managers;
 using PagedList;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -10,7 +13,7 @@ using System.Web.Mvc;
 namespace Aion.Areas.Admin.Controllers
 {
     [UserFilter(MinLevel = 9)]
-    public class ROIDashboardController : Controller
+    public class ROIDashboardController : BaseController
     {
         private readonly IAdminDashManager _dashManager;
 
@@ -26,7 +29,11 @@ namespace Aion.Areas.Admin.Controllers
                 ViewBag.PackageRunning = true;
             }
 
-            return View(await _dashManager.GetErrors());
+            DashboardErrors vm = new DashboardErrors();
+            vm.RoleErrors = await _dashManager.GetRoleErrors();
+            vm.StoreErrors = await _dashManager.GetStoreErrors();
+
+            return View(vm);
         }
 
         //Run sp to build dashboard with existing timecard data file
@@ -60,7 +67,7 @@ namespace Aion.Areas.Admin.Controllers
 
         public async Task<ActionResult> StoreList(int? page, string searchString)
         {
-            var result = await _dashManager.StoreReferenceList();
+            var result = mapper.Map<List<StoreReferenceView>>(await _dashManager.StoreReferenceList());
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -84,7 +91,7 @@ namespace Aion.Areas.Admin.Controllers
         //post new storereference record
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddStore(StoreReference model)
+        public async Task<ActionResult> AddStore(StoreReferenceView model)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +108,7 @@ namespace Aion.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StoreReference storeReference = await _dashManager.StoreReferenceSingle(id);
+            StoreReferenceView storeReference = mapper.Map<StoreReferenceView>(await _dashManager.StoreReferenceSingle(id));
             if (storeReference == null)
             {
                 return HttpNotFound();
@@ -113,7 +120,7 @@ namespace Aion.Areas.Admin.Controllers
         //post changes to storereference record
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditStore(StoreReference model)
+        public async Task<ActionResult> EditStore(StoreReferenceView model)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +137,7 @@ namespace Aion.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StoreReference storeReference = await _dashManager.StoreReferenceSingle(id);
+            StoreReferenceView storeReference = mapper.Map<StoreReferenceView>(await _dashManager.StoreReferenceSingle(id));
             if (storeReference == null)
             {
                 return HttpNotFound();
@@ -151,7 +158,7 @@ namespace Aion.Areas.Admin.Controllers
 
         public async Task<ActionResult> RoleList()
         {
-            return View(await _dashManager.RoleReferenceList());
+            return View(mapper.Map<List<RoleReferenceView>>(await _dashManager.RoleReferenceList()));
         }
 
         //add new rolereference record
@@ -164,7 +171,7 @@ namespace Aion.Areas.Admin.Controllers
         //post new rolereference record
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddRole(RoleReference model)
+        public async Task<ActionResult> AddRole(RoleReferenceView model)
         {
             if (ModelState.IsValid)
             {
@@ -181,7 +188,7 @@ namespace Aion.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            RoleReference roleReference = await _dashManager.RoleReferenceSingle(id);
+            RoleReferenceView roleReference = mapper.Map<RoleReferenceView>(await _dashManager.RoleReferenceSingle(id));
             if (roleReference == null)
             {
                 return HttpNotFound();
@@ -193,7 +200,7 @@ namespace Aion.Areas.Admin.Controllers
         //post changes to rolereference record
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditRole(RoleReference model)
+        public async Task<ActionResult> EditRole(RoleReferenceView model)
         {
             if (ModelState.IsValid)
             {
@@ -210,7 +217,7 @@ namespace Aion.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            RoleReference roleReference = await _dashManager.RoleReferenceSingle(id);
+            RoleReferenceView roleReference = mapper.Map<RoleReferenceView>(await _dashManager.RoleReferenceSingle(id));
             if (roleReference == null)
             {
                 return HttpNotFound();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Aion.Areas.Admin.ViewModels.UKDashboard
+namespace Aion.Areas.Admin.ViewModels.Shared
 {
     public class DashboardErrors
     {

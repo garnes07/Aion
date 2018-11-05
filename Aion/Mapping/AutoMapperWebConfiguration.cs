@@ -2,6 +2,7 @@
 using Aion.Areas.WFM.Models.Deployment;
 using AutoMapper;
 using Aion.Models.ProfitLoss;
+using Aion.Models.Shared;
 using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
 using Aion.Areas.Workflow.Models;
@@ -28,6 +29,7 @@ namespace Aion.Mapping
             _mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new ProfitLossProfile());
+                cfg.AddProfile(new AdminDashProfile());
                 cfg.AddProfile(new DashboardProfile());
                 cfg.AddProfile(new MyStoreProfile());
                 cfg.AddProfile(new TicketProfile());
@@ -50,11 +52,12 @@ namespace Aion.Mapping
         }
     }
 
-    public class ROIDashModel : Profile
+    public class AdminDashProfile : Profile
     {
-        public ROIDashModel()
+        public AdminDashProfile()
         {
-
+            CreateMap<StoreReference, StoreReferenceView>();
+            CreateMap<RoleReference, RoleReferenceView>();
         }
     }
 

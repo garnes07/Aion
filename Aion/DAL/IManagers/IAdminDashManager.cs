@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Aion.DAL.Entities;
+using Aion.Models.Shared;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Aion.Areas.Admin.ViewModels.UKDashboard;
-using Aion.DAL.Entities;
 
 namespace Aion.DAL.Managers
 {
@@ -9,7 +9,8 @@ namespace Aion.DAL.Managers
     {
         Task<bool> DeleteRoleReferenceRecord(string id);
         Task<bool> DeleteStoreReferenceRecord(int id);
-        Task<DashboardErrors> GetErrors();
+        Task<List<string>> GetStoreErrors();
+        Task<List<string>> GetRoleErrors();
         bool PushData();
         Task<List<RoleReference>> RoleReferenceList();
         Task<RoleReference> RoleReferenceSingle(string id);
@@ -19,9 +20,9 @@ namespace Aion.DAL.Managers
         Task<List<StoreReference>> StoreReferenceList();
         StoreReference StoreReferenceSearch(string keyword);
         Task<StoreReference> StoreReferenceSingle(int? id);
-        Task<bool> SubmitNewRoleReference(RoleReference model);
-        Task<bool> SubmitNewStoreReference(StoreReference model);
-        Task<bool> SubmitRoleReferenceChange(RoleReference model);
-        Task<bool> SubmitStoreReferenceChange(StoreReference model);
+        Task<bool> SubmitNewRoleReference(RoleReferenceView model);
+        Task<bool> SubmitNewStoreReference(StoreReferenceView model);
+        Task<bool> SubmitRoleReferenceChange(RoleReferenceView model);
+        Task<bool> SubmitStoreReferenceChange(StoreReferenceView model);
     }
 }

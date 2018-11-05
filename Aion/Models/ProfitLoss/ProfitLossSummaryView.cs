@@ -1,5 +1,4 @@
 ﻿using Aion.Helpers;
-using System;
 
 namespace Aion.Models.ProfitLoss
 {
@@ -7,14 +6,14 @@ namespace Aion.Models.ProfitLoss
     {
         public int Heirarchy { get; set; }
         public string Year { get; set; }
-        public Nullable<short> Month { get; set; }
+        public short? Month { get; set; }
         public string DetailName { get; set; }
-        public Nullable<decimal> PeriodActual { get; set; }
-        public Nullable<decimal> PeriodBudget { get; set; }
-        public Nullable<decimal> QuarterActual { get; set; }
-        public Nullable<decimal> QuarterBudget { get; set; }
-        public Nullable<decimal> AnnualActual { get; set; }
-        public Nullable<decimal> AnnualBudget { get; set; }
+        public decimal? PeriodActual { get; set; }
+        public decimal? PeriodBudget { get; set; }
+        public decimal? QuarterActual { get; set; }
+        public decimal? QuarterBudget { get; set; }
+        public decimal? AnnualActual { get; set; }
+        public decimal? AnnualBudget { get; set; }
 
         public decimal? PercToBudgetTotal => VmHelpers.CalcPercTotal(PeriodActual, PeriodBudget);
         public decimal? QTDPercToBudgetTotal => VmHelpers.CalcPercTotal(QuarterActual, QuarterBudget);

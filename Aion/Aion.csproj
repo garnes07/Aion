@@ -185,7 +185,7 @@
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewOfferVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewPendingVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ToPostVm.cs" />
-    <Compile Include="Areas\Admin\ViewModels\UKDashboard\DashboardErrors.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Shared\DashboardErrors.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
     <Compile Include="Models\ProfitLoss\ProfitLossSummaryView.cs" />
     <Compile Include="Models\ProfitLoss\ProfitLossView.cs" />
@@ -823,6 +823,8 @@
     <Compile Include="Models\Kronos\ScheduleItems.cs" />
     <Compile Include="Models\Kronos\ShiftSegment.cs" />
     <Compile Include="Models\Kronos\Timesheet.cs" />
+    <Compile Include="Models\Shared\RoleReferenceView.cs" />
+    <Compile Include="Models\Shared\StoreReferenceView.cs" />
     <Compile Include="Models\Utils\AuthenticationResult.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\RecruitmentRequest.cs" />
     <Compile Include="Models\Utils\StoreStub.cs" />
@@ -1517,7 +1519,6 @@
   <ItemGroup>
     <Folder Include="Areas\WFM\Views\MyStore\Partials\" />
     <Folder Include="Areas\Workflow\Views\Shared\" />
-    <Folder Include="Models\ROIDash\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
