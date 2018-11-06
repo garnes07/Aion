@@ -38,44 +38,51 @@
                 <td class="text-center">
                     @if (!item.Confirmed && !item.Override)
                     {
-                        <div class="btn-group d-none d-lg-block" role="group">
-                            @if (Model.AccessLevel <= 4)
-                            {
-                                <button type="button" data-toggle="modal" data-target="#rModal" data-caseid="@item.CaseID" class="btn btn-light">Reassign</button>
-                                <button type="button" data-toggle="modal" data-target="#cModal" data-caseid="@item.CaseID" data-name="@item.PersonName" class="btn btn-success">Confirm</button>
-                            }
-                            else
-                            {
-                                <button class="btn btn-light disabled">Reassign</button>
-                                <button class="btn btn-success disabled">Confirm</button>
-                            }
-                        </div>
-                        <div class="btn-group d-lg-none">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action required... </button>
-                            <ul class="dropdown-menu">
+                        if (Model.Cases.Where(x => x.PersonNumber == item.PersonNumber && !x.Confirmed && x.CaseID < item.CaseID).Count() > 0)
+                        {
+                            <strong>Confirm previous case</strong>
+                        }
+                        else
+                        {
+                            <div class="btn-group d-none d-lg-block" role="group">
                                 @if (Model.AccessLevel <= 4)
                                 {
-                                    <li>
-                                        <a href="#" data-toggle="modal" data-target="#oModal" data-caseid="@item.CaseID">Reassign</a>
-                                    </li>
-                                    <li role="separator" class="dropdown-divider"></li>
-                                    <li>
-                                        <a href="#" data-toggle="modal" data-target="#cModal" data-caseid="@item.CaseID" data-name="@item.PersonName">Confirm</a>
-                                    </li>
+                                    <button type="button" data-toggle="modal" data-target="#rModal" data-caseid="@item.CaseID" class="btn btn-light">Reassign</button>
+                                    <button type="button" data-toggle="modal" data-target="#cModal" data-caseid="@item.CaseID" data-name="@item.PersonName" class="btn btn-success">Confirm</button>
                                 }
                                 else
                                 {
-                                    <li>
-                                    <a href="#"><s>Reassign</s></a>
-                                    </li>
-                                    <li role="separator" class="dropdown-divider"></li>
-                                    <li>
-                                    <a href="#"><s>Confirm</s></a>
-                                    </li>
+                                    <button class="btn btn-light disabled">Reassign</button>
+                                    <button class="btn btn-success disabled">Confirm</button>
                                 }
+                            </div>
+                            <div class="btn-group d-lg-none">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action required... </button>
+                                <ul class="dropdown-menu">
+                                    @if (Model.AccessLevel <= 4)
+                                    {
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#oModal" data-caseid="@item.CaseID">Reassign</a>
+                                        </li>
+                                        <li role="separator" class="dropdown-divider"></li>
+                                        <li>
+                                            <a href="#" data-toggle="modal" data-target="#cModal" data-caseid="@item.CaseID" data-name="@item.PersonName">Confirm</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="#"><s>Reassign</s></a>
+                                        </li>
+                                        <li role="separator" class="dropdown-divider"></li>
+                                        <li>
+                                            <a href="#"><s>Confirm</s></a>
+                                        </li>
+                                    }
 
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
+                        }
                     }
                     else if (!item.Override)
                     {

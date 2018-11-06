@@ -282,14 +282,13 @@ warning 6002: The table/view '01002_People.dbo.vw_OfferApprovals' does not have 
 warning 6002: The table/view '01002_People.dbo.vw_OpenVacancySummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_OpenVacancySummary">
           <Key>
-            <PropertyRef Name="Chain" />
-            <PropertyRef Name="StoreNumber" />
+            <PropertyRef Name="RowId" />
             
             
             
             
-            <PropertyRef Name="JobCode" />
           </Key>
+          <Property Name="RowId" Type="bigint" Nullable="false" />
           <Property Name="Chain" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="StoreNumber" Type="smallint" Nullable="false" />
           <Property Name="JobCode" Type="smallint" Nullable="false" />
@@ -515,6 +514,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           </EntitySet>
           <EntitySet Name="vw_OpenVacancySummary" EntityType="Self.vw_OpenVacancySummary" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [vw_OpenVacancySummary].[RowId] AS [RowId], 
     [vw_OpenVacancySummary].[Chain] AS [Chain], 
     [vw_OpenVacancySummary].[StoreNumber] AS [StoreNumber], 
     [vw_OpenVacancySummary].[JobCode] AS [JobCode], 
@@ -1054,9 +1054,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
         </EntityType>
         <EntityType Name="vw_OpenVacancySummary">
           <Key>
-            <PropertyRef Name="Chain" />
-            <PropertyRef Name="StoreNumber" />
-            <PropertyRef Name="JobCode" />
+            <PropertyRef Name="RowId" />
           </Key>
           <Property Name="Chain" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="StoreNumber" Type="Int16" Nullable="false" />
@@ -1066,6 +1064,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           <Property Name="Onboarding" Type="Int32" Nullable="false" />
           <Property Name="Offer" Type="Int32" Nullable="false" />
           <Property Name="Started" Type="Int32" Nullable="false" />
+          <Property Name="RowId" Type="Int64" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1431,6 +1430,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
           <EntitySetMapping Name="vw_OpenVacancySummary">
             <EntityTypeMapping TypeName="VacancyModel.vw_OpenVacancySummary">
               <MappingFragment StoreEntitySet="vw_OpenVacancySummary">
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
                 <ScalarProperty Name="Started" ColumnName="Started" />
                 <ScalarProperty Name="Offer" ColumnName="Offer" />
                 <ScalarProperty Name="Onboarding" ColumnName="Onboarding" />

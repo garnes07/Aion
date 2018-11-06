@@ -22,5 +22,6 @@ namespace Aion.DAL.Entities
         public int Onboarding { get; set; }
         public int Offer { get; set; }
         public int Started { get; set; }
+        public long RowId { get; set; }
     }
 }
