@@ -8,6 +8,7 @@ using Aion.DAL.Entities;
 using Aion.Areas.WFM.Models.RFTP;
 using Aion.Areas.Workflow.Models;
 using Aion.Areas.WFM.Models.FuturePlanning;
+using Aion.Models.WFM;
 
 namespace Aion.Mapping
 {
@@ -32,6 +33,8 @@ namespace Aion.Mapping
                 cfg.AddProfile(new ProfitLossProfile());
                 cfg.AddProfile(new AdminDashProfile());
                 cfg.AddProfile(new VacancyProfile());
+                cfg.AddProfile(new WFMProfile());
+
                 cfg.AddProfile(new DashboardProfile());
                 cfg.AddProfile(new MyStoreProfile());
                 cfg.AddProfile(new TicketProfile());
@@ -73,6 +76,19 @@ namespace Aion.Mapping
             CreateMap<RequestComment, RequestCommentView>();
             CreateMap<VacancyPosition, VacancyPositionView>();
             CreateMap<vw_VacancyRequestsAdmin, VacancyRequestsAdminView>();
+            CreateMap<WFM_FUTURE_DATED, WFMFutureDatedView>();
+            CreateMap<vw_OpenVacancySummary, OpenVacancySummaryView>();
+            CreateMap<VacancyRequest, VacancyRequestsAdminView>();
+            CreateMap<vw_SFOpenVacancies, SFOpenVacancyView>();
+        }
+    }
+
+    public class WFMProfile : Profile
+    {
+        public WFMProfile()
+        {
+            CreateMap<WFM_EMPLOYEE_INFO, WFMEmployeeInfoView>();
+            CreateMap<WFM_EMPLOYEE_INFO_UNEDITED, WFMEmployeeInfoView>();
         }
     }
 

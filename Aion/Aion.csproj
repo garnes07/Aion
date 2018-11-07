@@ -178,7 +178,8 @@
     <Compile Include="Areas\Admin\Controllers\ROIDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UKDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
-    <Compile Include="Areas\Admin\Models\RecruitmentDetail.cs" />
+    <Compile Include="Models\Vacancy\OpenVacancySummaryView.cs" />
+    <Compile Include="Models\Vacancy\RecruitmentDetailView.cs" />
     <Compile Include="Areas\Admin\Models\ReviewOutcome.cs" />
     <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\RecruitmentSummaryVm.cs" />
@@ -832,8 +833,11 @@
     <Compile Include="Models\Vacancy\OfferApprovalsView.cs" />
     <Compile Include="Models\Vacancy\OfferCommentView.cs" />
     <Compile Include="Models\Vacancy\RequestCommentView.cs" />
+    <Compile Include="Models\Vacancy\SFOpenVacancyView.cs" />
     <Compile Include="Models\Vacancy\VacancyPositionView.cs" />
     <Compile Include="Models\Vacancy\VacancyRequestsAdminView.cs" />
+    <Compile Include="Models\Vacancy\WFMFutureDatedView.cs" />
+    <Compile Include="Models\WFM\WFMEmployeeInfoView.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
     <Compile Include="Models\Utils\StoreMenu.cs" />

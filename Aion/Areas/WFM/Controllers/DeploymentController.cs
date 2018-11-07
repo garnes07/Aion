@@ -12,6 +12,7 @@ using Aion.Attributes;
 using Aion.DAL.Entities;
 using System.Collections.Generic;
 using Aion.Areas.WFM.Models.Deployment;
+using Aion.Models.Vacancy;
 
 namespace Aion.Areas.WFM.Controllers
 {
@@ -531,9 +532,9 @@ namespace Aion.Areas.WFM.Controllers
                 var detail = await _vacancyManger.GetVacancyDetailCPW(selectCrit);
                 if (detail.Any())
                 {
-                    vm.Populate(mapper.Map<List<RecruitmentDetail>>(detail));
-                    vm.PendingRequests = await _vacancyManger.GetPendingRequestsCPW(selectCrit);
-                    vm.LiveRequests = await _vacancyManger.GetOpenVacanciesCPW(selectCrit);
+                    vm.Populate(mapper.Map<List<RecruitmentDetailView>>(detail));
+                    vm.PendingRequests = mapper.Map<List<VacancyRequestsAdminView>>(await _vacancyManger.GetPendingRequestsCPW(selectCrit));
+                    vm.LiveRequests = mapper.Map<List<SFOpenVacancyView>>(await _vacancyManger.GetOpenVacanciesCPW(selectCrit));
                 }
                 else
                 {
@@ -551,16 +552,16 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        [UserFilter(MinLevel = 1)]
-        public async Task<ActionResult> RecruitmentDixons()
-        {
-            VacancyRequestVm vm = new VacancyRequestVm();
-            vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailDXNS("2216")));
-            vm.PendingRequests = await _vacancyManger.GetPendingRequestsDXNS("2216");
-            vm.LiveRequests = await _vacancyManger.GetOpenVacanciesDXNS("2216");
+        //[UserFilter(MinLevel = 1)]
+        //public async Task<ActionResult> RecruitmentDixons()
+        //{
+        //    VacancyRequestVm vm = new VacancyRequestVm();
+        //    vm.Populate(mapper.Map<List<RecruitmentDetail>>(await _vacancyManger.GetVacancyDetailDXNS("2216")));
+        //    vm.PendingRequests = await _vacancyManger.GetPendingRequestsDXNS("2216");
+        //    vm.LiveRequests = await _vacancyManger.GetOpenVacanciesDXNS("2216");
 
-            return View("Recruitment", vm);
-        }
+        //    return View("Recruitment", vm);
+        //}
 
         [UserFilter(MinLevel = 1)]
         [HttpPost]

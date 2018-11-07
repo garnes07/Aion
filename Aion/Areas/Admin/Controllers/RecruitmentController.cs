@@ -6,6 +6,7 @@ using Aion.Attributes;
 using Aion.Controllers;
 using Aion.DAL.Managers;
 using Aion.Models.Vacancy;
+using Aion.Models.WFM;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,13 +40,13 @@ namespace Aion.Areas.Admin.Controllers
         {
             ReviewPendingVm vm = new ReviewPendingVm();
 
-            vm.VacancyRequests = await _vacancyManager.GetPendingForAdmin(Chain, StoreNumber, PositionCode);
+            vm.VacancyRequests = mapper.Map<List<VacancyRequestsAdminView>>(await _vacancyManager.GetPendingForAdmin(Chain, StoreNumber, PositionCode));
             vm.RecruitmentDetail = Chain == "CPW" ? 
-                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(StoreNumber.ToString())) : 
-                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(StoreNumber.ToString()));
-            vm.HRCurrent = await _vacancyManager.GetHrCurrent(Chain, StoreNumber);
-            vm.HRChanges = await _vacancyManager.GetHrChanges(Chain, StoreNumber);
-            vm.OpenVacancies = await _vacancyManager.GetOpenVacancySummary(Chain, StoreNumber, PositionCode);
+                mapper.Map<List<RecruitmentDetailView>>(await _vacancyManager.GetVacancyDetailCPW(StoreNumber.ToString())) : 
+                mapper.Map<List<RecruitmentDetailView>>(await _vacancyManager.GetVacancyDetailDXNS(StoreNumber.ToString()));
+            vm.HRCurrent = mapper.Map<List<WFMEmployeeInfoView>>(await _vacancyManager.GetHrCurrent(Chain, StoreNumber));
+            vm.HRChanges = mapper.Map<List<WFMFutureDatedView>>(await _vacancyManager.GetHrChanges(Chain, StoreNumber));
+            vm.OpenVacancies = mapper.Map<List<OpenVacancySummaryView>>(await _vacancyManager.GetOpenVacancySummary(Chain, StoreNumber, PositionCode));
             
             System.Web.HttpContext.Current.Session["RefIds"] = vm.VacancyRequests.Select(x => x.EntryId).ToArray();
 
@@ -71,7 +72,7 @@ namespace Aion.Areas.Admin.Controllers
         [HttpPost]
         public async Task<PartialViewResult> _SearchHistoric(int storenumber)
         {
-            return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_SearchResult.cshtml", await _vacancyManager.GetHistoricVacancies(storenumber));
+            return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_SearchResult.cshtml", mapper.Map<List<VacancyRequestsAdminView>>(await _vacancyManager.GetHistoricVacancies(storenumber)));
         }
 
         public async Task<bool> _MarkIncorrectDone(int jobReqId)
@@ -93,8 +94,8 @@ namespace Aion.Areas.Admin.Controllers
         public async Task<PartialViewResult> _GetToPost(string chain, int store, int jobcode)
         {
             ToPostVm vm = new ToPostVm();
-            vm.RequestDetail = await _vacancyManager.GetToPostForAdmin(chain, store, jobcode);
-            vm.OpenVacancys = await _vacancyManager.GetOpenVacancySummary(chain, store, jobcode);
+            vm.RequestDetail = mapper.Map<List<VacancyRequestsAdminView>>(await _vacancyManager.GetToPostForAdmin(chain, store, jobcode));
+            vm.OpenVacancys = mapper.Map<List<OpenVacancySummaryView>>(await _vacancyManager.GetOpenVacancySummary(chain, store, jobcode));
 
             return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_ToPost.cshtml", vm);
         }
@@ -124,16 +125,16 @@ namespace Aion.Areas.Admin.Controllers
         {
             ReviewOfferVm vm = new ReviewOfferVm();
 
-            vm.OfferToReview = await _vacancyManager.GetOfferToReview(JobReqId);
+            vm.OfferToReview = mapper.Map<List<OfferApprovalsView>>(await _vacancyManager.GetOfferToReview(JobReqId));
             vm.RecruitmentDetail = vm.OfferToReview.First().Company == "CPW" ?
-                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(vm.OfferToReview.First().Store_Number.ToString())) :
-                mapper.Map<List<Aion.Areas.Admin.Models.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(vm.OfferToReview.First().Store_Number.ToString()));
-            vm.HRCurrent = await _vacancyManager.GetHrCurrent(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
-            vm.HRChanges = await _vacancyManager.GetHrChanges(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
-            vm.OpenVacancy = await _vacancyManager.GetOpenVacancyByRef(JobReqId);
+                mapper.Map<List<RecruitmentDetailView>>(await _vacancyManager.GetVacancyDetailCPW(vm.OfferToReview.First().Store_Number.ToString())) :
+                mapper.Map<List<RecruitmentDetailView>>(await _vacancyManager.GetVacancyDetailDXNS(vm.OfferToReview.First().Store_Number.ToString()));
+            vm.HRCurrent = mapper.Map<List<WFMEmployeeInfoView>>(await _vacancyManager.GetHrCurrent(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number));
+            vm.HRChanges = mapper.Map<List<WFMFutureDatedView>>(await _vacancyManager.GetHrChanges(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number));
+            vm.OpenVacancy = mapper.Map<SFOpenVacancyView>(await _vacancyManager.GetOpenVacancyByRef(JobReqId));
             if(vm.OfferToReview.First().Job_Code == 1434)
             {
-                vm.PeakVacancySummary = await _vacancyManager.GetOpenPeakVacancySummary(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number);
+                vm.PeakVacancySummary = mapper.Map<List<OpenVacancySummaryView>>(await _vacancyManager.GetOpenPeakVacancySummary(vm.OfferToReview.First().Company, (int)vm.OfferToReview.First().Store_Number));
             }
 
             System.Web.HttpContext.Current.Session["RefIds"] = vm.OfferToReview.Select(x => x.Application_ID).ToArray();
@@ -145,7 +146,7 @@ namespace Aion.Areas.Admin.Controllers
         public async Task<PartialViewResult> _PostNewOfferComment(string commentText)
         {
             var RefIds = (int[])System.Web.HttpContext.Current.Session["RefIds"];
-            var result = await _vacancyManager.AddNewOfferComment(RefIds, User.Identity.Name, commentText, "HeadOffice");
+            var result = mapper.Map<OfferCommentView>(await _vacancyManager.AddNewOfferComment(RefIds, User.Identity.Name, commentText, "HeadOffice"));
 
             return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_NewOfferComment.cshtml", result);
         }
@@ -181,14 +182,14 @@ namespace Aion.Areas.Admin.Controllers
             }
 
             VacancyRequestVm vm = new VacancyRequestVm();
-            var detail = chain == "CPW" ? mapper.Map<List<WFM.Models.Deployment.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailCPW(storeNum)) : mapper.Map<List<WFM.Models.Deployment.RecruitmentDetail>>(await _vacancyManager.GetVacancyDetailDXNS(storeNum));
+            var detail = chain == "CPW" ? mapper.Map<List<RecruitmentDetailView>>(await _vacancyManager.GetVacancyDetailCPW(storeNum)) : mapper.Map<List<RecruitmentDetailView>>(await _vacancyManager.GetVacancyDetailDXNS(storeNum));
             if (detail.Any())
             {
                 vm.Populate(detail);
-                vm.PendingRequests = await _vacancyManager.GetPendingRequestsCPW(storeNum);
-                vm.PendingRequests.AddRange(await _vacancyManager.GetPendingRequestsDXNS(storeNum));
-                vm.LiveRequests = await _vacancyManager.GetOpenVacanciesCPW(storeNum);
-                vm.LiveRequests.AddRange(await _vacancyManager.GetOpenVacanciesDXNS(storeNum));
+                vm.PendingRequests = mapper.Map<List<VacancyRequestsAdminView>>(await _vacancyManager.GetPendingRequestsCPW(storeNum));
+                vm.PendingRequests.AddRange(mapper.Map<List<VacancyRequestsAdminView>>(await _vacancyManager.GetPendingRequestsDXNS(storeNum)));
+                vm.LiveRequests = mapper.Map<List<SFOpenVacancyView>>(await _vacancyManager.GetOpenVacanciesCPW(storeNum));
+                vm.LiveRequests.AddRange(mapper.Map<List<SFOpenVacancyView>>(await _vacancyManager.GetOpenVacanciesDXNS(storeNum)));
             }
             else
             {
