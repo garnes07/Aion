@@ -1,5 +1,6 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
+using Aion.Models.UserAccess;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -62,13 +63,27 @@ namespace Aion.DAL.Managers
             }
         }
         
-        public async Task<bool> AddNewUserRecord(UserAccess userDetail)
+        public async Task<bool> AddNewUserRecord(UserAccessView userDetail)
         {
             using(var context = new WebMasterModel())
             {
                 try
                 {
-                    context.UserAccesses.Add(userDetail);
+                    UserAccess toAdd = new UserAccess
+                    {
+                        UserName = userDetail.UserName,
+                        Krn = false,
+                        AccessLevel = userDetail.AccessLevel,
+                        AreaLevel = userDetail.AreaLevel,
+                        Description = userDetail.Description
+                    };
+
+                    if (userDetail.UserAccessAreas.Any())
+                    {
+                        toAdd.UserAccessAreas = userDetail.UserAccessAreas.Select(x => new UserAccessArea { UserName = x.UserName, AreaName = x.AreaName }).ToList();
+                    }
+
+                    context.UserAccesses.Add(toAdd);
                     await context.SaveChangesAsync();
                     return true;
                 }
@@ -101,7 +116,7 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<bool> EditUser(UserAccess userDetail)
+        public async Task<bool> EditUser(UserAccessView userDetail)
         {
             using(var context = new WebMasterModel())
             {
@@ -122,7 +137,7 @@ namespace Aion.DAL.Managers
                         foreach(var entry in userDetail.UserAccessAreas)
                         {
                             if(!existingAreas.Any(x => x.AreaName == entry.AreaName))
-                                context.UserAccessAreas.Add(entry);
+                                context.UserAccessAreas.Add(new UserAccessArea { UserName = entry.UserName, AreaName = entry.AreaName});
                         }
 
                         await context.SaveChangesAsync();

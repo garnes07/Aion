@@ -2603,7 +2603,7 @@ warning 6002: The table/view '99999_WFM.dbo.vw_TradingHoursForAvlblty' does not 
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WFMMContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="WFMModel" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="WFMModel" annotation:LazyLoadingEnabled="false">
           <FunctionImport Name="sp_ComplianceSummary" ReturnType="Collection(WFMMContext.sp_ComplianceSummary_Result)">
             <Parameter Name="Chain" Mode="In" Type="String" />
             <Parameter Name="Period" Mode="In" Type="Int32" />

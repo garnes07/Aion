@@ -178,6 +178,8 @@
     <Compile Include="Areas\Admin\Controllers\ROIDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UKDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
+    <Compile Include="Models\UserAccess\UserAccessAreaView.cs" />
+    <Compile Include="Models\UserAccess\UserAccessView.cs" />
     <Compile Include="Models\Vacancy\OpenVacancySummaryView.cs" />
     <Compile Include="Models\Vacancy\RecruitmentDetailView.cs" />
     <Compile Include="Areas\Admin\Models\ReviewOutcome.cs" />
@@ -291,10 +293,10 @@
       <DependentUpon>ProfitLossModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\fn_UnmatchedRoles_Result.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\fn_UnmatchedStores_Result.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\GMPowerHour.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -393,7 +395,7 @@
       <DependentUpon>ROIDashModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\RoleReference.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\SAActionsRequired.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -474,7 +476,7 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\StoreReference.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\StoreSessionLog.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>

@@ -588,7 +588,7 @@ warning 6035: The relationship 'FK_TicketEscalations_TicketType' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="WebMasterModel" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="WebMasterModel" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="IpRefs" EntityType="Self.IpRef" />
           <EntitySet Name="StoreMasters" EntityType="Self.StoreMaster" />
           <AssociationSet Name="FK_IpRef_StoreMaster" Association="Self.FK_IpRef_StoreMaster">

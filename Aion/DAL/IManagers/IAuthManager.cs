@@ -1,4 +1,5 @@
 ﻿using Aion.DAL.Entities;
+using Aion.Models.UserAccess;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,9 +12,9 @@ namespace Aion.DAL.IManagers
         Task<bool> RegisterStore(UnknownIpLog _entry);
         Task<bool> RegisterStoreFullIP(IpRef _entry);
         Task<List<UserAccess>> GetAllUsers();
-        Task<bool> AddNewUserRecord(UserAccess userDetail);
+        Task<bool> AddNewUserRecord(UserAccessView userDetail);
         Task<bool> DeleteUser(string username);
-        Task<bool> EditUser(UserAccess userDetail);
+        Task<bool> EditUser(UserAccessView userDetail);
         Task<bool> CheckMinervaAccess(string username);
         vw_ROIMismatch CheckROIRemap(string payrollNum);
     }

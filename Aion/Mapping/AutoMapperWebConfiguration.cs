@@ -9,6 +9,7 @@ using Aion.Areas.WFM.Models.RFTP;
 using Aion.Areas.Workflow.Models;
 using Aion.Areas.WFM.Models.FuturePlanning;
 using Aion.Models.WFM;
+using Aion.Models.UserAccess;
 
 namespace Aion.Mapping
 {
@@ -34,6 +35,7 @@ namespace Aion.Mapping
                 cfg.AddProfile(new AdminDashProfile());
                 cfg.AddProfile(new VacancyProfile());
                 cfg.AddProfile(new WFMProfile());
+                cfg.AddProfile(new UserAccessProfile());
 
                 cfg.AddProfile(new DashboardProfile());
                 cfg.AddProfile(new MyStoreProfile());
@@ -89,6 +91,15 @@ namespace Aion.Mapping
         {
             CreateMap<WFM_EMPLOYEE_INFO, WFMEmployeeInfoView>();
             CreateMap<WFM_EMPLOYEE_INFO_UNEDITED, WFMEmployeeInfoView>();
+        }
+    }
+
+    public class UserAccessProfile : Profile
+    {
+        public UserAccessProfile()
+        {
+            CreateMap<UserAccess, UserAccessView>();
+            CreateMap<UserAccessArea, UserAccessAreaView>();
         }
     }
 
