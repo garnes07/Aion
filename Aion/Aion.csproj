@@ -178,6 +178,8 @@
     <Compile Include="Areas\Admin\Controllers\ROIDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UKDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
+    <Compile Include="Models\Home\ActivityView.cs" />
+    <Compile Include="Models\Home\SummaryView.cs" />
     <Compile Include="Models\UserAccess\UserAccessAreaView.cs" />
     <Compile Include="Models\UserAccess\UserAccessView.cs" />
     <Compile Include="Models\Vacancy\OpenVacancySummaryView.cs" />
