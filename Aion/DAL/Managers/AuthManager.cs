@@ -1,6 +1,6 @@
 ﻿using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
-using Aion.Models.UserAccess;
+using Aion.Models.WebMaster;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

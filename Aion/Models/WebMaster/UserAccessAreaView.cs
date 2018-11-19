@@ -1,4 +1,4 @@
-﻿namespace Aion.Models.UserAccess
+﻿namespace Aion.Models.WebMaster
 {
     public class UserAccessAreaView
     {

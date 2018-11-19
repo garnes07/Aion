@@ -5,6 +5,8 @@ using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using AutoMapper;
+using Aion.Mapping;
 
 namespace Aion.Helpers
 {
@@ -39,6 +41,7 @@ namespace Aion.Helpers
         public static short InitStoreDetails()
         {
             StoreManager _storeManager = new StoreManager();
+            IMapper mapper = AutoMapperWebConfiguration.MapperConfig.CreateMapper();
 
             string ip = GetIPHelper();
 #if DEBUG

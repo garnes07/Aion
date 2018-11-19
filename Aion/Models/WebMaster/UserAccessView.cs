@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Aion.Models.UserAccess
+namespace Aion.Models.WebMaster
 {
     public class UserAccessView
     {

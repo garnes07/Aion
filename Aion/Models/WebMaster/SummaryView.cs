@@ -1,4 +1,4 @@
-﻿namespace Aion.Models.Home
+﻿namespace Aion.Models.WebMaster
 {
     public class SummaryView
     {

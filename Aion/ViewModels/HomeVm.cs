@@ -1,4 +1,4 @@
-﻿using Aion.Models.Home;
+﻿using Aion.Models.WebMaster;
 using System.Collections.Generic;
 
 namespace Aion.ViewModels

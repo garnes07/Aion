@@ -1,5 +1,5 @@
 ﻿using Aion.DAL.Entities;
-using Aion.Models.UserAccess;
+using Aion.Models.WebMaster;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
