@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WebMaster;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Web;
@@ -8,7 +8,7 @@ namespace Aion.Areas.Workflow.ViewModels
 {
     public class TicketSummaryVM : BaseVm
     {
-        public List<vw_TicketStubRef> TicketCollection { get; set; }        
+        public List<TicketStubRefView> TicketCollection { get; set; }        
         public List<SelectListItem> _TypeMenu { get; set; }
         public bool TPCView { get; set; }
 

@@ -105,6 +105,12 @@ namespace Aion.Mapping
             CreateMap<UserAccessArea, UserAccessAreaView>();
             CreateMap<StoreMaster, StoreMasterView>();
             CreateMap<IpRef, IpRefView>();
+            CreateMap<TicketTemplate, TicketTemplateView>();
+            CreateMap<TicketType, TicketTypeView>();
+            CreateMap<vw_TicketStubRef, TicketStubRefView>();
+            CreateMap<TicketStub, TicketStubView>();
+            CreateMap<sp_EscalationOptions_Result, EscalationOptionsView>();
+            CreateMap<TicketComment, TicketCommentView>();
         }
     }
 

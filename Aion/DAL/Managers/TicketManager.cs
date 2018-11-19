@@ -1,4 +1,5 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Areas.Workflow.Models;
+using Aion.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -231,7 +232,7 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<int> SubmitTicket(int TicketTypeId, string RaisedBy, string storeNumber, List<TicketAnswer> QA, int _exception)
+        public async Task<int> SubmitTicket(int TicketTypeId, string RaisedBy, string storeNumber, List<TicketQ_A> QA, int _exception)
         {
             using (var context = new WebMasterModel())
             {
@@ -247,7 +248,7 @@ namespace Aion.DAL.Managers
                     Exception = _exception
                 };
 
-                foreach (var item in QA)
+                foreach (var item in QA.Select(x => new TicketAnswer { QuestionId = x.QuestionID, Answer = x.Answer}))
                 {
                     _ticketStub.TicketAnswers.Add(item);
                 }
