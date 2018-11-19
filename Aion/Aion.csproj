@@ -179,6 +179,8 @@
     <Compile Include="Areas\Admin\Controllers\UKDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
     <Compile Include="Models\WebMaster\ActivityView.cs" />
+    <Compile Include="Models\WebMaster\IpRefView.cs" />
+    <Compile Include="Models\WebMaster\StoreMasterView.cs" />
     <Compile Include="Models\WebMaster\SummaryView.cs" />
     <Compile Include="Models\WebMaster\UserAccessAreaView.cs" />
     <Compile Include="Models\WebMaster\UserAccessView.cs" />

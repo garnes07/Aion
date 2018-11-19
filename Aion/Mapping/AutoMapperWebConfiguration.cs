@@ -103,6 +103,8 @@ namespace Aion.Mapping
             CreateMap<Activity, ActivityView>();
             CreateMap<UserAccess, UserAccessView>();
             CreateMap<UserAccessArea, UserAccessAreaView>();
+            CreateMap<StoreMaster, StoreMasterView>();
+            CreateMap<IpRef, IpRefView>();
         }
     }
 

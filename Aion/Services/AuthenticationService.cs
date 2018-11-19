@@ -1,4 +1,13 @@
-﻿using System;
+﻿using Aion.App_Start;
+using Aion.DAL.IManagers;
+using Aion.DAL.Managers;
+using Aion.Helpers;
+using Aion.Mapping;
+using Aion.Models.Utils;
+using Aion.Models.WebMaster;
+using AutoMapper;
+using Microsoft.Owin.Security;
+using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
@@ -6,13 +15,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using Aion.App_Start;
-using Aion.DAL.Entities;
-using Aion.DAL.IManagers;
-using Aion.DAL.Managers;
-using Aion.Helpers;
-using Aion.Models.Utils;
-using Microsoft.Owin.Security;
 
 namespace Aion.Services
 {
@@ -22,6 +24,7 @@ namespace Aion.Services
         private readonly IAuthManager _authManager;
         private readonly IStoreManager _storeManager;
         private readonly ITicketManager _ticketManager;
+        private readonly IMapper mapper;
 
         public AuthenticationService(IAuthenticationManager authenticationManager = null)
         {
@@ -29,6 +32,7 @@ namespace Aion.Services
             _authManager = new AuthManager();
             _storeManager = new StoreManager();
             _ticketManager = new TicketManager();
+            mapper = AutoMapperWebConfiguration.MapperConfig.CreateMapper();
         }
 
         public async Task<AuthenticationResult> SignIn(string userName, string password)
@@ -194,7 +198,7 @@ namespace Aion.Services
         //Check access level from WebMaster
         public async Task<bool> CheckAccessLevel(AuthenticationResult a)
         {
-            var UserAccess = await _authManager.GetAccessList(a.UserName, a.EmpNum);
+            var UserAccess = mapper.Map<UserAccessView>(await _authManager.GetAccessList(a.UserName, a.EmpNum));
             if (UserAccess == null)
             {
                 HttpContext.Current.Session["_AccessLevel"] = (byte)0;
@@ -217,7 +221,7 @@ namespace Aion.Services
 
         public async Task<bool> LoadStoreMenu(byte accessLevel, string[] accessArea)
         {            
-            List<StoreMaster> menuList;
+            List<StoreMasterView> menuList;
             string _default;
 
             if (accessLevel == 1)
@@ -229,27 +233,27 @@ namespace Aion.Services
 #else
                 string ipBase = ip.Substring(0, ip.LastIndexOf("."));
 #endif
-                menuList = await _storeManager.GetStoreMenu(Array.ConvertAll(accessArea, short.Parse), ipBase);
+                menuList = mapper.Map<List<StoreMasterView>>(await _storeManager.GetStoreMenu(Array.ConvertAll(accessArea, short.Parse), ipBase));
                 _default = "S_" + (accessArea.Length == 0 ? menuList.First().StoreNumber.ToString() : accessArea[0]);
             }
             else if (accessLevel == 2)
             {
-                menuList = await _storeManager.GetRegionMenu(Array.ConvertAll(accessArea, short.Parse));
+                menuList = mapper.Map<List<StoreMasterView>>(await _storeManager.GetRegionMenu(Array.ConvertAll(accessArea, short.Parse)));
                 _default = "R_" + accessArea[0];
             }
             else if (accessLevel == 3)
             {
-                menuList = await _storeManager.GetDivisionMenu(accessArea);
+                menuList = mapper.Map<List<StoreMasterView>>(await _storeManager.GetDivisionMenu(accessArea));
                 _default = "D_" + accessArea[0];
             }
             else if (accessLevel == 4)
             {
-                menuList = await _storeManager.GetChainMenu(accessArea);
+                menuList = mapper.Map<List<StoreMasterView>>(await _storeManager.GetChainMenu(accessArea));
                 _default = "C_" + accessArea[0];
             }
             else
             {
-                menuList = await _storeManager.GetAllMenu();
+                menuList = mapper.Map<List<StoreMasterView>>(await _storeManager.GetAllMenu());
                 _default = "C_" + (accessArea.Any() ? accessArea[0] : "CPW");
             }            
 
@@ -265,31 +269,19 @@ namespace Aion.Services
 
         public async Task<bool> RegisterUnknownStore(int _storeNumber)
         {
-            return await _authManager.RegisterStore(
-                new UnknownIpLog
-                {
-                    storeNumber = _storeNumber,
-                    IpRange = MvcHelper.GetIPHelper(),
-                    DateTimeAdded = DateTime.Now
-                });
+            return await _authManager.RegisterStore(_storeNumber, MvcHelper.GetIPHelper());
         }
         
-        public async Task<List<StoreMaster>> AllStoresMatchingIp()
+        public async Task<List<StoreMasterView>> AllStoresMatchingIp()
         {
             var ip = MvcHelper.GetIPHelper();
             ip = ip.Substring(0, ip.LastIndexOf("."));
-            return await _storeManager.GetStoreDetails(ip);
+            return mapper.Map<List<StoreMasterView>>(await _storeManager.GetStoreDetails(ip));
         }
 
         public async Task<bool> RegisterStoreFullIP(short _storeNumber)
         {
-            return await _authManager.RegisterStoreFullIP(
-                new IpRef
-                {
-                    IpRange = MvcHelper.GetIPHelper(),
-                    StoreNumber = _storeNumber,
-                    Added = DateTime.Now
-                });
+            return await _authManager.RegisterStoreFullIP(MvcHelper.GetIPHelper(), _storeNumber);
         }
     }
 }

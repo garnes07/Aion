@@ -9,8 +9,8 @@ namespace Aion.DAL.IManagers
     {
         Task<UserAccess> GetAccessList(string _userName, string _payroll);
         Task<int> RecordLogIn(UserLog _entry);
-        Task<bool> RegisterStore(UnknownIpLog _entry);
-        Task<bool> RegisterStoreFullIP(IpRef _entry);
+        Task<bool> RegisterStore(int storeNumber, string ipRange);
+        Task<bool> RegisterStoreFullIP(string ipRange, short storeNumber);
         Task<List<UserAccess>> GetAllUsers();
         Task<bool> AddNewUserRecord(UserAccessView userDetail);
         Task<bool> DeleteUser(string username);

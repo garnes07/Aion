@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WebMaster;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Aion.Models.Utils
         private string defaultSelect { get; set; }
         private short accessLvl { get; set; }
 
-        public StoreMenu(List<StoreMaster> data, string defaultSelect, short accessLvl)
+        public StoreMenu(List<StoreMasterView> data, string defaultSelect, short accessLvl)
         {
             Channels = new List<Channel>();
             foreach (var _channel in data.GroupBy(x => x.Chain).Select(x => x.Key))

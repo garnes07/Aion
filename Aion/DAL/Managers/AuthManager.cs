@@ -33,22 +33,22 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<bool> RegisterStore(UnknownIpLog _entry)
+        public async Task<bool> RegisterStore(int storeNumber, string ipRange)
         {
             using (var context = new WebMasterModel())
             {
-                context.UnknownIpLogs.Add(_entry);
+                context.UnknownIpLogs.Add(new UnknownIpLog { storeNumber = storeNumber, IpRange = ipRange, DateTimeAdded = DateTime.Now});
                 int result = await context.SaveChangesAsync();
 
                 return result > 0;
             }
         }
 
-        public async Task<bool> RegisterStoreFullIP(IpRef _entry)
+        public async Task<bool> RegisterStoreFullIP(string ipRange, short storeNumber)
         {
             using (var context = new WebMasterModel())
             {
-                context.IpRefs.Add(_entry);
+                context.IpRefs.Add(new IpRef { IpRange = ipRange, StoreNumber = storeNumber, Added = DateTime.Now});
                 int result = await context.SaveChangesAsync();
 
                 return result > 0;

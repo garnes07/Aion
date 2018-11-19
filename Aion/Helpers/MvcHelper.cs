@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
 using Aion.Mapping;
+using System.Collections.Generic;
+using Aion.Models.WebMaster;
 
 namespace Aion.Helpers
 {
@@ -51,7 +53,7 @@ namespace Aion.Helpers
             string ipBase = ip.Substring(0, ip.LastIndexOf("."));
 #endif
             var t = Task.Run(() => _storeManager.GetStoreDetails(ipBase));
-            var storeList = t.Result;
+            var storeList = mapper.Map<List<StoreMasterView>>(t.Result);
 
             //Matches found
             if (storeList.Count >= 1)
@@ -73,7 +75,7 @@ namespace Aion.Helpers
                 var s = Task.Run(() => _storeManager.LogStoreSession(storeList.First().StoreNumber));
 #endif
                 var u = Task.Run(() => _storeManager.GetStoreMenu(storeList.Select(x => x.StoreNumber).ToArray()));
-                var menuList = u.Result;
+                var menuList = mapper.Map<List<StoreMasterView>>(u.Result);
 
                 StoreMenu _menu = new StoreMenu(menuList, "S_" + storeList.First().StoreNumber,0);
 
