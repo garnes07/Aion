@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +7,12 @@ namespace Aion.Areas.Admin.ViewModels.OpeningTimes
 {
     public class ReviewTimesVm
     {
-        public StoreOpeningTime currentTime { get; set; }
-        public StoreOpeningTime timeForApproval { get; set; }
-        public List<StoreOpeningTime> pendingTimes { get; set; }
+        public StoreOpeningTimeView currentTime { get; set; }
+        public StoreOpeningTimeView timeForApproval { get; set; }
+        public List<StoreOpeningTimeView> pendingTimes { get; set; }
         public List<TimeSpan> Differences { get; set; }
 
-        public ReviewTimesVm(int entryId, List<StoreOpeningTime> collection)
+        public ReviewTimesVm(int entryId, List<StoreOpeningTimeView> collection)
         {
             currentTime = collection.FirstOrDefault(x => x.Status == "Live");
             timeForApproval = collection.FirstOrDefault(x => x.EntryID == entryId);

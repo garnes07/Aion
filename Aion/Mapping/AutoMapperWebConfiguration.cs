@@ -93,6 +93,8 @@ namespace Aion.Mapping
             CreateMap<WFM_EMPLOYEE_INFO_UNEDITED, WFMEmployeeInfoView>();
             CreateMap<vw_4WeekSummary, SummaryView>();
             CreateMap<vw_4WeekSummary_Pilot, SummaryView>();
+            CreateMap<StoreOpeningTime, StoreOpeningTimeView>();
+            CreateMap<OpeningTimesComment, OpeningTimesCommentView>();
         }
     }
 

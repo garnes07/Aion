@@ -851,6 +851,8 @@
     <Compile Include="Models\Vacancy\VacancyPositionView.cs" />
     <Compile Include="Models\Vacancy\VacancyRequestsAdminView.cs" />
     <Compile Include="Models\Vacancy\WFMFutureDatedView.cs" />
+    <Compile Include="Models\WFM\OpeningTimesCommentView.cs" />
+    <Compile Include="Models\WFM\StoreOpeningTimeView.cs" />
     <Compile Include="Models\WFM\WFMEmployeeInfoView.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
