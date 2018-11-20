@@ -1,5 +1,4 @@
-﻿//using Aion.DAL.Entities;
-using Aion.Models.Vacancy;
+﻿using Aion.Models.Vacancy;
 using Aion.Models.WFM;
 using System.Collections.Generic;
 using System.Linq;

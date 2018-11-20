@@ -86,7 +86,7 @@ namespace Aion.Areas.Admin.Controllers
         public async Task<PartialViewResult> _PostNewComment(string commentText)
         {
             var RefIds = (int[])System.Web.HttpContext.Current.Session["RefIds"];
-            var result = await _vacancyManager.AddNewComment(RefIds, User.Identity.Name, commentText, "HeadOffice");
+            var result = mapper.Map<RequestCommentView>(await _vacancyManager.AddNewComment(RefIds, User.Identity.Name, commentText, "HeadOffice"));
 
             return PartialView("~/Areas/Admin/Views/Recruitment/Partials/_NewComment.cshtml", result);
         }
