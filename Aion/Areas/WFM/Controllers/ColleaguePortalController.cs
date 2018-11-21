@@ -1,6 +1,8 @@
 ﻿using Aion.Areas.WFM.ViewModels.ColleaguePortal;
 using Aion.Controllers;
 using Aion.DAL.Managers;
+using Aion.Models.WFM;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -34,7 +36,7 @@ namespace Aion.Areas.WFM.Controllers
                 if (!(bool)System.Web.HttpContext.Current.Session["_ROIFlag"])
                 {
                     var empNum = System.Web.HttpContext.Current.Session["_EmpNum"].ToString();
-                    var person = await _empSummaryManager.GetEmployeeMatchingNumber(empNum == "" ? "e" : "UK" + empNum.PadLeft(6, '0'));
+                    var person = mapper.Map<KronosEmployeeSummaryView>(await _empSummaryManager.GetEmployeeMatchingNumber(empNum == "" ? "e" : "UK" + empNum.PadLeft(6, '0')));
                     System.Web.HttpContext.Current.Session["_PTFlag"] = "PT";//person?.EmployeeStandardHours != 45 ? "PT" : "FT";
                 }
                 else
@@ -50,11 +52,11 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     empNum = "UK" + empNum.PadLeft(6, '0');
                 }
-                vm.avlbltyPattern = await _avlbltyManager.GetAllPatternsPerson(empNum);
+                vm.avlbltyPattern = mapper.Map<List<AvailabilityPatternView>>(await _avlbltyManager.GetAllPatternsPerson(empNum));
                 vm.avlbltlyPilot = true;
             }
 
-            vm.rawMenu = await _payCalendarManager.GetPayCalendarRef(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString());
+            vm.rawMenu = mapper.Map<List<PayCalendarRefView>>(await _payCalendarManager.GetPayCalendarRef(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString()));
 
             return View(vm);
         }
@@ -73,9 +75,9 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     payroll = "UK" + payroll.PadLeft(6, '0');
                 }
-                vm.payDates = await _payCalendarManager.GetPayCalendarDates(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString(), period);
+                vm.payDates = mapper.Map<List<PayCalendarDateView>>(await _payCalendarManager.GetPayCalendarDates(((bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "ROI" : "CPW") + System.Web.HttpContext.Current.Session["_PTFlag"].ToString(), period));
                 vm.tSheet = await _kronosManager.GetTimesheet(vm.payDates.Select(x => x.WCDate).ToArray(), payroll, sessionID);
-                vm.punch = await _clockManager.GetEmployeePunch(payroll, vm.payDates.Min(x => x.Week), vm.payDates.Max(x => x.Week));
+                vm.punch = mapper.Map<List<CPW_Clocking_DataView>>(await _clockManager.GetEmployeePunch(payroll, vm.payDates.Min(x => x.Week), vm.payDates.Max(x => x.Week)));
             }
             else
             {

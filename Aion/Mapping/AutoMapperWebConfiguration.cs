@@ -95,6 +95,12 @@ namespace Aion.Mapping
             CreateMap<vw_4WeekSummary_Pilot, SummaryView>();
             CreateMap<StoreOpeningTime, StoreOpeningTimeView>();
             CreateMap<OpeningTimesComment, OpeningTimesCommentView>();
+            CreateMap<AvailabilityDay, AvailabilityDayView>();
+            CreateMap<AvailabilityPattern, AvailabilityPatternView>();
+            CreateMap<PayCalendarDate, PayCalendarDateView>();
+            CreateMap<PayCalendarRef, PayCalendarRefView>();
+            CreateMap<KronosEmployeeSummary, KronosEmployeeSummaryView>();
+            CreateMap<vw_CPW_Clocking_Data, CPW_Clocking_DataView>();
         }
     }
 
