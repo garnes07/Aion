@@ -2,14 +2,14 @@
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
-using Aion.DAL.Entities;
+using Aion.Models.WFM;
 using Aion.ViewModels;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class DeploymentSummaryVm : BaseVm
     {
-        public List<sp_PeriodDeploymentSummary_Result> collection { get; set; }
+        public List<PeriodDeploymentSummaryView> collection { get; set; }
         public string priority { get; set; }
         public string selectedDate { get; set; }
 
@@ -27,9 +27,9 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
             return collection.Where(x => x.Division == _division && x.Region != null).GroupBy(x => x.Region).Select(x => x.Key).OrderBy(x => x).ToList();
         }
 
-        public List<sp_PeriodDeploymentSummary_Result> ChainSummary => collection.Where(x => x.Division == null).ToList();
-        public List<sp_PeriodDeploymentSummary_Result> DivisionSummary => collection.Where(x => x.Division != null && x.Region == null).ToList();
-        public List<sp_PeriodDeploymentSummary_Result> RegionSummary => collection.Where(x => x.Region != null && x.StoreNumber == null).ToList();
+        public List<PeriodDeploymentSummaryView> ChainSummary => collection.Where(x => x.Division == null).ToList();
+        public List<PeriodDeploymentSummaryView> DivisionSummary => collection.Where(x => x.Division != null && x.Region == null).ToList();
+        public List<PeriodDeploymentSummaryView> RegionSummary => collection.Where(x => x.Region != null && x.StoreNumber == null).ToList();
 
 
         public DeploymentSummaryVm()

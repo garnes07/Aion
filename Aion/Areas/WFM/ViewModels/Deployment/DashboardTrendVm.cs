@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class DashboardTrendVm : BaseVm
     {
-        public List<vw_StoreDeploymentDashTrend> storeCollection { get; set; }
-        public List<vw_StoreDeploymentRankTrend> storeRankCollection { get; set; }
+        public List<StoreDeploymentDashTrendView> storeCollection { get; set; }
+        public List<StoreDeploymentRankTrendView> storeRankCollection { get; set; }
 
         public List<short?> StoreList => storeRankCollection.GroupBy(x => x.StoreNumber).OrderByDescending(x => x.Sum(y => y.BudgetFit + y.CustomerFit)).Select(x => x.Key).ToList();
 

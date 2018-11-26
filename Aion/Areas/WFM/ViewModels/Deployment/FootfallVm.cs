@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Aion.DAL.Entities;
 using Aion.ViewModels;
 using Newtonsoft.Json;
+using Aion.Models.WFM;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class FootfallVm : BaseVm
     {
-        public List<vw_FootfallHourly> FootfallCollection { get; set; }
+        public List<FootfallHourlyView> FootfallCollection { get; set; }
         public string SelectedWeek { get; set; }
         public string SelectedYear { get; set; }
         public short? MaxHour => FootfallCollection.Max(x => x.Hour_In_Day_24);

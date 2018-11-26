@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Aion.Areas.WFM.Models.Deployment;
-using Aion.DAL.Entities;
 using Aion.ViewModels;
+using Aion.Models.WFM;
 using Newtonsoft.Json;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class DeploymentDetailPilotVm : BaseVm
     {
-        public List<vw_DashboardData_v2_Pilot> WeekData { get; set; }
-        public vw_DailyDeployment_Pilot DailyData { get; set; }
-        public List<PowerHoursProfile> PowerHours { get; set; }
+        public List<DashboardData_v2View> WeekData { get; set; }
+        public DailyDeploymentView DailyData { get; set; }
+        public List<PowerHoursProfileView> PowerHours { get; set; }
 
-        private vw_DashboardData_v2_Pilot _StoreData;
-        public vw_DashboardData_v2_Pilot StoreData => _StoreData ?? (_StoreData = WeekData.First());
+        private DashboardData_v2View _StoreData;
+        public DashboardData_v2View StoreData => _StoreData ?? (_StoreData = WeekData.First());
 
         private DeploymentAggregate _RegionTotal;
         public DeploymentAggregate RegionTotal =>
@@ -91,13 +91,13 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
                 {
                     double unders = 0;
 
-                    unders += (double)DailyData.SundayDeployed < DailyData.SundayReq ? (double)DailyData.SundayReq - (double)DailyData.SundayDeployed : 0;
-                    unders += (double)DailyData.MondayDeployed < DailyData.MondayReq ? (double)DailyData.MondayReq - (double)DailyData.MondayDeployed : 0;
-                    unders += (double)DailyData.TuesdayDeployed < DailyData.TuesdayReq ? (double)DailyData.TuesdayReq - (double)DailyData.TuesdayDeployed : 0;
-                    unders += (double)DailyData.WednesdayDeployed < DailyData.WednesdayReq ? (double)DailyData.WednesdayReq - (double)DailyData.WednesdayDeployed : 0;
-                    unders += (double)DailyData.ThursdayDeployed < DailyData.ThursdayReq ? (double)DailyData.ThursdayReq - (double)DailyData.ThursdayDeployed : 0;
-                    unders += (double)DailyData.FridayDeployed < DailyData.FridayReq ? (double)DailyData.FridayReq - (double)DailyData.FridayDeployed : 0;
-                    unders += (double)DailyData.SaturdayDeployed < DailyData.SaturdayReq ? (double)DailyData.SaturdayReq - (double)DailyData.SaturdayDeployed : 0;
+                    unders += DailyData.SundayDeployed < DailyData.SundayReq ? (double)DailyData.SundayReq - (double)DailyData.SundayDeployed : 0;
+                    unders += DailyData.MondayDeployed < DailyData.MondayReq ? (double)DailyData.MondayReq - (double)DailyData.MondayDeployed : 0;
+                    unders += DailyData.TuesdayDeployed < DailyData.TuesdayReq ? (double)DailyData.TuesdayReq - (double)DailyData.TuesdayDeployed : 0;
+                    unders += DailyData.WednesdayDeployed < DailyData.WednesdayReq ? (double)DailyData.WednesdayReq - (double)DailyData.WednesdayDeployed : 0;
+                    unders += DailyData.ThursdayDeployed < DailyData.ThursdayReq ? (double)DailyData.ThursdayReq - (double)DailyData.ThursdayDeployed : 0;
+                    unders += DailyData.FridayDeployed < DailyData.FridayReq ? (double)DailyData.FridayReq - (double)DailyData.FridayDeployed : 0;
+                    unders += DailyData.SaturdayDeployed < DailyData.SaturdayReq ? (double)DailyData.SaturdayReq - (double)DailyData.SaturdayDeployed : 0;
 
                     _totalUnders = unders;
                 }

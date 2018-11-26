@@ -9,10 +9,11 @@ using Aion.DAL.Managers;
 using Aion.Helpers;
 using Aion.ViewModels;
 using Aion.Attributes;
-using Aion.DAL.Entities;
 using System.Collections.Generic;
 using Aion.Areas.WFM.Models.Deployment;
 using Aion.Models.Vacancy;
+using Aion.Models.WFM;
+using Aion.Models.WebMaster;
 
 namespace Aion.Areas.WFM.Controllers
 {
@@ -58,8 +59,8 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashByStore(input[0], period, selectCrit);
-                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankByStore(input[0], period, selectCrit);
+                    vm.storeCollection = mapper.Map<List<StoreDeploymentDashView>>(await _dashDataManager.GetStoreDeploymentDashByStore(input[0], period, selectCrit));
+                    vm.storeRankCollection = mapper.Map<List<StoreDeploymentRankView>>(await _dashDataManager.GetStoreDeploymentRankByStore(input[0], period, selectCrit));
                     if (vm.storeCollection.Any())
                     {
                         vm.selectedDate = string.Format("{0}_{1}", vm.storeCollection.FirstOrDefault().Year,
@@ -70,8 +71,8 @@ namespace Aion.Areas.WFM.Controllers
                     vm.DisplayLevel = 2;
                     break;
                 case "R":
-                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashByRegion(input[0], period, selectCrit);
-                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankByRegion(input[0], period, selectCrit);
+                    vm.storeCollection = mapper.Map<List<StoreDeploymentDashView>>(await _dashDataManager.GetStoreDeploymentDashByRegion(input[0], period, selectCrit));
+                    vm.storeRankCollection = mapper.Map<List<StoreDeploymentRankView>>(await _dashDataManager.GetStoreDeploymentRankByRegion(input[0], period, selectCrit));
                     if (vm.storeCollection.Any())
                     {
                         vm.selectedDate = string.Format("{0}_{1}", vm.storeCollection.FirstOrDefault().Year,
@@ -101,13 +102,13 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashTrendByStore(selectCrit);
-                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankTrendByStore(selectCrit);
+                    vm.storeCollection = mapper.Map<List<StoreDeploymentDashTrendView>>(await _dashDataManager.GetStoreDeploymentDashTrendByStore(selectCrit));
+                    vm.storeRankCollection = mapper.Map<List<StoreDeploymentRankTrendView>>(await _dashDataManager.GetStoreDeploymentRankTrendByStore(selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "R":
-                    vm.storeCollection = await _dashDataManager.GetStoreDeploymentDashTrendByRegion(selectCrit);
-                    vm.storeRankCollection = await _dashDataManager.GetStoreDeploymentRankTrendByRegion(selectCrit);
+                    vm.storeCollection = mapper.Map<List<StoreDeploymentDashTrendView>>(await _dashDataManager.GetStoreDeploymentDashTrendByRegion(selectCrit));
+                    vm.storeRankCollection = mapper.Map<List<StoreDeploymentRankTrendView>>(await _dashDataManager.GetStoreDeploymentRankTrendByRegion(selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
@@ -132,20 +133,20 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.collection = await _dashDataManager.GetDeploymentSummaryStore(input[0], period, selectCrit);
+                    vm.collection = mapper.Map<List<PeriodDeploymentSummaryView>>(await _dashDataManager.GetDeploymentSummaryStore(input[0], period, selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "R":
-                    vm.collection = await _dashDataManager.GetDeploymentSummaryRegion(input[0], period, selectCrit);
+                    vm.collection = mapper.Map<List<PeriodDeploymentSummaryView>>(await _dashDataManager.GetDeploymentSummaryRegion(input[0], period, selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.collection = await _dashDataManager.GetDeploymentSummaryDivision(input[0], period, selectCrit);
+                    vm.collection = mapper.Map<List<PeriodDeploymentSummaryView>>(await _dashDataManager.GetDeploymentSummaryDivision(input[0], period, selectCrit));
                     vm.priority = selectCrit;
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.collection = await _dashDataManager.GetDeploymentSummaryChain(input[0], period, selectCrit);
+                    vm.collection = mapper.Map<List<PeriodDeploymentSummaryView>>(await _dashDataManager.GetDeploymentSummaryChain(input[0], period, selectCrit));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -193,23 +194,22 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.WeekData = await _dashDataManager.GetStoreDashData(selectCrit, weekNum);
-                    vm.DailyData = await _dashDataManager.GetDailyDeploymentStore(selectCrit, weekNum);
+                    vm.WeekData = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetStoreDashData(selectCrit, weekNum));
+                    vm.DailyData = mapper.Map<List<DailyDeploymentView>>(await _dashDataManager.GetDailyDeploymentStore(selectCrit, weekNum));
                     if (vm.WeekData.Count == 0)
                         vm.MessageType = MessageType.Warning;
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.WeekData = await _dashDataManager.GetAllRegionDashData(selectCrit, weekNum);
+                    vm.WeekData = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetAllRegionDashData(selectCrit, weekNum));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.ChainData = await _dashDataManager.GetAllDivisionDashData(selectCrit, weekNum);
+                    vm.ChainData = mapper.Map<List<AllChainDashboardData_v2View>>(await _dashDataManager.GetAllDivisionDashData(selectCrit, weekNum));
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.ChainData = await _dashDataManager.GetAllChainDashData(selectCrit, weekNum);
-                    
+                    vm.ChainData = mapper.Map<List<AllChainDashboardData_v2View>>(await _dashDataManager.GetAllChainDashData(selectCrit, weekNum));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -233,15 +233,15 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.WeekData = await _dashDataManager.GetStoreDashDataPilot(selectCrit, weekNum);
-                    vm.DailyData = await _dashDataManager.GetDailyDeploymentStorePilot(selectCrit, weekNum);
-                    vm.PowerHours = await _dashDataManager.GetStorePowerHours(selectCrit, weekNum);
+                    vm.WeekData = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetStoreDashDataPilot(selectCrit, weekNum));
+                    vm.DailyData = mapper.Map<DailyDeploymentView>(await _dashDataManager.GetDailyDeploymentStorePilot(selectCrit, weekNum));
+                    vm.PowerHours = mapper.Map<List<PowerHoursProfileView>>(await _dashDataManager.GetStorePowerHours(selectCrit, weekNum));
                     if (vm.WeekData.Count == 0)
                         vm.MessageType = MessageType.Warning;
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.WeekData = await _dashDataManager.GetAllRegionDashDataPilot(selectCrit, weekNum);
+                    vm.WeekData = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetAllRegionDashDataPilot(selectCrit, weekNum));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
@@ -270,9 +270,9 @@ namespace Aion.Areas.WFM.Controllers
             DeploymentDetailTOWVm vm = new DeploymentDetailTOWVm();
             int weekNum = selectedDate.GetWeekNumber();
             
-            vm.WeekData = await _dashDataManager.GetStoreDashDataTop100(selectCrit, weekNum);
-            vm.DailyData = await _dashDataManager.GetDailyDeploymentStoreTop100(selectCrit, weekNum);
-            vm.PowerHours = await _dashDataManager.GetStorePowerHours(selectCrit, weekNum);
+            vm.WeekData = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetStoreDashDataTop100(selectCrit, weekNum));
+            vm.DailyData = mapper.Map<DailyDeploymentView>(await _dashDataManager.GetDailyDeploymentStoreTop100(selectCrit, weekNum));
+            vm.PowerHours = mapper.Map<List<PowerHoursProfileView>>(await _dashDataManager.GetStorePowerHours(selectCrit, weekNum));
             if (vm.WeekData.Count == 0)
                 vm.MessageType = MessageType.Warning;
             vm.DisplayLevel = 1;
@@ -289,7 +289,7 @@ namespace Aion.Areas.WFM.Controllers
 
             int weekNum = selectedDate.GetWeekNumber();
 
-            vm.collection = await _dashDataManager.GetCreditSummaryWeek(weekNum);
+            vm.collection = mapper.Map<List<Top100CreditSummaryView>>(await _dashDataManager.GetCreditSummaryWeek(weekNum));
             if (vm.collection.Count == 0)
                 vm.MessageType = MessageType.Warning;
 
@@ -341,19 +341,19 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.FootfallCollection = await _footfallManager.GetFootfallStore(selectCrit,selectedYear, int.Parse(selectedWeek));
+                    vm.FootfallCollection = mapper.Map<List<FootfallHourlyView>>(await _footfallManager.GetFootfallStore(selectCrit,selectedYear, int.Parse(selectedWeek)));
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.FootfallCollection = await _footfallManager.GetFootfallRegion(selectCrit, selectedYear, int.Parse(selectedWeek));
+                    vm.FootfallCollection = mapper.Map<List<FootfallHourlyView>>(await _footfallManager.GetFootfallRegion(selectCrit, selectedYear, int.Parse(selectedWeek)));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.FootfallCollection = await _footfallManager.GetFootfallDivision(selectCrit, selectedYear, int.Parse(selectedWeek));
+                    vm.FootfallCollection = mapper.Map<List<FootfallHourlyView>>(await _footfallManager.GetFootfallDivision(selectCrit, selectedYear, int.Parse(selectedWeek)));
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.FootfallCollection = await _footfallManager.GetFootfallChain(selectCrit, selectedYear, int.Parse(selectedWeek));
+                    vm.FootfallCollection = mapper.Map<List<FootfallHourlyView>>(await _footfallManager.GetFootfallChain(selectCrit, selectedYear, int.Parse(selectedWeek)));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -375,12 +375,12 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.ContractBaseDetailStore = await _hrDataManager.GetContractAndHolidayStore(selectCrit);
-                    vm.StaffList = await _hrDataManager.GetStaffListStore(selectCrit);
+                    vm.ContractBaseDetailStore = mapper.Map<ContractBaseDetailView>(await _hrDataManager.GetContractAndHolidayStore(selectCrit));
+                    vm.StaffList = mapper.Map<List<WFMEmployeeInfoView>>(await _hrDataManager.GetStaffListStore(selectCrit));
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.ContractBaseDetailRegion = await _hrDataManager.GetContractAndHolidayRegion(selectCrit);
+                    vm.ContractBaseDetailRegion = mapper.Map<List<ContractBaseDetailView>>(await _hrDataManager.GetContractAndHolidayRegion(selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 default:
@@ -399,19 +399,19 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingRegionUsingStore(selectCrit);
+                    vm.Collection = mapper.Map<List<GmWeWorkingView>>(await _gmWeWorkingManager.GetGmWorkingRegionUsingStore(selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "R":
-                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingRegion(selectCrit);
+                    vm.Collection = mapper.Map<List<GmWeWorkingView>>(await _gmWeWorkingManager.GetGmWorkingRegion(selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingDivision(selectCrit);
+                    vm.Collection = mapper.Map<List<GmWeWorkingView>>(await _gmWeWorkingManager.GetGmWorkingDivision(selectCrit));
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.Collection = await _gmWeWorkingManager.GetGmWorkingChain(selectCrit);
+                    vm.Collection = mapper.Map<List<GmWeWorkingView>>(await _gmWeWorkingManager.GetGmWorkingChain(selectCrit));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -427,14 +427,14 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.AvlbltyCollection = await _avlbltyManager.GetAllPatternsStore(selectCrit);
-                    vm.AvlbltyMissing = await _avlbltyManager.GetAllColleaguesWithoutPattern(selectCrit);
-                    vm.AvlbltySummary = await _avlbltyManager.GetPatternStore(selectCrit);
-                    vm.tradingHrs = await _avlbltyManager.GetCurrentTradingHrs(selectCrit);
+                    vm.AvlbltyCollection = mapper.Map<List<AvailabilityPatternView>>(await _avlbltyManager.GetAllPatternsStore(selectCrit));
+                    vm.AvlbltyMissing = mapper.Map<List<AvailabilityPatternMissingView>>(await _avlbltyManager.GetAllColleaguesWithoutPattern(selectCrit));
+                    vm.AvlbltySummary = mapper.Map<List<AvailabilitySummaryView>>(await _avlbltyManager.GetPatternStore(selectCrit));
+                    vm.tradingHrs = mapper.Map<TradingHoursForAvlbltyView>(await _avlbltyManager.GetCurrentTradingHrs(selectCrit));
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.areaCompletion = await _avlbltyManager.GetCompletionRateRegion(selectCrit);
+                    vm.areaCompletion = mapper.Map<List<AvailabilityCompletionRateView>>(await _avlbltyManager.GetCompletionRateRegion(selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
@@ -468,7 +468,7 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     _personNumber = "UK" + _personNumber.PadLeft(6, '0');
                 }
-                vm.contactDetails = await _avlbltyManager.GetContactDetailsPerson(_personNumber);
+                vm.contactDetails = mapper.Map<AvailabilityContactView>(await _avlbltyManager.GetContactDetailsPerson(_personNumber));
                 vm.displayContact = true;
             }
             else
@@ -477,10 +477,10 @@ namespace Aion.Areas.WFM.Controllers
                     return RedirectToAction("Availability");
             }
 
-            vm.existingPattern = await _avlbltyManager.GetAllPatternsPerson(_personNumber);
-            vm.empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(_personNumber);
-            vm.LocalStores = await _storeManager.GetStoresInSameRegion(selectCrit);
-            vm.AvlbltyStores = await _avlbltyManager.GetAllPatternStoresPerson(_personNumber);
+            vm.existingPattern = mapper.Map<List<AvailabilityPatternView>>(await _avlbltyManager.GetAllPatternsPerson(_personNumber));
+            vm.empDetails = mapper.Map<KronosEmployeeSummaryView>(await _empSummaryManager.GetEmployeeMatchingNumber(_personNumber));
+            vm.LocalStores = mapper.Map<List<StoreMasterView>>(await _storeManager.GetStoresInSameRegion(vm.empDetails.HomeBranch.ToString()));
+            vm.AvlbltyStores = mapper.Map<List<AvailabilityStoreView>>(await _avlbltyManager.GetAllPatternStoresPerson(_personNumber));
 
             if (vm.existingPattern.Count != 0 && personNumber != "e")
                 return RedirectToAction("Availability");
@@ -495,7 +495,7 @@ namespace Aion.Areas.WFM.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateAvailability(AvailabilityPattern a, AvailabilityContact c, short[] s, bool d = false, bool confirmOnly = false)
+        public async Task<ActionResult> UpdateAvailability(AvailabilityPatternView a, AvailabilityContactView c, short[] s, bool d = false, bool confirmOnly = false)
         {
             if (ModelState.IsValid && System.Web.HttpContext.Current.Session["_avlbltyToChange"].ToString() == a.PersonNumber)
             {
@@ -520,7 +520,7 @@ namespace Aion.Areas.WFM.Controllers
         [UserFilter(MinLevel = 1)]
         public async Task<PartialViewResult> _GetCoverColleagues()
         {
-            return PartialView("../Deployment/Partials/_coverColleagues", await _avlbltyManager.GetPatternsForAvailableCover(selectCrit));
+            return PartialView("../Deployment/Partials/_coverColleagues", mapper.Map<List<AvailabilityPatternView>>(await _avlbltyManager.GetPatternsForAvailableCover(selectCrit)));
         }
 
         [UserFilter(MinLevel = 1)]
@@ -596,27 +596,27 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayStore(selectCrit, year + 1, year + 52);
-                    vm.EmpCollection = await _holidayPlanningManager.GetHolidayStoreEmp(selectCrit, year + 1);
-                    vm.DashCollection = await _dashDataManager.GetStoreDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.StoreCollection = mapper.Map<List<HolidayPlanningStoreView>>(await _holidayPlanningManager.GetHolidayStore(selectCrit, year + 1, year + 52));
+                    vm.EmpCollection = mapper.Map<List<HolidayPlanningEmpView>>(await _holidayPlanningManager.GetHolidayStoreEmp(selectCrit, year + 1));
+                    vm.DashCollection = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetStoreDetailBetween(selectCrit, year + 1, year + 52));
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayRegion(selectCrit, year + 1, year + 52);
-                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayRegionRollup(selectCrit, year + 1);
-                    vm.DashCollection = await _dashDataManager.GetRegionDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.StoreCollection = mapper.Map<List<HolidayPlanningStoreView>>(await _holidayPlanningManager.GetHolidayRegion(selectCrit, year + 1, year + 52));
+                    vm.RollupCollection = mapper.Map<List<HolidayPlanningRollupView>>(await _holidayPlanningManager.GetHolidayRegionRollup(selectCrit, year + 1));
+                    vm.DashCollection = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetRegionDetailBetween(selectCrit, year + 1, year + 52));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayDivision(selectCrit, year + 1, year + 52);
-                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayDivisionRollup(selectCrit, year + 1);
-                    vm.DashCollection = await _dashDataManager.GetDivisionDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.StoreCollection = mapper.Map<List<HolidayPlanningStoreView>>(await _holidayPlanningManager.GetHolidayDivision(selectCrit, year + 1, year + 52));
+                    vm.RollupCollection = mapper.Map<List<HolidayPlanningRollupView>>(await _holidayPlanningManager.GetHolidayDivisionRollup(selectCrit, year + 1));
+                    vm.DashCollection = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetDivisionDetailBetween(selectCrit, year + 1, year + 52));
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.StoreCollection = await _holidayPlanningManager.GetHolidayChain(selectCrit, year + 1, year + 52);
-                    vm.RollupCollection = await _holidayPlanningManager.GetHolidayChainRollup(selectCrit, year + 1);
-                    vm.DashCollection = await _dashDataManager.GetChainDetailBetween(selectCrit, year + 1, year + 52);
+                    vm.StoreCollection = mapper.Map<List<HolidayPlanningStoreView>>(await _holidayPlanningManager.GetHolidayChain(selectCrit, year + 1, year + 52));
+                    vm.RollupCollection = mapper.Map<List<HolidayPlanningRollupView>>(await _holidayPlanningManager.GetHolidayChainRollup(selectCrit, year + 1));
+                    vm.DashCollection = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetChainDetailBetween(selectCrit, year + 1, year + 52));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -631,7 +631,7 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.Collection = await _scheduleManager.GetStoreSchedule(selectCrit, weekNum);
+                    vm.Collection = mapper.Map<List<ScheduleDataView>>(await _scheduleManager.GetStoreSchedule(selectCrit, weekNum));
                     vm.HomeStore = !(bool)System.Web.HttpContext.Current.Session["_ROIFlag"] ? "UK " + selectCrit : "IE " + selectCrit;
                     if (vm.Collection.Min(x => x.StartDate) < DateTime.Now.Date.FirstDayOfWeek())
                     {
@@ -642,11 +642,11 @@ namespace Aion.Areas.WFM.Controllers
                         var oTimes = await _openingTimesManager.GetSpecificStoreOpeningTime(selectCrit, (DateTime)vm.Collection.Min(x => x.StartDate));
                         if (oTimes.Any(x => x.Status != "Live"))
                         {
-                            vm.OpeningTime = oTimes.First(x => x.Status != "Live");
+                            vm.OpeningTime = mapper.Map<StoreOpeningTimeView>(oTimes.First(x => x.Status != "Live"));
                         }
                         else if (oTimes.Any(x => x.Status == "Live"))
                         {
-                            vm.OpeningTime = oTimes.First(x => x.Status == "Live");
+                            vm.OpeningTime = mapper.Map<StoreOpeningTimeView>(oTimes.First(x => x.Status == "Live"));
                         }
                         else
                         {
@@ -656,7 +656,7 @@ namespace Aion.Areas.WFM.Controllers
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.Collection = await _scheduleManager.GetRegionGMScheduleData(selectCrit, weekNum);
+                    vm.Collection = mapper.Map<List<ScheduleDataView>>(await _scheduleManager.GetRegionGMScheduleData(selectCrit, weekNum));
                     if (vm.Collection.Min(x => x.StartDate) < DateTime.Now.Date.FirstDayOfWeek())
                     {
                         ViewBag.historic = true;
@@ -687,10 +687,10 @@ namespace Aion.Areas.WFM.Controllers
             CPCWScheduleVm vm = new CPCWScheduleVm();
             int weekNum = selectedDate.GetWeekNumber();
 
-            vm.SetStoreList(await _scheduleManager.GetCPCWStoreList());
+            vm.SetStoreList(mapper.Map<List<CPCWStoreListView>>(await _scheduleManager.GetCPCWStoreList()));
             if (s != 0)
             {
-                vm.collection = await _scheduleManager.GetCPCWSchedule(s, weekNum);
+                vm.collection = mapper.Map<List<CPCWScheduleView>>(await _scheduleManager.GetCPCWSchedule(s, weekNum));
                 vm.storeSelected = true;
                 vm.storeList.ForEach(x => x.Selected = x.Value == s.ToString());
             }
@@ -711,7 +711,7 @@ namespace Aion.Areas.WFM.Controllers
             else
                 vm.ManualSelect = authCheckResult;
 
-            vm.collection = await _gmWeWorkingManager.GetGMPowerHours(selectCrit, weekNum);
+            vm.collection = mapper.Map<List<GMPowerHourView>>(await _gmWeWorkingManager.GetGMPowerHours(selectCrit, weekNum));
 
             return View(vm);
         }
@@ -723,7 +723,7 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.collection = await _dashDataManager.GetStorePeakData(selectCrit);
+                    vm.collection = mapper.Map<List<PeakDataView>>(await _dashDataManager.GetStorePeakData(selectCrit));
                     break;
                 case "R":
                     vm.Message = "This page is not available in the currently selected view, please select a store from the top right menu or go back.";

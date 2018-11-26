@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class TOWSummaryVm : BaseVm
     {
-        public List<vw_Top100CreditSummary> collection { get; set; }
+        public List<Top100CreditSummaryView> collection { get; set; }
 
         public string SundayDate
         {

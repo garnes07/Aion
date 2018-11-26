@@ -1,4 +1,5 @@
 ﻿using Aion.DAL.Entities;
+using Aion.Models.WFM;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -101,13 +102,13 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<bool> SubmitNewPattern(AvailabilityPattern newPattern, short[] storeList,string userName)
+        public async Task<bool> SubmitNewPattern(AvailabilityPatternView newPattern, short[] storeList,string userName)
         {
             try
             {
                 using(var context = new WFMModel())
                 {
-                    var existing = await context.AvailabilityPatterns.FirstOrDefaultAsync(x => x.PersonNumber == newPattern.PersonNumber && x.PatternType == 0);
+                    var existing = await context.AvailabilityPatterns.Include("AvailabilityDays").FirstOrDefaultAsync(x => x.PersonNumber == newPattern.PersonNumber && x.PatternType == 0);
                     var zeroTime = new TimeSpan(0, 0, 0);
 
                     foreach (var item in newPattern.AvailabilityDays.ToList())
@@ -135,7 +136,7 @@ namespace Aion.DAL.Managers
 
                         foreach(var item in newPattern.AvailabilityDays.Where(x => !existing.AvailabilityDays.Any(y => y.DayNum == x.DayNum)).ToList())
                         {
-                            existing.AvailabilityDays.Add(item);
+                            existing.AvailabilityDays.Add(new AvailabilityDay { DayNum = item.DayNum, StartTime = item.StartTime, EndTime = item.EndTime});
                         }
                     }
                     else
@@ -145,7 +146,17 @@ namespace Aion.DAL.Managers
                         newPattern.LastConfirmedBy = userName;
                         newPattern.LastConfirmedDate = DateTime.Now;
 
-                        context.AvailabilityPatterns.Add(newPattern);
+                        context.AvailabilityPatterns.Add(new AvailabilityPattern
+                        {
+                            PersonNumber = newPattern.PersonNumber,
+                            PersonName = newPattern.PersonName,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = userName,
+                            LastConfirmedBy = userName,
+                            LastConfirmedDate = DateTime.Now,
+                            PatternType = newPattern.PatternType,
+                            AvailabilityDays = newPattern.AvailabilityDays.Select(x => new AvailabilityDay { DayNum = x.DayNum, StartTime = x.StartTime, EndTime = x.EndTime}).ToList()
+                        });
                     }
 
                     if(storeList != null)
@@ -180,7 +191,7 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<bool> UpdateContactDetails(AvailabilityContact ContactDetail, bool deleteRecord, string personNumber, bool confirmOnly)
+        public async Task<bool> UpdateContactDetails(AvailabilityContactView ContactDetail, bool deleteRecord, string personNumber, bool confirmOnly)
         {
             using(var context = new WFMModel())
             {

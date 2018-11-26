@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +9,12 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
     public class CPCWScheduleVm : BaseVm
     {
         public List<SelectListItem> storeList { get; set; }
-        public List<vw_CPCWSchedules> collection { get; set; }
+        public List<CPCWScheduleView> collection { get; set; }
         public bool storeSelected { get; set; }
 
         public List<string> TaskList => collection.GroupBy(x => x.TASKDESC).Select(x => x.Key).ToList();
 
-        public void SetStoreList(List<vw_CPCWStoreList> s)
+        public void SetStoreList(List<CPCWStoreListView> s)
         {
             storeList = s.Select(x => new SelectListItem
             {

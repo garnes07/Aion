@@ -101,6 +101,38 @@ namespace Aion.Mapping
             CreateMap<PayCalendarRef, PayCalendarRefView>();
             CreateMap<KronosEmployeeSummary, KronosEmployeeSummaryView>();
             CreateMap<vw_CPW_Clocking_Data, CPW_Clocking_DataView>();
+            CreateMap<vw_DivisionDeploymentDash, DivisionDeploymentDashView>();
+            CreateMap<vw_RegionDeploymentDash, RegionDeploymentDashView>();
+            CreateMap<vw_StoreDeploymentDash, StoreDeploymentDashView>();
+            CreateMap<vw_StoreDeploymentRank, StoreDeploymentRankView>();
+            CreateMap<vw_StoreDeploymentDashTrend, StoreDeploymentDashTrendView>();
+            CreateMap<vw_StoreDeploymentRankTrend, StoreDeploymentRankTrendView>();
+            CreateMap<sp_PeriodDeploymentSummary_Result, PeriodDeploymentSummaryView>();
+            CreateMap<vw_DashboardData_v2, DashboardData_v2View>();
+            CreateMap<sp_AllChainDashboardData_v2_Result, AllChainDashboardData_v2View>();
+            CreateMap<DailyDeployment, DailyDeploymentView>();
+            CreateMap<vw_DashboardData_v2_Pilot, DashboardData_v2View>();
+            CreateMap<vw_DailyDeployment_Pilot, DailyDeploymentView>();
+            CreateMap<PowerHoursProfile, PowerHoursProfileView>();
+            CreateMap<vw_DailyDeployment_Top100, DailyDeploymentView>();
+            CreateMap<vw_DashboardData_v2_Top100, DashboardData_v2View>();
+            CreateMap<vw_Top100CreditSummary, Top100CreditSummaryView>();
+            CreateMap<vw_FootfallHourly, FootfallHourlyView>();
+            CreateMap<vw_ContractBaseDetail, ContractBaseDetailView>();
+            CreateMap<vw_GmWeWorking, GmWeWorkingView>();
+            CreateMap<vw_AvailabilityPatternMissing, AvailabilityPatternMissingView>();
+            CreateMap<vw_AvailabilitySummary, AvailabilitySummaryView>();
+            CreateMap<vw_TradingHoursForAvlblty, TradingHoursForAvlbltyView>();
+            CreateMap<vw_AvailabilityCompletionRate, AvailabilityCompletionRateView>();
+            CreateMap<AvailabilityStore, AvailabilityStoreView>();
+            CreateMap<vw_HolidayPlanningStore, HolidayPlanningStoreView>();
+            CreateMap<HolidayPlanningEmp, HolidayPlanningEmpView>();
+            CreateMap<vw_HolidayPlanningRollup, HolidayPlanningRollupView>();
+            CreateMap<vw_ScheduleData, ScheduleDataView>();
+            CreateMap<vw_CPCWSchedules, CPCWScheduleView>();
+            CreateMap<vw_CPCWStoreList, CPCWStoreListView>();
+            CreateMap<GMPowerHour, GMPowerHourView>();
+            CreateMap<PeakData, PeakDataView>();
         }
     }
 

@@ -1,15 +1,14 @@
 ﻿using Aion.ViewModels;
-using Aion.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using Aion.Models.WFM;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class GMPowerHoursVm : BaseVm
     {
-        public List<GMPowerHour> collection { get; set; }
+        public List<GMPowerHourView> collection { get; set; }
 
         public double complianceScore => (collection.Where(x => x.Rank <= 20).Sum(x => x.Working) / 20.0 * 100);
 

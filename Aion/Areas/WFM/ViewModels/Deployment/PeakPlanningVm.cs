@@ -1,15 +1,13 @@
-﻿using Aion.ViewModels;
-using Aion.DAL.Entities;
-using System;
+﻿using Aion.Models.WFM;
+using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class PeakPlanningVm : BaseVm
     {
-        public List<PeakData> collection { get; set; }
+        public List<PeakDataView> collection { get; set; }
 
         public bool tempsReq => collection.FirstOrDefault()?.Temps != 0;
     }

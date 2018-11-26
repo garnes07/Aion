@@ -48,5 +48,7 @@ namespace Aion.Models.Kronos
         public decimal BaseWageHourly { get; set; }
 
         public DateTime SignOffDate => DateTime.Parse(ManagerSignoffThruDateTime);
+
+        public DateTime StartDate => DateTime.Parse(HireDate);
     }
 }

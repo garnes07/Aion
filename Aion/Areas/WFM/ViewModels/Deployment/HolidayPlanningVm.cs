@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class HolidayPlanningVm : BaseVm
     {
-        public List<vw_HolidayPlanningStore> StoreCollection { get; set; }
-        public List<HolidayPlanningEmp> EmpCollection { get; set; }
-        public List<vw_HolidayPlanningRollup> RollupCollection { get; set; }
-        public List<vw_DashboardData_v2> DashCollection { get; set; }
+        public List<HolidayPlanningStoreView> StoreCollection { get; set; }
+        public List<HolidayPlanningEmpView> EmpCollection { get; set; }
+        public List<HolidayPlanningRollupView> RollupCollection { get; set; }
+        public List<DashboardData_v2View> DashCollection { get; set; }
         public int CurrentWeek { get; set; }
         
         public int? YTDTaken => StoreCollection.Sum(x => x.Taken);
@@ -56,7 +56,7 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
             }
         }
 
-        public char RAG(HolidayPlanningEmp entry)
+        public char RAG(HolidayPlanningEmpView entry)
         {
             float? takenPerc = (float)entry.Taken / (entry.Balance + entry.Taken);
             float? RAGdelta = Math.Abs((float)takenPerc - (float)PercToTake);
@@ -75,7 +75,7 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
             }
         }
 
-        public char RAG(vw_HolidayPlanningRollup entry)
+        public char RAG(HolidayPlanningRollupView entry)
         {
             float? takenPerc = (float)entry.Taken / (entry.Balance + entry.Taken);
             float? RAGdelta = Math.Abs((float)takenPerc - (float)PercToTake);
