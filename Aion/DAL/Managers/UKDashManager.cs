@@ -11,7 +11,7 @@ namespace Aion.DAL.Managers
     {
         public async Task<List<string>> GetStoreErrors()
         {
-            using (var context = new ROIDashModel())
+            using (var context = new UKDashModel())
             {
                 return await context.fn_UnmatchedStores().ToListAsync();
             }
@@ -19,7 +19,7 @@ namespace Aion.DAL.Managers
 
         public async Task<List<string>> GetRoleErrors()
         {
-            using (var context = new ROIDashModel())
+            using (var context = new UKDashModel())
             {
                 return await context.fn_UnmatchedRoles().ToListAsync();
             }
