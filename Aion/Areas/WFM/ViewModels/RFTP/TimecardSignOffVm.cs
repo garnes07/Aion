@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using Aion.DAL.Entities;
-using Aion.Helpers;
+﻿using Aion.Helpers;
 using Aion.Models.Kronos;
+using Aion.Models.WebMaster;
+using Aion.Models.WFM;
 using Aion.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace Aion.Areas.WFM.ViewModels.RFTP
 {
     public class TimecardSignOffVm : BaseVm
     {
         public List<HyperFindResult> hf { get; set; }
-        public List<EditedClock> ss { get; set; }
-        public List<sp_CheckHelpTickets_Result> HelpTcks { get; set; }
+        public List<EditedClockView> ss { get; set; }
+        public List<CheckHelpTicketsView> HelpTcks { get; set; }
         public DateTime weekStart { get; set; }
         public List<RegionSignOff> rso { get; set; }
 

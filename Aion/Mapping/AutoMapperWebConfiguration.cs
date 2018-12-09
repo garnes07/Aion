@@ -137,6 +137,12 @@ namespace Aion.Mapping
             CreateMap<vw_ContractStatusDetail, ContractStatusDetailView>();
             CreateMap<vw_DeploymentStatus, DeploymentStatusView>();
             CreateMap<vw_StoreLocations, StoreLocationsView>();
+            CreateMap<EmpComplianceDetail, EmpComplianceDetailView>();
+            CreateMap<EditedClock, EditedClockView>();
+            CreateMap<vw_CPW_Clocking_Data_Trend, CPW_Clocking_Data_TrendView>();
+            CreateMap<vw_CPW_Clocking_Repeat_Stores, CPW_Clocking_Repeat_StoresView>();
+            CreateMap<vw_CPW_Clocking_Repeat_Employees, CPW_Clocking_Repeat_EmployeesView>();
+            CreateMap<vw_EditedClocks, AggEditedClocksView>();
         }
     }
 
@@ -155,6 +161,7 @@ namespace Aion.Mapping
             CreateMap<TicketStub, TicketStubView>();
             CreateMap<sp_EscalationOptions_Result, EscalationOptionsView>();
             CreateMap<TicketComment, TicketCommentView>();
+            CreateMap<sp_CheckHelpTickets_Result, CheckHelpTicketsView>();
         }
     }
 

@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Aion.Areas.WFM.Models.RFTP;
-using Aion.DAL.Entities;
+﻿using Aion.Areas.WFM.Models.RFTP;
+using Aion.Models.WFM;
 using Aion.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Aion.Areas.WFM.ViewModels.RFTP
 {
     public class ClockCompVm : BaseVm
     {
-        public List<vw_CPW_Clocking_Data> PunchDetail { get; set; }
+        public List<CPW_Clocking_DataView> PunchDetail { get; set; }
         public string Priority { get; set; }
 
         public List<ClockAggregate> EmpSummary
@@ -104,7 +104,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             }
         }
 
-        public List<vw_CPW_Clocking_Data> RegionGMPunches => PunchDetail.Where(x => x.ROLE == "1").ToList();
+        public List<CPW_Clocking_DataView> RegionGMPunches => PunchDetail.Where(x => x.ROLE == "1").ToList();
 
         public List<ClockAggregate> RegionGMSummary
         {

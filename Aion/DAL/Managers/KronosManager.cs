@@ -1,6 +1,6 @@
-﻿using Aion.DAL.Entities;
-using Aion.DAL.Kronos;
+﻿using Aion.DAL.Kronos;
 using Aion.Models.Kronos;
+using Aion.Models.WebMaster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace Aion.DAL.Managers
             return KronosApi.RequestTimesheet(dates, personNumber, sessionID);
         }
 
-        public async Task<List<HyperFindResult>> GetKronosHyperFind(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null)
+        public async Task<List<HyperFindResult>> GetKronosHyperFind(List<StoreMasterView> kronosStoreNames, string startDate, string endDate, string sessionId = null)
         {
             List<HyperFindResult> result = new List<HyperFindResult>();
             string dateSpan = string.Format("{0}-{1}", startDate, endDate);
@@ -50,7 +50,7 @@ namespace Aion.DAL.Managers
             return result;
         }
 
-        public async Task<List<HyperFindResult>> GetKronosHyperFindBatch(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null)
+        public async Task<List<HyperFindResult>> GetKronosHyperFindBatch(List<StoreMasterView> kronosStoreNames, string startDate, string endDate, string sessionId = null)
         {
             string dateSpan = string.Format("{0}-{1}", startDate, endDate);
 

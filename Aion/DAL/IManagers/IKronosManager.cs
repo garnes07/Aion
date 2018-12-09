@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Aion.Models.Kronos;
+﻿using Aion.Models.Kronos;
+using Aion.Models.WebMaster;
 using System;
-using Aion.DAL.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Aion.DAL.Managers
 {
@@ -11,7 +11,7 @@ namespace Aion.DAL.Managers
         Task<List<HyperFindResult>> GetKronosHyperFind(string kronosStoreName, string startDate, string endDate, string sessionId = null);
         Task<List<PunchStatus>> GetPunchStatus(List<string> empList, string sessionId = null);
         Task<List<Timesheet>> GetTimesheet(DateTime[] dates, string personNumber, string sessionID = null);
-        Task<List<HyperFindResult>> GetKronosHyperFind(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null);
-        Task<List<HyperFindResult>> GetKronosHyperFindBatch(List<StoreMaster> kronosStoreNames, string startDate, string endDate, string sessionId = null);
+        Task<List<HyperFindResult>> GetKronosHyperFind(List<StoreMasterView> kronosStoreNames, string startDate, string endDate, string sessionId = null);
+        Task<List<HyperFindResult>> GetKronosHyperFindBatch(List<StoreMasterView> kronosStoreNames, string startDate, string endDate, string sessionId = null);
     }
 }
