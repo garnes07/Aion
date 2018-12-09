@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ namespace Aion.Areas.WFM.ViewModels.FuturePlanning
 {
     public class DeploymentStatusVm : BaseVm
     {
-        public List<vw_DeploymentStatus> collection { get; set; }
+        public List<DeploymentStatusView> collection { get; set; }
 
         public List<short?> StoreList => collection.Where(x => x.StoreNumber != null).GroupBy(x => x.StoreNumber).Select(x => x.Key).ToList();
         public List<short?> RegionList => collection.Where(x => x.Region != null).GroupBy(x => x.Region).Select(x => x.Key).ToList();
@@ -20,8 +20,8 @@ namespace Aion.Areas.WFM.ViewModels.FuturePlanning
 
         public List<int?> WeekList => collection.GroupBy(x => x.WeekNumber).Select(x => x.Key).ToList();
         
-        public List<vw_DeploymentStatus> ChainSummary => collection.Where(x => x.Division == null).OrderBy(x => x.WeekNumber).ToList();
-        public List<vw_DeploymentStatus> DivisionSummary(string division)
+        public List<DeploymentStatusView> ChainSummary => collection.Where(x => x.Division == null).OrderBy(x => x.WeekNumber).ToList();
+        public List<DeploymentStatusView> DivisionSummary(string division)
         {
             return collection.Where(x => x.Division == division && x.Region == null).OrderBy(x => x.WeekNumber).ToList();
         }

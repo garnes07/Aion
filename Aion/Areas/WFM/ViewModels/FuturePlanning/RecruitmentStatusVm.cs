@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -8,8 +8,8 @@ namespace Aion.Areas.WFM.ViewModels.FuturePlanning
 {
     public class RecruitmentStatusVm : BaseVm
     {
-        public List<vw_StoreContractStatus> collection { get; set; }
-        public List<vw_ContractStatusDetail> ContractDetail { get; set; }
+        public List<StoreContractStatusView> collection { get; set; }
+        public List<ContractStatusDetailView> ContractDetail { get; set; }
 
         public string Legend
         {

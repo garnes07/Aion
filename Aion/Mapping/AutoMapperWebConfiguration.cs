@@ -133,6 +133,9 @@ namespace Aion.Mapping
             CreateMap<vw_CPCWStoreList, CPCWStoreListView>();
             CreateMap<GMPowerHour, GMPowerHourView>();
             CreateMap<PeakData, PeakDataView>();
+            CreateMap<vw_StoreContractStatus, StoreContractStatusView>();
+            CreateMap<vw_ContractStatusDetail, ContractStatusDetailView>();
+            CreateMap<vw_DeploymentStatus, DeploymentStatusView>();
         }
     }
 
