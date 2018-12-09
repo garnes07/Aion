@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Aion.Areas.WFM.Models.MyStore;
+using Aion.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Aion.DAL.Entities;
 
 namespace Aion.DAL.Managers
 {
@@ -39,17 +40,24 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<int> SubmitOpeningTimeChange(StoreOpeningTime entry, string userName)
+        public async Task<int> SubmitOpeningTimeChange(NewOpeningTime entry, string userName)
         {
             using (var context = new WFMModel())
             {
                 try
                 {
-                    entry.SubmittedByUser = userName;
-                    entry.DateTimeSubmitted = DateTime.Now;
-                    entry.Status = "PendingApproval";
+                    StoreOpeningTime toAdd = new StoreOpeningTime
+                    {
+                        StoreNumber = entry.StoreNumber,
+                        DateTimeSubmitted = DateTime.Now,
+                        EffectiveDate = entry.EffectiveDate,
+                        Status = "PendingApproval",
+                        SubmittedByUser = userName
+                    };
 
-                    context.StoreOpeningTimes.Add(entry);
+                    toAdd = MapToStoreOpeningTime(entry, toAdd);
+
+                    context.StoreOpeningTimes.Add(toAdd);
                     return await context.SaveChangesAsync();
                 }
                 catch(Exception e)
@@ -95,27 +103,19 @@ namespace Aion.DAL.Managers
             }
         }
 
-        public async Task<int> EditExistingPeak(StoreOpeningTime newEntry, string userName)
+        public async Task<int> EditExistingPeak(NewOpeningTime newEntry, string userName)
         {
             using (var context = new WFMModel())
             {
                 try
                 {
-                    newEntry.DateTimeModified = DateTime.Now;
-                    newEntry.ModifiedByUser = userName;
-                    newEntry.Status = "PeakPending";
+                    var toEdit = await context.StoreOpeningTimes.FindAsync(newEntry.EntryId);
 
-                    context.StoreOpeningTimes.Attach(newEntry);
-                    var entry = context.Entry(newEntry);
-                    entry.State = EntityState.Modified;
-                    
-                    entry.Property(x => x.StoreNumber).IsModified = false;
-                    entry.Property(x => x.DateTimeSubmitted).IsModified = false;
-                    entry.Property(x => x.EffectiveDate).IsModified = false;
-                    entry.Property(x => x.TemporaryChange).IsModified = false;
-                    entry.Property(x => x.EndDate).IsModified = false;
-                    entry.Property(x => x.SubmittedByUser).IsModified = false;
-                    entry.Property(x => x.ReasonForChange).IsModified = false;
+                    toEdit.DateTimeModified = DateTime.Now;
+                    toEdit.ModifiedByUser = userName;
+                    toEdit.Status = "PeakPending";
+
+                    toEdit = MapToStoreOpeningTime(newEntry, toEdit);
 
                     return await context.SaveChangesAsync();
                 }
@@ -201,6 +201,28 @@ namespace Aion.DAL.Managers
                 await context.SaveChangesAsync();
                 return _toAttach;
             }
+        }
+
+        private StoreOpeningTime MapToStoreOpeningTime(NewOpeningTime toMap, StoreOpeningTime container)
+        {
+            StoreOpeningTime toReturn = container;
+
+            toReturn.SundayOpen = toMap.SundayOpen;
+            toReturn.SundayClose = toMap.SundayClose;
+            toReturn.MondayOpen = toMap.MondayOpen;
+            toReturn.MondayClose = toMap.MondayClose;
+            toReturn.TuesdayOpen = toMap.TuesdayOpen;
+            toReturn.TuesdayClose = toMap.TuesdayClose;
+            toReturn.WednesdayOpen = toMap.WednesdayOpen;
+            toReturn.WednesdayClose = toMap.WednesdayClose;
+            toReturn.ThursdayOpen = toMap.ThursdayOpen;
+            toReturn.ThursdayClose = toMap.ThursdayClose;
+            toReturn.FridayOpen = toMap.FridayOpen;
+            toReturn.FridayClose = toMap.FridayClose;
+            toReturn.SaturdayOpen = toMap.SaturdayOpen;
+            toReturn.SaturdayClose = toMap.SaturdayClose;
+
+            return toReturn;
         }
     }
 }

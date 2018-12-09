@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Aion.Areas.WFM.Models.MyStore;
+using Aion.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Aion.DAL.Entities;
 
 namespace Aion.DAL.Managers
 {
@@ -10,11 +11,11 @@ namespace Aion.DAL.Managers
         Task<List<StoreOpeningTime>> GetOpeningTimesStore(string store);
         Task<StoreOpeningTime> GetCurrentOpeningTimeStore(string store);
         Task<List<StoreOpeningTime>> GetSpecificStoreOpeningTime(string store, DateTime sDate);
-        Task<int> SubmitOpeningTimeChange(StoreOpeningTime entry, string userName);
+        Task<int> SubmitOpeningTimeChange(NewOpeningTime entry, string userName);
         Task<StoreOpeningTime> GetSinglePendingById(int entryId, string store);
         Task<StoreOpeningTime> GetSinglePeakById(int entryId, string store);
         Task<int> CancelPendingChange(int entryId, string userName);
-        Task<int> EditExistingPeak(StoreOpeningTime newEntry, string userName);
+        Task<int> EditExistingPeak(NewOpeningTime newEntry, string userName);
         Task<int> AcceptPeak(int entryId, string store, string userName);
         Task<List<StoreOpeningTime>> GetPendingOpeningTimes();
         Task<List<StoreOpeningTime>> GetStoreTimesForReview(int storeNumber);
