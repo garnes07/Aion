@@ -136,6 +136,7 @@ namespace Aion.Mapping
             CreateMap<vw_StoreContractStatus, StoreContractStatusView>();
             CreateMap<vw_ContractStatusDetail, ContractStatusDetailView>();
             CreateMap<vw_DeploymentStatus, DeploymentStatusView>();
+            CreateMap<vw_StoreLocations, StoreLocationsView>();
         }
     }
 

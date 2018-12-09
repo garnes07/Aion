@@ -888,6 +888,7 @@
     <Compile Include="Models\WFM\StoreDeploymentDashView.cs" />
     <Compile Include="Models\WFM\StoreDeploymentRankTrendView.cs" />
     <Compile Include="Models\WFM\StoreDeploymentRankView.cs" />
+    <Compile Include="Models\WFM\StoreLocationsView.cs" />
     <Compile Include="Models\WFM\StoreOpeningTimeView.cs" />
     <Compile Include="Models\WFM\Top100CreditSummaryView.cs" />
     <Compile Include="Models\WFM\TradingHoursForAvlbltyView.cs" />
