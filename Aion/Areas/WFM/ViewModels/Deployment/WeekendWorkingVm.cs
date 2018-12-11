@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Aion.DAL.Entities;
 using Aion.ViewModels;
+using Aion.Models.WFM;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class WeekendWorkingVm : BaseVm
     {
-        public List<vw_GmWeWorking> Collection { get; set; }
+        public List<GmWeWorkingView> Collection { get; set; }
 
         private List<DateTime?> _PastDates;
         public List<DateTime?> PastDates => _PastDates ?? (_PastDates = Collection

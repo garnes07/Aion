@@ -1,5 +1,9 @@
 ﻿@model Aion.Areas.WFM.ViewModels.RFTP.TimecardSignOffVm
 
+@{ 
+    DateTime thisWeekStart = Model.weekStart.AddDays(7);
+}
+
 <div class="card">
     <div class="card-header text-center">
         <strong>Timecard Sign Off</strong>
@@ -47,7 +51,7 @@
                     </tr>                    
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.hf.OrderBy(x => x.FullName))
+                    @foreach (var item in Model.hf.Where(x => x.PersonData.Person.StartDate < thisWeekStart).OrderBy(x => x.FullName))
                     {
                         var ss = Model.ss.Count(x => x.PersonNum == item.PersonNumber);
                         var help = Model.HelpTcks.FirstOrDefault(x => x.EmpNum == item.parsedPerson);

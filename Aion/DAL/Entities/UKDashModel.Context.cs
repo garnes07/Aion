@@ -20,6 +20,7 @@ namespace Aion.DAL.Entities
         public UKDashModel()
             : base("name=UKDashModel")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

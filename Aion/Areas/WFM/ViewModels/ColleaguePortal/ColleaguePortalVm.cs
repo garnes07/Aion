@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,11 @@ namespace Aion.Areas.WFM.ViewModels.ColleaguePortal
 {
     public class ColleaguePortalVm : BaseVm
     {
-        public List<PayCalendarRef> rawMenu { get; set; }
-        public List<vw_AvailabilityPattern> avlbltyPattern { get; set; }
+        public List<PayCalendarRefView> rawMenu { get; set; }
+        public List<AvailabilityPatternView> avlbltyPattern { get; set; }
 
-        private vw_AvailabilityPattern _defaultPattern;
-        public vw_AvailabilityPattern DefaultPattern => _defaultPattern ?? (_defaultPattern = avlbltyPattern.FirstOrDefault(x => x.PatternType == 0));
+        private AvailabilityPatternView _defaultPattern;
+        public AvailabilityPatternView DefaultPattern => _defaultPattern ?? (_defaultPattern = avlbltyPattern.FirstOrDefault(x => x.PatternType == 0));
 
         public bool avlbltlyPilot { get; set; }
 

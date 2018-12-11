@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,13 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
 {
     public class CompDetailVm : BaseVm
     {
-        public List<vw_DashboardData_v2> _dashboardView { get; set; }
-        public List<sp_AllChainDashboardData_v2_Result> _chainView { get; set; }
+        public List<DashboardData_v2View> _dashboardView { get; set; }
+        public List<AllChainDashboardData_v2View> _chainView { get; set; }
         public List<ShortShiftDetail> _ssDetails { get; set; }
         public List<PunchCompDetail> _punchDetails { get; set; }
         public List<TimecardDetail> _timecardDetails { get; set; }
         
-        public void loadTimecardDetails(List<EmpComplianceDetail> a)
+        public void loadTimecardDetails(List<EmpComplianceDetailView> a)
         {
             _timecardDetails = a.OrderBy(x => x.PersonName).Select(x => new TimecardDetail
             {
@@ -23,7 +23,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             }).ToList();
         }
 
-        public void loadPunchDetails(List<vw_CPW_Clocking_Data> a)
+        public void loadPunchDetails(List<CPW_Clocking_DataView> a)
         {
             var temp = a.GroupBy(x => new {x.FORENAME, x.EMP_NUM}).Select(s => new
             {
@@ -37,7 +37,7 @@ namespace Aion.Areas.WFM.ViewModels.RFTP
             _punchDetails = temp.Select(x => new PunchCompDetail { PersonName = x.FullName, PunchComp = 100 - (((decimal)x.MissedIn + x.MissedOut) / x.ShiftCount) * 50 }).ToList();
         }
 
-        public void loadSSDetails(List<EditedClock> a)
+        public void loadSSDetails(List<EditedClockView> a)
         {
             var temp = a.GroupBy(x => new { x.PersonName }).Select(s => new { PersonName = s.Key.PersonName, ShortShifts = s.Count() }).OrderBy(x => x.PersonName).ToList();
             _ssDetails = temp.Select(x => new ShortShiftDetail { PersonName = x.PersonName, ShortShifts = x.ShortShifts }).ToList();

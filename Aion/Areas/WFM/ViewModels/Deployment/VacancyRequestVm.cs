@@ -1,5 +1,4 @@
-﻿using Aion.Areas.WFM.Models.Deployment;
-using Aion.DAL.Entities;
+﻿using Aion.Models.Vacancy;
 using Aion.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -13,11 +12,11 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
         public string StoreName { get; set; }
         public List<SelectListItem> PositionList { get; set; }
         public string RoleAllowance { get; set; }
-        public List<VacancyRequest> PendingRequests{ get; set; }
-        public List<vw_SFOpenVacancies> LiveRequests { get; set; }
-        public List<RecruitmentDetail> RecruitmentDetail { get; set; }
+        public List<VacancyRequestsAdminView> PendingRequests{ get; set; }
+        public List<SFOpenVacancyView> LiveRequests { get; set; }
+        public List<RecruitmentDetailView> RecruitmentDetail { get; set; }
                 
-        public void Populate(List<RecruitmentDetail> collection)
+        public void Populate(List<RecruitmentDetailView> collection)
         {
             RecruitmentDetail = collection;
 

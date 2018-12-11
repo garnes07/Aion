@@ -19,7 +19,7 @@
         <EntityTypeShape EntityType="WebMasterContext.TicketComment" Width="1.5" PointX="12.25" PointY="9.125" />
         <EntityTypeShape EntityType="WebMasterContext.TicketStub" Width="1.5" PointX="10" PointY="6.875" />
         <EntityTypeShape EntityType="WebMasterContext.TicketTemplate" Width="1.5" PointX="10" PointY="3.125" />
-        <EntityTypeShape EntityType="WebMasterContext.TicketType" Width="1.5" PointX="7.75" PointY="5.75" />
+        <EntityTypeShape EntityType="WebMasterContext.TicketType" Width="1.5" PointX="7.375" PointY="6.125" />
         <EntityTypeShape EntityType="WebMasterContext.UserGroup" Width="1.5" PointX="3" PointY="8.125" />
         <EntityTypeShape EntityType="WebMasterContext.TicketEscalation" Width="1.5" PointX="3" PointY="11.375" />
         <AssociationConnector Association="WebMasterContext.FK_TicketEscalations_Groups" />

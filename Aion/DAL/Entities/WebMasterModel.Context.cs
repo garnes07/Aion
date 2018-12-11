@@ -20,6 +20,7 @@ namespace Aion.DAL.Entities
         public WebMasterModel()
             : base("name=WebMasterModel")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

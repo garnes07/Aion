@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Aion.Areas.WFM.Models.Deployment;
-using Aion.DAL.Entities;
+using Aion.Models.WFM;
 using Aion.ViewModels;
 using Newtonsoft.Json;
 
@@ -10,19 +10,19 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class DeploymentDetailVm : BaseVm
     {
-        public List<vw_DashboardData_v2> WeekData { get; set; }
-        public List<sp_AllChainDashboardData_v2_Result> ChainData { get; set; }
-        public List<DailyDeployment> DailyData { get; set; }
+        public List<DashboardData_v2View> WeekData { get; set; }
+        public List<AllChainDashboardData_v2View> ChainData { get; set; }
+        public List<DailyDeploymentView> DailyData { get; set; }
 
-        public sp_AllChainDashboardData_v2_Result ChainSummary => ChainData.Single(x => x.StoreFlag != null);
-        public List<sp_AllChainDashboardData_v2_Result> DivisionSummary => ChainData.Where(x => x.Division != null && x.Region == null).OrderBy(x => x.Division).ToList();
-        public List<sp_AllChainDashboardData_v2_Result> RegionSummary => ChainData.Where(x => x.Region != null).OrderBy(x => x.Region).ToList();
+        public AllChainDashboardData_v2View ChainSummary => ChainData.Single(x => x.StoreFlag != null);
+        public List<AllChainDashboardData_v2View> DivisionSummary => ChainData.Where(x => x.Division != null && x.Region == null).OrderBy(x => x.Division).ToList();
+        public List<AllChainDashboardData_v2View> RegionSummary => ChainData.Where(x => x.Region != null).OrderBy(x => x.Region).ToList();
 
-        private vw_DashboardData_v2 _StoreData;
-        public vw_DashboardData_v2 StoreData => _StoreData ?? (_StoreData = WeekData.First());
+        private DashboardData_v2View _StoreData;
+        public DashboardData_v2View StoreData => _StoreData ?? (_StoreData = WeekData.First());
 
-        private DailyDeployment _StoreDailyData;
-        public DailyDeployment StoreDailyData => _StoreDailyData ?? (_StoreDailyData = DailyData.First());
+        private DailyDeploymentView _StoreDailyData;
+        public DailyDeploymentView StoreDailyData => _StoreDailyData ?? (_StoreDailyData = DailyData.First());
 
         private DeploymentAggregate _RegionTotal;
         public DeploymentAggregate RegionTotal =>

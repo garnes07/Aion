@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Aion.DAL.Entities;
+using Aion.Areas.Workflow.Models;
 
 namespace Aion.DAL.Managers
 {
@@ -25,6 +26,6 @@ namespace Aion.DAL.Managers
         Task<List<TicketTemplate>> GetFormTemplate(int _TicketTypeId);
         Task<string> GetFormName(int _TicketTypeId);
         Task<StoreMaster> GetStore(string storeNumber);
-        Task<int> SubmitTicket(int TicketTypeId, string RaisedBy, string storeNumber, List<TicketAnswer> QA, int _exception);
+        Task<int> SubmitTicket(int TicketTypeId, string RaisedBy, string storeNumber, List<TicketQ_A> QA, int _exception);
     }
 }

@@ -20,6 +20,7 @@ namespace Aion.DAL.Entities
         public VacanciesModel()
             : base("name=VacanciesModel")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -1,4 +1,4 @@
-﻿using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -7,11 +7,11 @@ namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class AvlbltySummaryVm : BaseVm
     {
-        public List<vw_AvailabilityPattern> AvlbltyCollection { get; set; }
-        public List<vw_AvailabilityPatternMissing> AvlbltyMissing { get; set; }
-        public List<vw_AvailabilitySummary> AvlbltySummary { get; set; }
-        public vw_TradingHoursForAvlblty tradingHrs { get; set; }
-        public List<vw_AvailabilityCompletionRate> areaCompletion { get; set; }
+        public List<AvailabilityPatternView> AvlbltyCollection { get; set; }
+        public List<AvailabilityPatternMissingView> AvlbltyMissing { get; set; }
+        public List<AvailabilitySummaryView> AvlbltySummary { get; set; }
+        public TradingHoursForAvlbltyView tradingHrs { get; set; }
+        public List<AvailabilityCompletionRateView> areaCompletion { get; set; }
 
         public string GetName(short? a)
         {

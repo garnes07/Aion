@@ -1,14 +1,14 @@
 ﻿using Aion.Areas.Workflow.Models;
 using Aion.Areas.Workflow.ViewModels;
 using Aion.Controllers;
-using Aion.DAL.Entities;
 using Aion.DAL.Managers;
 using Aion.Helpers;
+using Aion.Models.WebMaster;
+using Aion.Models.WFM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Aion.Areas.Workflow.Controllers
@@ -43,7 +43,7 @@ namespace Aion.Areas.Workflow.Controllers
             }
             else
             {
-                return View(await _ticketManager.GetTypeList());
+                return View(mapper.Map<List<TicketTypeView>>(await _ticketManager.GetTypeList()));
             }
         }
 
@@ -53,7 +53,7 @@ namespace Aion.Areas.Workflow.Controllers
             {
                 return RedirectToAction("Index");
             }
-            var data = await _ticketManager.GetFormTemplate(FormTypeId);
+            var data = mapper.Map<List<TicketTemplateView>>(await _ticketManager.GetFormTemplate(FormTypeId));
             if(data.Count == 0)
             {
                 TempData["invalidSelect"] = "The selected form does not exist.";
@@ -85,7 +85,7 @@ namespace Aion.Areas.Workflow.Controllers
                 }
             }
 
-            var toReturn = await _ticketManager.SubmitTicket(TicketTypeId, System.Web.HttpContext.Current.Session["_UserName"].ToString(), selectCrit, mapper.Map<List<TicketAnswer>>(q), exception);
+            var toReturn = await _ticketManager.SubmitTicket(TicketTypeId, System.Web.HttpContext.Current.Session["_UserName"].ToString(), selectCrit, q, exception);
 
             TempData["ticketID"] = toReturn;
             return RedirectToAction("Index");
@@ -95,7 +95,7 @@ namespace Aion.Areas.Workflow.Controllers
         [Authorize]
         public async Task<PartialViewResult> _empList()
         {
-            var data = await _hrDataManager.GetStaffListStore(selectCrit);
+            var data = mapper.Map<List<WFMEmployeeInfoView>>(await _hrDataManager.GetStaffListStore(selectCrit));
             return PartialView("~/Areas/Workflow/Views/Form/Partials/_empList.cshtml", data);
         }
 
@@ -109,7 +109,7 @@ namespace Aion.Areas.Workflow.Controllers
         [HttpGet]
         public async Task<PartialViewResult> _branchValidate(string storeNum)
         {
-            var data = await _ticketManager.GetStore(storeNum);
+            var data = mapper.Map<StoreMasterView>(await _ticketManager.GetStore(storeNum));
             return PartialView("~/Areas/Workflow/Views/Form/Partials/_branchValidate.cshtml", data);
         }
     }

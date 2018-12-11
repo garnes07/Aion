@@ -1,6 +1,6 @@
-﻿using Aion.DAL.Entities;
-using Aion.Helpers;
+﻿using Aion.Helpers;
 using Aion.Models.Kronos;
+using Aion.Models.WebMaster;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -70,7 +70,7 @@ namespace Aion.DAL.Kronos
             return success == 1 ? await outcome.DeserializeToObjectAsync<HyperFindResult>() : new List<HyperFindResult>();
         }
 
-        public static async Task<List<HyperFindResult>> HyperfindResultBatch(List<StoreMaster> queryName, string dateSpan, string sessionID)
+        public static async Task<List<HyperFindResult>> HyperfindResultBatch(List<StoreMasterView> queryName, string dateSpan, string sessionID)
         {
             var xmlString = XMLheader;
 

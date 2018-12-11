@@ -1,6 +1,6 @@
 ﻿using Aion.Helpers;
 
-namespace Aion.Areas.ProfitLoss.Models
+namespace Aion.Models.ProfitLoss
 {
     public class ProfitLossView
     {

@@ -583,7 +583,7 @@ warning 6002: The table/view '01002_People.dbo.vw_VacancyRequestsAdmin' does not
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VacancyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="VacanciesModel" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="VacanciesModel" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="RequestComments" EntityType="VacancyModel.RequestComment" />
           <EntitySet Name="VacancyPositions" EntityType="VacancyModel.VacancyPosition" />
           <EntitySet Name="VacancyRequests" EntityType="VacancyModel.VacancyRequest" />

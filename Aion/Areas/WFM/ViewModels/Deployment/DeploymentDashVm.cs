@@ -1,21 +1,19 @@
-﻿using Aion.ViewModels;
-using Aion.DAL.Entities;
-using System;
+﻿using Aion.Models.WFM;
+using Aion.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using System.Configuration;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Aion.Areas.WFM.ViewModels.Deployment
 {
     public class DeploymentDashVm : BaseVm
     {
-        public List<vw_DivisionDeploymentDash> divisionCollection { get; set; }
-        public List<vw_RegionDeploymentDash> regionCollection { get; set; }
-        public List<vw_StoreDeploymentDash> storeCollection { get; set; }
+        public List<DivisionDeploymentDashView> divisionCollection { get; set; }
+        public List<RegionDeploymentDashView> regionCollection { get; set; }
+        public List<StoreDeploymentDashView> storeCollection { get; set; }
 
-        public List<vw_StoreDeploymentRank> storeRankCollection { get; set; }
+        public List<StoreDeploymentRankView> storeRankCollection { get; set; }
 
         public string selectedDate { get; set; }
         public short? Period { get; set; }

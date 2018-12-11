@@ -4,6 +4,8 @@ using Aion.Controllers;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.Helpers;
+using Aion.Models.WebMaster;
+using Aion.Models.WFM;
 using Aion.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -89,15 +91,15 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm._dashboardView = await _dashDataManager.GetStoreDashData(selectCrit, weekNum);
-                    var empCompliance = await _dashDataManager.GetComplianceDetail(selectCrit, weekNum);
+                    vm._dashboardView = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetStoreDashData(selectCrit, weekNum));
+                    var empCompliance = mapper.Map<List<EmpComplianceDetailView>>(await _dashDataManager.GetComplianceDetail(selectCrit, weekNum));
 
                     if (empCompliance.Any())
                         vm.loadTimecardDetails(empCompliance);
                     if (vm._dashboardView.Any(x => x.PunchCompliance < 0.9))
-                        vm.loadPunchDetails(await _clockManager.GetClockDetailStore(selectCrit, weekNum));
+                        vm.loadPunchDetails(mapper.Map<List<CPW_Clocking_DataView>>(await _clockManager.GetClockDetailStore(selectCrit, weekNum)));
                     if (vm._dashboardView.Any(x => x.ShortShifts > 0))
-                        vm.loadSSDetails(await _editedClockManager.GetEditedClocksStore(selectCrit, weekNum));
+                        vm.loadSSDetails(mapper.Map<List<EditedClockView>>(await _editedClockManager.GetEditedClocksStore(selectCrit, weekNum)));
 
                     vm.DisplayLevel = 1;
 
@@ -105,21 +107,21 @@ namespace Aion.Areas.WFM.Controllers
                         vm.MessageType = MessageType.Warning;
                     break;
                 case "R":
-                    vm._dashboardView = await _dashDataManager.GetAllRegionDashData(selectCrit, weekNum);
+                    vm._dashboardView = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetAllRegionDashData(selectCrit, weekNum));
                     vm.DisplayLevel = 2;
 
                     if (vm._dashboardView.Sum(x => x.TotalHeadCount) == 0)
                         vm.MessageType = MessageType.Warning;
                     break;
                 case "D":
-                    vm._chainView = await _dashDataManager.GetAllDivisionDashData(selectCrit, weekNum);
+                    vm._chainView = mapper.Map<List<AllChainDashboardData_v2View>>(await _dashDataManager.GetAllDivisionDashData(selectCrit, weekNum));
                     vm.DisplayLevel = 3;
 
                     if (vm._chainView.Sum(x => x.TotalHeadCount) == 0)
                         vm.MessageType = MessageType.Warning;
                     break;
                 case "C":
-                    vm._chainView = await _dashDataManager.GetAllChainDashData(selectCrit, weekNum);
+                    vm._chainView = mapper.Map<List<AllChainDashboardData_v2View>>(await _dashDataManager.GetAllChainDashData(selectCrit, weekNum));
                     vm.DisplayLevel = 4;
 
                     if (vm._chainView.Sum(x => x.TotalHeadCount) == 0)
@@ -144,8 +146,8 @@ namespace Aion.Areas.WFM.Controllers
                     var weekOfYr = (int)_weeksManager.GetSingleWeek(vm.weekStart);
                     string storeName = await _storeManager.GetKronosName(selectCrit);
                     vm.hf = await _kronosManager.GetKronosHyperFind(storeName, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
-                    vm.ss = await _editedClockManager.GetEditedClocksStore(selectCrit, weekOfYr);
-                    vm.HelpTcks = await _ticketManager.GetHelpTickets(selectCrit);
+                    vm.ss = mapper.Map<List<EditedClockView>>(await _editedClockManager.GetEditedClocksStore(selectCrit, weekOfYr));
+                    vm.HelpTcks = mapper.Map<List<CheckHelpTicketsView>>(await _ticketManager.GetHelpTickets(selectCrit));
 
                     short a = 1;
                     while ((vm.hf == null || !vm.hf.Any()) && a < 3)
@@ -175,10 +177,10 @@ namespace Aion.Areas.WFM.Controllers
         {
             TimecardSignOffVm vm = new TimecardSignOffVm();
 
-            var storeList = await _storeManager.GetStoresInRegion(selectCrit);
+            var storeList = mapper.Map<List<StoreMasterView>>(await _storeManager.GetStoresInRegion(selectCrit));
             vm.hf = await _kronosManager.GetKronosHyperFind(storeList, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
             //vm.hf = await _kronosManager.GetKronosHyperFindBatch(storeList, vm.weekStart.ToShortDateString(), vm.weekStart.AddDays(6).ToShortDateString(), System.Web.HttpContext.Current.Session.SessionID);
-            var empList = await _empSummaryManager.GetAllByRegion(selectCrit);
+            var empList = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetAllByRegion(selectCrit));
             var punched = await _kronosManager.GetPunchStatus(empList.Where(x => x.KronosUser).Select(x => x.PersonNumber).ToList(), System.Web.HttpContext.Current.Session.SessionID);
             var punchCombined = empList.Where(x => x.KronosUser).Join(punched, db => db.PersonNumber, kronos => kronos.Employee.PersonIdentity.PersonNumber, (db, kronos) => new { PersonNumer = db.PersonNumber, BranchNumber = db.HomeBranch, punched = kronos.Status }).ToList();
 
@@ -216,20 +218,20 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.PunchDetail = await _clockManager.GetClockDetailStore(selectCrit, weekNum);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_DataView>>(await _clockManager.GetClockDetailStore(selectCrit, weekNum));
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.PunchDetail = await _clockManager.GetClockDetailRegion(selectCrit, weekNum);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_DataView>>(await _clockManager.GetClockDetailRegion(selectCrit, weekNum));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.PunchDetail = await _clockManager.GetClockDetailDivision(selectCrit, weekNum);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_DataView>>(await _clockManager.GetClockDetailDivision(selectCrit, weekNum));
                     vm.Priority = selectCrit;
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.PunchDetail = await _clockManager.GetClockDetailChain(selectCrit, weekNum);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_DataView>>(await _clockManager.GetClockDetailChain(selectCrit, weekNum));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -253,23 +255,23 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.PunchDetail = await _clockManager.GetClockTrendStore(selectCrit);
-                    vm.RepeatEmployeeDetail = await _clockManager.GetRepeatOffendersStore(selectCrit);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_Data_TrendView>>(await _clockManager.GetClockTrendStore(selectCrit));
+                    vm.RepeatEmployeeDetail = mapper.Map<List<CPW_Clocking_Repeat_EmployeesView>>(await _clockManager.GetRepeatOffendersStore(selectCrit));
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.PunchDetail = await _clockManager.GetClockTrendRegion(selectCrit);
-                    vm.RepeatEmployeeDetail = await _clockManager.GetRepeatOffendersRegion(selectCrit);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_Data_TrendView>>(await _clockManager.GetClockTrendRegion(selectCrit));
+                    vm.RepeatEmployeeDetail = mapper.Map<List<CPW_Clocking_Repeat_EmployeesView>>(await _clockManager.GetRepeatOffendersRegion(selectCrit));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.PunchDetail = await _clockManager.GetClockTrendDivision(selectCrit);
-                    vm.RepeatEmployeeDetail = await _clockManager.GetRepeatOffendersDivision(selectCrit);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_Data_TrendView>>(await _clockManager.GetClockTrendDivision(selectCrit));
+                    vm.RepeatEmployeeDetail = mapper.Map<List<CPW_Clocking_Repeat_EmployeesView>>(await _clockManager.GetRepeatOffendersDivision(selectCrit));
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.PunchDetail = await _clockManager.GetClockTrendChain(selectCrit);
-                    vm.RepeatStoresDetail = await _clockManager.GetRepeatOffendersChain(selectCrit);
+                    vm.PunchDetail = mapper.Map<List<CPW_Clocking_Data_TrendView>>(await _clockManager.GetClockTrendChain(selectCrit));
+                    vm.RepeatStoresDetail = mapper.Map<List<CPW_Clocking_Repeat_StoresView>>( await _clockManager.GetRepeatOffendersChain(selectCrit));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -291,19 +293,19 @@ namespace Aion.Areas.WFM.Controllers
             switch (selectArea)
             {
                 case "S":
-                    vm.StoreDetail = await _editedClockManager.GetEditedClocksStore(selectCrit, weekNum);
+                    vm.StoreDetail = mapper.Map<List<EditedClockView>>(await _editedClockManager.GetEditedClocksStore(selectCrit, weekNum));
                     vm.DisplayLevel = 1;
                     break;
                 case "R":
-                    vm.AggregateDetail = await _editedClockManager.GetEditedClocksRegion(selectCrit, weekNum);
+                    vm.AggregateDetail = mapper.Map<List<AggEditedClocksView>>(await _editedClockManager.GetEditedClocksRegion(selectCrit, weekNum));
                     vm.DisplayLevel = 2;
                     break;
                 case "D":
-                    vm.AggregateDetail = await _editedClockManager.GetEditedClocksDivision(selectCrit, weekNum);
+                    vm.AggregateDetail = mapper.Map<List<AggEditedClocksView>>(await _editedClockManager.GetEditedClocksDivision(selectCrit, weekNum));
                     vm.DisplayLevel = 3;
                     break;
                 case "C":
-                    vm.AggregateDetail = await _editedClockManager.GetEditedClocksChain(selectCrit, weekNum);
+                    vm.AggregateDetail = mapper.Map<List<AggEditedClocksView>>(await _editedClockManager.GetEditedClocksChain(selectCrit, weekNum));
                     vm.DisplayLevel = 4;
                     break;
             }
@@ -342,8 +344,8 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     personNum = "UK" + personNum.PadLeft(6, '0');
                 }
-                vm.PastSubmissions = await _selfAsessmentManager.GetSubmissionsPerson(personNum);
-                vm.Requirement = await _selfAsessmentManager.GetRequirementPerson(personNum);
+                vm.PastSubmissions = mapper.Map<List<SASubmissionView>>(await _selfAsessmentManager.GetSubmissionsPerson(personNum));
+                vm.Requirement = mapper.Map<SelfAssessmentRequiredView>(await _selfAsessmentManager.GetRequirementPerson(personNum));
                 if (vm.Requirement != null)
                     vm.Summary = mapper.Map<List<CompSummaryView>>(await _dashDataManager.GetCompSummaryStore(vm.Requirement.Year, (byte)vm.Requirement.Period, vm.Requirement.StoreNumber.ToString()));
             }
@@ -367,7 +369,7 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     personNum = "UK" + personNum.PadLeft(6, '0');
                 }
-                vm.Questions = await _selfAsessmentManager.GetQuestions();
+                vm.Questions = mapper.Map<List<SAQuestionView>>(await _selfAsessmentManager.GetQuestions());
             }
             else
             {
@@ -396,7 +398,7 @@ namespace Aion.Areas.WFM.Controllers
         {
             ActionPlanVm vm = new ActionPlanVm();
 
-            vm.actions = await _selfAsessmentManager.GetActionPlan(s);
+            vm.actions = mapper.Map<List<ActionPlanView>>(await _selfAsessmentManager.GetActionPlan(s));
             vm.newSubmission = (bool?)TempData["NewSubmission"] ?? false;
 
             if (vm.newSubmission)
@@ -406,7 +408,7 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     payroll = "UK" + payroll.PadLeft(6, '0');
                 }
-                var empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(payroll);
+                var empDetails = mapper.Map<KronosEmployeeSummaryView>(await _empSummaryManager.GetEmployeeMatchingNumber(payroll));
                 vm.SWAS = empDetails == null ? false : (empDetails.Channel == "SIS");
             }
 
@@ -421,7 +423,7 @@ namespace Aion.Areas.WFM.Controllers
             }
             SelfAssessmentVm vm = new SelfAssessmentVm();
 
-            vm.PastSubmissions = await _selfAsessmentManager.GetSubmissionsPerson(personNum);
+            vm.PastSubmissions = mapper.Map<List<SASubmissionView>>(await _selfAsessmentManager.GetSubmissionsPerson(personNum));
 
             return View(vm);
         }

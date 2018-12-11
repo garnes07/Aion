@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using Aion.DAL.Entities;
+﻿using Aion.Models.WFM;
 using Aion.ViewModels;
+using System.Collections.Generic;
 
 namespace Aion.Areas.WFM.ViewModels.RFTPTracking
 {
     public class RFTPManagerDetailVm : BaseVm
     {
-        public List<RFTPCaseStub> caseDetails { get; set; }
+        public List<RFTPCaseStubView> caseDetails { get; set; }
     }
 }

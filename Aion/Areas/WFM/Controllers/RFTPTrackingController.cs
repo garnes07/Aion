@@ -2,9 +2,9 @@
 using Aion.Areas.WFM.ViewModels.RFTPTracking;
 using Aion.Attributes;
 using Aion.Controllers;
-using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
+using Aion.Models.WFM;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,9 +36,9 @@ namespace Aion.Areas.WFM.Controllers
 
             if (System.Web.HttpContext.Current.Session["_AccessLevel"].ToString() == "2")
             {
-                vm.Cases = await _RFTPTrackingManager.GetRFTPCaseSWAS(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
-                vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
-                vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegionUsingStore(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
+                vm.Cases = mapper.Map<List<RFTPCaseStubView>>(await _RFTPTrackingManager.GetRFTPCaseSWAS(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString()));
+                vm.Actions = mapper.Map<List<RFTPCaseActionView>>(await _RFTPTrackingManager.GetRFTPCaseActions());
+                vm.RegionManagers = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetActiveManagersRegionUsingStore(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString()));
                 vm.SWAS = true;
                 vm.DisplayLevel = 2;
             }
@@ -47,21 +47,21 @@ namespace Aion.Areas.WFM.Controllers
                 switch (selectArea)
                 {
                     case "S":
-                        vm.Cases = await _RFTPTrackingManager.GetRFTPCasesStore(selectCrit);
-                        vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
-                        vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegionUsingStore(selectCrit);
+                        vm.Cases = mapper.Map<List<RFTPCaseStubView>>(await _RFTPTrackingManager.GetRFTPCasesStore(selectCrit));
+                        vm.Actions = mapper.Map<List<RFTPCaseActionView>>(await _RFTPTrackingManager.GetRFTPCaseActions());
+                        vm.RegionManagers = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetActiveManagersRegionUsingStore(selectCrit));
                         vm.DisplayLevel = 2;
                         break;
                     case "R":
-                        vm.Cases = await _RFTPTrackingManager.GetRFTPCasesRegion(selectCrit);
-                        vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
-                        vm.RegionManagers = await _empSummaryManager.GetActiveManagersRegion(selectCrit);
+                        vm.Cases = mapper.Map<List<RFTPCaseStubView>>(await _RFTPTrackingManager.GetRFTPCasesRegion(selectCrit));
+                        vm.Actions = mapper.Map<List<RFTPCaseActionView>>(await _RFTPTrackingManager.GetRFTPCaseActions());
+                        vm.RegionManagers = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetActiveManagersRegion(selectCrit));
                         vm.DisplayLevel = 2;
                         break;
                     case "D":
-                        vm.Cases = await _RFTPTrackingManager.GetRFTPCasesDivision(selectCrit);
-                        vm.Actions = await _RFTPTrackingManager.GetRFTPCaseActions();
-                        vm.RegionManagers = await _empSummaryManager.GetEmployeeDetails(vm.Cases.Select(x => x.PersonNumber).ToList());
+                        vm.Cases = mapper.Map<List<RFTPCaseStubView>>(await _RFTPTrackingManager.GetRFTPCasesDivision(selectCrit));
+                        vm.Actions = mapper.Map<List<RFTPCaseActionView>>(await _RFTPTrackingManager.GetRFTPCaseActions());
+                        vm.RegionManagers = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetEmployeeDetails(vm.Cases.Select(x => x.PersonNumber).ToList()));
                         vm.DisplayLevel = 3;
                         break;
                     case "C":
@@ -80,10 +80,10 @@ namespace Aion.Areas.WFM.Controllers
         [UserFilter(MinLevel = 2, ExcludeLevels = new[] { 8 })]
         public async Task<PartialViewResult> _employeeSearch(string crit)
         {
-            var searchResult = new List<KronosEmployeeSummary>();
+            var searchResult = new List<KronosEmployeeSummaryView>();
             if (crit.Length != 0)
             {
-                searchResult = await _empSummaryManager.GetEmployeeMatchingName(crit);
+                searchResult = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetEmployeeMatchingName(crit));
             }
             return PartialView("../RFTPTracking/Partials/_employeeSearch", searchResult);
         }
@@ -184,18 +184,18 @@ namespace Aion.Areas.WFM.Controllers
 
             if (System.Web.HttpContext.Current.Session["_AccessLevel"].ToString() == "2")
             {
-                vm.Cases = await _RFTPTrackingManager.GetLast12MonthRFTPCasesSWAS(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString());
-                vm.PeriodList = await _weeksManager.GetLast12MonthList();
-                vm.EmployeeList = await _empSummaryManager.GetEmployeeDetails(vm.Cases.GroupBy(x => x.PersonNumber).Select(x => x.Key).ToList());
+                vm.Cases = mapper.Map<List<Last12MonthRFTPCasesView>>(await _RFTPTrackingManager.GetLast12MonthRFTPCasesSWAS(System.Web.HttpContext.Current.Session["_SWASGMStore"].ToString()));
+                vm.PeriodList = mapper.Map<List<Last12MonthListView>>(await _weeksManager.GetLast12MonthList());
+                vm.EmployeeList = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetEmployeeDetails(vm.Cases.GroupBy(x => x.PersonNumber).Select(x => x.Key).ToList()));
                 vm.DisplayLevel = 2;
             }
             else
             {
                 if (selectArea == "S" || selectArea == "R")
                 {
-                    vm.Cases = selectArea == "S" ? await _RFTPTrackingManager.GetLast12MonthRFTPCasesStore(selectCrit) : await _RFTPTrackingManager.GetLast12MonthRFTPCasesRegion(selectCrit);
-                    vm.PeriodList = await _weeksManager.GetLast12MonthList();
-                    vm.EmployeeList = await _empSummaryManager.GetEmployeeDetails(vm.Cases.GroupBy(x => x.PersonNumber).Select(x => x.Key).ToList());
+                    vm.Cases = mapper.Map<List<Last12MonthRFTPCasesView>>(selectArea == "S" ? await _RFTPTrackingManager.GetLast12MonthRFTPCasesStore(selectCrit) : await _RFTPTrackingManager.GetLast12MonthRFTPCasesRegion(selectCrit));
+                    vm.PeriodList = mapper.Map<List<Last12MonthListView>>(await _weeksManager.GetLast12MonthList());
+                    vm.EmployeeList = mapper.Map<List<KronosEmployeeSummaryView>>(await _empSummaryManager.GetEmployeeDetails(vm.Cases.GroupBy(x => x.PersonNumber).Select(x => x.Key).ToList()));
                     vm.DisplayLevel = 2;
                 }
                 else if (selectArea == "D")
@@ -221,7 +221,7 @@ namespace Aion.Areas.WFM.Controllers
 
             RFTPManagerDetailVm vm = new RFTPManagerDetailVm
             {
-                caseDetails = await _RFTPTrackingManager.GetAllCasesForPerson(personNum)
+                caseDetails = mapper.Map<List<RFTPCaseStubView>>(await _RFTPTrackingManager.GetAllCasesForPerson(personNum))
             };
 
             if (vm.caseDetails == null)
@@ -242,12 +242,12 @@ namespace Aion.Areas.WFM.Controllers
 
             IDDVm vm = new IDDVm();
 
-            vm.historicCases = await _RFTPTrackingManager.GetAllCasesForPerson(personNum);
+            vm.historicCases = mapper.Map<List<RFTPCaseStubView>>(await _RFTPTrackingManager.GetAllCasesForPerson(personNum));
             if (vm.historicCases.Any())
             {
                 var lastCase = vm.historicCases.OrderByDescending(x => x.Year).ThenByDescending(x => x.Period).First();
                 vm.lastPeriod = mapper.Map<CompSummaryView>((await _dashDataManager.GetCompSummaryStore(lastCase.Year, (byte)lastCase.Period, lastCase.StoreNumber.ToString())).FirstOrDefault(x => x.WeekNumber == null));
-                vm.empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(personNum);
+                vm.empDetails = mapper.Map<KronosEmployeeSummaryView>(await _empSummaryManager.GetEmployeeMatchingNumber(personNum));
             }
 
             return View(vm);
@@ -257,7 +257,7 @@ namespace Aion.Areas.WFM.Controllers
         public async Task<PartialViewResult> _getNotifications()
         {
             HttpContext.Session.Remove("_RFTPpopup");
-            return PartialView("~/Areas/WFM/Views/RFTPTracking/Partials/_rftpNotifications.cshtml", await _RFTPTrackingManager.GetRFTPNotifications(User.Identity.Name, System.Web.HttpContext.Current.Session["_EmpNum"].ToString()));
+            return PartialView("~/Areas/WFM/Views/RFTPTracking/Partials/_rftpNotifications.cshtml", mapper.Map<RFTPNotificationsView>(await _RFTPTrackingManager.GetRFTPNotifications(User.Identity.Name, System.Web.HttpContext.Current.Session["_EmpNum"].ToString())));
         }
     }
 }

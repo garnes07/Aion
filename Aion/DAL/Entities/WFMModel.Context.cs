@@ -20,6 +20,7 @@ namespace Aion.DAL.Entities
         public WFMModel()
             : base("name=WFMModel")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

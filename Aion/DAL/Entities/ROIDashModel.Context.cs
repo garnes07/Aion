@@ -20,6 +20,7 @@ namespace Aion.DAL.Entities
         public ROIDashModel()
             : base("name=ROIDashModel")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

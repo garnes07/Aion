@@ -1,30 +1,8 @@
-﻿@using Aion.DAL.Entities;
-@model Aion.Areas.WFM.ViewModels.FuturePlanning.DeploymentStatusVm
+﻿@model Aion.Areas.WFM.ViewModels.FuturePlanning.DeploymentStatusVm
 
 @{ 
     int x = 0;
     int y = 0;
-
-    Func<vw_DeploymentStatus, string> RAG = (a) =>
-    {
-        var rtn = "table-success";
-
-        if (Math.Abs(1 - (double)a.ToBudget) >= 0.1)
-        {
-            rtn = "table-danger";
-        }
-        else if (Math.Abs(1 - (double)a.ToBudget) >= 0.05)
-        {
-            rtn = "table-warning";
-        }
-
-        if (1 - a.ToBudget >= 0.05 && a.PercHoliday >= 0.1)
-        {
-            rtn += " toRed";
-        }
-
-        return rtn;
-    };
 }
 
 <div id="sTbl" class="card">
@@ -48,7 +26,7 @@
                         <td>@string.Format("{0} - {1}", data.First().StoreNumber, data.First().StoreName)</td>
                         @foreach(var item in data)
                         {
-                            <td class="text-center @(RAG(item)) tooltipHover" data-tooltip="@string.Format("#{0}_{1}", x, y)">@string.Format("{0:0.0%}", item.ToBudget)</td>
+                            <td class="text-center @item.RAG tooltipHover" data-tooltip="@string.Format("#{0}_{1}", x, y)">@string.Format("{0:0.0%}", item.ToBudget)</td>
                             x++;
                         }
                     </tr>
@@ -59,7 +37,7 @@
                     @{ x = 0;}
                     @foreach (var item in Model.collection.Where(c => c.StoreNumber == null))
                     {
-                        <td class="text-center @(RAG(item)) tooltipHover" data-tooltip="@string.Format("#{0}_{1}", x, y)"><strong>@string.Format("{0:0.0%}", item.ToBudget)</strong></td>
+                        <td class="text-center @item.RAG tooltipHover" data-tooltip="@string.Format("#{0}_{1}", x, y)"><strong>@string.Format("{0:0.0%}", item.ToBudget)</strong></td>
                         x++;
                     }
                 </tr>

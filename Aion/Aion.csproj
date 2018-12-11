@@ -178,18 +178,34 @@
     <Compile Include="Areas\Admin\Controllers\ROIDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UKDashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserAccessController.cs" />
-    <Compile Include="Areas\Admin\Models\RecruitmentDetail.cs" />
+    <Compile Include="Models\WebMaster\ActivityView.cs" />
+    <Compile Include="Models\WebMaster\CheckHelpTicketsView.cs" />
+    <Compile Include="Models\WebMaster\EscalationOptionsView.cs" />
+    <Compile Include="Models\WebMaster\IpRefView.cs" />
+    <Compile Include="Models\WebMaster\StoreMasterView.cs" />
+    <Compile Include="Models\WebMaster\SummaryView.cs" />
+    <Compile Include="Models\WebMaster\TicketAnswerView.cs" />
+    <Compile Include="Models\WebMaster\TicketAuditView.cs" />
+    <Compile Include="Models\WebMaster\TicketCommentView.cs" />
+    <Compile Include="Models\WebMaster\TicketStubRefView.cs" />
+    <Compile Include="Models\WebMaster\TicketStubView.cs" />
+    <Compile Include="Models\WebMaster\TicketTemplateView.cs" />
+    <Compile Include="Models\WebMaster\TicketTypeView.cs" />
+    <Compile Include="Models\WebMaster\UserAccessAreaView.cs" />
+    <Compile Include="Models\WebMaster\UserAccessView.cs" />
+    <Compile Include="Models\Vacancy\OpenVacancySummaryView.cs" />
+    <Compile Include="Models\Vacancy\RecruitmentDetailView.cs" />
     <Compile Include="Areas\Admin\Models\ReviewOutcome.cs" />
     <Compile Include="Areas\Admin\ViewModels\OpeningTimes\ReviewTimesVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\RecruitmentSummaryVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewOfferVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ReviewPendingVm.cs" />
     <Compile Include="Areas\Admin\ViewModels\Recruitment\ToPostVm.cs" />
-    <Compile Include="Areas\Admin\ViewModels\UKDashboard\DashboardErrors.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Shared\DashboardErrors.cs" />
     <Compile Include="Areas\ProfitLoss\Controllers\HomeController.cs" />
-    <Compile Include="Areas\ProfitLoss\Models\ProfitLossSummaryView.cs" />
-    <Compile Include="Areas\ProfitLoss\Models\ProfitLossView.cs" />
-    <Compile Include="Areas\ProfitLoss\Models\Subtotal.cs" />
+    <Compile Include="Models\ProfitLoss\ProfitLossSummaryView.cs" />
+    <Compile Include="Models\ProfitLoss\ProfitLossView.cs" />
+    <Compile Include="Models\ProfitLoss\Subtotal.cs" />
     <Compile Include="Areas\ProfitLoss\ProfitLossAreaRegistration.cs" />
     <Compile Include="Areas\ProfitLoss\ViewModels\Home\ProfitLossSummaryVm.cs" />
     <Compile Include="Areas\ProfitLoss\ViewModels\Home\ProfitLossVm.cs" />
@@ -290,10 +306,10 @@
       <DependentUpon>ProfitLossModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\fn_UnmatchedRoles_Result.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\fn_UnmatchedStores_Result.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\GMPowerHour.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -392,7 +408,7 @@
       <DependentUpon>ROIDashModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\RoleReference.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\SAActionsRequired.cs">
       <DependentUpon>WFMModel.tt</DependentUpon>
@@ -473,7 +489,7 @@
       <DependentUpon>WFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\StoreReference.cs">
-      <DependentUpon>ROIDashModel.tt</DependentUpon>
+      <DependentUpon>UKDashModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Entities\StoreSessionLog.cs">
       <DependentUpon>WebMasterModel.tt</DependentUpon>
@@ -823,9 +839,81 @@
     <Compile Include="Models\Kronos\ScheduleItems.cs" />
     <Compile Include="Models\Kronos\ShiftSegment.cs" />
     <Compile Include="Models\Kronos\Timesheet.cs" />
+    <Compile Include="Models\Shared\RoleReferenceView.cs" />
+    <Compile Include="Models\Shared\StoreReferenceView.cs" />
     <Compile Include="Models\Utils\AuthenticationResult.cs" />
     <Compile Include="Areas\WFM\Models\Deployment\RecruitmentRequest.cs" />
     <Compile Include="Models\Utils\StoreStub.cs" />
+    <Compile Include="Models\Vacancy\IncorrectVacanciesView.cs" />
+    <Compile Include="Models\Vacancy\OfferApprovalsView.cs" />
+    <Compile Include="Models\Vacancy\OfferCommentView.cs" />
+    <Compile Include="Models\Vacancy\RequestCommentView.cs" />
+    <Compile Include="Models\Vacancy\SFOpenVacancyView.cs" />
+    <Compile Include="Models\Vacancy\VacancyPositionView.cs" />
+    <Compile Include="Models\Vacancy\VacancyRequestsAdminView.cs" />
+    <Compile Include="Models\Vacancy\WFMFutureDatedView.cs" />
+    <Compile Include="Models\WFM\ActionPlanView.cs" />
+    <Compile Include="Models\WFM\AggEditedClocksView.cs" />
+    <Compile Include="Models\WFM\AllChainDashboardData_v2View.cs" />
+    <Compile Include="Models\WFM\AvailabilityCompletionRateView.cs" />
+    <Compile Include="Models\WFM\AvailabilityContactView.cs" />
+    <Compile Include="Models\WFM\AvailabilityDayView.cs" />
+    <Compile Include="Models\WFM\AvailabilityPatternMissingView.cs" />
+    <Compile Include="Models\WFM\AvailabilityPatternView.cs" />
+    <Compile Include="Models\WFM\AvailabilityStoreView.cs" />
+    <Compile Include="Models\WFM\AvailabilitySummaryView.cs" />
+    <Compile Include="Models\WFM\ContractBaseDetailView.cs" />
+    <Compile Include="Models\WFM\ContractStatusDetailView.cs" />
+    <Compile Include="Models\WFM\CPCWScheduleView.cs" />
+    <Compile Include="Models\WFM\CPCWStoreListView.cs" />
+    <Compile Include="Models\WFM\CPW_Clocking_DataView.cs" />
+    <Compile Include="Models\WFM\CPW_Clocking_Data_TrendView.cs" />
+    <Compile Include="Models\WFM\CPW_Clocking_Repeat_EmployeesView.cs" />
+    <Compile Include="Models\WFM\CPW_Clocking_Repeat_StoresView.cs" />
+    <Compile Include="Models\WFM\DailyDeploymentView.cs" />
+    <Compile Include="Models\WFM\DashboardData_v2View.cs" />
+    <Compile Include="Models\WFM\DeploymentStatusView.cs" />
+    <Compile Include="Models\WFM\DivisionDeploymentDashView.cs" />
+    <Compile Include="Models\WFM\EditedClockView.cs" />
+    <Compile Include="Models\WFM\EmpComplianceDetailView.cs" />
+    <Compile Include="Models\WFM\FootfallHourlyView.cs" />
+    <Compile Include="Models\WFM\GMPowerHourView.cs" />
+    <Compile Include="Models\WFM\GmWeWorkingView.cs" />
+    <Compile Include="Models\WFM\HolidayPlanningEmpView.cs" />
+    <Compile Include="Models\WFM\HolidayPlanningRollupView.cs" />
+    <Compile Include="Models\WFM\HolidayPlanningStoreView.cs" />
+    <Compile Include="Models\WFM\KronosEmployeeSummaryView.cs" />
+    <Compile Include="Models\WFM\Last12MonthListView.cs" />
+    <Compile Include="Models\WFM\Last12MonthRFTPCasesView.cs" />
+    <Compile Include="Models\WFM\OpeningTimesCommentView.cs" />
+    <Compile Include="Models\WFM\PayCalendarDateView.cs" />
+    <Compile Include="Models\WFM\PayCalendarRefView.cs" />
+    <Compile Include="Models\WFM\PeakDataView.cs" />
+    <Compile Include="Models\WFM\PeriodDeploymentSummaryView.cs" />
+    <Compile Include="Models\WFM\PowerHoursProfileView.cs" />
+    <Compile Include="Models\WFM\RegionDeploymentDashView.cs" />
+    <Compile Include="Models\WFM\RFTPCaseActionView.cs" />
+    <Compile Include="Models\WFM\RFTPCaseAuditView.cs" />
+    <Compile Include="Models\WFM\RFTPCaseStubView.cs" />
+    <Compile Include="Models\WFM\RFTPNotificationsView.cs" />
+    <Compile Include="Models\WFM\SAActionsRequiredView.cs" />
+    <Compile Include="Models\WFM\SACheckAnswerView.cs" />
+    <Compile Include="Models\WFM\SACheckView.cs" />
+    <Compile Include="Models\WFM\SAQuestionView.cs" />
+    <Compile Include="Models\WFM\SASubmissionAnswerView.cs" />
+    <Compile Include="Models\WFM\SASubmissionView.cs" />
+    <Compile Include="Models\WFM\ScheduleDataView.cs" />
+    <Compile Include="Models\WFM\SelfAssessmentRequiredView.cs" />
+    <Compile Include="Models\WFM\StoreContractStatusView.cs" />
+    <Compile Include="Models\WFM\StoreDeploymentDashTrendView.cs" />
+    <Compile Include="Models\WFM\StoreDeploymentDashView.cs" />
+    <Compile Include="Models\WFM\StoreDeploymentRankTrendView.cs" />
+    <Compile Include="Models\WFM\StoreDeploymentRankView.cs" />
+    <Compile Include="Models\WFM\StoreLocationsView.cs" />
+    <Compile Include="Models\WFM\StoreOpeningTimeView.cs" />
+    <Compile Include="Models\WFM\Top100CreditSummaryView.cs" />
+    <Compile Include="Models\WFM\TradingHoursForAvlbltyView.cs" />
+    <Compile Include="Models\WFM\WFMEmployeeInfoView.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Models\Utils\LoginVm.cs" />
     <Compile Include="Models\Utils\StoreMenu.cs" />

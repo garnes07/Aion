@@ -1,7 +1,7 @@
 ﻿using Aion.Areas.Workflow.ViewModels;
 using Aion.Controllers;
-using Aion.DAL.Entities;
 using Aion.DAL.Managers;
+using Aion.Models.WebMaster;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,18 +41,18 @@ namespace Aion.Areas.Workflow.Controllers
             switch (_userGroup)
             {
                 case 0:
-                    vm.TicketCollection = await _ticketManager.GetTicketsSelf(_userName, true);
+                    vm.TicketCollection = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsSelf(_userName, true));
                     break;
                 case 3:
-                    vm.TicketCollection = await _ticketManager.GetTicketsTPC(_userName, true, int.Parse(vm.TPCSelected));
+                    vm.TicketCollection = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsTPC(_userName, true, int.Parse(vm.TPCSelected)));
                     vm.TPCView = true;
                     break;
                 default:
-                    vm.TicketCollection = await _ticketManager.GetTicketsByAuth(_userGroup, true);
+                    vm.TicketCollection = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsByAuth(_userGroup, true));
                     break;
             }
             
-            vm._TypeMenu = (await _ticketManager.GetTypeList()).Select(x => new SelectListItem { Value = x.TicketTypeId.ToString(), Text = x.Title }).ToList();
+            vm._TypeMenu = (mapper.Map<List<TicketTypeView>>(await _ticketManager.GetTypeList())).Select(x => new SelectListItem { Value = x.TicketTypeId.ToString(), Text = x.Title }).ToList();
 
             System.Web.HttpContext.Current.Session["_viewTicket"] = null;
             if (TempData["error"] != null)
@@ -66,7 +66,7 @@ namespace Aion.Areas.Workflow.Controllers
 
         public async Task<ActionResult> ViewTicket(int TicketId)
         {
-            var result = await _ticketManager.GetSingleTicket(TicketId, _userGroup, _userName);
+            var result = mapper.Map<TicketStubView>(await _ticketManager.GetSingleTicket(TicketId, _userGroup, _userName));
 
             if (result.Status == null)
             {
@@ -132,7 +132,7 @@ namespace Aion.Areas.Workflow.Controllers
         [HttpGet]
         public async Task<PartialViewResult> _UpdateSummary(string status, string type, string TPC = "")
         {
-            List<vw_TicketStubRef> toReturn = new List<vw_TicketStubRef>();
+            List<TicketStubRefView> toReturn = new List<TicketStubRefView>();
             if(TPC != "")
             {
                 System.Web.HttpContext.Current.Session["_TPCOverride"] = TPC;
@@ -144,13 +144,13 @@ namespace Aion.Areas.Workflow.Controllers
             switch (_userGroup)
             {
                 case 0:
-                    toReturn = await _ticketManager.GetTicketsSelf(_userName, bStatus);
+                    toReturn = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsSelf(_userName, bStatus));
                     break;
                 case 3:
-                    toReturn = await _ticketManager.GetTicketsTPC(_userName, bStatus, int.Parse(TPC));
+                    toReturn = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsTPC(_userName, bStatus, int.Parse(TPC)));
                     break;
                 default:
-                    toReturn = await _ticketManager.GetTicketsByAuth(_userGroup, bStatus);
+                    toReturn = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsByAuth(_userGroup, bStatus));
                     break;
             }
 
@@ -161,14 +161,14 @@ namespace Aion.Areas.Workflow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<PartialViewResult> _PostNewComment(string commentText)
         {
-            var toReturn = await _ticketManager.AddNewComment(commentText, User.Identity.Name, (int)System.Web.HttpContext.Current.Session["_viewTicket"]);
+            var toReturn = mapper.Map<TicketCommentView>(await _ticketManager.AddNewComment(commentText, User.Identity.Name, (int)System.Web.HttpContext.Current.Session["_viewTicket"]));
             return PartialView("~/Areas/Workflow/Views/Workflow/Partials/_NewComment.cshtml", toReturn);
         }
 
         [HttpGet]
         public PartialViewResult _GetEscalationOptions(int ticketType, int level)
         {
-            var toReturn = _ticketManager.GetEscalationOptions(ticketType, level);
+            var toReturn = mapper.Map<List<EscalationOptionsView>>(_ticketManager.GetEscalationOptions(ticketType, level));
             return PartialView("~/Areas/Workflow/Views/Workflow/Partials/_EscOptions.cshtml", toReturn);
         }
 
@@ -176,17 +176,17 @@ namespace Aion.Areas.Workflow.Controllers
         [OutputCache(Duration = 30, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Client, NoStore = true)]
         public async Task<int> _getTicketCount()
         {
-            List<vw_TicketStubRef> toReturn = new List<vw_TicketStubRef>();
+            List<TicketStubRefView> toReturn = new List<TicketStubRefView>();
             switch (_userGroup)
             {
                 case 0:
-                    toReturn = await _ticketManager.GetTicketsSelf(_userName, true);
+                    toReturn = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsSelf(_userName, true));
                     break;
                 case 3:
-                    toReturn = await _ticketManager.GetTicketsTPC(_userName, true);
+                    toReturn = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsTPC(_userName, true));
                     break;
                 default:
-                    toReturn = await _ticketManager.GetTicketsByAuth(_userGroup, true);
+                    toReturn = mapper.Map<List<TicketStubRefView>>(await _ticketManager.GetTicketsByAuth(_userGroup, true));
                     break;
             }
 

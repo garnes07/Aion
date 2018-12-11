@@ -1,5 +1,5 @@
-﻿using Aion.Areas.Admin.ViewModels.UKDashboard;
-using Aion.DAL.Entities;
+﻿using Aion.DAL.Entities;
+using Aion.Models.Shared;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -9,14 +9,19 @@ namespace Aion.DAL.Managers
 {
     public class UKDashManager : IAdminDashManager
     {
-        public async Task<DashboardErrors> GetErrors()
+        public async Task<List<string>> GetStoreErrors()
         {
             using (var context = new UKDashModel())
             {
-                DashboardErrors toReturn = new DashboardErrors();
-                toReturn.StoreErrors = await context.fn_UnmatchedStores().ToListAsync();
-                toReturn.RoleErrors = await context.fn_UnmatchedRoles().ToListAsync();
-                return toReturn;
+                return await context.fn_UnmatchedStores().ToListAsync();
+            }
+        }
+
+        public async Task<List<string>> GetRoleErrors()
+        {
+            using (var context = new UKDashModel())
+            {
+                return await context.fn_UnmatchedRoles().ToListAsync();
             }
         }
 
@@ -94,13 +99,22 @@ namespace Aion.DAL.Managers
         }
 
         //Submit new store reference record
-        public async Task<bool> SubmitNewStoreReference(StoreReference model)
+        public async Task<bool> SubmitNewStoreReference(StoreReferenceView model)
         {
             using (var context = new UKDashModel())
             {
                 try
                 {
-                    context.StoreReferences.Add(model);
+                    context.StoreReferences.Add(new StoreReference
+                    {
+                        Br_ = model.Br_,
+                        UK_BR = model.UK_BR,
+                        Store_Name = model.Store_Name,
+                        Division = model.Division,
+                        Region = model.Region,
+                        Region_name = model.Region_name,
+                        Channel = model.Channel
+                    });
                     await context.SaveChangesAsync();
                     return true;
                 }
@@ -112,7 +126,7 @@ namespace Aion.DAL.Managers
         }
 
         //Submit change to store reference record
-        public async Task<bool> SubmitStoreReferenceChange(StoreReference model)
+        public async Task<bool> SubmitStoreReferenceChange(StoreReferenceView model)
         {
             using (var context = new UKDashModel())
             {
@@ -176,13 +190,18 @@ namespace Aion.DAL.Managers
         }
 
         //Submit new role reference record
-        public async Task<bool> SubmitNewRoleReference(RoleReference model)
+        public async Task<bool> SubmitNewRoleReference(RoleReferenceView model)
         {
             using (var context = new UKDashModel())
             {
                 try
                 {
-                    context.RoleReferences.Add(model);
+                    context.RoleReferences.Add(new RoleReference
+                    {
+                        Role = model.Role,
+                        Reporting_Role_Flag = model.Reporting_Role_Flag,
+                        Sales_Role_Flag = model.Sales_Role_Flag
+                    });
                     await context.SaveChangesAsync();
                     return true;
                 }
@@ -193,7 +212,7 @@ namespace Aion.DAL.Managers
             }
         }
         //Submit change to role reference record
-        public async Task<bool> SubmitRoleReferenceChange(RoleReference model)
+        public async Task<bool> SubmitRoleReferenceChange(RoleReferenceView model)
         {
             using (var context = new UKDashModel())
             {

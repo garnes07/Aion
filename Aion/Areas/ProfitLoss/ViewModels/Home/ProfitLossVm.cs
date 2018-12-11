@@ -1,4 +1,4 @@
-﻿using Aion.Areas.ProfitLoss.Models;
+﻿using Aion.Models.ProfitLoss;
 using Aion.ViewModels;
 using System.Collections.Generic;
 using System.Linq;

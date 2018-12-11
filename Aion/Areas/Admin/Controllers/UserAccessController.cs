@@ -1,8 +1,9 @@
 ﻿using Aion.Attributes;
 using Aion.Controllers;
-using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
+using Aion.Models.WebMaster;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -20,24 +21,24 @@ namespace Aion.Areas.Admin.Controllers
 
         public async Task<ActionResult> Index()
         {
-            return View(await _authManager.GetAllUsers());
+            return View(mapper.Map<List<UserAccessView>>(await _authManager.GetAllUsers()));
         }
 
         public async Task<ActionResult> Edit(string username)
         {
-            return View(await _authManager.GetAccessList(username, ""));
+            return View(mapper.Map<UserAccessView>(await _authManager.GetAccessList(username, "")));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(UserAccess userDetail, string[] areas)
+        public async Task<ActionResult> Edit(UserAccessView userDetail, string[] areas)
         {
             if (ModelState.IsValid)
             {
                 foreach (var item in areas)
                 {
                     if(item != "")
-                        userDetail.UserAccessAreas.Add(new UserAccessArea
+                        userDetail.UserAccessAreas.Add(new UserAccessAreaView
                         {
                             AreaName = item,
                             UserName = userDetail.UserName
@@ -56,7 +57,7 @@ namespace Aion.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Add(UserAccess userDetail, string[] areas)
+        public async Task<ActionResult> Add(UserAccessView userDetail, string[] areas)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +65,7 @@ namespace Aion.Areas.Admin.Controllers
                 {
                     if(item != "")
                     {
-                        userDetail.UserAccessAreas.Add(new UserAccessArea
+                        userDetail.UserAccessAreas.Add(new UserAccessAreaView
                         {
                             AreaName = item
                         });

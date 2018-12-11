@@ -57,7 +57,7 @@
         <ComplexType Name="fn_UnmatchedStores_Result">
           <Property Name="LABORLEVELNAME5" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </ComplexType>
-        <EntityContainer Name="UKDashModel" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="UKDashModel" annotation:LazyLoadingEnabled="false">
           <FunctionImport Name="fn_UnmatchedRoles" IsComposable="true" ReturnType="Collection(String)" />
           <FunctionImport Name="fn_UnmatchedStores" IsComposable="true" ReturnType="Collection(String)" />
           <EntitySet Name="RoleReferences" EntityType="UKDashContext.RoleReference" />

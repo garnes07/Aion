@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using Aion.Areas.WFM.Models.MyStore;
+﻿using Aion.Areas.WFM.Models.MyStore;
 using Aion.Areas.WFM.ViewModels.MyStore;
 using Aion.Controllers;
-using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
-using Aion.Helpers;
+using Aion.Models.WFM;
 using Aion.ViewModels;
-using Aion.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Aion.Areas.WFM.Controllers
 {
@@ -54,7 +51,7 @@ namespace Aion.Areas.WFM.Controllers
                 }
                 else
                 {
-                    vm.Collection = await _openingTimesManager.GetOpeningTimesStore(selectCrit);
+                    vm.Collection = mapper.Map<List<StoreOpeningTimeView>>(await _openingTimesManager.GetOpeningTimesStore(selectCrit));
                     if (vm.Collection.Count == 0)
                     {
                         vm.MessageType = MessageType.Error;
@@ -105,11 +102,11 @@ namespace Aion.Areas.WFM.Controllers
             if (ModelState.IsValid && newEntry.NewTime.StoreNumber.ToString() == selectCrit)
             {
                 newEntry.NewTime.ReasonForChange = Server.HtmlEncode(newEntry.NewTime.ReasonForChange);
-                await _openingTimesManager.SubmitOpeningTimeChange(mapper.Map<StoreOpeningTime>(newEntry.NewTime), User.Identity.Name);
+                await _openingTimesManager.SubmitOpeningTimeChange(newEntry.NewTime, User.Identity.Name);
             }
             else
             {
-                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
             }
 
             return RedirectToAction("OpeningTimes");
@@ -123,10 +120,10 @@ namespace Aion.Areas.WFM.Controllers
                 return RedirectToAction("OpeningTimes");
             }
 
-            var result = await _openingTimesManager.GetSinglePendingById(id, selectCrit);
+            var result = mapper.Map<StoreOpeningTimeView>(await _openingTimesManager.GetSinglePendingById(id, selectCrit));
             if (result == null)
             {
-                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
                 return RedirectToAction("OpeningTimes");
             }
 
@@ -141,13 +138,13 @@ namespace Aion.Areas.WFM.Controllers
         {
             if (id.ToString() != System.Web.HttpContext.Current.Session["_openEntryID"].ToString())
             {
-                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
             }
             else
             {
                 var result = await _openingTimesManager.CancelPendingChange(id, User.Identity.Name);
                 if(result == -5)
-                    TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                    TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
             }
 
             Session.Remove("_openEntryID");
@@ -164,10 +161,10 @@ namespace Aion.Areas.WFM.Controllers
 
             NewOpeningTimeVm vm = new NewOpeningTimeVm();
 
-            var result = await _openingTimesManager.GetSinglePeakById(id, selectCrit);
+            var result = mapper.Map<StoreOpeningTimeView>(await _openingTimesManager.GetSinglePeakById(id, selectCrit));
             if (result == null)
             {
-                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
                 return RedirectToAction("OpeningTimes");
             }
 
@@ -183,13 +180,13 @@ namespace Aion.Areas.WFM.Controllers
         {
             if (entry.NewTime.EntryId.ToString() != System.Web.HttpContext.Current.Session["_openEntryID"].ToString())
             {
-                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
             }
             else
             {
-                var result = await _openingTimesManager.EditExistingPeak(mapper.Map<StoreOpeningTime>(entry.NewTime), User.Identity.Name);
+                var result = await _openingTimesManager.EditExistingPeak(entry.NewTime, User.Identity.Name);
                 if (result == -5)
-                    TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                    TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
             }
 
             Session.Remove("_openEntryID");
@@ -205,16 +202,10 @@ namespace Aion.Areas.WFM.Controllers
 
             if (result == -5)
             {
-                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and contact STAR if you continue to experience issues.";
+                TempData["ErrorMessage"] = "Looks like something went wrong, please try again and raise with Medics if you continue to experience issues.";
             }
 
             return RedirectToAction("OpeningTimes");
-        }
-
-        
-
-        
-
-        
+        }    
     }
 }

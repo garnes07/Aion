@@ -1,5 +1,5 @@
-﻿using Aion.Areas.Admin.Models;
-using Aion.DAL.Entities;
+﻿using Aion.Models.Vacancy;
+using Aion.Models.WFM;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,24 +7,24 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
 {
     public class ReviewOfferVm
     {
-        public List<vw_OfferApprovals> OfferToReview { get; set; }
-        public vw_SFOpenVacancies OpenVacancy { get; set; }
-        public List<RecruitmentDetail> RecruitmentDetail { get; set; }
-        public List<WFM_EMPLOYEE_INFO_UNEDITED> HRCurrent { get; set; }
-        public List<WFM_FUTURE_DATED> HRChanges { get; set; }
-        public List<vw_OpenVacancySummary> PeakVacancySummary { get; set; }
+        public List<OfferApprovalsView> OfferToReview { get; set; }
+        public SFOpenVacancyView OpenVacancy { get; set; }
+        public List<RecruitmentDetailView> RecruitmentDetail { get; set; }
+        public List<WFMEmployeeInfoView> HRCurrent { get; set; }
+        public List<WFMFutureDatedView> HRChanges { get; set; }
+        public List<OpenVacancySummaryView> PeakVacancySummary { get; set; }
 
-        private RecruitmentDetail _PositionDetail;
-        public RecruitmentDetail PositionDetail => _PositionDetail ?? (_PositionDetail = RecruitmentDetail.FirstOrDefault(x => x.PositionId == OfferToReview.First().Job_Code));
+        private RecruitmentDetailView _PositionDetail;
+        public RecruitmentDetailView PositionDetail => _PositionDetail ?? (_PositionDetail = RecruitmentDetail.FirstOrDefault(x => x.PositionId == OfferToReview.First().Job_Code));
 
-        private List<OfferComment> _HOComments;
-        public List<OfferComment> HOComments
+        private List<OfferCommentView> _HOComments;
+        public List<OfferCommentView> HOComments
         {
             get
             {
                 if (_HOComments == null)
                 {
-                    var toReturn = new List<OfferComment>();
+                    var toReturn = new List<OfferCommentView>();
                     foreach (var request in OfferToReview)
                     {
                         if (request.OfferComments.Where(x => x.CommentType != "Notes").Count() > 0)
@@ -32,7 +32,7 @@ namespace Aion.Areas.Admin.ViewModels.Recruitment
                             toReturn.AddRange(request.OfferComments.Where(x => x.CommentType != "Notes"));
                         }
                     }
-                    _HOComments = toReturn.GroupBy(x => x.Comment).Select(x => new OfferComment { CommentType = x.Min(y => y.CommentType), Comment = x.Key, EnteredOn = x.Min(y => y.EnteredOn), EnteredBy = x.Min(y => y.EnteredBy) }).ToList();
+                    _HOComments = toReturn.GroupBy(x => x.Comment).Select(x => new OfferCommentView { CommentType = x.Min(y => y.CommentType), Comment = x.Key, EnteredOn = x.Min(y => y.EnteredOn), EnteredBy = x.Min(y => y.EnteredBy) }).ToList();
                 }
 
                 return _HOComments;
