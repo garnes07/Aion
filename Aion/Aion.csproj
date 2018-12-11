@@ -852,6 +852,7 @@
     <Compile Include="Models\Vacancy\VacancyPositionView.cs" />
     <Compile Include="Models\Vacancy\VacancyRequestsAdminView.cs" />
     <Compile Include="Models\Vacancy\WFMFutureDatedView.cs" />
+    <Compile Include="Models\WFM\ActionPlanView.cs" />
     <Compile Include="Models\WFM\AggEditedClocksView.cs" />
     <Compile Include="Models\WFM\AllChainDashboardData_v2View.cs" />
     <Compile Include="Models\WFM\AvailabilityCompletionRateView.cs" />
@@ -889,7 +890,14 @@
     <Compile Include="Models\WFM\PeriodDeploymentSummaryView.cs" />
     <Compile Include="Models\WFM\PowerHoursProfileView.cs" />
     <Compile Include="Models\WFM\RegionDeploymentDashView.cs" />
+    <Compile Include="Models\WFM\SAActionsRequiredView.cs" />
+    <Compile Include="Models\WFM\SACheckAnswerView.cs" />
+    <Compile Include="Models\WFM\SACheckView.cs" />
+    <Compile Include="Models\WFM\SAQuestionView.cs" />
+    <Compile Include="Models\WFM\SASubmissionAnswerView.cs" />
+    <Compile Include="Models\WFM\SASubmissionView.cs" />
     <Compile Include="Models\WFM\ScheduleDataView.cs" />
+    <Compile Include="Models\WFM\SelfAssessmentRequiredView.cs" />
     <Compile Include="Models\WFM\StoreContractStatusView.cs" />
     <Compile Include="Models\WFM\StoreDeploymentDashTrendView.cs" />
     <Compile Include="Models\WFM\StoreDeploymentDashView.cs" />

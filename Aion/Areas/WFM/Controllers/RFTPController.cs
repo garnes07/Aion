@@ -344,8 +344,8 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     personNum = "UK" + personNum.PadLeft(6, '0');
                 }
-                vm.PastSubmissions = await _selfAsessmentManager.GetSubmissionsPerson(personNum);
-                vm.Requirement = await _selfAsessmentManager.GetRequirementPerson(personNum);
+                vm.PastSubmissions = mapper.Map<List<SASubmissionView>>(await _selfAsessmentManager.GetSubmissionsPerson(personNum));
+                vm.Requirement = mapper.Map<SelfAssessmentRequiredView>(await _selfAsessmentManager.GetRequirementPerson(personNum));
                 if (vm.Requirement != null)
                     vm.Summary = mapper.Map<List<CompSummaryView>>(await _dashDataManager.GetCompSummaryStore(vm.Requirement.Year, (byte)vm.Requirement.Period, vm.Requirement.StoreNumber.ToString()));
             }
@@ -369,7 +369,7 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     personNum = "UK" + personNum.PadLeft(6, '0');
                 }
-                vm.Questions = await _selfAsessmentManager.GetQuestions();
+                vm.Questions = mapper.Map<List<SAQuestionView>>(await _selfAsessmentManager.GetQuestions());
             }
             else
             {
@@ -398,7 +398,7 @@ namespace Aion.Areas.WFM.Controllers
         {
             ActionPlanVm vm = new ActionPlanVm();
 
-            vm.actions = await _selfAsessmentManager.GetActionPlan(s);
+            vm.actions = mapper.Map<List<ActionPlanView>>(await _selfAsessmentManager.GetActionPlan(s));
             vm.newSubmission = (bool?)TempData["NewSubmission"] ?? false;
 
             if (vm.newSubmission)
@@ -408,7 +408,7 @@ namespace Aion.Areas.WFM.Controllers
                 {
                     payroll = "UK" + payroll.PadLeft(6, '0');
                 }
-                var empDetails = await _empSummaryManager.GetEmployeeMatchingNumber(payroll);
+                var empDetails = mapper.Map<KronosEmployeeSummaryView>(await _empSummaryManager.GetEmployeeMatchingNumber(payroll));
                 vm.SWAS = empDetails == null ? false : (empDetails.Channel == "SIS");
             }
 
@@ -423,7 +423,7 @@ namespace Aion.Areas.WFM.Controllers
             }
             SelfAssessmentVm vm = new SelfAssessmentVm();
 
-            vm.PastSubmissions = await _selfAsessmentManager.GetSubmissionsPerson(personNum);
+            vm.PastSubmissions = mapper.Map<List<SASubmissionView>>(await _selfAsessmentManager.GetSubmissionsPerson(personNum));
 
             return View(vm);
         }

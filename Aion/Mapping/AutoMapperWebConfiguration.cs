@@ -143,6 +143,14 @@ namespace Aion.Mapping
             CreateMap<vw_CPW_Clocking_Repeat_Stores, CPW_Clocking_Repeat_StoresView>();
             CreateMap<vw_CPW_Clocking_Repeat_Employees, CPW_Clocking_Repeat_EmployeesView>();
             CreateMap<vw_EditedClocks, AggEditedClocksView>();
+            CreateMap<SASubmission, SASubmissionView>();
+            CreateMap<SASubmissionAnswer, SASubmissionAnswerView>();
+            CreateMap<vw_SelfAssessmentRequired, SelfAssessmentRequiredView>();
+            CreateMap<SAQuestion, SAQuestionView>();
+            CreateMap<SACheck, SACheckView>();
+            CreateMap<SACheckAnswer, SACheckAnswerView>();
+            CreateMap<SAActionsRequired, SAActionsRequiredView>();
+            CreateMap<vw_ActionPlan, ActionPlanView>();
         }
     }
 
