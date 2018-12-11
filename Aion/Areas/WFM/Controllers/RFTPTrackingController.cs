@@ -2,7 +2,6 @@
 using Aion.Areas.WFM.ViewModels.RFTPTracking;
 using Aion.Attributes;
 using Aion.Controllers;
-using Aion.DAL.Entities;
 using Aion.DAL.IManagers;
 using Aion.DAL.Managers;
 using Aion.Models.WFM;
