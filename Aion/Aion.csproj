@@ -883,6 +883,8 @@
     <Compile Include="Models\WFM\HolidayPlanningRollupView.cs" />
     <Compile Include="Models\WFM\HolidayPlanningStoreView.cs" />
     <Compile Include="Models\WFM\KronosEmployeeSummaryView.cs" />
+    <Compile Include="Models\WFM\Last12MonthListView.cs" />
+    <Compile Include="Models\WFM\Last12MonthRFTPCasesView.cs" />
     <Compile Include="Models\WFM\OpeningTimesCommentView.cs" />
     <Compile Include="Models\WFM\PayCalendarDateView.cs" />
     <Compile Include="Models\WFM\PayCalendarRefView.cs" />
@@ -890,6 +892,10 @@
     <Compile Include="Models\WFM\PeriodDeploymentSummaryView.cs" />
     <Compile Include="Models\WFM\PowerHoursProfileView.cs" />
     <Compile Include="Models\WFM\RegionDeploymentDashView.cs" />
+    <Compile Include="Models\WFM\RFTPCaseActionView.cs" />
+    <Compile Include="Models\WFM\RFTPCaseAuditView.cs" />
+    <Compile Include="Models\WFM\RFTPCaseStubView.cs" />
+    <Compile Include="Models\WFM\RFTPNotificationsView.cs" />
     <Compile Include="Models\WFM\SAActionsRequiredView.cs" />
     <Compile Include="Models\WFM\SACheckAnswerView.cs" />
     <Compile Include="Models\WFM\SACheckView.cs" />

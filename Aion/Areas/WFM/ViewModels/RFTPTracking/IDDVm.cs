@@ -1,16 +1,13 @@
 ﻿using Aion.Areas.WFM.Models.RFTP;
-using Aion.DAL.Entities;
-using System;
+using Aion.Models.WFM;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Aion.Areas.WFM.ViewModels.RFTPTracking
 {
     public class IDDVm
     {
-        public List<RFTPCaseStub> historicCases { get; set; }
+        public List<RFTPCaseStubView> historicCases { get; set; }
         public CompSummaryView lastPeriod { get; set; }
-        public KronosEmployeeSummary empDetails { get; set; }
+        public KronosEmployeeSummaryView empDetails { get; set; }
     }
 }

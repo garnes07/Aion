@@ -151,6 +151,9 @@ namespace Aion.Mapping
             CreateMap<SACheckAnswer, SACheckAnswerView>();
             CreateMap<SAActionsRequired, SAActionsRequiredView>();
             CreateMap<vw_ActionPlan, ActionPlanView>();
+            CreateMap<vw_Last12MonthRFTPCases, Last12MonthRFTPCasesView>();
+            CreateMap<Last12MonthList, Last12MonthListView>();
+            CreateMap<vw_RFTP_Notifications, RFTPNotificationsView>();
         }
     }
 

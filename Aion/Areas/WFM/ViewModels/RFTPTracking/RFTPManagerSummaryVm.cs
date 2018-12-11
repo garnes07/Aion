@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Aion.Models.WFM;
+using Aion.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Aion.DAL.Entities;
-using Aion.ViewModels;
 
 namespace Aion.Areas.WFM.ViewModels.RFTPTracking
 {
     public class RFTPManagerSummaryVm : BaseVm
     {
-        public List<RFTPCaseStub> Cases { get; set; }
-        public List<RFTPCaseAction> Actions { get; set; }
-        public List<KronosEmployeeSummary> RegionManagers { get; set; }
+        public List<RFTPCaseStubView> Cases { get; set; }
+        public List<RFTPCaseActionView> Actions { get; set; }
+        public List<KronosEmployeeSummaryView> RegionManagers { get; set; }
         public int AccessLevel { get;}
         public bool SWAS { get; set; }
 
