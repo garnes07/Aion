@@ -168,13 +168,13 @@
                 </tr>
                 <tr class="table-success font-weight-bold">
                     <td>TOW Credits Available</td>
-                    <td class="text-center">@(Model.DailyData.SundayReq - Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit > Model.DailyData.SundayCredit ? Model.DailyData.SundayCredit : (Model.DailyData.SundayReq - Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit < 0 ? 0 : Math.Round(((double)Model.DailyData.SundayReq - (double)Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit) *4,0)/4))</td>
+                    <td class="text-center">@(Model.DailyData.SundayReq - Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit > Model.DailyData.SundayCredit ? Model.DailyData.SundayCredit : (Model.DailyData.SundayReq - Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit < 0 ? 0 : Math.Round(((double)Model.DailyData.SundayReq - (double)Model.DailyData.SundayDeployed + Model.DailyData.SundayCredit) * 4, 0) / 4))</td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="text-center">@(Model.DailyData.SaturdayReq - Model.DailyData.SaturdayDeployed + Model.DailyData.SaturdayCredit > Model.DailyData.SaturdayCredit ? Model.DailyData.SaturdayCredit : (Model.DailyData.SaturdayReq - Model.DailyData.SaturdayDeployed + Model.DailyData.SaturdayCredit < 0 ? 0 : Math.Round(((double)Model.DailyData.SaturdayReq - (double)Model.DailyData.SaturdayDeployed + Model.DailyData.SaturdayCredit) *4,0)/4))</td>
+                    <td class="text-center">@(Model.DailyData.SaturdayReq - Model.DailyData.SaturdayDeployed + Model.DailyData.SaturdayCredit > Model.DailyData.SaturdayCredit ? Model.DailyData.SaturdayCredit : (Model.DailyData.SaturdayReq - Model.DailyData.SaturdayDeployed + Model.DailyData.SaturdayCredit < 0 ? 0 : Math.Round(((double)Model.DailyData.SaturdayReq - (double)Model.DailyData.SaturdayDeployed + Model.DailyData.SaturdayCredit) * 4, 0) / 4))</td>
                 </tr>
             </tbody>
         </table>
@@ -187,7 +187,7 @@
         </div>
     </div>
 </div>
-
+}
 @if (Model.PowerHours.Any())
 {
     <div class="card">
