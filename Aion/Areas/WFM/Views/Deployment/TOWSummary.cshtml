@@ -97,7 +97,7 @@
                 <tr class="text-center">
                     <td>@item.Division</td>
                     <td>@item.Region</td>
-                    <td class="text-left"><a class="clickthrough" data-selector="@item.StoreNumber" href="@Url.Action("Detail","Deployment", new { area = "WFM", s = "S_" + item.StoreNumber, selectedDate = selectedDate})">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</a></td>
+                    <td class="text-left"><a class="clickthrough" data-selector="@item.StoreNumber" href="@Url.Action("DetailTOW","Deployment", new { area = "WFM", s = "S_" + item.StoreNumber, selectedDate = selectedDate})">@string.Format("{0} - {1}", item.StoreNumber, item.StoreName)</a></td>
                     <td>@item.SundayReq</td>
                     <td>@item.SundayAvailable</td>
                     <td>@item.SundayDeployed</td>

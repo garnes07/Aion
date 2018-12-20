@@ -256,9 +256,23 @@ namespace Aion.Areas.WFM.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> DetailTOW(string selectedDate = "This Week")
+        public async Task<ActionResult> DetailTOW(string selectedDate = "This Week", string s = "e")
         {
-            if(selectArea != "S")
+            DeploymentDetailTOWVm vm = new DeploymentDetailTOWVm();
+            if (s != "e")
+            {
+                var authCheckResult = CheckStoreAuth(s);
+                if (authCheckResult == "e")
+                {
+                    return Redirect(Request.UrlReferrer.PathAndQuery);
+                }
+                else
+                {
+                    vm.ManualSelect = authCheckResult;
+                }
+            }
+
+            if (selectArea != "S")
             {
                 return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }
@@ -266,10 +280,9 @@ namespace Aion.Areas.WFM.Controllers
             {
                 return RedirectToAction("Detail", new { selectedDate = selectedDate });
             }
+                        
+            int weekNum = selectedDate.GetWeekNumber();                      
 
-            DeploymentDetailTOWVm vm = new DeploymentDetailTOWVm();
-            int weekNum = selectedDate.GetWeekNumber();
-            
             vm.WeekData = mapper.Map<List<DashboardData_v2View>>(await _dashDataManager.GetStoreDashDataTop100(selectCrit, weekNum));
             vm.DailyData = mapper.Map<DailyDeploymentView>(await _dashDataManager.GetDailyDeploymentStoreTop100(selectCrit, weekNum));
             vm.PowerHours = mapper.Map<List<PowerHoursProfileView>>(await _dashDataManager.GetStorePowerHours(selectCrit, weekNum));
